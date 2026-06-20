@@ -39,7 +39,7 @@
     >
       <div class="mb-0.5 flex h-[110px] items-center justify-center overflow-hidden rounded-lg bg-elev2">
         {#if d.imageUrl}
-          <img src={d.imageUrl} alt={d.name} loading="lazy" class="max-h-full max-w-full object-contain p-2" />
+          <img src={d.imageUrl} alt={d.name} loading="lazy" class="max-h-full max-w-full object-contain p-3" />
         {:else}
           <span class="font-mono text-[0.8rem] text-dim">{d.mcu}</span>
         {/if}
