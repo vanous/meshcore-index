@@ -1,4 +1,4 @@
-# Agent guide — MeshCore Index
+# Agent guide — MeshCore Ninja
 
 Operational notes for AI agents working in this repo.
 

@@ -13,7 +13,7 @@ datasheet: datasheet.pdf
 official: true
 product_url: https://www.elecrow.com/thinknode-m5-meshtastic-lora-signal-transceiver-esp32-s3-1-54-screen-gps-function.html
 price:
-  amount: 53.9
+  amount: 54
   currency: USD
   asOf: 2026-06
 description: >-

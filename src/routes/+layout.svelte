@@ -4,7 +4,7 @@
   import { base } from '$app/paths';
   import { page } from '$app/stores';
   import { generatedAt } from '$lib/data.js';
-  import { REPO_URL } from '$lib/seo.js';
+  import { REPO_URL, SITE_NAME } from '$lib/seo.js';
   import CommandPalette from '$lib/CommandPalette.svelte';
   let { children } = $props();
 
@@ -64,7 +64,7 @@
   >
     <a class="flex items-center gap-2 text-[1.05rem] font-bold" href="{base}/">
       <span class="text-[1.3rem] text-accent">◇</span>
-      <span>MeshCore Index</span>
+      <span>{SITE_NAME}</span>
     </a>
     <nav class="flex items-center gap-1">
       {#each nav as item}

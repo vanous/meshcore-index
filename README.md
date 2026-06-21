@@ -1,4 +1,4 @@
-# MeshCore Index
+# MeshCore Ninja
 
 A catalog of official and community MeshCore firmwares and the devices they run on — with details, node roles, and a compatibility matrix.
 

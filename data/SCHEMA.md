@@ -42,8 +42,8 @@ Create `data/firmwares/<id>/firmware.yaml`.
 | `repository`     | no       | url      | Source repo. |
 | `website`        | no       | url      | Project/docs site. |
 | `license`        | no       | string   | SPDX id, e.g. `MIT`. |
-| `latest_version` | no       | string   | Version label. |
-| `released`       | no       | date     | `YYYY-MM-DD` of `latest_version`. |
+| `latest_version` | no       | string   | Omit when `changelog.yaml` exists — computed at build time from the newest release. Set manually only for firmwares without a changelog. |
+| `released`       | no       | date     | Omit when `changelog.yaml` exists — computed at build time (`YYYY-MM-DD` of `latest_version`). Set manually only for firmwares without a changelog. |
 | `roles`          | no       | string[] | Node roles, e.g. `companion`, `repeater`, `room-server`, `sensor`. |
 | `features`       | no       | string[] | Short feature labels. |
 | `lifecycle`      | no       | enum     | `active` \| `maintenance` \| `archived`. |

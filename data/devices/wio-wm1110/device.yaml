@@ -50,7 +50,7 @@ hardware:
     charging: false
     solarInput: false
     # Source: https://files.seeedstudio.com/products/SenseCAP/Wio-WM1110/Wio-WM1110_Module_Datasheet_V1.3.pdf
-    consumptionIdleMa: 10
+    consumptionIdleMa: 0.0076
     consumptionTxMa: 125
   physical:
     dimensionsMm:

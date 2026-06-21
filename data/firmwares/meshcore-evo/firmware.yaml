@@ -9,8 +9,6 @@ repository: https://github.com/mattzzw/MeshCore-Evo
 website: https://meshcore.io
 license: MIT
 status: maintenance
-latest_version: 1.15.0_0.1.21
-released: '2026-05-25'
 lifecycle: maintenance
 maturity: beta
 distribution: community
@@ -53,6 +51,9 @@ capabilities:
     lowPowerRx: true
 devices:
   - id: heltec-v3
+    status: supported
+  # Source: alias of heltec-v3, same target heltec_v3; release assets confirm Heltec_WSL3
+  - id: heltec-wsl3
     status: supported
   - id: heltec-t114
     status: supported

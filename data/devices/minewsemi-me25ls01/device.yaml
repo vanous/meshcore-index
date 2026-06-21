@@ -19,6 +19,8 @@ hardware:
   mcu:
     model: nrf52
     flashMb: 1
+    # Source: https://en.minewsemi.com/file/ME25LS01_LR1110_Datasheet_K_EN.pdf
+    ramKb: 256
   radios:
     - technology: lora
       chip: lr1110
@@ -28,6 +30,14 @@ hardware:
   gnss:
     status: present
     chip: unknown
+  power:
+    batterySupported: false
+    batteryBuiltIn: false
+    charging: false
+    solarInput: false
+    # Source: https://en.minewsemi.com/file/ME25LS01_LR1110_Datasheet_K_EN.pdf
+    consumptionIdleMa: 10.7
+    consumptionTxMa: 118
   physical:
     dimensionsMm:
       width: 25.5

@@ -24,6 +24,14 @@ hardware:
     status: none
   gnss:
     status: none
+  power:
+    batterySupported: false
+    batteryBuiltIn: false
+    charging: false
+    solarInput: false
+    # Source: https://www.st.com/en/microcontrollers-microprocessors/stm32wle5cc.html
+    consumptionIdleMa: 4.82
+    consumptionTxMa: 87
 interfaces:
   usb:
     connector: unknown

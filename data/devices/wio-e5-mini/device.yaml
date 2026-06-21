@@ -13,6 +13,11 @@ description: >-
   GPIO-level prototyping rather than a finished enclosure.
 transports:
   - usb
+price:
+  # Source: https://forum.seeedstudio.com/t/wio-e5-mini-power-supply/280005
+  amount: 22
+  currency: USD
+  asOf: 2026-06
 hardware:
   mcu:
     model: stm32wl
@@ -31,6 +36,13 @@ hardware:
     status: none
   gnss:
     status: none
+  power:
+    batterySupported: false
+    batteryBuiltIn: false
+    charging: false
+    solarInput: false
+    # Source: https://wiki.seeedstudio.com/LoRa_E5_mini/
+    consumptionIdleMa: 0.0021
   input:
     - type: button
       description: Boot

@@ -16,7 +16,7 @@
 import { readFileSync, writeFileSync, readdirSync, existsSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
-import yaml from 'js-yaml';
+import { load, dump } from 'js-yaml';
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..');
 const MAX_RELEASES = 20;
@@ -37,7 +37,7 @@ function resolveSource(fw) {
 async function fetchGithubRaw(repo) {
   const headers = {
     Accept: 'application/vnd.github+json',
-    'User-Agent': 'meshcore-index',
+    'User-Agent': 'meshcore-ninja',
     'X-GitHub-Api-Version': '2022-11-28'
   };
   if (process.env.GITHUB_TOKEN) headers.Authorization = `Bearer ${process.env.GITHUB_TOKEN}`;
@@ -92,7 +92,7 @@ for (const d of readdirSync(fwBase, { withFileTypes: true })) {
   if (!d.isDirectory()) continue;
   const fwPath = join(fwBase, d.name, 'firmware.yaml');
   if (!existsSync(fwPath)) continue;
-  const fw = yaml.load(readFileSync(fwPath, 'utf8')) ?? {};
+  const fw = load(readFileSync(fwPath, 'utf8')) ?? {};
 
   const source = resolveSource(fw);
   if (source === 'manual') {
@@ -109,7 +109,7 @@ for (const d of readdirSync(fwBase, { withFileTypes: true })) {
     const out = { source, repo: repo ?? undefined, updatedAt: new Date().toISOString(), releases };
     writeFileSync(
       join(fwBase, d.name, 'changelog.yaml'),
-      yaml.dump(out, { lineWidth: 100, noRefs: true })
+      dump(out, { lineWidth: 100, noRefs: true })
     );
     console.log(`✓ ${d.name}: ${releases.length} release(s) via ${source}${repo ? ` (${repo})` : ''}`);
     updated++;

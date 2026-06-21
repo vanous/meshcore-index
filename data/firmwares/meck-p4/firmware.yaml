@@ -9,8 +9,6 @@ description: >
 repository: https://github.com/pelgraine/Meck-P4
 license: GPL-3.0
 status: active
-latest_version: v0.4
-released: '2026-06-16'
 lifecycle: active
 maturity: alpha
 distribution: community

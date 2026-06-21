@@ -13,7 +13,7 @@ datasheet: datasheet.pdf
 official: true
 product_url: https://www.elecrow.com/thinknode-m1-meshtastic-lora-signal-transceiver-powered-by-nrf52840-with-154-screen-support-gps.html
 price:
-  amount: 53.9
+  amount: 54
   currency: USD
   asOf: 2026-06
 description: >-

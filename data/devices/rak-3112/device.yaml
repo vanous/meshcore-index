@@ -27,6 +27,8 @@ hardware:
     model: esp32-s3
     flashMb: 16
     psramMb: 8
+    # Source: https://docs.rakwireless.com/product-categories/wisduo/rak3112-module/overview/
+    ramKb: 512
   radios:
     - technology: lora
       chip: sx1262
@@ -41,6 +43,14 @@ hardware:
     status: none
   gnss:
     status: none
+  power:
+    batterySupported: false
+    batteryBuiltIn: false
+    charging: false
+    solarInput: false
+    # Source: https://docs.rakwireless.com/product-categories/wisduo/rak3112-module/overview/
+    consumptionIdleMa: 4.82
+    consumptionTxMa: 87
 interfaces:
   usb:
     connector: unknown

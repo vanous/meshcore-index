@@ -12,8 +12,6 @@ repository: https://github.com/MichTronics/MeshCoreNG
 website: https://michtronics.github.io/MeshCoreNG/
 license: MIT
 status: active
-latest_version: repeater-v1.1.0
-released: '2026-06-19'
 lifecycle: active
 maturity: beta
 distribution: community
@@ -80,6 +78,7 @@ devices:
     status: supported
     target: gat562_mesh_tracker_pro
     platformio_board: rak4631
+  # Source: alias of gatiot-gat562, same target gat562_mesh_tracker_pro
   - id: gatiot-gat562-tracker-pro
     status: supported
     target: gat562_mesh_tracker_pro
@@ -144,11 +143,17 @@ devices:
     status: supported
     target: heltec_v3
     platformio_board: esp32-s3-devkitc-1
+  # Source: alias of heltec-v3, same target heltec_v3 (builds from Heltec_v3 variant)
   - id: heltec-wsl3
     status: supported
     target: heltec_v3
     platformio_board: esp32-s3-devkitc-1
   - id: heltec-v4
+    status: supported
+    target: heltec_v4
+    platformio_board: heltec_v4
+  # Source: alias of heltec-v4, same target heltec_v4
+  - id: heltec-v4-exp
     status: supported
     target: heltec_v4
     platformio_board: heltec_v4
@@ -200,6 +205,11 @@ devices:
     status: supported
     target: lilygo_tbeam_supreme_SX1262
     platformio_board: t_beams3_supreme
+  # Source: alias of lilygo-t-deck, same target lilygo_tdeck
+  - id: lilygo-t-deck-community
+    status: supported
+    target: lilygo_tdeck
+    platformio_board: t-deck
   - id: lilygo-t-deck
     status: supported
     target: lilygo_tdeck
@@ -284,6 +294,11 @@ devices:
     status: supported
     target: rak4631
     platformio_board: rak4631
+  # Source: alias of rak-4631, same target rak4631
+  - id: uart-solar-node-station
+    status: supported
+    target: rak4631
+    platformio_board: rak4631
   - id: rak-wismesh-tag
     status: supported
     target: rak_wismesh_tag
@@ -357,6 +372,11 @@ devices:
     target: wio-e5-mini
     platformio_board: lora_e5_mini
   - id: wio-tracker-l1
+    status: supported
+    target: wio-tracker-l1
+    platformio_board: seeed-wio-tracker-l1
+  # Source: alias of wio-tracker-l1, same target wio-tracker-l1
+  - id: wio-tracker-l1-pro
     status: supported
     target: wio-tracker-l1
     platformio_board: seeed-wio-tracker-l1

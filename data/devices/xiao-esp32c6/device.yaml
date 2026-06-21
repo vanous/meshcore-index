@@ -53,6 +53,9 @@ hardware:
     batteryBuiltIn: false
     charging: true
     solarInput: false
+    batteryChemistry: other
+    batteryConnector: solder pads
+    # Source: https://wiki.seeedstudio.com/xiao_esp32c6_getting_started/
 interfaces:
   usb:
     connector: USB-C

@@ -112,8 +112,14 @@ properties:
     type: string
   latest_version:
     type: string
+    description: >-
+      Computed at build time from changelog.yaml when present. Set manually in
+      firmware.yaml only when there is no changelog.
   released:
     type: string
+    description: >-
+      YYYY-MM-DD of latest_version. Computed at build time from changelog.yaml
+      when present. Set manually in firmware.yaml only when there is no changelog.
   roles:
     type: array
     items:

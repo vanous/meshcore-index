@@ -9,8 +9,6 @@ description: >
 repository: https://github.com/dt267/MeshCore-Low-Power-Firmware-For-Heltec-V3-V4
 license: MIT
 status: active
-latest_version: v1.16.dev_0614
-released: '2026-06-14'
 lifecycle: active
 maturity: beta
 distribution: community
@@ -63,6 +61,9 @@ devices:
     status: supported
   - id: heltec-v4
     status: supported
+  # Source: alias of heltec-v4, same target heltec_v4
+  - id: heltec-v4-exp
+    status: supported
   - id: heltec-e213
     status: supported
   - id: heltec-e290
@@ -76,3 +77,7 @@ devices:
   - id: rak-4631
     status: supported
     notes: Uses RAK19003 base board for power profiling.
+  # Source: alias of rak-4631, same target rak4631
+  - id: uart-solar-node-station
+    status: supported
+    notes: Uses RAK4631 target; same as rak-4631.

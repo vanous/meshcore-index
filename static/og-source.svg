@@ -30,7 +30,7 @@
   <!-- diamond mark -->
   <path d="M150 90 L210 150 L150 210 L90 150 Z" fill="none" stroke="#4dd0a7" stroke-width="9" stroke-linejoin="round"/>
 
-  <text x="90" y="350" font-family="system-ui, -apple-system, Segoe UI, Roboto, sans-serif" font-size="84" fill="#e6edf3" font-weight="800">MeshCore Index</text>
+  <text x="90" y="350" font-family="system-ui, -apple-system, Segoe UI, Roboto, sans-serif" font-size="84" fill="#e6edf3" font-weight="800">MeshCore Ninja</text>
 
   <text x="92" y="420" font-family="system-ui, -apple-system, Segoe UI, Roboto, sans-serif" font-size="34" fill="#9aa7b4" font-weight="400">A catalog of MeshCore firmwares and the devices they run on</text>
   <text x="92" y="468" font-family="system-ui, -apple-system, Segoe UI, Roboto, sans-serif" font-size="34" fill="#9aa7b4" font-weight="400">— details, node roles, and a compatibility matrix.</text>

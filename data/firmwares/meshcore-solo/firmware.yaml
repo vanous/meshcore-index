@@ -9,8 +9,6 @@ description: >
 repository: https://github.com/MarekZegare4/MeshCore-Solo
 license: MIT
 status: active
-latest_version: v1.19
-released: '2026-06-16'
 lifecycle: active
 maturity: beta
 distribution: community
@@ -58,6 +56,9 @@ capabilities:
     lowPowerRx: false
 devices:
   - id: wio-tracker-l1
+    status: supported
+  # Source: alias of wio-tracker-l1, same board — see README supported devices table
+  - id: wio-tracker-l1-pro
     status: supported
   - id: wio-tracker-l1-eink
     status: supported

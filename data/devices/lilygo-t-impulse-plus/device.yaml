@@ -17,6 +17,7 @@ transports:
 hardware:
   mcu:
     model: nrf52
+    flashMb: 1
     # Source: https://github.com/Xinyuan-LILYGO/T-Impulse-Plus
     ramKb: 256
   radios:

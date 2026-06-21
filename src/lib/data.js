@@ -2,6 +2,9 @@
 // from the YAML sources. The same content is also published at /data.json.
 import dataset from '$lib/generated/data.json';
 import Fuse from 'fuse.js';
+import { groupReleases } from '$lib/releases.js';
+
+export { groupReleases } from '$lib/releases.js';
 
 // Images (device thumbnails and vendor logos) must go through the bundler to
 // get hashed asset URLs; map each glob result back to its directory id.
@@ -287,12 +290,26 @@ export function firmwaresForDevice(deviceId) {
 /**
  * Build a compatibility matrix. Firmwares are the columns (there are only a
  * handful); devices are the rows, limited to those at least one firmware lists.
+ * Firmware columns are sorted by supported device count (desc), then name.
  * @returns {{firmwares: typeof firmwares, rows: Array<{device: any, cells: Record<string, {status: string, notes?: string, target?: string, platformio_board?: string}>}>}}
  */
 export function compatibilityMatrix() {
-  const rows = devices.map((device) => {
+  const matrixFirmwares = [...firmwares].sort((a, b) => {
+    const count = (fw) => (fw.devices ?? []).filter((d) => d.status === 'supported').length;
+    const diff = count(b) - count(a);
+    return diff !== 0 ? diff : a.name.localeCompare(b.name);
+  });
+
+  const listedDeviceIds = new Set();
+  for (const fw of matrixFirmwares) {
+    for (const d of fw.devices ?? []) listedDeviceIds.add(d.id);
+  }
+
+  const rows = devices
+    .filter((device) => listedDeviceIds.has(device.id))
+    .map((device) => {
     const cells = {};
-    for (const fw of firmwares) {
+    for (const fw of matrixFirmwares) {
       const entry = (fw.devices ?? []).find((d) => d.id === device.id);
       if (entry) {
         cells[fw.id] = {
@@ -305,49 +322,7 @@ export function compatibilityMatrix() {
     }
     return { device, cells };
   });
-  return { firmwares, rows };
-}
-
-/**
- * Group a firmware's flat release list by version, collapsing per-variant
- * releases (e.g. companion-/repeater-/room-server-v1.16.0) into one entry.
- * @returns {Array<{version: string, datetime: string|null, prerelease: boolean,
- *   notes: string|null, variants: Array<any>}>}
- */
-export function groupReleases(releases = []) {
-  const groups = new Map();
-  for (const r of releases) {
-    const tag = r.version ?? '';
-    // Split an optional leading variant ("companion-") from the version token.
-    const m = /^(?:(.*?)-)?v?(\d[\w.+-]*)$/.exec(tag);
-    const variant = m && m[1] ? m[1] : null;
-    const versionKey = m ? m[2] : tag;
-
-    if (!groups.has(versionKey)) {
-      groups.set(versionKey, {
-        version: versionKey,
-        datetime: null,
-        prerelease: false,
-        notes: null,
-        notesHtml: null,
-        variants: []
-      });
-    }
-    const g = groups.get(versionKey);
-    g.variants.push({ ...r, variant });
-    const dt = r.datetime ?? r.date ?? '';
-    if (dt > (g.datetime ?? '')) g.datetime = dt || g.datetime;
-    if (r.notes && !g.notes) g.notes = r.notes;
-    if (r.notesHtml && !g.notesHtml) g.notesHtml = r.notesHtml;
-    if (r.prerelease) g.prerelease = true;
-  }
-
-  for (const g of groups.values()) {
-    g.variants.sort((a, b) => (a.variant ?? '').localeCompare(b.variant ?? ''));
-  }
-  return [...groups.values()].sort((a, b) =>
-    (b.datetime ?? '').localeCompare(a.datetime ?? '')
-  );
+  return { firmwares: matrixFirmwares, rows };
 }
 
 /**

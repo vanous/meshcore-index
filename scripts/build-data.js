@@ -7,7 +7,8 @@
 import { readFileSync, readdirSync, existsSync, writeFileSync, mkdirSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import yaml from 'js-yaml';
+import { load } from 'js-yaml';
+import { latestReleaseSummary } from '../src/lib/releases.js';
 
 const here = dirname(fileURLToPath(import.meta.url));
 const defaultRoot = join(here, '..');
@@ -21,7 +22,7 @@ function readDir(root, kind, file) {
     if (!d.isDirectory()) continue;
     const path = join(base, d.name, file);
     if (!existsSync(path)) continue;
-    out.push({ id: d.name, ...(yaml.load(readFileSync(path, 'utf8')) ?? {}) });
+    out.push({ id: d.name, ...(load(readFileSync(path, 'utf8')) ?? {}) });
   }
   return out;
 }
@@ -30,7 +31,7 @@ function readDir(root, kind, file) {
 function readGlobals(root) {
   const path = join(root, 'data', 'globals.yaml');
   if (!existsSync(path)) return {};
-  return yaml.load(readFileSync(path, 'utf8')) ?? {};
+  return load(readFileSync(path, 'utf8')) ?? {};
 }
 
 function readCompatibility(root) {
@@ -46,7 +47,7 @@ function readCompatibility(root) {
         for (const file of readdirSync(versionPath, { withFileTypes: true })) {
           if (!file.isFile() || !file.name.endsWith('.yaml')) continue;
           const deviceId = file.name.replace(/\.yaml$/, '');
-          const data = yaml.load(readFileSync(join(versionPath, file.name), 'utf8')) ?? {};
+          const data = load(readFileSync(join(versionPath, file.name), 'utf8')) ?? {};
           records.push({
             firmwareId: fwDir.name,
             firmwareVersionSlug: versionDir.name,
@@ -73,7 +74,7 @@ function buildSchemas(root) {
 
   let count = 0;
   for (const file of readdirSync(schemaDir).filter((f) => f.endsWith('.yaml')).sort()) {
-    const schema = yaml.load(readFileSync(join(schemaDir, file), 'utf8')) ?? {};
+    const schema = load(readFileSync(join(schemaDir, file), 'utf8')) ?? {};
     const publicName = file.replace(/\.yaml$/, '.json');
     if (typeof schema.$id === 'string') {
       schema.$id = schema.$id.replace(/\/schema\/[^/]+$/, `/schema/${publicName}`);
@@ -84,9 +85,8 @@ function buildSchemas(root) {
   return count;
 }
 
-// Production origin + base path for absolute URLs. Mirrors src/lib/seo.js;
-// BASE_PATH is supplied by the GitHub Pages workflow, SITE_ORIGIN is optional.
-const SITE_ORIGIN = (process.env.SITE_ORIGIN ?? 'https://meshcore-cz.github.io').replace(
+// Production origin; BASE_PATH is supplied by the GitHub Pages workflow when needed.
+const SITE_ORIGIN = (process.env.SITE_ORIGIN ?? 'https://meshcore.ninja').replace(
   /\/+$/,
   ''
 );
@@ -157,10 +157,13 @@ export async function buildData(root = defaultRoot) {
       // Attach cached releases from the sibling changelog.yaml, if present.
       const clPath = join(root, 'data', 'firmwares', fw.id, 'changelog.yaml');
       if (existsSync(clPath)) {
-        const cl = yaml.load(readFileSync(clPath, 'utf8')) ?? {};
+        const cl = load(readFileSync(clPath, 'utf8')) ?? {};
+        const rawReleases = cl.releases ?? [];
+        const { latest_version: _lv, released: _r, ...fwBase } = fw;
         return {
-          ...fw,
-          releases: (cl.releases ?? []).map((r) => ({
+          ...fwBase,
+          ...latestReleaseSummary(rawReleases),
+          releases: rawReleases.map((r) => ({
             ...r,
             notesHtml: renderMarkdown(r.notes)
           })),

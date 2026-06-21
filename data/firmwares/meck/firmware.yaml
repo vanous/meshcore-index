@@ -9,8 +9,6 @@ description: >
 repository: https://github.com/pelgraine/Meck
 license: MIT
 status: active
-latest_version: v1.12.2
-released: '2026-06-16'
 lifecycle: active
 maturity: beta
 distribution: community
@@ -58,11 +56,27 @@ capabilities:
     sensors: false
     lowPowerRx: false
 devices:
-  - id: lilygo-t-deck
-    status: supported
+  # Source: Meck variant lilygo_tdeck_pro, release asset Meck-Max-BLE
   - id: lilygo-tdeck-pro
     status: supported
     notes: T-Deck Pro variant with ESP32-S3 and e-paper display.
+  # Source: Meck variant lilygo_t5s3_epaper_pro, release asset Meck-T5S3Pro-BLE
   - id: lilygo-t5-pro
     status: supported
     notes: T5 E-Paper S3 Pro (H752-XX) variant.
+  # Source: Meck variants heltec_v3/heltec_v4, README lists as remote repeaters
+  - id: heltec-v3
+    status: supported
+    notes: Remote repeater only.
+  # Source: alias of heltec-v3, same target heltec_v3
+  - id: heltec-wsl3
+    status: supported
+    notes: Remote repeater only.
+  # Source: Meck variants heltec_v3/heltec_v4, README lists as remote repeaters
+  - id: heltec-v4
+    status: supported
+    notes: Remote repeater only.
+  # Source: alias of heltec-v4, same target heltec_v4
+  - id: heltec-v4-exp
+    status: supported
+    notes: Remote repeater only.

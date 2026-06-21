@@ -7,7 +7,8 @@ familyId: seeed-wio-tracker-l1
 official: true
 product_url: https://www.seeedstudio.com/Wio-Tracker-L1-p-6453.html
 price:
-  amount: 28
+  # Source: https://www.seeedstudio.com/Wio-Tracker-L1-p-6453.html
+  amount: 33
   currency: USD
   asOf: 2026-06
 description: >-

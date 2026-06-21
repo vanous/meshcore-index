@@ -54,6 +54,8 @@ jobs:
         run: npm run build
         env:
           BASE_PATH: ${{ steps.pages.outputs.base_path }}
+          SITE_ORIGIN: https://meshcore.ninja
+          VITE_SITE_ORIGIN: https://meshcore.ninja
       # The single source of the github-pages artifact. Keeping this out of the
       # deploy job means re-running deploy never produces duplicate artifacts.
       - name: Upload artifact

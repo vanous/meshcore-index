@@ -56,6 +56,8 @@ hardware:
       width: 38.4
       height: 16.1
       depth: 2.8
+    # Source: https://heltec.org/project/wireless-shell-v3/
+    weightG: 3
 interfaces:
   usb:
     connector: USB-C

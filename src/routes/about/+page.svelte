@@ -5,12 +5,12 @@
 
 <Seo
   title="About"
-  description="How the MeshCore Index works — a community-maintained, open-data catalog of MeshCore firmwares and hardware, generated from human-readable YAML."
+  description="How MeshCore Ninja works — a community-maintained, open-data catalog of MeshCore firmwares and hardware, generated from human-readable YAML."
 />
 
 <h1 class="mb-2 text-[clamp(1.5rem,5vw,2rem)] font-bold">About</h1>
 <p class="max-w-[70ch]">
-  The <strong>MeshCore Index</strong> is a community-maintained catalog
+  The <strong>MeshCore Ninja</strong> is a community-maintained catalog
   of <a class="text-accent2 hover:underline" href="https://meshcore.io" target="_blank" rel="noreferrer">MeshCore</a>
   firmwares — the official build plus community forks and custom variants — with
   their details and a hardware compatibility matrix.

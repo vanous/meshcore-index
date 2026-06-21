@@ -9,8 +9,6 @@ repository: https://github.com/liquidraver/ZephCore
 website: ''
 license: MIT
 status: active
-latest_version: v20260619.094253
-released: '2026-06-19'
 lifecycle: active
 maturity: beta
 distribution: community
@@ -68,15 +66,75 @@ devices:
     status: supported
   - id: wio-tracker-l1
     status: supported
+  # Source: alias of wio-tracker-l1, same board
+  - id: wio-tracker-l1-pro
+    status: supported
   - id: heltec-v3
     status: supported
+  # Source: alias of heltec-v3, same target heltec_wifi_lora32_v3
+  - id: heltec-wsl3
+    status: supported
+  # Source: ZephCore release asset heltec_wifi_lora32_v4
+  - id: heltec-v4
+    status: supported
+  # Source: alias of heltec-v4, same target heltec_wifi_lora32_v4
+  - id: heltec-v4-exp
+    status: supported
+  # Source: ZephCore release asset heltec_t114
+  - id: heltec-t114
+    status: supported
+  # Source: ZephCore release asset heltec_wireless_tracker
+  - id: heltec-wt3
+    status: supported
   - id: lilygo-t-beam-sx1262
+    status: supported
+  # Source: ZephCore release asset lilygo_tlora_c6
+  - id: lilygo-tlora-c6
+    status: supported
+  # Source: ZephCore release asset rak3401_1watt
+  - id: rak-13302
+    status: supported
+  # Source: ZephCore release asset rak_wismesh_tag
+  - id: rak-wismesh-tag
+    status: supported
+  # Source: ZephCore release asset sensecap_solar
+  - id: sensecap-solar-p1
+    status: supported
+  # Source: alias of sensecap-solar-p1, same target sensecap_solar
+  - id: sensecap-solar-p1-pro
+    status: supported
+  # Source: ZephCore release asset t1000_e
+  - id: sensecap-t1000e
+    status: supported
+  # Source: ZephCore release asset station_g2
+  - id: station-g2
+    status: supported
+  # Source: ZephCore release asset thinknode_m1
+  - id: thinknode-m1
+    status: supported
+  # Source: ZephCore release asset thinknode_m3
+  - id: thinknode-m3
+    status: supported
+  # Source: ZephCore release asset thinknode_m6
+  - id: thinknode-m6
+    status: supported
+  # Source: ZephCore release asset promicro_sx1262
+  - id: faketec
+    status: supported
+  # Source: ZephCore release asset gat562_30s
+  - id: gatiot-gat562-30s
     status: supported
   - id: xiao-esp32c3
     status: supported
   - id: xiao-esp32c6
     status: supported
   - id: xiao-esp32s3
+    status: supported
+  # Source: ZephCore release asset xiao_esp32s3 (non-Wio variant)
+  - id: xiao-esp32s3-plain
+    status: supported
+  # Source: ZephCore release asset xiao_nrf52840
+  - id: xiao-nrf52
     status: supported
   - id: nrf54l15
     status: partial

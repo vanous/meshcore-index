@@ -24,6 +24,11 @@ roles:
 transports:
   - ble
   - wifi
+price:
+  # Source: https://heltec.org/project/ht-ct62/
+  amount: 7
+  currency: USD
+  asOf: 2026-06
 hardware:
   mcu:
     model: esp32-c3

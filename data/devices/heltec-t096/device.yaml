@@ -25,6 +25,11 @@ roles:
 transports:
   - ble
   - usb
+price:
+  # Source: https://heltec.org/project/t096/
+  amount: 34
+  currency: USD
+  asOf: 2026-06
 hardware:
   mcu:
     model: nrf52840

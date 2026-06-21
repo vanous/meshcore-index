@@ -9,8 +9,6 @@ repository: https://github.com/ALLFATHER-BV/meshcomod
 website: https://meshcomod.com
 license: MIT
 status: active
-latest_version: 1.16.0.4
-released: '2026-06-16'
 lifecycle: active
 maturity: stable
 distribution: community
@@ -55,7 +53,13 @@ capabilities:
 devices:
   - id: heltec-v4
     status: supported
+  # Source: alias of heltec-v4, same target heltec_v4
+  - id: heltec-v4-exp
+    status: supported
   - id: heltec-v3
+    status: supported
+  # Source: alias of heltec-v3, same target heltec_v3
+  - id: heltec-wsl3
     status: supported
   - id: heltec-paper
     status: supported

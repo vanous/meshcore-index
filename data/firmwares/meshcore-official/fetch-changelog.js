@@ -29,7 +29,7 @@ const normUrl = (u) => u.replace(/[).,\s]+$/, '').replace(/\/$/, '');
 // Fetch the blog feed and return a Map of post URL -> Markdown.
 async function loadBlogNotes(fetch) {
   const map = new Map();
-  const res = await fetch(FEED_URL, { headers: { 'User-Agent': 'meshcore-index' } });
+  const res = await fetch(FEED_URL, { headers: { 'User-Agent': 'meshcore-ninja' } });
   if (!res.ok) throw new Error(`blog feed ${res.status}`);
   const xml = await res.text();
 

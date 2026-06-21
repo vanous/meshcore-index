@@ -4,7 +4,7 @@
 import { readFileSync, readdirSync, existsSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import yaml from 'js-yaml';
+import { load } from 'js-yaml';
 import Ajv from 'ajv/dist/2020.js';
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..');
@@ -14,7 +14,7 @@ const errors = [];
 const err = (where, msg) => errors.push(`${where}: ${msg}`);
 
 function loadSchema(name) {
-  return ajv.compile(yaml.load(readFileSync(join(root, 'schema', `${name}.yaml`), 'utf8')));
+  return ajv.compile(load(readFileSync(join(root, 'schema', `${name}.yaml`), 'utf8')));
 }
 
 // Read `data/<kind>/<id>/<file>`, returning { id, dir, data } records.
@@ -34,7 +34,7 @@ function readCollection(kind, file) {
     }
     let data;
     try {
-      data = yaml.load(readFileSync(path, 'utf8'));
+      data = load(readFileSync(path, 'utf8'));
     } catch (e) {
       err(`${kind}/${d.name}`, `YAML parse error: ${e.message}`);
       continue;
@@ -89,7 +89,7 @@ if (existsSync(compatibilityBase)) {
         const where = `compatibility/${fwDir.name}/${versionDir.name}/${file.name}`;
         let data;
         try {
-          data = yaml.load(readFileSync(join(versionPath, file.name), 'utf8'));
+          data = load(readFileSync(join(versionPath, file.name), 'utf8'));
         } catch (e) {
           err(where, `YAML parse error: ${e.message}`);
           continue;
@@ -116,7 +116,7 @@ let globalsData = null;
 const globalsPath = join(root, 'data', 'globals.yaml');
 if (existsSync(globalsPath)) {
   try {
-    globalsData = yaml.load(readFileSync(globalsPath, 'utf8'));
+    globalsData = load(readFileSync(globalsPath, 'utf8'));
   } catch (e) {
     err('globals', `YAML parse error: ${e.message}`);
   }
@@ -134,7 +134,7 @@ for (const f of firmwares) {
   if (!existsSync(path)) continue;
   let cl;
   try {
-    cl = yaml.load(readFileSync(path, 'utf8'));
+    cl = load(readFileSync(path, 'utf8'));
   } catch (e) {
     err(`firmwares/${f.id}/changelog`, `YAML parse error: ${e.message}`);
     continue;
@@ -143,6 +143,12 @@ for (const f of firmwares) {
     for (const e of changelogSchema.errors) {
       err(`firmwares/${f.id}/changelog`, `${e.instancePath || '/'} ${e.message}`);
     }
+  }
+  if (f.data.latest_version) {
+    err(f.where, 'latest_version must not be set when changelog.yaml exists — it is computed at build time');
+  }
+  if (f.data.released) {
+    err(f.where, 'released must not be set when changelog.yaml exists — it is computed at build time');
   }
 }
 

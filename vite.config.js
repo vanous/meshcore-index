@@ -43,6 +43,12 @@ export default defineConfig({
   define: {
     'import.meta.env.VITE_BASE_PATH': JSON.stringify(
       (process.env.BASE_PATH ?? '').replace(/\/+$/, '')
+    ),
+    'import.meta.env.VITE_SITE_ORIGIN': JSON.stringify(
+      (process.env.VITE_SITE_ORIGIN ?? process.env.SITE_ORIGIN ?? 'https://meshcore.ninja').replace(
+        /\/+$/,
+        ''
+      )
     )
   },
   server: {

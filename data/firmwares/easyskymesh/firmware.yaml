@@ -9,8 +9,6 @@ repository: https://github.com/IoTThinks/EasySkyMesh
 website: https://iotthinks.com
 license: MIT
 status: active
-latest_version: PowerSaving 16
-released: '2026-06-08'
 lifecycle: active
 maturity: beta
 distribution: community
@@ -53,12 +51,31 @@ capabilities:
 devices:
   - id: heltec-v3
     status: supported
+  # Source: alias of heltec-v3, same target heltec_v3; release assets confirm Heltec_WSL3
+  - id: heltec-wsl3
+    status: supported
+  # Source: release notes power table + release assets Heltec_v4
+  - id: heltec-v4
+    status: supported
+  # Source: alias of heltec-v4, same target heltec_v4
+  - id: heltec-v4-exp
+    status: supported
+  # Source: release notes power table (Heltec T096)
+  - id: heltec-t096
+    status: supported
   - id: heltec-t114
     status: supported
   - id: rak-4631
     status: supported
   - id: uart-solar-node-station
     status: supported
+  # Source: release notes power table (Xiao S3, C3)
   - id: xiao-esp32s3
     status: partial
     notes: Power-saving figures vary by board revision.
+  # Source: release notes power table (Xiao C3)
+  - id: xiao-esp32c3
+    status: supported
+  # Source: release notes power table (Xiao NRF52)
+  - id: xiao-nrf52
+    status: supported

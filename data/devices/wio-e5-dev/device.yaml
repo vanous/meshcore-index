@@ -13,6 +13,11 @@ description: >-
   testing rather than a finished enclosure.
 transports:
   - usb
+price:
+  # Source: https://forum.seeedstudio.com/t/wio-e5-development-kit-can-not-be-recognized-by-my-laptop-and-arduino/272560
+  amount: 27
+  currency: USD
+  asOf: 2026-06
 hardware:
   mcu:
     model: stm32wl
@@ -31,6 +36,15 @@ hardware:
     status: none
   gnss:
     status: none
+  power:
+    batterySupported: true
+    batteryBuiltIn: false
+    batteryConnector: 2*AA battery holder
+    batteryChemistry: alkaline
+    charging: false
+    solarInput: false
+    # Source: https://wiki.seeedstudio.com/LoRa_E5_Dev_Board/
+    consumptionIdleMa: 0.0021
   input:
     - type: button
       description: Boot

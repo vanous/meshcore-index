@@ -1,5 +1,5 @@
 {
-  "name": "meshcore-index",
+  "name": "meshcore-ninja",
   "version": "0.1.0",
   "description": "A database and compatibility matrix of MeshCore firmwares, built from human-readable YAML files.",
   "type": "module",
@@ -17,16 +17,16 @@
   "devDependencies": {
     "@sveltejs/adapter-static": "^3.0.6",
     "@sveltejs/kit": "^2.8.0",
-    "@sveltejs/vite-plugin-svelte": "^4.0.0",
+    "@sveltejs/vite-plugin-svelte": "^7.0.0",
     "@tailwindcss/vite": "^4.3.1",
     "ajv": "^8.20.0",
-    "js-yaml": "^4.1.0",
+    "js-yaml": "^5.0.0",
     "marked": "^18.0.5",
     "sanitize-html": "^2.17.5",
     "svelte": "^5.1.0",
     "tailwindcss": "^4.3.1",
     "turndown": "^7.2.4",
-    "vite": "^5.4.0"
+    "vite": "^8.0.0"
   },
   "dependencies": {
     "fuse.js": "^7.4.2"

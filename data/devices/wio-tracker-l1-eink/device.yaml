@@ -8,6 +8,11 @@ variantOf: wio-tracker-l1
 image: wio_tracker_l1_eink.svg
 official: true
 product_url: https://www.seeedstudio.com/Wio-Tracker-L1-E-ink-p-6456.html
+price:
+  # Source: https://www.seeedstudio.com/Wio-Tracker-L1-E-ink-p-6456.html
+  amount: 36
+  currency: USD
+  asOf: 2026-06
 description: >-
   Low-power Meshtastic/MeshCore node with LoRa, L76K GNSS, and a detachable
   2.13-inch E-ink display for ultra-low-power status updates. Supports USB-C,
@@ -24,6 +29,8 @@ hardware:
   mcu:
     model: nrf52840
     flashMb: 1
+    # Source: https://www.seeedstudio.com/Wio-Tracker-L1-E-ink-p-6456.html
+    ramKb: 256
   radios:
     - technology: lora
       chip: sx1262
@@ -44,6 +51,7 @@ hardware:
   power:
     batterySupported: true
     batteryBuiltIn: false
+    batteryChemistry: li-ion
     charging: true
     solarInput: true
   enclosure:
