@@ -60,6 +60,33 @@
       "type": "string",
       "pattern": "^https?://"
     },
+    "price": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Approximate street price — an indicator, not a quote.",
+      "required": [
+        "amount"
+      ],
+      "properties": {
+        "amount": {
+          "type": "number",
+          "minimum": 0
+        },
+        "currency": {
+          "type": "string",
+          "default": "USD",
+          "pattern": "^[A-Z]{3}$"
+        },
+        "asOf": {
+          "type": "string",
+          "pattern": "^\\d{4}-\\d{2}$"
+        },
+        "url": {
+          "type": "string",
+          "pattern": "^https?://"
+        }
+      }
+    },
     "image": {
       "type": "string",
       "pattern": "\\.svg$"
@@ -137,6 +164,12 @@
                 "items": {
                   "type": "string"
                 }
+              },
+              "txPowerDbm": {
+                "type": "number"
+              },
+              "antenna": {
+                "type": "string"
               }
             }
           }
@@ -207,6 +240,29 @@
             }
           }
         },
+        "input": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "type": {
+                "enum": [
+                  "keyboard",
+                  "trackball",
+                  "joystick",
+                  "encoder",
+                  "button",
+                  "microphone",
+                  "speaker"
+                ]
+              },
+              "description": {
+                "type": "string"
+              }
+            }
+          }
+        },
         "power": {
           "type": "object",
           "additionalProperties": false,
@@ -236,6 +292,35 @@
             },
             "pmic": {
               "type": "string"
+            },
+            "batteryConnector": {
+              "type": "string"
+            }
+          }
+        },
+        "expansion": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "type": {
+                "type": "string"
+              },
+              "count": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "pins": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "interfaces": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
             }
           }
         },
@@ -245,7 +330,63 @@
           "properties": {
             "builtIn": {
               "type": "boolean"
+            },
+            "ipRating": {
+              "type": "string"
             }
+          }
+        },
+        "physical": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "dimensionsMm": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "width": {
+                  "type": "number",
+                  "minimum": 0
+                },
+                "height": {
+                  "type": "number",
+                  "minimum": 0
+                },
+                "depth": {
+                  "type": "number",
+                  "minimum": 0
+                }
+              }
+            },
+            "weightG": {
+              "type": "number",
+              "minimum": 0
+            }
+          }
+        },
+        "environmental": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "operatingTempC": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "min": {
+                  "type": "number"
+                },
+                "max": {
+                  "type": "number"
+                }
+              }
+            }
+          }
+        },
+        "certifications": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
           }
         }
       }
@@ -259,6 +400,9 @@
           "additionalProperties": false,
           "properties": {
             "connector": {
+              "type": "string"
+            },
+            "bridge": {
               "type": "string"
             },
             "capabilities": {
@@ -296,6 +440,9 @@
                 "none",
                 "present"
               ]
+            },
+            "standard": {
+              "type": "string"
             }
           }
         }

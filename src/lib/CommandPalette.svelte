@@ -108,7 +108,7 @@
               >
                 <span class="flex h-9 w-9 shrink-0 items-center justify-center overflow-hidden rounded-md border border-edge bg-bg">
                   {#if item.image}
-                    <img src={item.image} alt="" class="max-h-full max-w-full object-contain p-0.5" />
+                    <img src={item.image} alt="" class="max-h-full max-w-full object-contain p-1" />
                   {:else}
                     <span class="text-[0.7rem] font-bold {TYPE_TW[item.type] ?? 'text-dim'}">{item.title.slice(0, 1).toUpperCase()}</span>
                   {/if}

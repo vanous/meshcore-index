@@ -3,15 +3,16 @@
   import {
     deviceMcuLabel,
     deviceSearchText,
+    deviceDisplayLabel,
+    devicePriceLabel,
     resolveMcuInfo,
-    resolveRadio,
-    resolveDisplay
+    resolveRadio
   } from '$lib/data.js';
+  import { compareIds, toggleCompare, clearCompare } from '$lib/compare.js';
   let { data } = $props();
 
   // --- Per-device accessors used by both facets and filtering -----------------
   const deviceFamily = (d) => resolveMcuInfo(d)?.family?.name ?? deviceMcuLabel(d);
-  // Compact radio label for the card (chip short name, not the long vendor one).
   const radioShort = (d) => {
     const chip = (d.hardware?.radios ?? []).map((r) => r.chip).find((c) => c && c !== 'unknown');
     return chip ? (resolveRadio(chip)?.name ?? chip) : null;
@@ -24,12 +25,16 @@
     const pw = d.hardware?.power;
     if (d.hardware?.gnss?.status === 'present') out.push({ label: 'GPS' });
     if (d.hardware?.display?.status === 'present')
-      out.push({ label: resolveDisplay(d.hardware.display.technology)?.name ?? 'Display' });
+      out.push({ label: deviceDisplayLabel(d.hardware.display) });
     if (pw?.batteryCapacityMah) out.push({ label: `${pw.batteryCapacityMah} mAh`, accent: true });
-    else if (pw?.batterySupported === true) out.push({ label: 'Battery' });
     // Only a built-in solar panel is a notable feature — solar *input* (the
     // ability to attach a panel) is an option, not shown here.
     if (pw?.solarPanelBuiltIn) out.push({ label: pw.solarPanelWatts ? `Solar ${pw.solarPanelWatts}W` : 'Solar', accent: true });
+    for (const item of d.hardware?.input ?? []) {
+      if (item.type === 'keyboard') out.push({ label: 'Keyboard' });
+      else if (item.type === 'trackball') out.push({ label: 'Trackball' });
+      else if (item.type === 'joystick') out.push({ label: 'Joystick' });
+    }
     return out;
   }
   const deviceChips = (d) =>
@@ -187,6 +192,23 @@
           {#if !d.official}
             <span class="absolute top-2 right-2 rounded bg-accent2/15 px-1.5 py-0.5 text-[0.6rem] font-bold tracking-wide text-accent2 uppercase">Community</span>
           {/if}
+          <button
+            type="button"
+            aria-label="Compare {d.name}"
+            aria-pressed={$compareIds.includes(d.id)}
+            onclick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              toggleCompare(d.id);
+            }}
+            class="absolute top-2 left-2 flex h-6 items-center gap-1 rounded-md border px-1.5 text-[0.68rem] font-medium transition {$compareIds.includes(
+              d.id
+            )
+              ? 'border-accent bg-accent text-bg'
+              : 'border-edge bg-elev/80 text-dim opacity-0 group-hover:opacity-100 hover:text-ink'}"
+          >
+            {$compareIds.includes(d.id) ? '✓ Compare' : '+ Compare'}
+          </button>
         </div>
 
         <div class="px-1">
@@ -209,11 +231,32 @@
 
         <div class="mt-3 flex items-center justify-between border-t border-edge px-1 pt-2.5 text-[0.78rem] text-dim">
           <span>{d.firmwareCount} firmware{d.firmwareCount === 1 ? '' : 's'}</span>
-          <span class="text-accent opacity-0 transition group-hover:opacity-100">View →</span>
+          {#if devicePriceLabel(d)}
+            <span class="font-semibold text-ink">{devicePriceLabel(d)}</span>
+          {:else}
+            <span class="text-accent opacity-0 transition group-hover:opacity-100">View →</span>
+          {/if}
         </div>
       </a>
     {/each}
   </div>
 {:else}
   <p class="rounded-xl border border-edge bg-elev p-8 text-center text-dim">No devices match these filters.</p>
+{/if}
+
+{#if $compareIds.length}
+  <div class="pointer-events-none fixed inset-x-0 bottom-4 z-40 flex justify-center px-4">
+    <div class="pointer-events-auto flex items-center gap-3 rounded-full border border-edge bg-elev2 py-2 pr-2 pl-4 shadow-2xl">
+      <span class="text-[0.85rem] text-dim">
+        <span class="font-semibold text-ink">{$compareIds.length}</span> selected
+      </span>
+      <button class="text-[0.85rem] text-dim hover:text-ink" onclick={clearCompare}>Clear</button>
+      <a
+        class="rounded-full bg-accent px-4 py-1.5 text-[0.85rem] font-semibold text-bg hover:opacity-90"
+        href="{base}/compare/?ids={$compareIds.join(',')}"
+      >
+        Compare →
+      </a>
+    </div>
+  </div>
 {/if}

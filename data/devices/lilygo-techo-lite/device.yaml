@@ -1,38 +1,72 @@
-# Source: meshcore-dev/flasher.meshcore.io config.json
+# Source: https://lilygo.cc/en-us/products/t-echo-lite · https://github.com/Xinyuan-LilyGO/T-echo-lite
 name: LilyGo T-Echo Lite
 vendorId: lilygo
 kind: product
 lifecycle: active
 familyId: lilygo-t-echo
+variantOf: lilygo-techo
+aliases:
+  - T-Echo Lite
 image: lilygo_techo_lite.svg
 official: true
+product_url: https://lilygo.cc/en-us/products/t-echo-lite
+price:
+  amount: 27
+  currency: USD
+  asOf: 2026-06
+description: >-
+  Lightweight nRF52840 + SX1262 Meshtastic/MeshCore node with a 1.22-inch
+  e-paper display for ultra-low power use. Core/base split design with optional
+  shell, solar charging, and external L76K GPS module. Bluetooth 5 only — no
+  Wi-Fi. Optional KeyShield base adds keyboard, speaker, and microphone.
 roles:
   - companion
   - repeater
   - room-server
+  - standalone-ui
 transports:
   - ble
   - usb
 hardware:
   mcu:
-    model: nrf52
+    model: nrf52840
+    flashMb: 1
+  radios:
+    - technology: lora
+      chip: sx1262
+      frequencyVariants:
+        - '433'
+        - '868'
+        - '915'
   display:
-    status: unknown
+    status: present
+    technology: e-paper
+    controller: SSD1681
+    size: 1.22
+    resolution:
+      width: 176
+      height: 192
+    colors: monochrome
   gnss:
-    status: unknown
+    status: none
   power:
     batterySupported: true
+    batteryBuiltIn: false
     charging: true
-    solarInput: false
+    solarInput: true
+  expansion:
+    - type: l76k-gnss
+      count: 1
+  enclosure:
+    builtIn: false
 interfaces:
   usb:
-    connector: unknown
     capabilities:
       - power
       - serial
       - flashing
   bluetooth:
-    version: unknown
+    version: '5.0'
     ble: true
   wifi:
-    status: unknown
+    status: none

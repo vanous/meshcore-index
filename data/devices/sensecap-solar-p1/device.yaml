@@ -10,6 +10,10 @@ aliases:
 image: sensecap_solar.svg
 official: true
 product_url: https://www.seeedstudio.com/SenseCAP-Solar-Node-P1-for-Meshtastic-LoRa-p-6425.html
+price:
+  amount: 66
+  currency: USD
+  asOf: 2026-06
 description: >-
   Economical solar-powered Meshtastic/MeshCore node or repeater for outdoor
   deployment. Integrates XIAO nRF52840 Plus and Wio-SX1262 with a built-in 5W
@@ -30,7 +34,10 @@ hardware:
     - technology: lora
       chip: sx1262
       frequencyVariants:
-        - 862-930MHz
+        - '868'
+        - '915'
+      txPowerDbm: 22
+      antenna: 2dBi rod
   display:
     status: none
   gnss:
@@ -43,8 +50,28 @@ hardware:
     solarPanelBuiltIn: true
     solarPanelWatts: 5
     pmic: CN3165
+  expansion:
+    - type: grove
+      count: 1
+      interfaces:
+        - I2C
+        - GPIO
+        - UART
   enclosure:
     builtIn: true
+    ipRating: IPX6
+  physical:
+    dimensionsMm:
+      width: 191.2
+      height: 201.2
+      depth: 42.1
+  environmental:
+    operatingTempC:
+      min: -40
+      max: 60
+  certifications:
+    - FCC
+    - CE
 interfaces:
   usb:
     connector: USB-C

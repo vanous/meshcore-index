@@ -173,6 +173,47 @@ their thumbnails come from that repo's `img/` folder.
 Use structured fields instead of deprecated flat aliases such as `mcu`, `radio`,
 `gps`, `display`, `battery`, `connectivity`, or upstream `flasher_roles`.
 
+### `hardware` (optional nested fields)
+
+| Field | Type | Notes |
+|-------|------|-------|
+| `mcu.model` | string | Catalog key, e.g. `esp32-s3`, `nrf52840`. |
+| `mcu.flashMb` / `psramMb` | number | On-board memory. |
+| `radios[]` | array | LoRa / ESP-NOW radios. |
+| `radios[].chip` | string | Catalog key, e.g. `sx1262`. |
+| `radios[].frequencyVariants[]` | string[] | Regional band keys, e.g. `868`, `915`. |
+| `radios[].txPowerDbm` | number | Max TX power in dBm. |
+| `radios[].antenna` | string | Antenna connector or included antenna, e.g. `IPEX-1.0`. |
+| `display` | object | Panel type, controller, size, resolution. |
+| `gnss` | object | GNSS chip and presence. |
+| `input[]` | array | Built-in human input and audio I/O. |
+| `input[].type` | enum | `keyboard`, `trackball`, `joystick`, `encoder`, `button`, `microphone`, `speaker`. |
+| `input[].description` | string | Optional detail, e.g. `mini QWERTY`. |
+| `power.batteryConnector` | string | External battery connector, e.g. `SH1.25-2`. |
+| `power.pmic` | string | Charge / power-management IC. |
+| `expansion[]` | array | Grove, header, or other expansion ports. |
+| `expansion[].type` | string | Port family, e.g. `grove`, `header-2.54`. |
+| `expansion[].count` | integer | Number of connectors. |
+| `expansion[].pins` | integer | Pin count per header, when relevant. |
+| `expansion[].interfaces[]` | string[] | Supported buses, e.g. `I2C`, `UART`. |
+| `enclosure.builtIn` | bool | Factory enclosure included. |
+| `enclosure.ipRating` | string | Ingress protection, e.g. `IPX6`. |
+| `physical.dimensionsMm` | object | `width`, `height`, `depth` in millimetres. |
+| `physical.weightG` | number | Product weight in grams. |
+| `environmental.operatingTempC` | object | `min` / `max` operating temperature in °C. |
+| `certifications[]` | string[] | Regulatory marks, e.g. `FCC`, `CE`. |
+
+### `interfaces` (optional nested fields)
+
+| Field | Type | Notes |
+|-------|------|-------|
+| `usb.connector` | string | e.g. `USB-C`, `Micro-USB`. |
+| `usb.bridge` | string | USB–serial bridge IC, e.g. `CP2102`. |
+| `usb.capabilities[]` | enum[] | `power`, `serial`, `flashing`, `dfu`. |
+| `bluetooth.version` / `ble` | | Bluetooth LE details. |
+| `wifi.status` | enum | `present`, `none`, or `unknown`. |
+| `wifi.standard` | string | e.g. `802.11 b/g/n`. |
+
 ## Adding a vendor
 
 Create `data/vendors/<id>/vendor.yaml` plus a `logo.svg`.

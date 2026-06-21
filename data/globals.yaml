@@ -6,8 +6,9 @@
 #
 # Because a model belongs to exactly one family, MCUs are defined as a family
 # tree: a device specifies only `hardware.mcu.model` and the family + CPU
-# architecture are derived from here. A `model` may equal a family key when only
-# the family is known (e.g. a board documented as just "esp32").
+# architecture are derived from here. When a family id also names a specific
+# chip (e.g. `esp32` is both the series and the original ESP32), register it
+# under `models` too — lookup prefers the model entry over the family fallback.
 #
 # Keys match the value used in device.yaml:
 #   family / family.models → hardware.mcu.model
@@ -36,11 +37,14 @@ family:
         name: Nordic nRF54L15
         url: https://www.nordicsemi.com/Products/nRF54L15
   esp32:
-    name: Espressif ESP32
+    name: Espressif ESP32 series
     vendor: Espressif
     url: https://www.espressif.com/en/products/socs/esp32
     architecture: xtensa
     models:
+      esp32:
+        name: Espressif ESP32 (original)
+        url: https://www.espressif.com/en/products/socs/esp32
       esp32-s3:
         name: Espressif ESP32-S3
         url: https://www.espressif.com/en/products/socs/esp32-s3

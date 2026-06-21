@@ -91,10 +91,9 @@ function lookupPart(category, key) {
 function findMcu(key) {
   if (!key) return null;
   const lower = String(key).toLowerCase();
+  // Model match first — a key like "esp32" is both a family id and the original
+  // chip model id; prefer the specific model when it exists in the catalog.
   for (const [familyId, family] of Object.entries(globals.family ?? {})) {
-    if (familyId.toLowerCase() === lower) {
-      return { familyId, family, modelId: null, model: null, architecture: family.architecture };
-    }
     for (const [modelId, model] of Object.entries(family.models ?? {})) {
       if (modelId.toLowerCase() === lower) {
         return {
@@ -107,11 +106,28 @@ function findMcu(key) {
       }
     }
   }
+  for (const [familyId, family] of Object.entries(globals.family ?? {})) {
+    if (familyId.toLowerCase() === lower) {
+      return { familyId, family, modelId: null, model: null, architecture: family.architecture };
+    }
+  }
   return null;
 }
 
 const partShape = (id, rec) =>
   rec ? { id, name: rec.name, vendor: rec.vendor, url: rec.url, description: rec.description } : null;
+
+/** Drop the vendor prefix from a catalog part name for compact display. */
+export function stripVendorLabel(part, fallback) {
+  if (!part?.name) return fallback;
+  const { vendor, name } = part;
+  if (!vendor) return name;
+  for (const prefix of [vendor, vendor.split(/\s+/)[0]]) {
+    const lead = `${prefix} `;
+    if (name.toLowerCase().startsWith(lead.toLowerCase())) return name.slice(lead.length).trim();
+  }
+  return name;
+}
 
 /**
  * Resolve a device's MCU model into family / model / architecture catalog
@@ -122,9 +138,13 @@ const partShape = (id, rec) =>
 export function resolveMcuInfo(device) {
   const hit = findMcu(device.hardware?.mcu?.model);
   if (!hit) return null;
+  const familyVendor = hit.family?.vendor;
+  const modelRec = hit.model
+    ? { ...hit.model, vendor: hit.model.vendor ?? familyVendor }
+    : null;
   return {
     family: partShape(hit.familyId, hit.family),
-    model: partShape(hit.modelId, hit.model),
+    model: partShape(hit.modelId, modelRec),
     architecture: lookupPart('architecture', hit.architecture) ?? (hit.architecture ? { name: hit.architecture } : null)
   };
 }
@@ -144,6 +164,23 @@ export function resolveDisplay(technology) {
   return lookupPart('display', technology);
 }
 
+/** Compact display label for cards and hero specs, e.g. "0.96″ OLED". */
+export function deviceDisplayLabel(display) {
+  if (display?.status === 'present') {
+    const typeName =
+      resolveDisplay(display.technology)?.name ??
+      (display.technology
+        ? String(display.technology)
+            .replace(/[-_]/g, ' ')
+            .replace(/\b\w/g, (c) => c.toUpperCase())
+        : 'Display');
+    if (display.size != null && display.size !== '') return `${display.size}″ ${typeName}`;
+    return typeName;
+  }
+  if (display?.status === 'none') return 'None';
+  return 'Unknown';
+}
+
 /** Catalog entry for a GNSS chip string. */
 export function resolveGnss(chip) {
   return lookupPart('gnss', chip);
@@ -152,6 +189,21 @@ export function resolveGnss(chip) {
 export function deviceMcuLabel(device) {
   const mcu = device.hardware?.mcu;
   return mcu?.model ?? mcu?.family ?? 'Unknown';
+}
+
+const CURRENCY_SYMBOL = { USD: '$', EUR: '€', GBP: '£', CNY: '¥', JPY: '¥' };
+
+/**
+ * Format a device's approximate price as e.g. "~$25". Returns null when no
+ * price is recorded. Always prefixed with "~" — these are indicators, not quotes.
+ */
+export function devicePriceLabel(device) {
+  const p = device.price;
+  if (!p || typeof p.amount !== 'number') return null;
+  const cur = p.currency ?? 'USD';
+  const sym = CURRENCY_SYMBOL[cur];
+  const n = Number.isInteger(p.amount) ? p.amount : p.amount.toFixed(2);
+  return sym ? `~${sym}${n}` : `~${n} ${cur}`;
 }
 
 export function deviceRadioLabel(device) {

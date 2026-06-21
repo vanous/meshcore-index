@@ -9,7 +9,10 @@
     resolveRadio,
     resolveFrequency,
     resolveDisplay,
-    resolveGnss
+    resolveGnss,
+    deviceDisplayLabel,
+    devicePriceLabel,
+    stripVendorLabel
   } from '$lib/data.js';
   let { data } = $props();
   let d = $derived(data.device);
@@ -20,14 +23,6 @@
     String(s)
       .replace(/[-_]/g, ' ')
       .replace(/\b\w/g, (c) => c.toUpperCase());
-
-  function displayLabel(display) {
-    if (display?.status === 'present') {
-      return resolveDisplay(display.technology)?.name ?? titleCase(display.technology);
-    }
-    if (display?.status === 'none') return 'None';
-    return 'Unknown';
-  }
 
   function gnssLabel(gnss) {
     if (gnss?.status === 'present') {
@@ -56,15 +51,51 @@
     return out.join(', ');
   }
 
+  function formatDimensions(dimensions) {
+    if (!dimensions?.width || !dimensions?.height || !dimensions?.depth) return undefined;
+    return `${dimensions.width} × ${dimensions.height} × ${dimensions.depth} mm`;
+  }
+
+  function formatOperatingTemp(env) {
+    const temp = env?.operatingTempC;
+    if (temp?.min == null || temp?.max == null) return undefined;
+    return `${temp.min} to ${temp.max} °C`;
+  }
+
+  function formatExpansion(port) {
+    const label = titleCase(String(port.type ?? 'Port').replace(/[-_]/g, ' '));
+    let out = port.count > 1 ? `${label} ×${port.count}` : label;
+    if (port.pins) out += ` · ${port.pins} pins`;
+    if (port.interfaces?.length) out += ` (${port.interfaces.join(', ')})`;
+    return out;
+  }
+
   // Keep only rows whose value is actually known, so cards never show "unknown".
   const rows = (entries) => entries.filter((r) => known(r.value));
 
   // --- Headline specs shown in the hero strip ---------------------------------
+  let heroMcuLabel = $derived.by(() => {
+    const info = resolveMcuInfo(d);
+    const fallback = info?.model?.name ?? info?.family?.name ?? deviceMcuLabel(d);
+    if (info?.model) return stripVendorLabel(info.model, fallback);
+    if (info?.family) return stripVendorLabel(info.family, fallback);
+    return fallback;
+  });
+
+  let heroRadioLabel = $derived.by(() => {
+    const radios = d.hardware?.radios ?? [];
+    if (!radios.length) return deviceRadioLabel(d);
+    const labels = radios
+      .map((r) => (r.chip ? stripVendorLabel(resolveRadio(r.chip), r.chip) : r.technology))
+      .filter(Boolean);
+    return labels.length ? labels.join(', ') : deviceRadioLabel(d);
+  });
+
   let heroSpecs = $derived(
     [
-      { label: 'MCU', value: mcuInfo?.model?.name ?? mcuInfo?.family?.name ?? deviceMcuLabel(d) },
-      { label: 'Radio', value: deviceRadioLabel(d) },
-      { label: 'Display', value: displayLabel(d.hardware?.display) },
+      { label: 'MCU', value: heroMcuLabel },
+      { label: 'Radio', value: heroRadioLabel },
+      { label: 'Display', value: deviceDisplayLabel(d.hardware?.display) },
       { label: 'GPS', value: gnssLabel(d.hardware?.gnss) },
       { label: 'Battery', value: batteryLabel(d) },
       { label: 'Connectivity', value: interfaceLabel(d) }
@@ -184,6 +215,11 @@
               : undefined
       },
       { label: 'PMIC', value: d.hardware?.power?.pmic },
+      { label: 'Battery connector', value: d.hardware?.power?.batteryConnector },
+      {
+        label: 'IP rating',
+        value: d.hardware?.enclosure?.ipRating
+      },
       {
         label: 'Shell',
         value:
@@ -196,9 +232,38 @@
     ])
   );
 
+  let expansionRows = $derived(
+    rows((d.hardware?.expansion ?? []).map((port, i) => ({
+      label: (d.hardware?.expansion?.length ?? 0) > 1 ? `Port ${i + 1}` : 'Connector',
+      value: formatExpansion(port)
+    })))
+  );
+
+  let inputRows = $derived(
+    rows(
+      (d.hardware?.input ?? []).map((item) => ({
+        label: titleCase(item.type),
+        value: item.description ?? 'Yes'
+      }))
+    )
+  );
+
+  let physicalRows = $derived(
+    rows([
+      { label: 'Dimensions', value: formatDimensions(d.hardware?.physical?.dimensionsMm) },
+      { label: 'Weight', value: d.hardware?.physical?.weightG && `${d.hardware.physical.weightG} g` },
+      { label: 'Operating temp', value: formatOperatingTemp(d.hardware?.environmental) },
+      {
+        label: 'Certifications',
+        value: d.hardware?.certifications?.length ? d.hardware.certifications.join(', ') : undefined
+      }
+    ])
+  );
+
   let interfaceRows = $derived(
     rows([
       { label: 'USB', value: d.interfaces?.usb?.connector },
+      { label: 'USB bridge', value: d.interfaces?.usb?.bridge },
       {
         label: 'USB modes',
         value: d.interfaces?.usb?.capabilities?.length
@@ -216,7 +281,7 @@
         label: 'Wi-Fi',
         value:
           d.interfaces?.wifi?.status === 'present'
-            ? 'Yes'
+            ? d.interfaces.wifi.standard ?? 'Yes'
             : d.interfaces?.wifi?.status === 'none'
               ? 'None'
               : undefined
@@ -241,8 +306,11 @@
     [
       { title: 'Processor', icon: '🧠', rows: mcuRows },
       { title: 'Display', icon: '🖥️', rows: displayRows },
+      { title: 'Input', icon: '⌨️', rows: inputRows },
       { title: 'GNSS', icon: '📡', rows: gnssRows },
       { title: 'Power', icon: '🔋', rows: powerRows },
+      { title: 'Expansion', icon: '🧩', rows: expansionRows },
+      { title: 'Physical', icon: '📐', rows: physicalRows },
       { title: 'Connectivity', icon: '🔌', rows: interfaceRows },
       { title: 'Details', icon: 'ℹ️', rows: metaRows }
     ].filter((c) => c.rows.length)
@@ -294,6 +362,12 @@
       <p class="mt-1 text-dim">{d.vendorName}</p>
     {/if}
     {#if d.description}<p class="mt-2 max-w-[70ch] text-dim">{d.description}</p>{/if}
+    {#if devicePriceLabel(d)}
+      <p class="mt-3 flex items-baseline gap-2">
+        <span class="text-[1.25rem] font-bold">{devicePriceLabel(d)}</span>
+        <span class="text-[0.78rem] text-dim">approx.{#if d.price?.asOf} · {d.price.asOf}{/if}</span>
+      </p>
+    {/if}
     {#if d.product_url}<a class="mt-3 inline-block text-[0.9rem] text-accent2 hover:underline" href={d.product_url} target="_blank" rel="noreferrer">Product page ↗</a>{/if}
   </div>
 </header>
@@ -349,6 +423,8 @@
               {#each radio.frequencyVariants as band, i}{@const fp = resolveFrequency(band)}{#if i > 0}, {/if}{#if fp}<span title={[fp.region, fp.range].filter(Boolean).join(' · ')} class="cursor-help underline decoration-dotted decoration-edge underline-offset-2">{fp.name}</span>{:else}{band}{/if}{/each}
             </dd>
           {/if}
+          {#if known(radio.txPowerDbm)}<dt class="text-dim">TX power</dt><dd class="text-right font-medium">{radio.txPowerDbm} dBm</dd>{/if}
+          {#if known(radio.antenna)}<dt class="text-dim">Antenna</dt><dd class="text-right font-medium">{radio.antenna}</dd>{/if}
         </dl>
       </div>
     {/each}

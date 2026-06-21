@@ -1,38 +1,99 @@
-# Source: meshcore-dev/flasher.meshcore.io config.json
-name: Heltec v4
+# Source: https://heltec.org/project/wifi-lora-32-v4/
+name: Heltec V4
 vendorId: heltec
-kind: product
+kind: dev-board
 lifecycle: active
 familyId: heltec-wifi-lora-32
-revision: '4'
+revision: '4.3'
 aliases:
+  - Heltec WiFi LoRa 32 V4
   - WiFi LoRa 32 V4
+  - WiFi LoRa 32 V4.3.1
 replaces: heltec-v3
 image: heltec_v4.svg
 official: true
+product_url: https://heltec.org/project/wifi-lora-32-v4/
+price:
+  amount: 18
+  currency: USD
+  asOf: 2026-06
+description: >-
+  ESP32-S3R2 + SX1262 successor to Heltec V3 with 16 MB flash, 2 MB PSRAM, and
+  up to 28 dBm LoRa TX power. Same 0.96-inch OLED and largely V3-compatible
+  pinout, plus solar input, optional GNSS header, and built-in 2.4 GHz FPC
+  antenna. Native USB-C (no CP2102). Widely used for Meshtastic and MeshCore.
 roles:
   - companion
   - repeater
   - room-server
+  - standalone-ui
 transports:
   - ble
   - usb
 hardware:
   mcu:
-    model: esp32
+    model: esp32-s3
+    flashMb: 16
+    psramMb: 2
+  radios:
+    - technology: lora
+      chip: sx1262
+      frequencyVariants:
+        - '433'
+        - '470'
+        - '868'
+        - '915'
+      txPowerDbm: 28
+      antenna: IPEX-1.0
   display:
-    status: unknown
+    status: present
+    technology: oled
+    controller: SSD1306
+    size: 0.96
+    resolution:
+      width: 128
+      height: 64
+    colors: monochrome
   gnss:
-    status: unknown
+    status: none
+  power:
+    batterySupported: true
+    batteryBuiltIn: false
+    batteryConnector: SH1.25-2
+    charging: true
+    solarInput: true
+  expansion:
+    - type: header-2.54
+      count: 2
+      pins: 18
+    - type: header-2.54
+      count: 2
+      pins: 2
+    - type: gnss-1.25-8
+      count: 1
+      pins: 8
+  enclosure:
+    builtIn: false
+  physical:
+    dimensionsMm:
+      width: 51.7
+      height: 25.4
+      depth: 10.7
+    weightG: 35
+  environmental:
+    operatingTempC:
+      min: -20
+      max: 70
 interfaces:
   usb:
-    connector: unknown
+    connector: USB-C
     capabilities:
       - power
       - serial
       - flashing
   bluetooth:
-    version: unknown
+    version: '5.0'
     ble: true
   wifi:
     status: present
+    standard: 802.11 b/g/n

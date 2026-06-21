@@ -1,37 +1,89 @@
-# Source: meshcore-dev/flasher.meshcore.io config.json
-name: Heltec v2
+# Source: https://heltec.org/project/wifi-lora-32v2/
+name: Heltec V2
 vendorId: heltec
-kind: product
-lifecycle: active
+kind: dev-board
+lifecycle: discontinued
 familyId: heltec-wifi-lora-32
 revision: '2'
 aliases:
   - WiFi LoRa 32 V2
 image: heltec_v2.svg
 official: true
+product_url: https://heltec.org/project/wifi-lora-32v2/
+price:
+  amount: 18
+  currency: USD
+  asOf: 2026-06
+description: >-
+  Classic ESP32 + SX1276/SX1278 LoRa development board with integrated 0.96-inch
+  OLED, Wi-Fi, and BLE. Micro USB and CP2102 serial, SH1.25 battery connector
+  with charge management, and IPEX LoRa antenna. Phased out — Heltec recommends
+  V3 or newer for new projects.
 roles:
   - companion
   - repeater
   - room-server
+  - standalone-ui
 transports:
   - ble
   - usb
 hardware:
   mcu:
     model: esp32
+    flashMb: 8
+  radios:
+    - technology: lora
+      chip: sx1276
+      frequencyVariants:
+        - '433'
+        - '470'
+        - '868'
+        - '915'
+      txPowerDbm: 19
+      antenna: IPEX-1.0
   display:
-    status: unknown
+    status: present
+    technology: oled
+    controller: SSD1306
+    size: 0.96
+    resolution:
+      width: 128
+      height: 64
+    colors: monochrome
   gnss:
-    status: unknown
+    status: none
+  power:
+    batterySupported: true
+    batteryBuiltIn: false
+    batteryConnector: SH1.25-2
+    charging: true
+  expansion:
+    - type: header-2.54
+      count: 2
+      pins: 18
+  enclosure:
+    builtIn: false
+  physical:
+    dimensionsMm:
+      width: 51
+      height: 25.5
+      depth: 10.6
+    weightG: 35
+  environmental:
+    operatingTempC:
+      min: -20
+      max: 70
 interfaces:
   usb:
-    connector: unknown
+    connector: Micro-USB
+    bridge: CP2102
     capabilities:
       - power
       - serial
       - flashing
   bluetooth:
-    version: unknown
+    version: '4.2'
     ble: true
   wifi:
     status: present
+    standard: 802.11 b/g/n
