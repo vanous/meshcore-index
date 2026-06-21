@@ -164,6 +164,18 @@ for (const d of devices) {
   if (d.data.replaces && !deviceIds.has(d.data.replaces)) {
     err(d.where, `replaces "${d.data.replaces}" has no data/devices/ entry`);
   }
+  if (d.data.image) {
+    const imagePath = join(root, 'data', 'devices', d.id, d.data.image);
+    if (!existsSync(imagePath)) {
+      err(d.where, `image "${d.data.image}" file not found`);
+    }
+  }
+  if (d.data.datasheet) {
+    const datasheetPath = join(root, 'data', 'devices', d.id, d.data.datasheet);
+    if (!existsSync(datasheetPath)) {
+      err(d.where, `datasheet "${d.data.datasheet}" file not found`);
+    }
+  }
 }
 for (const f of firmwares) {
   for (const ref of f.data.devices ?? []) {

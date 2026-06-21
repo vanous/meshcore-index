@@ -1,34 +1,101 @@
-# Source: meshcore-dev/flasher.meshcore.io config.json
+# Source: https://www.elecrow.com/thinknode-m5-meshtastic-lora-signal-transceiver-esp32-s3-1-54-screen-gps-function.html
 name: Elecrow ThinkNode M5
 vendorId: elecrow
 kind: product
 lifecycle: active
 familyId: elecrow-elecrow-thinknode-m5
+aliases:
+  - ThinkNode M5
 image: thinknode_m5.svg
+datasheet: datasheet.pdf
 official: true
+product_url: https://www.elecrow.com/thinknode-m5-meshtastic-lora-signal-transceiver-esp32-s3-1-54-screen-gps-function.html
+price:
+  amount: 53.9
+  currency: USD
+  asOf: 2026-06
+description: >-
+  Handheld ESP32-S3 + SX1262 Meshtastic/MeshCore transceiver with a 1.54-inch
+  E-Paper display, front-light, GPS, RTC, buzzer, and 1200 mAh battery. Ships in
+  an ABS enclosure with RP-SMA LoRa antenna and USB-C charging/programming.
 roles:
   - companion
   - repeater
   - room-server
+  - standalone-ui
 transports:
   - ble
   - usb
+  - wifi
 hardware:
   mcu:
-    model: esp32
+    model: esp32-s3
+    flashMb: 4
+    psramMb: 8
+  radios:
+    - technology: lora
+      chip: sx1262
+      frequencyVariants:
+        - '868'
+        - '915'
+      txPowerDbm: 22
+      antenna: RP-SMA
   display:
-    status: unknown
+    status: present
+    technology: e-paper
+    controller: SSD1681
+    size: 1.54
+    resolution:
+      width: 200
+      height: 200
+    colors: monochrome
+    touch: false
   gnss:
-    status: unknown
+    status: present
+    chip: L76K
+  input:
+    - type: encoder
+      description: rotary power/backlight knob
+    - type: button
+      description: function button (location ping, backlight, SOS, standby)
+    - type: button
+      description: page turn button
+    - type: button
+      description: reset button
+    - type: button
+      description: GPS switch
+  power:
+    batterySupported: true
+    batteryBuiltIn: true
+    batteryCapacityMah: 1200
+    charging: true
+  enclosure:
+    builtIn: true
+  physical:
+    dimensionsMm:
+      width: 82
+      height: 51.6
+      depth: 26.3
+    weightG: 81
+  environmental:
+    operatingTempC:
+      min: -10
+      max: 50
+  certifications:
+    - FCC
+    - CE
+    - IC
+    - UL
 interfaces:
   usb:
-    connector: unknown
+    connector: USB-C
     capabilities:
       - power
       - serial
       - flashing
   bluetooth:
-    version: unknown
+    version: '5.0'
     ble: true
   wifi:
     status: present
+    standard: 802.11 b/g/n

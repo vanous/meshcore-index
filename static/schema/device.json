@@ -91,6 +91,11 @@
       "type": "string",
       "pattern": "\\.svg$"
     },
+    "datasheet": {
+      "type": "string",
+      "pattern": "\\.pdf$",
+      "description": "PDF filename in the same directory as device.yaml; served from the repo."
+    },
     "official": {
       "type": "boolean"
     },

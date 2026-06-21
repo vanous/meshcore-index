@@ -1,38 +1,84 @@
-# Source: meshcore-dev/flasher.meshcore.io config.json
+# Source: https://lilygo.cc/en-us/products/t-echo-lilygo · https://github.com/Xinyuan-LilyGO/T-Echo
 name: LilyGo T-Echo
 vendorId: lilygo
 kind: product
 lifecycle: active
 familyId: lilygo-t-echo
+aliases:
+  - T-Echo
+  - T-Echo LILYGO
 image: lilygo_techo.svg
 official: true
+product_url: https://lilygo.cc/en-us/products/t-echo-lilygo
+price:
+  amount: 45
+  currency: USD
+  asOf: 2026-06
+description: >-
+  Ultra-low-power nRF52840 + SX1262 Meshtastic/MeshCore handheld with a 1.54-inch
+  e-paper display and built-in L76K GNSS. Ships with ABS enclosure, 850 mAh
+  Li-ion battery, and USB-C charging. Bluetooth 5 only — no Wi-Fi. Optional
+  BME280 environmental sensor variant; FCC, CE, and MIC certified.
 roles:
   - companion
   - repeater
   - room-server
+  - standalone-ui
 transports:
   - ble
   - usb
 hardware:
   mcu:
-    model: nrf52
+    model: nrf52840
+    flashMb: 2
+  radios:
+    - technology: lora
+      chip: sx1262
+      frequencyVariants:
+        - '433'
+        - '868'
+        - '915'
+        - 920-923MHz
+      txPowerDbm: 22
   display:
-    status: unknown
+    status: present
+    technology: e-paper
+    controller: SSD1680
+    size: 1.54
+    resolution:
+      width: 200
+      height: 200
+    colors: monochrome
   gnss:
-    status: unknown
+    status: present
+    chip: L76K
   power:
     batterySupported: true
+    batteryBuiltIn: true
+    batteryCapacityMah: 850
+    batteryConnector: MX1.25-2
     charging: true
-    solarInput: false
+  enclosure:
+    builtIn: true
+  physical:
+    dimensionsMm:
+      width: 66
+      height: 53.5
+      depth: 24
+    weightG: 131
+  certifications:
+    - FCC
+    - CE
+    - MIC
 interfaces:
   usb:
-    connector: unknown
+    connector: USB-C
     capabilities:
       - power
       - serial
       - flashing
   bluetooth:
-    version: unknown
+    version: '5.0'
     ble: true
   wifi:
-    status: unknown
+    status: none

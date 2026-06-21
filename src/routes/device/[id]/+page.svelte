@@ -368,7 +368,12 @@
         <span class="text-[0.78rem] text-dim">approx.{#if d.price?.asOf} · {d.price.asOf}{/if}</span>
       </p>
     {/if}
-    {#if d.product_url}<a class="mt-3 inline-block text-[0.9rem] text-accent2 hover:underline" href={d.product_url} target="_blank" rel="noreferrer">Product page ↗</a>{/if}
+    {#if d.product_url || d.datasheetUrl}
+      <div class="mt-3 flex flex-wrap gap-x-4 gap-y-1 text-[0.9rem]">
+        {#if d.product_url}<a class="text-accent2 hover:underline" href={d.product_url} target="_blank" rel="noreferrer">Product page ↗</a>{/if}
+        {#if d.datasheetUrl}<a class="text-accent2 hover:underline" href={d.datasheetUrl} target="_blank" rel="noreferrer">Datasheet ↗</a>{/if}
+      </div>
+    {/if}
   </div>
 </header>
 

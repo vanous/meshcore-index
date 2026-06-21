@@ -16,6 +16,13 @@ function urlMap(glob) {
 const imageByDevice = urlMap(
   import.meta.glob('../../data/devices/*/*.svg', { query: '?url', import: 'default', eager: true })
 );
+const datasheetByDeviceFile = {};
+for (const [path, url] of Object.entries(
+  import.meta.glob('../../data/devices/*/*.pdf', { query: '?url', import: 'default', eager: true })
+)) {
+  const parts = path.split('/');
+  datasheetByDeviceFile[`${parts.at(-2)}/${parts.at(-1)}`] = url;
+}
 const logoByVendorFile = {};
 for (const [path, url] of Object.entries(
   import.meta.glob('../../data/vendors/*/*.{svg,png,jpg,jpeg,webp}', {
@@ -40,6 +47,7 @@ const vendorById = new Map(vendors.map((v) => [v.id, v]));
 export const devices = dataset.devices.map((d) => ({
   ...d,
   imageUrl: imageByDevice[d.id] ?? null,
+  datasheetUrl: d.datasheet ? (datasheetByDeviceFile[`${d.id}/${d.datasheet}`] ?? null) : null,
   vendor: d.vendorId ? vendorById.get(d.vendorId) ?? null : null
 }));
 

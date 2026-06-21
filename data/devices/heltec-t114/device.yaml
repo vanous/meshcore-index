@@ -1,34 +1,90 @@
-# Source: meshcore-dev/flasher.meshcore.io config.json
+# Source: https://heltec.org/project/mesh-node-t114/
 name: Heltec T114
 vendorId: heltec
 kind: product
 lifecycle: active
 familyId: heltec-t114
+aliases:
+  - Mesh Node T114
+  - Heltec Mesh Node T114
+  - HT-n5262
 image: heltec_t114.svg
+datasheet: datasheet.pdf
 official: true
+product_url: https://heltec.org/project/mesh-node-t114/
+price:
+  amount: 17.9
+  currency: USD
+  asOf: 2026-06
+description: >-
+  Compact nRF52840 + SX1262 development board for Meshtastic/MeshCore and
+  LoRaWAN. Optional 1.14-inch TFT display and L76K GNSS module, dual battery and
+  solar connectors, IPEX-1 LoRa antenna, and USB-C. No built-in battery.
 roles:
   - companion
   - repeater
   - room-server
+  - standalone-ui
 transports:
   - ble
   - usb
 hardware:
   mcu:
-    model: nrf52
+    model: nrf52840
+    flashMb: 1
+  radios:
+    - technology: lora
+      chip: sx1262
+      frequencyVariants:
+        - '433'
+        - '470'
+        - '868'
+        - '915'
+      txPowerDbm: 21
+      antenna: IPEX-1.0
   display:
-    status: unknown
+    status: present
+    technology: display
+    controller: LH114T-IF03
+    size: 1.14
+    resolution:
+      width: 135
+      height: 240
+    colors: color
+    touch: false
   gnss:
-    status: unknown
+    status: present
+    chip: L76K
+  input:
+    - type: button
+      description: user button
+  power:
+    batterySupported: true
+    charging: true
+    solarInput: true
+    batteryConnector: SH1.25-2
+  expansion:
+    - type: header-2.54
+      count: 2
+      pins: 13
+    - type: connector
+      count: 1
+      pins: 8
+      interfaces:
+        - GNSS
+  environmental:
+    operatingTempC:
+      min: -20
+      max: 70
 interfaces:
   usb:
-    connector: unknown
+    connector: USB-C
     capabilities:
       - power
       - serial
       - flashing
   bluetooth:
-    version: unknown
+    version: '5.0'
     ble: true
   wifi:
-    status: unknown
+    status: none

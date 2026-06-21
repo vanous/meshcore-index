@@ -9,6 +9,7 @@ aliases:
   - WiFi LoRa 32 V3
 replaces: heltec-v2
 image: heltec_v3.svg
+datasheet: datasheet.pdf
 official: true
 product_url: https://heltec.org/project/wifi-lora-32-v3/
 price:

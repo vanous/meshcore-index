@@ -169,3 +169,11 @@ gnss:
     name: Quectel L76K
     vendor: Quectel
     url: https://www.quectel.com/product/gnss-l76k
+  MIA-M10Q:
+    name: u-blox MIA-M10Q
+    vendor: u-blox
+    url: https://www.u-blox.com/en/product/mia-m10q-series
+  AG3335:
+    name: MediaTek AG3335
+    vendor: MediaTek
+    url: https://www.mediatek.com/products/iot-mt3335

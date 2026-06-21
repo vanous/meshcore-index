@@ -1,25 +1,93 @@
-# Source: meshcore-dev/flasher.meshcore.io config.json
+# Source: https://lilygo.cc/en-us/products/t-lora-pager · https://github.com/Xinyuan-LilyGO/LilyGoLib/blob/master/docs/lilygo-t-lora-pager.md
 name: LilyGo T-Lora Pager
 vendorId: lilygo
 kind: product
 lifecycle: active
 familyId: lilygo-t-lora-pager
+aliases:
+  - T-Lora Pager
 image: lilygo_pager.svg
 official: true
+product_url: https://lilygo.cc/en-us/products/t-lora-pager
+price:
+  amount: 87
+  currency: USD
+  asOf: 2026-06
+description: >-
+  ESP32-S3 handheld Meshtastic/MeshCore pager with SX1262 LoRa, 2.33-inch IPS
+  display, QWERTY keyboard, and rotary encoder. Built-in u-blox MIA-M10Q GNSS,
+  1500 mAh battery, microphone/speaker, NFC, and BHI260AP AI IMU. Wi-Fi and
+  BLE. Optional LR1121 or other radio variants available at purchase.
 roles:
+  - companion
+  - repeater
+  - room-server
   - standalone-ui
+transports:
+  - ble
+  - usb
+  - wifi
 hardware:
   mcu:
-    model: esp32
+    model: esp32-s3
+    flashMb: 16
+    psramMb: 8
+  radios:
+    - technology: lora
+      chip: sx1262
+      frequencyVariants:
+        - '433'
+        - '868'
+        - '915'
+        - '920'
+      txPowerDbm: 22
+      antenna: foldable
   display:
     status: present
     technology: display
+    controller: ST7796
+    size: 2.33
+    resolution:
+      width: 222
+      height: 480
+    colors: color
   gnss:
-    status: unknown
+    status: present
+    chip: MIA-M10Q
+  input:
+    - type: keyboard
+      description: QWERTY
+    - type: encoder
+    - type: microphone
+    - type: speaker
   power:
     batterySupported: true
+    batteryBuiltIn: true
+    batteryCapacityMah: 1500
+    batteryConnector: JST1.25-2
     charging: true
-    solarInput: false
+    pmic: BQ25896
+  expansion:
+    - type: microsd
+      count: 1
+  enclosure:
+    builtIn: true
+  physical:
+    dimensionsMm:
+      width: 106
+      height: 89
+      depth: 23
+    weightG: 250
 interfaces:
+  usb:
+    connector: USB-C
+    capabilities:
+      - power
+      - serial
+      - flashing
+  bluetooth:
+    version: '5.0'
+    ble: true
   wifi:
     status: present
+    standard: 802.11 b/g/n

@@ -1,34 +1,73 @@
-# Source: meshcore-dev/flasher.meshcore.io config.json
+# Source: https://www.seeedstudio.com/SenseCAP-Card-Tracker-T1000-E-for-Meshtastic-p-5913.html · https://wiki.seeedstudio.com/t1000_e_intro/
 name: Seeed Studio SenseCAP T1000-E
 vendorId: seeed
 kind: product
 lifecycle: active
 familyId: seeed-sensecap-t1000-e
+aliases:
+  - SenseCAP T1000-E
+  - T1000-E
 image: sensecap_t1000e.svg
+datasheet: datasheet.pdf
 official: true
+product_url: https://www.seeedstudio.com/SenseCAP-Card-Tracker-T1000-E-for-Meshtastic-p-5913.html
+price:
+  amount: 40
+  currency: USD
+  asOf: 2026-06
+description: >-
+  Credit-card-sized Meshtastic/MeshCore tracker with nRF52840, Semtech LR1110
+  LoRa (863–928 MHz), and MediaTek AG3335 GNSS. Built-in 700 mAh battery,
+  temperature and light sensors, buzzer, and IP65 enclosure. Charges via
+  included magnetic USB cable; BLE configuration only — no display or Wi-Fi.
 roles:
   - companion
   - repeater
   - room-server
 transports:
   - ble
-  - usb
 hardware:
   mcu:
-    model: nrf52
+    model: nrf52840
+    flashMb: 1
+  radios:
+    - technology: lora
+      chip: lr1110
+      frequencyVariants:
+        - 863-928MHz
+      antenna: internal
   display:
-    status: unknown
+    status: none
   gnss:
-    status: unknown
+    status: present
+    chip: AG3335
+  input:
+    - type: button
+  power:
+    batterySupported: true
+    batteryBuiltIn: true
+    batteryCapacityMah: 700
+    batteryConnector: magnetic-4pin
+    charging: true
+  enclosure:
+    builtIn: true
+    ipRating: IP65
+  physical:
+    dimensionsMm:
+      width: 85
+      height: 55
+      depth: 6.5
+    weightG: 32
+  environmental:
+    operatingTempC:
+      min: -20
+      max: 60
+  certifications:
+    - FCC
+    - CE
 interfaces:
-  usb:
-    connector: unknown
-    capabilities:
-      - power
-      - serial
-      - flashing
   bluetooth:
-    version: unknown
+    version: '5.1'
     ble: true
   wifi:
-    status: unknown
+    status: none

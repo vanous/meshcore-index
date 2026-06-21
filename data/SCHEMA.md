@@ -1,5 +1,8 @@
 # Data schema
 
+> **Agents:** see [`AGENTS.md`](../AGENTS.md) for editing conventions, datasheets,
+> naming, and validation checklist.
+
 The site is generated entirely from human-readable YAML in this `data/` folder.
 No database server — just files you can edit and review in a PR.
 
@@ -7,7 +10,7 @@ There are four independent collections:
 
 ```
 data/firmwares/<id>/firmware.yaml
-data/devices/<id>/device.yaml   (+ optional <image>.svg)
+data/devices/<id>/device.yaml   (+ optional <image>.svg, <datasheet>.pdf)
 data/vendors/<id>/vendor.yaml   (+ logo.svg)
 data/compatibility/<firmware-id>/<firmware-version>/<device-id>.yaml
 ```
@@ -148,18 +151,19 @@ Create `data/devices/<id>/device.yaml`.
 
 | Field             | Required | Type     | Notes |
 |-------------------|----------|----------|-------|
-| `name`            | yes      | string   | Human-readable board name. |
+| `name`            | yes      | string   | Short display name — see [`AGENTS.md`](../AGENTS.md) naming rules. |
 | `vendorId`        | no       | string   | References a `data/vendors/<id>/` directory. Optional — a device need not have a vendor. |
 | `kind`            | no       | enum     | `product`, `dev-board`, `module`, `kit`, or `generic-build`. |
 | `lifecycle`       | no       | enum     | `announced`, `active`, `discontinued`, or `unknown`. |
 | `familyId`        | no       | string   | Shared family/group id for related boards. |
 | `revision`        | no       | string   | Hardware revision label. |
 | `variantOf`       | no       | string   | Device id this record varies from. |
-| `aliases`         | no       | string[] | Alternate product names. |
+| `aliases`         | no       | string[] | Longer official titles, module codes, alternate names. |
 | `replaces`        | no       | string   | Older device id this record replaces. |
-| `product_url`     | no       | url      | Product, docs, or datasheet page for the board/module. |
+| `product_url`     | no       | url      | Vendor product or marketing page. |
 | `official`        | no       | bool     | `true` if listed in the official MeshCore flasher. |
 | `image`           | no       | string   | SVG filename placed in the same directory; shown as the thumbnail. |
+| `datasheet`       | no       | string   | PDF filename in the same directory (e.g. `datasheet.pdf`); immutable copy of the vendor spec sheet. |
 | `roles`           | no       | enum[]   | Canonical roles: `companion`, `repeater`, `room-server`, `observer`, `sensor`, `kiss-modem`, `standalone-ui`. |
 | `transports`      | no       | enum[]   | Canonical transports: `ble`, `usb`, `tcp`, `wifi`, `ethernet`, `serial`. |
 | `hardware`        | yes      | object   | Structured hardware details; `hardware.mcu` is required, absent optional values mean unknown. |
@@ -169,6 +173,12 @@ Create `data/devices/<id>/device.yaml`.
 Most boards were generated from the official flasher
 [`config.json`](https://github.com/meshcore-dev/flasher.meshcore.io/blob/main/config.json);
 their thumbnails come from that repo's `img/` folder.
+
+**Datasheets:** place a vendor PDF in the device directory (e.g.
+`data/devices/heltec-v3/datasheet.pdf`) and set `datasheet: datasheet.pdf` in
+`device.yaml` — same pattern as `image`. Do not put the PDF URL in a comment;
+download the file and commit it so specs stay available if the vendor link breaks.
+Validation checks that the file exists when the field is set.
 
 Use structured fields instead of deprecated flat aliases such as `mcu`, `radio`,
 `gps`, `display`, `battery`, `connectivity`, or upstream `flasher_roles`.

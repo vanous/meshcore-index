@@ -12,12 +12,13 @@ const projectRoot = fileURLToPath(new URL('.', import.meta.url));
 function yamlDataPlugin() {
   const dataDir = join(projectRoot, 'data');
   const isYaml = (f) => f.startsWith(dataDir) && /\.ya?ml$/.test(f);
+  const isDeviceAsset = (f) => f.startsWith(join(dataDir, 'devices')) && /\.(svg|pdf)$/.test(f);
   return {
     name: 'meshcore-yaml-data',
     configureServer(server) {
       server.watcher.add(dataDir);
       const regen = async (file) => {
-        if (!isYaml(file)) return;
+        if (!isYaml(file) && !isDeviceAsset(file)) return;
         try {
           const c = await buildData(projectRoot);
           server.config.logger.info(
