@@ -114,7 +114,7 @@
   );
 </script>
 
-<svelte:head><title>Compare devices — MeshCore Firmware Atlas</title></svelte:head>
+<svelte:head><title>Compare devices — MeshCore Index</title></svelte:head>
 
 <div class="mb-4 flex flex-wrap items-center justify-between gap-3">
   <div>

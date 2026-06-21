@@ -336,7 +336,7 @@
   {/if}
 {/snippet}
 
-<svelte:head><title>{d.name} — MeshCore Firmware Atlas</title></svelte:head>
+<svelte:head><title>{d.name} — MeshCore Index</title></svelte:head>
 
 <a class="mb-4 inline-block text-[0.9rem] text-dim hover:underline" href="{base}/devices/">← All devices</a>
 

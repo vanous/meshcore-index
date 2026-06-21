@@ -5,7 +5,7 @@
   let fw = $derived(data.firmware);
 </script>
 
-<svelte:head><title>{fw.name} releases — MeshCore Firmware Atlas</title></svelte:head>
+<svelte:head><title>{fw.name} releases — MeshCore Index</title></svelte:head>
 
 <a class="mb-4 inline-block text-[0.9rem] text-dim hover:underline" href="{base}/firmware/{fw.id}/">← {fw.name}</a>
 

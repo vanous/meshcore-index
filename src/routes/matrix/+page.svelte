@@ -4,7 +4,7 @@
   let { data } = $props();
 </script>
 
-<svelte:head><title>Compatibility Matrix — MeshCore Firmware Atlas</title></svelte:head>
+<svelte:head><title>Compatibility Matrix — MeshCore Index</title></svelte:head>
 
 <h1 class="mb-1 text-[clamp(1.5rem,5vw,2rem)] font-bold">Compatibility matrix</h1>
 <p class="mb-4 max-w-[60ch] text-dim">

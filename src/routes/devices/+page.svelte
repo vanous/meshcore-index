@@ -110,7 +110,7 @@
   const chipOff = 'border-edge bg-elev text-dim hover:border-accent/60 hover:text-ink';
 </script>
 
-<svelte:head><title>Devices — MeshCore Firmware Atlas</title></svelte:head>
+<svelte:head><title>Devices — MeshCore Index</title></svelte:head>
 
 <h1 class="mb-1 text-[clamp(1.5rem,5vw,2rem)] font-bold">Devices</h1>
 <p class="mb-4 text-dim">Hardware known to run one or more MeshCore firmwares.</p>

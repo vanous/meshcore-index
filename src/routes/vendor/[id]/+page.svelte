@@ -5,7 +5,7 @@
   let v = $derived(data.vendor);
 </script>
 
-<svelte:head><title>{v.name} — MeshCore Firmware Atlas</title></svelte:head>
+<svelte:head><title>{v.name} — MeshCore Index</title></svelte:head>
 
 <a class="mb-4 inline-block text-[0.9rem] text-dim hover:underline" href="{base}/vendors/">← All vendors</a>
 

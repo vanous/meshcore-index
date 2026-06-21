@@ -37,7 +37,7 @@
   >
     <a class="flex items-center gap-2 text-[1.05rem] font-bold" href="{base}/">
       <span class="text-[1.3rem] text-accent">◇</span>
-      <span>MeshCore Firmware Atlas</span>
+      <span>MeshCore Index</span>
     </a>
     <nav class="flex items-center gap-1">
       {#each nav as item}

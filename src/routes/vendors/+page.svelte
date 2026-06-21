@@ -3,7 +3,7 @@
   let { data } = $props();
 </script>
 
-<svelte:head><title>Vendors — MeshCore Firmware Atlas</title></svelte:head>
+<svelte:head><title>Vendors — MeshCore Index</title></svelte:head>
 
 <h1 class="mb-1 text-[clamp(1.5rem,5vw,2rem)] font-bold">Vendors</h1>
 <p class="mb-5 text-dim">Hardware makers whose boards run MeshCore firmware.</p>

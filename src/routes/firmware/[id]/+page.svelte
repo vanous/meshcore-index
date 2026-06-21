@@ -10,7 +10,7 @@
   let previewGroups = $derived(releaseGroups.slice(0, PREVIEW));
 </script>
 
-<svelte:head><title>{fw.name} — MeshCore Firmware Atlas</title></svelte:head>
+<svelte:head><title>{fw.name} — MeshCore Index</title></svelte:head>
 
 <a class="mb-4 inline-block text-[0.9rem] text-dim hover:underline" href="{base}/">← All firmwares</a>
 

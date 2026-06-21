@@ -29,10 +29,10 @@
   );
 </script>
 
-<svelte:head><title>MeshCore Firmware Atlas</title></svelte:head>
+<svelte:head><title>MeshCore Index</title></svelte:head>
 
 <section class="mb-7">
-  <h1 class="mb-1.5 text-[clamp(1.6rem,5vw,2.2rem)] font-bold">MeshCore Firmware Atlas</h1>
+  <h1 class="mb-1.5 text-[clamp(1.6rem,5vw,2.2rem)] font-bold">MeshCore Index</h1>
   <p class="max-w-[60ch] text-dim">
     A catalog of official and community MeshCore firmwares and the
     <a class="text-accent2 hover:underline" href="{base}/devices/">devices</a> they run on — with
