@@ -1,0 +1,55 @@
+name: Saitama
+type: fork
+maintainer: 868meshbot
+description: >
+  An open-source standalone firmware for LoRa mesh devices built on MeshCore, designed for the
+  LilyGo T-Deck and T-Deck Plus. Provides smartphone-grade messaging, GPS maps, encrypted comms,
+  and more — all running directly on the device with no phone, internet, or license required.
+repository: https://github.com/868meshbot/Saitama
+license: GPL-3.0
+status: active
+lifecycle: active
+maturity: beta
+distribution: community
+lineage:
+  kind: fork
+  upstreamFirmwareId: meshcore-official
+  upstreamRepository: https://github.com/meshcore-dev/MeshCore
+runtime:
+  framework: arduino
+  language: cpp
+roles:
+  - companion
+  - standalone-ui
+features:
+  - Standalone messaging (no phone needed)
+  - GPS maps
+  - Encrypted communications
+  - Channel and direct messaging
+  - No accounts or licensing
+capabilities:
+  protocol:
+    meshcoreCompatible: true
+  transports:
+    ble: true
+    usbSerial: true
+    nativeTcp: false
+    wifiAp: false
+  operations:
+    ota: false
+    webFlasher: false
+  networking:
+    repeater: false
+    roomServer: false
+    observer: false
+    kissModem: false
+  hardware:
+    gps: true
+    display: true
+    sensors: false
+    lowPowerRx: false
+devices:
+  # Source: README — primary target, hardware-tested
+  - id: lilygo-t-deck
+    status: supported
+    notes: T-Deck Plus — primary target, compiled and hardware-tested.

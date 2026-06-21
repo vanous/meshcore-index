@@ -1,0 +1,64 @@
+name: Offband Mesh
+type: fork
+maintainer: OffbandMesh
+description: >
+  A MeshCore fork for cross-role firmware enhancements and optimization. Active roles include
+  companion/observer with WiFi+MQTT observation publishing, NimBLE migration, web UI, and repeater
+  with MQTT-to-Mosquitto bridging, burst-WiFi telemetry, heap and power tuning.
+repository: https://github.com/OffbandMesh/meshcore-firmware
+license: MIT
+status: active
+lifecycle: active
+maturity: beta
+distribution: community
+lineage:
+  kind: fork
+  upstreamFirmwareId: meshcore-official
+  upstreamRepository: https://github.com/meshcore-dev/MeshCore
+runtime:
+  framework: arduino
+  language: cpp
+roles:
+  - companion
+  - repeater
+  - observer
+features:
+  - Companion/observer with WiFi+MQTT observation publishing
+  - NimBLE migration (off Bluedroid)
+  - CrashLog / boot-survival diagnostics
+  - MQTT-to-Mosquitto bridging (repeater)
+  - Burst-WiFi telemetry
+  - Heap and power optimization for ESP32-S3
+  - Web UI
+capabilities:
+  protocol:
+    meshcoreCompatible: true
+  transports:
+    ble: true
+    usbSerial: true
+    nativeTcp: true
+    wifiAp: true
+  operations:
+    ota: true
+    webFlasher: false
+  networking:
+    repeater: true
+    roomServer: false
+    observer: true
+    mqtt: true
+    kissModem: false
+  hardware:
+    gps: true
+    display: true
+    sensors: false
+    lowPowerRx: false
+devices:
+  # Source: README build envs — heltec_v4_companion_observer_wifi
+  - id: heltec-v4
+    status: supported
+  # Source: README build envs — Heltec_v3_companion_observer_wifi
+  - id: heltec-v3
+    status: supported
+  # Source: README build envs — Xiao_S3_WIO_companion_observer_wifi
+  - id: xiao-esp32s3
+    status: supported

@@ -1,0 +1,53 @@
+name: CubeCell MeshCore
+type: fork
+maintainer: atomozero
+description: >
+  A minimal MeshCore-compatible repeater firmware for Heltec CubeCell boards (HTCC-AB01, AB02, AC01).
+  Extends mesh coverage with flood routing, supports authenticated remote management via companion app,
+  and includes automatic daily health reports. Optimized for solar-powered deployments.
+repository: https://github.com/atomozero/CubeCellMeshCore
+license: MIT
+status: active
+lifecycle: active
+maturity: beta
+distribution: community
+lineage:
+  kind: fork
+  upstreamFirmwareId: meshcore-official
+  upstreamRepository: https://github.com/meshcore-dev/MeshCore
+runtime:
+  framework: arduino
+  language: cpp
+roles:
+  - repeater
+features:
+  - Flood routing repeater
+  - Authenticated remote management via companion app
+  - Automatic daily health reports
+  - Solar-powered optimization
+  - CubeCell board support (HTCC-AB01, AB02, AC01)
+capabilities:
+  protocol:
+    meshcoreCompatible: true
+  transports:
+    ble: false
+    usbSerial: true
+    nativeTcp: false
+    wifiAp: false
+  operations:
+    ota: false
+    webFlasher: false
+  networking:
+    repeater: true
+    roomServer: false
+    observer: false
+    kissModem: false
+  hardware:
+    gps: false
+    display: false
+    sensors: false
+    lowPowerRx: true
+devices:
+  # Source: README — primary target Heltec CubeCell HTCC-AB01
+  - id: cubecell-htcc-ab01
+    status: supported

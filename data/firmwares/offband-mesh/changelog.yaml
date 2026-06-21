@@ -1,0 +1,585 @@
+source: github
+repo: OffbandMesh/meshcore-firmware
+updatedAt: '2026-06-21T09:01:36.921Z'
+releases:
+  - version: offband-v1.0.0
+    name: Offband offband-v1.0.0
+    datetime: '2026-06-18T00:46:24Z'
+    url: https://github.com/OffbandMesh/meshcore-firmware/releases/tag/offband-v1.0.0
+    prerelease: false
+    notes: >-
+      First production-stable Offband release — companion, observer, and repeater roles
+
+      all working and hardware-verified. Built on the **MeshCore 1.16.0** base.
+
+
+      ### Base
+
+      - **MeshCore 1.16.0 base-update** (#126) — the fork is rebased onto upstream MeshCore
+        1.16.0, smoke-verified across all three active roles (Companion, Observer, Repeater)
+        on Heltec V3/V4 + RAK3401.
+
+      ### Added
+
+      - **RAK3401 (WisMesh 1W) GPS** (#104) — the RAK12500 (u-blox ZOE-M8Q) I²C GPS now works
+        in Slot D. Companion and repeater acquire a position fix. (Position only; the I²C
+        path does not sync the clock.)
+      - **Display always-on toggle** (#141) — `display always on` keeps a USB/mains-powered
+        observer's screen lit; `display normal` restores the 15 s timeout. Persists across
+        reboots, applies immediately. Heltec V3, V4 OLED, V4 TFT observers.
+      - **Display rotation (0/180)** (#148) — `display rotate 0/180` / `display flip` over the
+        `_sys` channel; persists, applies immediately. **Verified on the OLED observers
+        (Heltec V3, V4 OLED).** Displays without a verified rotation driver (the V4 TFT)
+        report `rotation not supported on this display` rather than silently no-op'ing; TFT
+        rotation is tracked separately.
+
+      ### Known issues
+
+      - **Heltec V4 observer GPS position unverified** (#149) — an attached UART GPS doesn't
+        yet surface a position on the V4 observer (reads 0,0). Observer time (NTP/SNTP) and all
+        other function are unaffected; GPS only adds the device's own map-position dot.
+
+
+      ---
+
+
+      ### Which file do I download?
+
+
+      | File | What it is | When to use it |
+
+      |---|---|---|
+
+      | `*-merged.bin` (ESP32 — Heltec V3/V4, XIAO) | **Full image** — bootloader + partition table
+      + app in one, flashed at `0x0` after a chip erase. Self-contained, works on a blank chip. |
+      **First install / clean setup.** In a web flasher this is the **"Full Firmware"** option. |
+
+      | `*.bin` (ESP32) | **App only** — flashed at the app offset (`0x10000`); the bootloader must
+      already be on the chip. | **Updating** an existing node — OTA / **"Update Only."** Keeps the
+      device identity + WiFi/MQTT config. |
+
+      | `*.uf2` (nRF52 — RAK, T-Echo, XIAO nRF52) | Complete self-contained image. | **First install
+      *and* updates** — double-tap reset, then drag-drop onto the USB drive. (nRF52 has no
+      merged/app split.) |
+
+
+      > ⚠️ **ESP32:** the app-only `*.bin` will **not boot** if flashed at `0x0` — use
+      `*-merged.bin` for a fresh install. A full erase / "Full Firmware" wipes the device's identity
+      + saved config, so use it only for a first install or recovery, **never** a routine update.
+
+
+
+      ## What's Changed
+
+      * epic(#126): MeshCore 1.16.0 base-update (integration) by @Strycher in
+      https://github.com/OffbandMesh/meshcore-firmware/pull/134
+
+
+
+      **Full Changelog**:
+      https://github.com/OffbandMesh/meshcore-firmware/compare/offband-v0.18.1...offband-v1.0.0
+  - version: offband-v0.19.0-rc1
+    name: Offband offband-v0.19.0-rc1
+    datetime: '2026-06-16T04:06:18Z'
+    url: https://github.com/OffbandMesh/meshcore-firmware/releases/tag/offband-v0.19.0-rc1
+    prerelease: true
+    notes: "## Display `_sys` enhancements (RC1 — for testing)\r\n\r\nTwo new observer/companion display controls over the `_sys` channel:\r\n\r\n- **Display always-on** (#141) — `display always on` keeps the screen lit; `display normal` restores the 15\_s blank. *(Verified: V3/V4 OLED + V4 TFT.)*\r\n- **Display rotation 0/180** (#148) — `display rotate 0` / `display rotate 180` / `display flip` flip the screen for upside-down mounting. *(Verified: V3/V4 OLED.)*\r\n\r\n> ⚠️ **TFT 180° rotation is UNVERIFIED — this is the thing to test.** On the Heltec V4 **TFT** (`heltec_v4_tft_companion_observer_wifi`), `display rotate 180` uses a best-guess MADCTL combo (`flipScreenVertically`). Please confirm it gives a clean **180° flip** (upside-down but readable), not a mirror or garbled image. `display rotate 0` should return to normal; `display flip` should toggle. Report back — it's a one-line fix if the combo is wrong.\r\n\r\n**TFT flash:** `heltec_v4_tft_companion_observer_wifi-v0.19.0-rc1-14bc32d-merged.bin` (full image — web-flasher **\"Full Firmware\"** for a fresh install), or the `.bin` (app-only) to update an existing node and keep its identity/config.\r\n\r\n---\r\n\r\n### Which file do I download?\r\n\r\n| File | What it is | When to use it |\r\n|---|---|---|\r\n| `*-merged.bin` (ESP32 — Heltec V3/V4, XIAO) | **Full image** — bootloader + partition table + app in one, flashed at `0x0` after a chip erase. Self-contained, works on a blank chip. | **First install / clean setup.** In a web flasher this is the **\"Full Firmware\"** option. |\r\n| `*.bin` (ESP32) | **App only** — flashed at the app offset (`0x10000`); the bootloader must already be on the chip. | **Updating** an existing node — OTA / **\"Update Only.\"** Keeps the device identity + WiFi/MQTT config. |\r\n| `*.uf2` (nRF52 — RAK, T-Echo, XIAO nRF52) | Complete self-contained image. | **First install *and* updates** — double-tap reset, then drag-drop onto the USB drive. (nRF52 has no merged/app split.) |\r\n\r\n> ⚠️ **ESP32:** the app-only `*.bin` will **not boot** if flashed at `0x0` — use `*-merged.bin` for a fresh install. A full erase / \"Full Firmware\" wipes the device's identity + saved config, so use it only for a first install or recovery, **never** a routine update.\r\n\r\n\r\n**Full Changelog**: https://github.com/OffbandMesh/meshcore-firmware/compare/offband-v0.18.1...offband-v0.19.0-rc1"
+  - version: offband-v0.18.1
+    name: Offband offband-v0.18.1
+    datetime: '2026-06-15T03:08:16Z'
+    url: https://github.com/OffbandMesh/meshcore-firmware/releases/tag/offband-v0.18.1
+    prerelease: false
+    notes: >-
+      ### Fixed
+
+      - **WiFi password confirmation wording** — `set wifi.pwd` now replies
+        `wifi.pwd set (N chars entered)` instead of `wifi.pwd set (length=N)`, which was
+        being misread as a 17-character maximum. The reply reports the length of what was
+        *entered* (never the secret PSK); it is not a cap. WiFi passwords accept the full
+        WPA2 range (8–63 chars).
+
+
+      ---
+
+
+      ### Which file do I download?
+
+
+      | File | What it is | When to use it |
+
+      |---|---|---|
+
+      | `*-merged.bin` (ESP32 — Heltec V3/V4, XIAO) | **Full image** — bootloader + partition table
+      + app in one, flashed at `0x0` after a chip erase. Self-contained, works on a blank chip. |
+      **First install / clean setup.** In a web flasher this is the **"Full Firmware"** option. |
+
+      | `*.bin` (ESP32) | **App only** — flashed at the app offset (`0x10000`); the bootloader must
+      already be on the chip. | **Updating** an existing node — OTA / **"Update Only."** Keeps the
+      device identity + WiFi/MQTT config. |
+
+      | `*.uf2` (nRF52 — RAK, T-Echo, XIAO nRF52) | Complete self-contained image. | **First install
+      *and* updates** — double-tap reset, then drag-drop onto the USB drive. (nRF52 has no
+      merged/app split.) |
+
+
+      > ⚠️ **ESP32:** the app-only `*.bin` will **not boot** if flashed at `0x0` — use
+      `*-merged.bin` for a fresh install. A full erase / "Full Firmware" wipes the device's identity
+      + saved config, so use it only for a first install or recovery, **never** a routine update.
+
+
+
+      ## What's Changed
+
+      * fix(observer): wifi.pwd confirmation wording (0.18.1) by @Strycher in
+      https://github.com/OffbandMesh/meshcore-firmware/pull/139
+
+
+
+      **Full Changelog**:
+      https://github.com/OffbandMesh/meshcore-firmware/compare/offband-v0.18.0...offband-v0.18.1
+  - version: offband-v0.18.0
+    name: Offband offband-v0.18.0
+    datetime: '2026-06-15T02:56:19Z'
+    url: https://github.com/OffbandMesh/meshcore-firmware/releases/tag/offband-v0.18.0
+    prerelease: false
+    notes: >-
+      ### Added
+
+      - **Heltec V4 TFT observer build** (`heltec_v4_tft_companion_observer_wifi`) — the
+        observer role on the TFT (ST7789) display variant, switched to the NimBLE stack
+        the observer requires. Added to the CI build matrix and the release env set so it
+        **always builds and ships**.
+
+      ### Changed
+
+      - **Firmware download clarity** — a "Which file?" table in the README and a static
+        footer appended to every GitHub Release, explaining `-merged.bin` (first install)
+        vs `.bin` (update) vs `.uf2` (nRF52).
+
+      ### Fixed
+
+      - **`pio-flash` device matching** — `find_in_registry` prefers an exact
+        DeviceID-instance match over a class-only label, so a registered chip is no longer
+        shadowed by a same-class device with null discriminators (fixes nRF52/ESP32
+        mislabels where two boards share a VID:PID).
+
+      ### Internal
+
+      - Wire a gitignored `HARDWARE.local.md` (symlink to the LoRa hardware inventory) plus
+        a CLAUDE.md "read before any hardware work" pointer.
+
+
+      ---
+
+
+      ### Which file do I download?
+
+
+      | File | What it is | When to use it |
+
+      |---|---|---|
+
+      | `*-merged.bin` (ESP32 — Heltec V3/V4, XIAO) | **Full image** — bootloader + partition table
+      + app in one, flashed at `0x0` after a chip erase. Self-contained, works on a blank chip. |
+      **First install / clean setup.** In a web flasher this is the **"Full Firmware"** option. |
+
+      | `*.bin` (ESP32) | **App only** — flashed at the app offset (`0x10000`); the bootloader must
+      already be on the chip. | **Updating** an existing node — OTA / **"Update Only."** Keeps the
+      device identity + WiFi/MQTT config. |
+
+      | `*.uf2` (nRF52 — RAK, T-Echo, XIAO nRF52) | Complete self-contained image. | **First install
+      *and* updates** — double-tap reset, then drag-drop onto the USB drive. (nRF52 has no
+      merged/app split.) |
+
+
+      > ⚠️ **ESP32:** the app-only `*.bin` will **not boot** if flashed at `0x0` — use
+      `*-merged.bin` for a fresh install. A full erase / "Full Firmware" wipes the device's identity
+      + saved config, so use it only for a first install or recovery, **never** a routine update.
+
+
+
+      ## What's Changed
+
+      * docs(#127): MeshCore 1.16.0 base-update merge plan by @Strycher in
+      https://github.com/OffbandMesh/meshcore-firmware/pull/133
+
+      * feat: Heltec V4 TFT observer build (always-build) + flash docs & tooling by @Strycher in
+      https://github.com/OffbandMesh/meshcore-firmware/pull/138
+
+
+
+      **Full Changelog**:
+      https://github.com/OffbandMesh/meshcore-firmware/compare/offband-v0.17.0...offband-v0.18.0
+  - version: offband-v0.17.0
+    name: Offband offband-v0.17.0
+    datetime: '2026-06-14T07:31:59Z'
+    url: https://github.com/OffbandMesh/meshcore-firmware/releases/tag/offband-v0.17.0
+    prerelease: false
+    notes: >-
+      First release under **OffbandMesh/meshcore-firmware**. Bundles the 0.16.0 observer
+
+      work below (which landed on `firmware-base` but was never separately tagged) with
+
+      the Crosswire→Offband rebrand and the OffbandMesh org cutover. *(Version pending
+
+      owner confirmation; the tag is hardware-gated per VERSIONING.md.)*
+
+
+      ### Changed
+
+      - **Rebranded the fork from Crosswire to Offband** (GitHub org `OffbandMesh`):
+        the C++ namespace, build macros, embedded identity blob, version prefix
+        (`offband-v*`), MQTT / flash-audit identity fields (`offband_*`), brand
+        strings (serial banner, `version` command, OLED splash, Home Assistant
+        manufacturer), and the WiFi setup-AP SSID (`Offband-Observer-`). Historical
+        `crosswire-v*` release tags are preserved; the `_sys` PSK domain separator
+        and the MeshCore interop topic namespace are intentionally unchanged. (#100)
+      - **Repo / board / working-dir cutover to OffbandMesh** — repo
+        `OffbandMesh/meshcore-firmware`, OffbandMesh org Projects board, and the
+        preflight / CLAUDE.md / label-sync workflow re-pointed; removed the stale
+        upstream `CNAME`. (#107, #111)
+
+      ### Docs
+
+      - Finished the rebrand reference cleanup across docs + code comments. (#113, #114)
+
+      - Release-readiness pass: README getting-started + multi-role positioning, the
+        docs index surfaces the observer guides, and observer `_sys` CLI reference
+        corrections. (#117)
+
+
+
+      ## What's Changed
+
+      * feat: observer MQTT connectivity (crosswire-v0.15.0) — #53 #48 #63 #68 by @Strycher in
+      https://github.com/OffbandMesh/meshcore-firmware/pull/72
+
+      * docs: fix README license link (LICENSE.txt -> license.txt) — #73 by @Strycher in
+      https://github.com/OffbandMesh/meshcore-firmware/pull/74
+
+      * docs: 2026-06-10 observer-MQTT session handoff — #75 by @Strycher in
+      https://github.com/OffbandMesh/meshcore-firmware/pull/76
+
+      * chore: relocate to C:/Dev/Crosswire — canonical hook sync + AM repin by @Strycher in
+      https://github.com/OffbandMesh/meshcore-firmware/pull/78
+
+      * docs(#79): correct stale active-agents line in CLAUDE.md by @Strycher in
+      https://github.com/OffbandMesh/meshcore-firmware/pull/80
+
+      * Observer: time arbiter (#69) + position in /status (#31) + _sys CLI grammar (#45) by
+      @Strycher in https://github.com/OffbandMesh/meshcore-firmware/pull/91
+
+      * Observer follow-ups: arbiter decouple + held-state (#87) + /status radio from runtime prefs
+      (#88) by @Strycher in https://github.com/OffbandMesh/meshcore-firmware/pull/92
+
+      * docs: README/CHANGELOG 0.16.0 (#93) + observer instructions (#94) by @Strycher in
+      https://github.com/OffbandMesh/meshcore-firmware/pull/99
+
+      * #95: observer MQTT broker pre-config + per-device auth by @Strycher in
+      https://github.com/OffbandMesh/meshcore-firmware/pull/105
+
+      * #98: mqtt view + mqtt clear (broker config inspection) by @Strycher in
+      https://github.com/OffbandMesh/meshcore-firmware/pull/106
+
+      * Offband rebrand: Crosswire -> Offband (code + docs) by @Strycher in
+      https://github.com/OffbandMesh/meshcore-firmware/pull/108
+
+      * chore(#107): finish OffbandMesh local cutover (preflight, CLAUDE.md, board #1) by @Strycher
+      in https://github.com/OffbandMesh/meshcore-firmware/pull/109
+
+      * chore(#111): remove stale upstream CNAME (docs.meshcore.nz) by @Strycher in
+      https://github.com/OffbandMesh/meshcore-firmware/pull/112
+
+      * docs(#113): finish rebrand — Strycher/Crosswire refs + CLAUDE.md PROJECT_PAT note by
+      @Strycher in https://github.com/OffbandMesh/meshcore-firmware/pull/115
+
+      * chore(#114): update stale Strycher/Crosswire# refs in code comments -> #N by @Strycher in
+      https://github.com/OffbandMesh/meshcore-firmware/pull/116
+
+      * epic(#117): Offband release-readiness — docs, observer reference, CHANGELOG prep by
+      @Strycher in https://github.com/OffbandMesh/meshcore-firmware/pull/125
+
+
+
+      **Full Changelog**:
+      https://github.com/OffbandMesh/meshcore-firmware/compare/crosswire-v0.14.0...offband-v0.17.0
+  - version: offband-v0.18.0-rc1
+    name: Offband offband-v0.18.0-rc1
+    datetime: '2026-06-14T22:46:08Z'
+    url: https://github.com/OffbandMesh/meshcore-firmware/releases/tag/offband-v0.18.0-rc1
+    prerelease: true
+    notes: >-
+      (No CHANGELOG entry for v0.18.0-rc1.)
+
+
+      ---
+
+
+      ### Which file do I download?
+
+
+      | File | What it is | When to use it |
+
+      |---|---|---|
+
+      | `*-merged.bin` (ESP32 — Heltec V3/V4, XIAO) | **Full image** — bootloader + partition table
+      + app in one, flashed at `0x0` after a chip erase. Self-contained, works on a blank chip. |
+      **First install / clean setup.** In a web flasher this is the **"Full Firmware"** option. |
+
+      | `*.bin` (ESP32) | **App only** — flashed at the app offset (`0x10000`); the bootloader must
+      already be on the chip. | **Updating** an existing node — OTA / **"Update Only."** Keeps the
+      device identity + WiFi/MQTT config. |
+
+      | `*.uf2` (nRF52 — RAK, T-Echo, XIAO nRF52) | Complete self-contained image. | **First install
+      *and* updates** — double-tap reset, then drag-drop onto the USB drive. (nRF52 has no
+      merged/app split.) |
+
+
+      > ⚠️ **ESP32:** the app-only `*.bin` will **not boot** if flashed at `0x0` — use
+      `*-merged.bin` for a fresh install. A full erase / "Full Firmware" wipes the device's identity
+      + saved config, so use it only for a first install or recovery, **never** a routine update.
+
+
+
+      ## What's Changed
+
+      * docs(#127): MeshCore 1.16.0 base-update merge plan by @Strycher in
+      https://github.com/OffbandMesh/meshcore-firmware/pull/133
+
+      * feat: Heltec V4 TFT observer build (always-build) + flash docs & tooling by @Strycher in
+      https://github.com/OffbandMesh/meshcore-firmware/pull/138
+
+
+
+      **Full Changelog**:
+      https://github.com/OffbandMesh/meshcore-firmware/compare/offband-v0.17.0...offband-v0.18.0-rc1
+  - version: offband-v0.17.0-rc1
+    name: Offband offband-v0.17.0-rc1
+    datetime: '2026-06-14T07:15:36Z'
+    url: https://github.com/OffbandMesh/meshcore-firmware/releases/tag/offband-v0.17.0-rc1
+    prerelease: true
+    notes: >-
+      (No CHANGELOG entry for v0.17.0-rc1.)
+
+
+
+      ## What's Changed
+
+      * feat: observer MQTT connectivity (crosswire-v0.15.0) — #53 #48 #63 #68 by @Strycher in
+      https://github.com/OffbandMesh/meshcore-firmware/pull/72
+
+      * docs: fix README license link (LICENSE.txt -> license.txt) — #73 by @Strycher in
+      https://github.com/OffbandMesh/meshcore-firmware/pull/74
+
+      * docs: 2026-06-10 observer-MQTT session handoff — #75 by @Strycher in
+      https://github.com/OffbandMesh/meshcore-firmware/pull/76
+
+      * chore: relocate to C:/Dev/Crosswire — canonical hook sync + AM repin by @Strycher in
+      https://github.com/OffbandMesh/meshcore-firmware/pull/78
+
+      * docs(#79): correct stale active-agents line in CLAUDE.md by @Strycher in
+      https://github.com/OffbandMesh/meshcore-firmware/pull/80
+
+      * Observer: time arbiter (#69) + position in /status (#31) + _sys CLI grammar (#45) by
+      @Strycher in https://github.com/OffbandMesh/meshcore-firmware/pull/91
+
+      * Observer follow-ups: arbiter decouple + held-state (#87) + /status radio from runtime prefs
+      (#88) by @Strycher in https://github.com/OffbandMesh/meshcore-firmware/pull/92
+
+      * docs: README/CHANGELOG 0.16.0 (#93) + observer instructions (#94) by @Strycher in
+      https://github.com/OffbandMesh/meshcore-firmware/pull/99
+
+      * #95: observer MQTT broker pre-config + per-device auth by @Strycher in
+      https://github.com/OffbandMesh/meshcore-firmware/pull/105
+
+      * #98: mqtt view + mqtt clear (broker config inspection) by @Strycher in
+      https://github.com/OffbandMesh/meshcore-firmware/pull/106
+
+      * Offband rebrand: Crosswire -> Offband (code + docs) by @Strycher in
+      https://github.com/OffbandMesh/meshcore-firmware/pull/108
+
+      * chore(#107): finish OffbandMesh local cutover (preflight, CLAUDE.md, board #1) by @Strycher
+      in https://github.com/OffbandMesh/meshcore-firmware/pull/109
+
+      * chore(#111): remove stale upstream CNAME (docs.meshcore.nz) by @Strycher in
+      https://github.com/OffbandMesh/meshcore-firmware/pull/112
+
+      * docs(#113): finish rebrand — Strycher/Crosswire refs + CLAUDE.md PROJECT_PAT note by
+      @Strycher in https://github.com/OffbandMesh/meshcore-firmware/pull/115
+
+      * chore(#114): update stale Strycher/Crosswire# refs in code comments -> #N by @Strycher in
+      https://github.com/OffbandMesh/meshcore-firmware/pull/116
+
+      * epic(#117): Offband release-readiness — docs, observer reference, CHANGELOG prep by
+      @Strycher in https://github.com/OffbandMesh/meshcore-firmware/pull/125
+
+
+
+      **Full Changelog**:
+      https://github.com/OffbandMesh/meshcore-firmware/compare/crosswire-v0.14.0...offband-v0.17.0-rc1
+  - version: crosswire-v0.15.0
+    name: Crosswire crosswire-v0.15.0
+    datetime: '2026-06-10T23:43:44Z'
+    url: https://github.com/OffbandMesh/meshcore-firmware/releases/tag/crosswire-v0.15.0
+    prerelease: false
+    notes: >-
+      Observer MQTT connectivity -- hardware-validated against three brokers
+
+      (CoreScope / W8OOF tcp-anon, eastme.sh wss/jwt, LetsMesh-US wss/jwt).
+
+
+      ### Added
+
+      - Owner broker registry: seed the default 6-slot broker set with an `iata=HAO`
+        default; per-broker GTS Root R4 + ISRG Root X2 CA certificates added and
+        mapped, registry cert-names corrected. (#48)
+      - Per-broker JWT identity claims `jwt_owner` / `jwt_email`
+        (`set mqtt.broker.<N>.jwt_owner|jwt_email`), surfaced in `mqtt status`. (#63)
+      - Multi-frame `mqtt status` over the BLE `_sys` channel: the per-slot broker
+        table spans multiple frames instead of truncating. (#48)
+
+      ### Fixed
+
+      - BLE `_sys` command channel no longer hangs when `set mqtt.broker.*` runs. The
+        blocking `esp_mqtt` lifecycle ops (connect / destroy) moved off `loopTask` to a
+        dedicated `mqtt_worker` task with a per-broker lock and a per-slot reconcile
+        flag. (#53)
+      - wss/JWT broker authentication: send the MQTT CONNECT username
+        `v1_<UPPERCASE pubkey>` (was a null username) so eastme.sh / LetsMesh accept
+        the connection -- the broker verifies the token's `publicKey` claim against it
+        and rejects a null username (CONNACK rc=5) even with an otherwise-valid token.
+        (#68)
+
+
+
+      ## What's Changed
+
+      * fix(#27): pio-flash firmware_dir -> repo root + --firmware-dir override by @Strycher in
+      https://github.com/Strycher/Crosswire/pull/28
+
+      * pio-flash artifact-flash: flash CI release artifacts through the identity gate (#29, #34) by
+      @Strycher in https://github.com/Strycher/Crosswire/pull/35
+
+      * fix(#33): OLED splash carries pre-release identifier (v0.14.0-rc1, not v0.14.0+0) by
+      @Strycher in https://github.com/Strycher/Crosswire/pull/37
+
+      * chore(#38): gitignore __pycache__/ by @Strycher in
+      https://github.com/Strycher/Crosswire/pull/40
+
+      * feat(#42): strip observer companion to minima + delete dead ring buffer by @Strycher in
+      https://github.com/Strycher/Crosswire/pull/50
+
+      * docs: pin Crosswire project identity (Citadel + Agent Mail keys) (#55) by @Strycher in
+      https://github.com/Strycher/Crosswire/pull/56
+
+      * docs(#32): position-to-map pipeline architecture draft by @Strycher in
+      https://github.com/Strycher/Crosswire/pull/57
+
+      * docs: MeshCore 1.16.0 base-update impact assessment (spike #54) by @Strycher in
+      https://github.com/Strycher/Crosswire/pull/58
+
+      * chore(#59): port /work + session-state.py compaction-recovery hook into Crosswire by
+      @Strycher in https://github.com/Strycher/Crosswire/pull/60
+
+      * docs(#61): correct CLAUDE.md build/flash + migration-status after meshcore-firmware retire
+      by @Strycher in https://github.com/Strycher/Crosswire/pull/62
+
+      * feat: observer MQTT connectivity (crosswire-v0.15.0) — #53 #48 #63 #68 by @Strycher in
+      https://github.com/Strycher/Crosswire/pull/72
+
+
+
+      **Full Changelog**:
+      https://github.com/Strycher/Crosswire/compare/crosswire-v0.14.0-rc1...crosswire-v0.15.0
+  - version: crosswire-v0.14.0
+    name: Crosswire crosswire-v0.14.0
+    datetime: '2026-06-10T23:45:36Z'
+    url: https://github.com/OffbandMesh/meshcore-firmware/releases/tag/crosswire-v0.14.0
+    prerelease: false
+    notes: >-
+      ### Added
+
+      - CI release pipeline (epic #14): dev-channel firmware artifacts on every
+        `firmware-base` push / PR (`ci.yml`), and a `release.yml` workflow that builds
+        the curated community board set from `crosswire-v*` tags and publishes a
+        GitHub Release (pre-release for `-rc*`, "Latest" for stable). Curated env set
+        in `.github/release-envs.txt` (72 envs; `heltec_v4_repeater_telemetry` gated on
+        #20). Design of record: `docs/architecture/2026-06-06-ci-release-pipeline.md`.
+        (#15, #16, #17)
+
+      ### Changed
+
+      - Reconciled inherited CI workflows: removed 7 dead/superseded
+        (`pr-build-check`, `auto-promote`, `github-pages`, the three upstream-tag
+        `build-*-firmwares`, `branch-cleanup`); kept `build-safeboot-firmwares` +
+        `sync-labels-to-board`. (#18)
+
+
+
+      ## What's Changed
+
+      * fix(#27): pio-flash firmware_dir -> repo root + --firmware-dir override by @Strycher in
+      https://github.com/Strycher/Crosswire/pull/28
+
+      * pio-flash artifact-flash: flash CI release artifacts through the identity gate (#29, #34) by
+      @Strycher in https://github.com/Strycher/Crosswire/pull/35
+
+      * fix(#33): OLED splash carries pre-release identifier (v0.14.0-rc1, not v0.14.0+0) by
+      @Strycher in https://github.com/Strycher/Crosswire/pull/37
+
+      * chore(#38): gitignore __pycache__/ by @Strycher in
+      https://github.com/Strycher/Crosswire/pull/40
+
+      * feat(#42): strip observer companion to minima + delete dead ring buffer by @Strycher in
+      https://github.com/Strycher/Crosswire/pull/50
+
+      * docs: pin Crosswire project identity (Citadel + Agent Mail keys) (#55) by @Strycher in
+      https://github.com/Strycher/Crosswire/pull/56
+
+      * docs(#32): position-to-map pipeline architecture draft by @Strycher in
+      https://github.com/Strycher/Crosswire/pull/57
+
+      * docs: MeshCore 1.16.0 base-update impact assessment (spike #54) by @Strycher in
+      https://github.com/Strycher/Crosswire/pull/58
+
+      * chore(#59): port /work + session-state.py compaction-recovery hook into Crosswire by
+      @Strycher in https://github.com/Strycher/Crosswire/pull/60
+
+      * docs(#61): correct CLAUDE.md build/flash + migration-status after meshcore-firmware retire
+      by @Strycher in https://github.com/Strycher/Crosswire/pull/62
+
+
+
+      **Full Changelog**:
+      https://github.com/Strycher/Crosswire/compare/crosswire-v0.14.0-rc1...crosswire-v0.14.0
+  - version: crosswire-v0.14.0-rc1
+    name: Crosswire crosswire-v0.14.0-rc1
+    datetime: '2026-06-07T21:22:48Z'
+    url: https://github.com/OffbandMesh/meshcore-firmware/releases/tag/crosswire-v0.14.0-rc1
+    prerelease: true
+    notes: >-
+      (No CHANGELOG entry for v0.14.0-rc1.)
+
+
+
+      ## What's Changed
+
+      * docs: adopt versioning + CHANGELOG + release-channel discipline (#11) by @Strycher in
+      https://github.com/Strycher/Crosswire/pull/12
+
+      * chore: roll CHANGELOG to v0.13.2 + fix em-dashes to ASCII (#11) by @Strycher in
+      https://github.com/Strycher/Crosswire/pull/13
+
+      * epic(#14): CI release pipeline -- dev artifacts + crosswire-v* releases by @Strycher in
+      https://github.com/Strycher/Crosswire/pull/24
+
+      * docs(#25): roll CHANGELOG to [0.14.0] (CI release pipeline) by @Strycher in
+      https://github.com/Strycher/Crosswire/pull/26
+
+
+      ## New Contributors
+
+      * @Strycher made their first contribution in https://github.com/Strycher/Crosswire/pull/12
+
+
+      **Full Changelog**: https://github.com/Strycher/Crosswire/commits/crosswire-v0.14.0-rc1

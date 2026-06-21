@@ -1,0 +1,63 @@
+name: FieldMesh
+type: fork
+maintainer: TogeriX-hub
+description: >
+  A MeshCore firmware fork for outdoor use — GPS tracking, off-grid mode with client repeat,
+  SOS alerts, and standalone capabilities. Features message history browsing on-device, text
+  input and send via joystick (Wio Tracker L1), and headless device support.
+repository: https://github.com/TogeriX-hub/FieldMesh
+license: MIT
+status: active
+lifecycle: active
+maturity: beta
+distribution: community
+lineage:
+  kind: fork
+  upstreamFirmwareId: meshcore-official
+  upstreamRepository: https://github.com/meshcore-dev/MeshCore
+runtime:
+  framework: arduino
+  language: cpp
+roles:
+  - companion
+  - repeater
+features:
+  - GPS tracking
+  - Off-grid mode with client repeat
+  - SOS alerts
+  - On-device message history (up to 32 entries)
+  - Text input and send via joystick (Wio Tracker L1)
+  - Headless device support (no display, single button)
+  - Standalone UI capabilities
+capabilities:
+  protocol:
+    meshcoreCompatible: true
+  transports:
+    ble: true
+    usbSerial: true
+    nativeTcp: false
+    wifiAp: false
+  operations:
+    ota: false
+    webFlasher: false
+  networking:
+    repeater: true
+    roomServer: false
+    observer: false
+    kissModem: false
+  hardware:
+    gps: true
+    display: true
+    sensors: false
+    lowPowerRx: false
+devices:
+  # Source: README tested-on table — Elecrow ThinkNode M1 (E-Ink)
+  - id: thinknode-m1
+    status: supported
+  # Source: README tested-on table — Seeed Wio Tracker L1 (OLED, joystick)
+  - id: wio-tracker-l1
+    status: supported
+  # Source: README tested-on table — Seeed T1000-E (headless)
+  - id: sensecap-t1000e
+    status: supported
+    notes: Primary headless reference device.

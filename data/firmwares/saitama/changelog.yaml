@@ -1,0 +1,68 @@
+source: github
+repo: 868meshbot/Saitama
+updatedAt: '2026-06-21T09:01:37.226Z'
+releases:
+  - version: v1.0.0
+    name: v1.0.0
+    datetime: '2026-06-12T08:36:39Z'
+    url: https://github.com/868meshbot/Saitama/releases/tag/v1.0.0
+    prerelease: false
+    notes: '**Full Changelog**: https://github.com/868meshbot/Saitama/compare/v0.1.0-beta.17...v1.0.0'
+  - version: v0.1.0-beta.17
+    name: v0.1.0-beta.17
+    datetime: '2026-06-10T08:49:03Z'
+    url: https://github.com/868meshbot/Saitama/releases/tag/v0.1.0-beta.17
+    prerelease: false
+    notes: >-
+      **Full Changelog**:
+      https://github.com/868meshbot/Saitama/compare/v0.1.0-beta.16...v0.1.0-beta.17
+  - version: v0.1.0-beta.16
+    name: v0.1.0-beta.16
+    datetime: '2026-06-10T07:50:48Z'
+    url: https://github.com/868meshbot/Saitama/releases/tag/v0.1.0-beta.16
+    prerelease: false
+    notes: >-
+      **Full Changelog**:
+      https://github.com/868meshbot/Saitama/compare/v0.1.0-beta.15...v0.1.0-beta.16
+  - version: v0.1.0-beta.15
+    name: v0.1.0-beta.15
+    datetime: '2026-06-10T07:06:29Z'
+    url: https://github.com/868meshbot/Saitama/releases/tag/v0.1.0-beta.15
+    prerelease: false
+    notes: >-
+      **Full Changelog**:
+      https://github.com/868meshbot/Saitama/compare/v0.1.0-beta.14...v0.1.0-beta.15
+  - version: v0.1.0-beta.14
+    name: v0.1.0-beta.14
+    datetime: '2026-06-09T13:01:55Z'
+    url: https://github.com/868meshbot/Saitama/releases/tag/v0.1.0-beta.14
+    prerelease: false
+    notes: >-
+      **Full Changelog**:
+      https://github.com/868meshbot/Saitama/compare/v0.1.0-beta.13...v0.1.0-beta.14
+  - version: v0.1.0-beta.13
+    name: v0.1.0-beta.13
+    datetime: '2026-06-09T12:36:14Z'
+    url: https://github.com/868meshbot/Saitama/releases/tag/v0.1.0-beta.13
+    prerelease: false
+    notes: >-
+      **Full Changelog**:
+      https://github.com/868meshbot/Saitama/compare/v0.1.0-beta.12...v0.1.0-beta.13
+  - version: v0.1.0-beta.10
+    name: v0.1.0-beta.10
+    datetime: '2026-06-05T09:55:04Z'
+    url: https://github.com/868meshbot/Saitama/releases/tag/v0.1.0-beta.10
+    prerelease: false
+    notes: >-
+      ## What's Changed
+
+      * adds github actions CI build and artifacts archiving by @t413 in
+      https://github.com/868meshbot/Saitama/pull/3
+
+
+      ## New Contributors
+
+      * @t413 made their first contribution in https://github.com/868meshbot/Saitama/pull/3
+
+
+      **Full Changelog**: https://github.com/868meshbot/Saitama/commits/v0.1.0-beta.10

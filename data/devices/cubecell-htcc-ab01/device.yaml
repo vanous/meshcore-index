@@ -1,0 +1,47 @@
+# Source: https://heltec.org/project/cubecell-board/
+# Source: https://github.com/atomozero/CubeCellMeshCore
+name: Heltec CubeCell HTCC-AB01
+vendorId: heltec
+kind: dev-board
+lifecycle: active
+familyId: heltec-cubecell
+aliases:
+  - CubeCell Board
+  - HTCC-AB01
+official: false
+description: >-
+  Ultra-low-power LoRa development board based on the ASR6601 (Cortex-M4) with integrated
+  SX1262 radio. Designed for solar-powered and battery-operated IoT deployments.
+roles:
+  - repeater
+transports:
+  - usb
+hardware:
+  mcu:
+    model: stm32wl
+    flashMb: 0.25
+  radios:
+    - technology: lora
+      chip: sx1262
+      frequencyVariants:
+        - '868'
+        - '915'
+      txPowerDbm: 22
+      antenna: IPEX-1.0
+  display:
+    status: none
+  gnss:
+    status: none
+  power:
+    batterySupported: true
+    batteryBuiltIn: false
+    charging: true
+    solarInput: true
+    consumptionIdleMa: 0.01
+interfaces:
+  usb:
+    connector: Micro-USB
+    capabilities:
+      - power
+      - serial
+      - flashing

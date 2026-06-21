@@ -1,0 +1,354 @@
+source: github
+repo: danst0/fennek
+updatedAt: '2026-06-21T09:01:26.995Z'
+releases:
+  - version: v2.4.8
+    name: Fennek v2.4.8
+    datetime: '2026-06-20T19:59:52Z'
+    url: https://github.com/danst0/fennek/releases/tag/v2.4.8
+    prerelease: false
+    notes: >-
+      ## Änderungen
+
+
+      - **OTA:** Semver-Vergleich für Update-Erkennung (`tag_name != FENNEK_VERSION` → korrekte
+      Versionslogik)
+
+      - **Akku:** Batterieanzeige-Fix in der Statuszeile
+
+
+      ## Flashen
+
+
+      ```
+
+      pio run -e fennek -t upload
+
+      ```
+
+
+      oder OTA via `fennek.local` → Firmware-Update.
+  - version: v2.3.1
+    name: Fennek v2.3.1
+    datetime: '2026-06-19T14:27:33Z'
+    url: https://github.com/danst0/fennek/releases/tag/v2.3.1
+    prerelease: false
+    notes: >-
+      ## Notizen / Audio
+
+      - **Sprachnotiz-Liste** zeigt jetzt **Datum + HH:MM** (statt HH:MM:SS bzw. generisch
+      „Sprachnotiz").
+
+      - **Aufnahme-Gain ×6** mit Sättigung: das PDM-Mikro war ~−20 dBFS leise → Wiedergabe kaum
+      hörbar. Neue Aufnahmen sitzen bei ~−7 dBFS (kein Clipping).
+
+      - **Sauberer I2S0-Handover** nach der Aufnahme: kein doppeltes `i2s_driver_uninstall` mehr
+      (`endMic`/`MicResume` macht uninstall+install in einem Schritt).
+
+
+      ## Karten / GPS
+
+      - **No-Fix-Fallback** zentriert jetzt auf **Düsseldorf** (51.2277/6.7735); `DEFAULT_ZOOM` 15 →
+      13 (NRW-weit bekachelt).
+
+      - **GPS-Zeit-Diagnose**: Einmal-Log `[MAPS] GPS-Zeit empfangen …` pro Karten-Session.
+
+
+      Enthält außerdem v2.3.0 (GPS-/WAV-Diagnose-Logs, Karten-Fallback, Notizen-Zeitlabel).
+  - version: v2.0.4
+    name: v2.0.4
+    datetime: '2026-06-17T17:30:26Z'
+    url: https://github.com/danst0/fennek/releases/tag/v2.0.4
+    prerelease: false
+    notes: >-
+      ## Changes
+
+
+      - **Regenerated README/website screenshots.** The home-screen mirror in the host renderer
+      (`tools/screenshot.cpp`) was stuck on an old layout (6 tiles, 2×3); it now matches the real
+      `launcher.cpp` — a 2×5 grid with all 10 slots
+      (Music/Listen/Read/Mesh/Settings/Games/Files/Notes/Alarm). The Settings screenshot now shows
+      the current version.
+
+      - Images updated in `docs/screenshots/{de,en,sv}/` and on
+      [fennek.dumke.me](https://fennek.dumke.me).
+
+
+      🤖 Generated with [Claude Code](https://claude.com/claude-code)
+  - version: v1.9.4
+    name: v1.9.4
+    datetime: '2026-06-17T06:53:30Z'
+    url: https://github.com/danst0/fennek/releases/tag/v1.9.4
+    prerelease: false
+    notes: >-
+      ## Änderungen
+
+
+      - **Web-Dateimanager**: Löschen ohne Rückfrage. Nur Ordner mit Unterordnern fragen kurz nach
+      und werden dann rekursiv gelöscht (`rmRecursive`); Dateien und flache Ordner verschwinden
+      sofort.
+
+      - **Notizen-App + Konsole**: weitere Verbesserungen.
+
+
+      🤖 Generated with [Claude Code](https://claude.com/claude-code)
+  - version: v1.9.2
+    name: Fennek v1.9.2
+    datetime: '2026-06-15T15:51:06Z'
+    url: https://github.com/danst0/fennek/releases/tag/v1.9.2
+    prerelease: false
+    notes: >-
+      ### Added
+
+      - **`BATTLOG` — opt-in battery & activity logger** (`services/battlog`). When the `BATTLOG`
+      build flag is set, the firmware writes one record per event (app switch, audio track, mesh
+      radio on, Wi-Fi on/off, standby/wake) **and** a battery probe every 60 s to
+      `/.fennek/battery.log` (timestamp + %/mV/charging? + Wi-Fi/mesh status). It's a throttled
+      PSRAM ring flushed to SD before standby, and downloadable via the Web file manager — useful
+      for diagnosing real-world battery drain. Deliberately zero-cost when the flag is off (all
+      `BATTLOG_*` calls compile to nothing).
+
+
+      🌐 Project page & screenshots: **https://fennek.dumke.me**
+
+
+      **Full changelog:** [`CHANGELOG.md`](https://github.com/danst0/fennek/blob/main/CHANGELOG.md)
+  - version: v1.9.1
+    name: Fennek v1.9.1
+    datetime: '2026-06-15T15:51:06Z'
+    url: https://github.com/danst0/fennek/releases/tag/v1.9.1
+    prerelease: false
+    notes: >-
+      ### Fixed
+
+      - **Notes never silently lost on a failed SD write.** The save path now clears its dirty flag
+      only on a *complete* success; if an SD write or remove fails, the note stays dirty and is
+      retried on the next autosave instead of being overwritten on the next editor open.
+
+      - **Just-played track now reaches the scrobble queue before standby.** `power::poll()` stops
+      audio (and lets the audio task drain the stop command) *before* the pre-standby Navidrome
+      flush, so the current track is enqueued via `noteTrackEnded()` rather than landing in the
+      PSRAM ring that deep sleep would otherwise discard.
+
+
+      **Full changelog:** [`CHANGELOG.md`](https://github.com/danst0/fennek/blob/main/CHANGELOG.md)
+  - version: v1.9.0
+    name: Fennek v1.9.0
+    datetime: '2026-06-15T15:51:05Z'
+    url: https://github.com/danst0/fennek/releases/tag/v1.9.0
+    prerelease: false
+    notes: >-
+      ### Added
+
+      - **Mesh: `contacts reset` console command** + `mesh_client::resetContacts()`. Clears all
+      contacts and their persistent mirrors (SPIFFS `/contacts`, SD `/meshcore/contacts.bin`); the
+      contact table then rebuilds itself from incoming adverts. Handy when the 64-slot table fills
+      up with stale nodes or you want a clean slate.
+
+
+      **Full changelog:** [`CHANGELOG.md`](https://github.com/danst0/fennek/blob/main/CHANGELOG.md)
+  - version: v1.8.1
+    name: Fennek v1.8.1
+    datetime: '2026-06-15T15:51:04Z'
+    url: https://github.com/danst0/fennek/releases/tag/v1.8.1
+    prerelease: false
+    notes: >-
+      ### Changed
+
+      - **Unified back/home navigation across all apps.** Home is now a visible affordance: the
+      status bar shows a house glyph (⌂) outside the launcher and the whole bar taps to Home. Lower
+      corner buttons are consistently labelled **"Back"** (exactly one level) —
+      audiobook/reader/notes lists and Settings now say "Back" instead of "Home", and the Settings
+      back button steps edit → category → root → launcher. Mesh sub-screens dropped their redundant
+      second "Home" button, the Files app gained a visible "Back" button, and the reader footer
+      tap-zone is labelled "◄ List". Games keep no on-screen back button (exit via the ⌂ glyph;
+      keyboard `Backspace`/`Q` still works). Keyboard conventions (`Q` = Home, `Backspace` = one
+      level back) unchanged.
+
+
+      **Full changelog:** [`CHANGELOG.md`](https://github.com/danst0/fennek/blob/main/CHANGELOG.md)
+  - version: v1.8.0
+    name: Fennek v1.8.0
+    datetime: '2026-06-13T19:18:10Z'
+    url: https://github.com/danst0/fennek/releases/tag/v1.8.0
+    prerelease: false
+    notes: >-
+      ## Added
+
+      - **Notes app** (launcher tile 7): a daily-notes model — exactly one note per day, named after
+      the local date (`/notes/YYYY-MM-DD.md`). **"+ Today"** opens or appends to today's note; the
+      list shows every day newest-first with a first-line preview, and notes can be deleted with a
+      confirmation. The editor is append-style (type / Backspace / Enter) with its own word wrap and
+      a compact header.
+
+        Persistence is chunked under `spiLock` (never inside `draw()`), with a 30 s autosave and a save on leave; empty notes are removed. Without an SD card it shows "No SD card" + "Search again" like the other apps. The date comes from the local system clock (`timesync`). New console command `notes` runs an SD round-trip / scan self-check (in the style of `books`).
+
+      Localized in DE/IT/SV/EN/ES. Verified on device (clean boot, SD round-trip with UTF-8
+      preserved, scan/sort).
+
+
+      **Full changelog:** [CHANGELOG.md](https://github.com/danst0/fennek/blob/main/CHANGELOG.md)
+  - version: v1.7.1
+    name: Fennek v1.7.1
+    datetime: '2026-06-13T04:08:05Z'
+    url: https://github.com/danst0/fennek/releases/tag/v1.7.1
+    prerelease: false
+    notes: >-
+      ## ✨ Added
+
+      - **Settings backup as INI** (`services/settingsfile`): export/import all NVS settings to/from
+      an SD file. SPI-free serialization on a RAM buffer, SD I/O isolated under `spiLock`. Per-book
+      bookmarks/reading positions are excluded (CRC32-hashed keys). New console command +
+      `main`/`power` wiring.
+
+
+      ## 📝 Docs
+
+      - Added `CHANGELOG.md` and GitHub releases for v1.3.0–v1.7.0.
+
+      - README now ships in **English (default)**, German (`README.de.md`) and Swedish
+      (`README.sv.md`) with a language switcher and release/changelog badges.
+
+
+      📋 Full history: [CHANGELOG.md](https://github.com/danst0/fennek/blob/main/CHANGELOG.md)
+  - version: v1.7.0
+    name: Fennek v1.7.0
+    datetime: '2026-06-13T04:03:33Z'
+    url: https://github.com/danst0/fennek/releases/tag/v1.7.0
+    prerelease: false
+    notes: >-
+      ## ✨ Added
+
+      - **"+ New Channel" UI** for joining hashtag channels — a "► New Channel" row at the top of
+      the chat list opens a join screen (keyboard types the `#name`, PSK derived from it, persisted
+      to `channels.txt` on SD; jumps straight into the new channel after joining).
+
+
+      ## 🔄 Changed
+
+      - **Robust time synchronization without a hardware RTC.** Canonical clock is now ESP32 system
+      time (`SystemRTCClock`), which survives deep sleep. New `services/timesync` coordinator:
+      opportunistic NTP (when Wi-Fi is up) + a top-up before auto-standby, with Mesh adverts as a
+      passive source. Quality model (`estErr = learned drift × time since sync`) with exponential
+      back-off, `s_clockConfident` bootstrap for the first advert after boot, POSIX time zone
+      (default `Europe/Berlin` incl. DST), settings rows "Time zone"/"Time", and console `time` /
+      `time set` / `time sync` / `tz`.
+
+
+      📋 Full history: [CHANGELOG.md](https://github.com/danst0/fennek/blob/main/CHANGELOG.md)
+  - version: v1.6.3
+    name: v1.6.3
+    datetime: '2026-06-13T04:03:32Z'
+    url: https://github.com/danst0/fennek/releases/tag/v1.6.3
+    prerelease: false
+    notes: >-
+      ## 📡 Mesh SD persistence & clock hardening
+
+      - Contact mirror (`/meshcore/contacts.bin`, SD takes load priority over SPIFFS, deferred write
+      from `loop()`) and joined hashtag channels (`/meshcore/channels.txt`, re-joined on boot).
+
+      - RTC sync guard against future-clock outliers (bootstrap + forward jumps < 1 h, backward only
+      on a 3× advert consensus).
+
+      - Contact overflow fix: overwrite the oldest non-favorite when the table (64) is full instead
+      of dropping new adverts.
+
+      - Console hashtag commands `join` / `chan`, plus a new `i2cscan` command. Verified on device:
+      the T-Deck Pro V1.1 has **no hardware RTC** (0x51 empty).
+  - version: v1.6.2
+    name: v1.6.2
+    datetime: '2026-06-13T04:03:31Z'
+    url: https://github.com/danst0/fennek/releases/tag/v1.6.2
+    prerelease: false
+    notes: >-
+      ## 📄 Licensing
+
+      - SPDX `GPL-3.0-or-later` / © Dr. Daniel Dumke headers added to all Fennek-owned `src` files
+      (the vendored Hynitron touch driver in `src/core/hyn/` is left untouched).
+
+      - Options screen now shows an author/copyright footer.
+  - version: v1.6.1
+    name: v1.6.1
+    datetime: '2026-06-13T04:03:30Z'
+    url: https://github.com/danst0/fennek/releases/tag/v1.6.1
+    prerelease: false
+    notes: >-
+      ## 📡 Mesh app overhaul (MVP)
+
+      - Contacts split from the chat list (chats show only channels + contacts with history; a new
+      contacts screen lists all adverts).
+
+      - HH:MM timestamps + touch scrollback in conversations.
+
+      - Status line (noise floor / RX / TX / contacts / clock), contact detail view (hops + last
+      seen).
+
+      - Touch scroll strip for lists, error-retry button, DM resend on timeout, and multi-ACK
+      tracking for parallel DMs.
+  - version: v1.6.0
+    name: v1.6.0
+    datetime: '2026-06-13T04:03:29Z'
+    url: https://github.com/danst0/fennek/releases/tag/v1.6.0
+    prerelease: false
+    notes: >-
+      ## ✨ Added
+
+      - **Unlimited music library:** on-demand growing PSRAM blocks (instead of `MAX_TRACKS=512`),
+      track cache `/.fennek/tracks.bin` (boot in seconds), background scan in `readdir` chunks.
+      Scans pause during playback (anti-stutter). Track paths up to 256 chars (Calibre).
+
+      - **Web file manager** (Files app + `webfm`): Wi-Fi station with an embedded HTML page + JSON
+      API to browse/upload/download/delete SD files over `http://fennek.local`.
+
+      - Console: `sleep` command + boot/reset diagnostics in `status`.
+  - version: v1.5.0
+    name: v1.5.0
+    datetime: '2026-06-13T04:03:29Z'
+    url: https://github.com/danst0/fennek/releases/tag/v1.5.0
+    prerelease: false
+    notes: >-
+      ## 🌍 Localization
+
+      - Extended with **English and Spanish** (`FENNEK_STRS` now 5 columns, EN/ES appended —
+      NVS-compatible).
+
+      - Documented the CP437 limitation for missing uppercase accented characters.
+
+      - Reader rescan rework, chess brace fixes, MeshSeeLog entry.
+  - version: v1.4.0
+    name: v1.4.0
+    datetime: '2026-06-13T04:03:28Z'
+    url: https://github.com/danst0/fennek/releases/tag/v1.4.0
+    prerelease: false
+    notes: >-
+      ## 🌍 Internationalization framework
+
+      - New `core/i18n`: central string table, language selectable in settings, applied across all
+      apps (launcher, music, book, reader, mesh, games, settings).
+
+      - README screenshots + host-side renderer (`tools/screenshot.cpp`) for generating UI
+      screenshots without the device.
+  - version: v1.3.1
+    name: v1.3.1
+    datetime: '2026-06-13T04:03:27Z'
+    url: https://github.com/danst0/fennek/releases/tag/v1.3.1
+    prerelease: false
+    notes: >-
+      ## 🎨 Standby & project
+
+      - **Standby screen:** AI-generated sleeping fennec as a 1-bit bitmap (Floyd–Steinberg,
+      240×320) with a bottom banner.
+
+      - GPL-3.0+ license, README reworked as an alternative firmware.
+
+      - Repo slimmed down and detached from the Meck fork; build env renamed `mp3player` → `fennek`.
+  - version: v1.3.0
+    name: v1.3.0
+    datetime: '2026-06-13T04:03:26Z'
+    url: https://github.com/danst0/fennek/releases/tag/v1.3.0
+    prerelease: false
+    notes: >-
+      ## 🎮 Games app
+
+      - New Games app: **2048, Minesweeper, Chess (Negamax AI), Tic-Tac-Toe**. Game logic lives in
+      Arduino-free, host-tested cores.

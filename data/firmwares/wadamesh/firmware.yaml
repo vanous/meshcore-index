@@ -1,0 +1,56 @@
+name: Wadamesh
+type: fork
+maintainer: ALLFATHER-BV
+description: >
+  A touch-UI MeshCore firmware for the LilyGo T-Deck / T-Deck Plus and Heltec V4 TFT (ESP32-S3),
+  built with LVGL. Split out from meshcomod. Provides a full touch-driven companion experience
+  with on-screen keyboard and WiFi connectivity.
+repository: https://github.com/ALLFATHER-BV/wadamesh
+license: GPL-3.0
+status: active
+lifecycle: active
+maturity: beta
+distribution: community
+lineage:
+  kind: fork
+  upstreamFirmwareId: meshcore-official
+  upstreamRepository: https://github.com/meshcore-dev/MeshCore
+runtime:
+  framework: arduino
+  language: cpp
+roles:
+  - companion
+features:
+  - LVGL touch UI
+  - On-screen keyboard
+  - WiFi companion connectivity
+  - USB + TCP transports
+  - Split from meshcomod (same maintainer)
+capabilities:
+  protocol:
+    meshcoreCompatible: true
+  transports:
+    ble: true
+    usbSerial: true
+    nativeTcp: true
+    wifiAp: true
+  operations:
+    ota: false
+    webFlasher: false
+  networking:
+    repeater: false
+    roomServer: false
+    observer: false
+    kissModem: false
+  hardware:
+    gps: true
+    display: true
+    sensors: false
+    lowPowerRx: false
+devices:
+  # Source: README boards section — env LilyGo_TDeck_companion_radio_touch
+  - id: lilygo-t-deck
+    status: supported
+  # Source: README boards section — env heltec_v4_tft_companion_radio_usb_tcp_touch
+  - id: heltec-v4
+    status: supported

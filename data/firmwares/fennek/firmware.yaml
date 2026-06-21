@@ -1,0 +1,56 @@
+name: Fennek
+type: fork
+maintainer: danst0
+description: >
+  An alternative open-source firmware for the LilyGO T-Deck Pro — music, audiobooks, eBooks
+  and LoRa mesh chat via MeshCore. Features a homescreen launcher, touch and physical keyboard
+  support, EPUB reader, audiobook player, and PCM5102A DAC audio output.
+repository: https://github.com/danst0/fennek
+license: GPL-3.0
+status: active
+lifecycle: active
+maturity: beta
+distribution: community
+lineage:
+  kind: fork
+  upstreamFirmwareId: meshcore-official
+  upstreamRepository: https://github.com/meshcore-dev/MeshCore
+runtime:
+  framework: arduino
+  language: cpp
+roles:
+  - companion
+  - standalone-ui
+features:
+  - Homescreen launcher
+  - Music playback (PCM5102A DAC)
+  - Audiobook player
+  - EPUB and TXT reader with page-index cache
+  - LoRa mesh chat via MeshCore
+  - Touch + physical keyboard support
+  - Per-book reading position
+capabilities:
+  protocol:
+    meshcoreCompatible: true
+  transports:
+    ble: true
+    usbSerial: true
+    nativeTcp: true
+    wifiAp: true
+  operations:
+    ota: false
+    webFlasher: false
+  networking:
+    repeater: false
+    roomServer: false
+    observer: false
+    kissModem: false
+  hardware:
+    gps: true
+    display: true
+    sensors: false
+    lowPowerRx: false
+devices:
+  # Source: README — targets LilyGO T-Deck Pro V1.1 (ESP32-S3, E-Ink, LoRa)
+  - id: lilygo-tdeck-pro
+    status: supported
