@@ -181,6 +181,10 @@ gnss:
     name: MediaTek AG3335
     vendor: MediaTek
     url: https://www.mediatek.com/products/iot-mt3335
+  ATGM336H:
+    name: Hangzhou ZhongKe ATGM336H-5N
+    vendor: Hangzhou ZhongKe Microelectronics
+    url: https://w2.electrodragon.com/Chip-cn-dat/ZHONGKEWEI-dat/ATGM336H-dat/ZHONGKEWEI-ATGM336H-5N31.pdf
   NEO-6:
     name: u-blox NEO-6
     vendor: u-blox

@@ -11,12 +11,14 @@
   import { compareIds, toggleCompare, clearCompare } from '$lib/compare.js';
   let { data } = $props();
 
-  // --- Per-device accessors used by both facets and filtering -----------------
+  // --- Per-device accessors used by both facets and card rendering -----------
   const deviceFamily = (d) => resolveMcuInfo(d)?.family?.name ?? deviceMcuLabel(d);
   const radioShort = (d) => {
     const chip = (d.hardware?.radios ?? []).map((r) => r.chip).find((c) => c && c !== 'unknown');
     return chip ? (resolveRadio(chip)?.name ?? chip) : null;
   };
+  const deviceChips = (d) =>
+    (d.hardware?.radios ?? []).map((r) => r.chip).filter((c) => c && c !== 'unknown');
 
   // Capability pills shown on each card, in priority order. Only present
   // capabilities render, so cards stay clean for sparsely-documented boards.
@@ -37,77 +39,143 @@
     }
     return out;
   }
-  const deviceChips = (d) =>
-    (d.hardware?.radios ?? []).map((r) => r.chip).filter((c) => c && c !== 'unknown');
-  const hasGps = (d) => d.hardware?.gnss?.status === 'present';
-  const hasDisplay = (d) => d.hardware?.display?.status === 'present';
-  const hasBattery = (d) => d.hardware?.power?.batterySupported === true;
+
+  // --- Label helpers ---------------------------------------------------------
+  const humanize = (v) =>
+    String(v).replace(/[-_]/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase());
+  const DISPLAY_LABELS = { oled: 'OLED', 'e-paper': 'E-Paper', 'e-ink': 'E-Ink', display: 'LCD' };
+  const TRANSPORT_LABELS = { ble: 'BLE', usb: 'USB', tcp: 'TCP', wifi: 'Wi-Fi', ethernet: 'Ethernet', serial: 'Serial' };
+
+  // --- Facet definitions -----------------------------------------------------
+  // Each facet extracts the set of values a device carries; selecting values
+  // keeps devices whose set intersects the selection (OR within a facet, AND
+  // across facets). `primary` facets show by default; the rest live under
+  // "Advanced". Facets with no options are hidden automatically.
+  const displayTech = (d) => {
+    const dp = d.hardware?.display;
+    return dp?.status === 'present' && dp.technology && dp.technology !== 'unknown'
+      ? [dp.technology]
+      : [];
+  };
+  const FACETS = [
+    { id: 'mcu', label: 'MCU', primary: true, get: (d) => { const f = deviceFamily(d); return f && f !== 'Unknown' ? [f] : []; } },
+    { id: 'radio', label: 'Radio', primary: true, get: deviceChips, fmt: (v) => v.toUpperCase() },
+    { id: 'roles', label: 'Roles', primary: true, get: (d) => d.roles ?? [], fmt: humanize },
+    { id: 'vendor', label: 'Vendor', get: (d) => (d.vendorName ? [d.vendorName] : []) },
+    { id: 'arch', label: 'Arch', get: (d) => { const a = resolveMcuInfo(d)?.architecture?.name; return a ? [a] : []; } },
+    { id: 'band', label: 'Band', get: (d) => [...new Set((d.hardware?.radios ?? []).flatMap((r) => r.frequencyVariants ?? []))], fmt: (v) => `${v}` },
+    { id: 'transports', label: 'Link', get: (d) => d.transports ?? [], fmt: (v) => TRANSPORT_LABELS[v] ?? humanize(v) },
+    { id: 'kind', label: 'Kind', get: (d) => (d.kind ? [d.kind] : []), fmt: humanize },
+    { id: 'lifecycle', label: 'Status', get: (d) => (d.lifecycle ? [d.lifecycle] : []), fmt: humanize },
+    { id: 'display', label: 'Screen', get: displayTech, fmt: (v) => DISPLAY_LABELS[v] ?? humanize(v) },
+    { id: 'connector', label: 'USB', get: (d) => { const c = d.interfaces?.usb?.connector; return c ? [c] : []; } },
+    { id: 'source', label: 'Source', get: (d) => [d.official ? 'Official' : 'Community'] }
+  ];
+
+  // --- Boolean capability toggles --------------------------------------------
+  const TOGGLES = [
+    { id: 'gps', label: 'GPS', primary: true, test: (d) => d.hardware?.gnss?.status === 'present' },
+    { id: 'screen', label: 'Display', primary: true, test: (d) => d.hardware?.display?.status === 'present' },
+    { id: 'battery', label: 'Battery', primary: true, test: (d) => d.hardware?.power?.batterySupported === true },
+    { id: 'solarPanel', label: 'Solar Panel', primary: true, test: (d) => d.hardware?.power?.solarPanelBuiltIn === true },
+    { id: 'solarInput', label: 'Solar Input', primary: true, test: (d) => d.hardware?.power?.solarInput === true },
+    { id: 'charging', label: 'Charging', test: (d) => d.hardware?.power?.charging === true },
+    { id: 'touch', label: 'Touch', test: (d) => d.hardware?.display?.touch === true },
+    { id: 'wifi', label: 'Wi-Fi', test: (d) => d.interfaces?.wifi?.status === 'present' },
+    { id: 'bluetooth', label: 'Bluetooth', test: (d) => d.interfaces?.bluetooth?.ble === true },
+    { id: 'waterproof', label: 'IP-rated', test: (d) => !!d.hardware?.enclosure?.ipRating },
+    { id: 'enclosure', label: 'Enclosure', test: (d) => d.hardware?.enclosure?.builtIn === true }
+  ];
+
+  // --- Numeric range filters -------------------------------------------------
+  const RANGES = [
+    { id: 'price', label: 'Price', unit: '$', get: (d) => d.price?.amount },
+    { id: 'flash', label: 'Flash', unit: 'MB', get: (d) => d.hardware?.mcu?.flashMb },
+    { id: 'psram', label: 'PSRAM', unit: 'MB', get: (d) => d.hardware?.mcu?.psramMb },
+    { id: 'battery', label: 'Battery', unit: 'mAh', get: (d) => d.hardware?.power?.batteryCapacityMah },
+    { id: 'tx', label: 'TX power', unit: 'dBm', get: (d) => Math.max(...(d.hardware?.radios ?? []).map((r) => r.txPowerDbm).filter((v) => v != null), -Infinity) }
+  ];
+  const rangeVal = (d, r) => {
+    const v = r.get(d);
+    return v == null || v === -Infinity ? null : v;
+  };
 
   // Tally distinct values → [value, count], most common first.
   function tally(values) {
     const m = new Map();
-    for (const v of values) if (v) m.set(v, (m.get(v) ?? 0) + 1);
-    return [...m.entries()].sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]));
+    for (const v of values) if (v != null && v !== '') m.set(v, (m.get(v) ?? 0) + 1);
+    return [...m.entries()].sort((a, b) => b[1] - a[1] || String(a[0]).localeCompare(String(b[0])));
   }
 
-  let mcuOptions = $derived(tally(data.devices.map(deviceFamily)));
-  let radioOptions = $derived(tally(data.devices.flatMap(deviceChips)));
-  let roleOptions = $derived(tally(data.devices.flatMap((d) => d.roles ?? [])));
+  let facetOptions = $derived(
+    Object.fromEntries(FACETS.map((f) => [f.id, tally(data.devices.flatMap(f.get))]))
+  );
 
   // --- Filter state ----------------------------------------------------------
   let query = $state('');
-  let selMcu = $state([]);
-  let selRadio = $state([]);
-  let selRoles = $state([]);
-  let gpsOnly = $state(false);
-  let displayOnly = $state(false);
-  let batteryOnly = $state(false);
-  let solarPanelOnly = $state(false);
-  let solarInputOnly = $state(false);
+  let advanced = $state(false);
+  let sel = $state(Object.fromEntries(FACETS.map((f) => [f.id, []])));
+  let toggles = $state(Object.fromEntries(TOGGLES.map((t) => [t.id, false])));
+  let ranges = $state(Object.fromEntries(RANGES.map((r) => [r.id, { min: '', max: '' }])));
 
-  // Toggle a value in one of the array-backed facets (reassign for reactivity).
-  function toggle(arr, value) {
-    return arr.includes(value) ? arr.filter((v) => v !== value) : [...arr, value];
+  function toggleFacet(id, value) {
+    const cur = sel[id];
+    sel[id] = cur.includes(value) ? cur.filter((v) => v !== value) : [...cur, value];
   }
 
+  const numSet = (v) => v !== '' && v != null && !Number.isNaN(Number(v));
+  const rangeActive = (r) => numSet(ranges[r.id].min) || numSet(ranges[r.id].max);
+
   let activeCount = $derived(
-    selMcu.length +
-      selRadio.length +
-      selRoles.length +
-      (gpsOnly ? 1 : 0) +
-      (displayOnly ? 1 : 0) +
-      (batteryOnly ? 1 : 0) +
-      (solarPanelOnly ? 1 : 0) +
-      (solarInputOnly ? 1 : 0)
+    FACETS.reduce((n, f) => n + sel[f.id].length, 0) +
+      TOGGLES.reduce((n, t) => n + (toggles[t.id] ? 1 : 0), 0) +
+      RANGES.reduce((n, r) => n + (rangeActive(r) ? 1 : 0), 0)
+  );
+
+  // Whether any advanced control is in use — keeps the section open on reload
+  // if it carries active filters, and flags it when collapsed.
+  let advancedActive = $derived(
+    FACETS.some((f) => !f.primary && sel[f.id].length) ||
+      TOGGLES.some((t) => !t.primary && toggles[t.id]) ||
+      RANGES.some((r) => rangeActive(r))
   );
 
   function clearAll() {
     query = '';
-    selMcu = [];
-    selRadio = [];
-    selRoles = [];
-    gpsOnly = displayOnly = batteryOnly = solarPanelOnly = solarInputOnly = false;
+    sel = Object.fromEntries(FACETS.map((f) => [f.id, []]));
+    toggles = Object.fromEntries(TOGGLES.map((t) => [t.id, false]));
+    ranges = Object.fromEntries(RANGES.map((r) => [r.id, { min: '', max: '' }]));
   }
 
   let filtered = $derived(
     data.devices.filter((d) => {
       if (query.trim() && !deviceSearchText(d).includes(query.toLowerCase())) return false;
-      if (selMcu.length && !selMcu.includes(deviceFamily(d))) return false;
-      if (selRadio.length && !deviceChips(d).some((c) => selRadio.includes(c))) return false;
-      if (selRoles.length && !(d.roles ?? []).some((r) => selRoles.includes(r))) return false;
-      if (gpsOnly && !hasGps(d)) return false;
-      if (displayOnly && !hasDisplay(d)) return false;
-      if (batteryOnly && !hasBattery(d)) return false;
-      if (solarPanelOnly && d.hardware?.power?.solarPanelBuiltIn !== true) return false;
-      if (solarInputOnly && d.hardware?.power?.solarInput !== true) return false;
+      for (const f of FACETS) {
+        const s = sel[f.id];
+        if (s.length && !f.get(d).some((v) => s.includes(v))) return false;
+      }
+      for (const t of TOGGLES) if (toggles[t.id] && !t.test(d)) return false;
+      for (const r of RANGES) {
+        if (!rangeActive(r)) continue;
+        const v = rangeVal(d, r);
+        if (v == null) return false;
+        if (numSet(ranges[r.id].min) && v < Number(ranges[r.id].min)) return false;
+        if (numSet(ranges[r.id].max) && v > Number(ranges[r.id].max)) return false;
+      }
       return true;
     })
   );
+
+  const primaryFacets = FACETS.filter((f) => f.primary);
+  const advancedFacets = FACETS.filter((f) => !f.primary);
+  const primaryToggles = TOGGLES.filter((t) => t.primary);
+  const advancedToggles = TOGGLES.filter((t) => !t.primary);
 
   const chipBase =
     'rounded-full border px-2.5 py-1 text-[0.8rem] transition cursor-pointer select-none';
   const chipOn = 'border-accent bg-accent/15 text-accent';
   const chipOff = 'border-edge bg-elev text-dim hover:border-accent/60 hover:text-ink';
+  const rowLabel = 'w-14 shrink-0 pt-1 text-[0.7rem] tracking-wide text-dim uppercase';
 </script>
 
 <svelte:head><title>Devices — MeshCore Index</title></svelte:head>
@@ -124,48 +192,98 @@
 
 <!-- Faceted filters -->
 <div class="mt-4 space-y-3 rounded-xl border border-edge bg-elev p-4">
+  {#each primaryFacets as f (f.id)}
+    {#if facetOptions[f.id].length}
+      <div class="flex flex-wrap items-start gap-x-3 gap-y-2">
+        <span class={rowLabel}>{f.label}</span>
+        <div class="flex flex-1 flex-wrap gap-1.5">
+          {#each facetOptions[f.id] as [value, count] (value)}
+            <button class="{chipBase} {sel[f.id].includes(value) ? chipOn : chipOff}" onclick={() => toggleFacet(f.id, value)}>
+              {f.fmt ? f.fmt(value) : value} <span class="opacity-60">{count}</span>
+            </button>
+          {/each}
+        </div>
+      </div>
+    {/if}
+  {/each}
+
   <div class="flex flex-wrap items-start gap-x-3 gap-y-2">
-    <span class="w-14 shrink-0 pt-1 text-[0.7rem] tracking-wide text-dim uppercase">MCU</span>
+    <span class={rowLabel}>Has</span>
     <div class="flex flex-1 flex-wrap gap-1.5">
-      {#each mcuOptions as [value, count]}
-        <button class="{chipBase} {selMcu.includes(value) ? chipOn : chipOff}" onclick={() => (selMcu = toggle(selMcu, value))}>
-          {value} <span class="opacity-60">{count}</span>
-        </button>
+      {#each primaryToggles as t (t.id)}
+        <button class="{chipBase} {toggles[t.id] ? chipOn : chipOff}" onclick={() => (toggles[t.id] = !toggles[t.id])}>{t.label}</button>
       {/each}
     </div>
   </div>
 
-  <div class="flex flex-wrap items-start gap-x-3 gap-y-2">
-    <span class="w-14 shrink-0 pt-1 text-[0.7rem] tracking-wide text-dim uppercase">Radio</span>
-    <div class="flex flex-1 flex-wrap gap-1.5">
-      {#each radioOptions as [value, count]}
-        <button class="{chipBase} {selRadio.includes(value) ? chipOn : chipOff}" onclick={() => (selRadio = toggle(selRadio, value))}>
-          <span class="uppercase">{value}</span> <span class="opacity-60">{count}</span>
-        </button>
-      {/each}
-    </div>
-  </div>
+  <!-- Advanced section -->
+  <div class="border-t border-edge pt-3">
+    <button
+      class="flex items-center gap-1.5 text-[0.8rem] font-medium text-dim hover:text-ink"
+      onclick={() => (advanced = !advanced)}
+      aria-expanded={advanced}
+    >
+      <span class="inline-block transition-transform {advanced ? 'rotate-90' : ''}">▸</span>
+      Advanced filters
+      {#if advancedActive && !advanced}
+        <span class="rounded-full bg-accent/15 px-1.5 text-[0.7rem] text-accent">active</span>
+      {/if}
+    </button>
 
-  <div class="flex flex-wrap items-start gap-x-3 gap-y-2">
-    <span class="w-14 shrink-0 pt-1 text-[0.7rem] tracking-wide text-dim uppercase">Roles</span>
-    <div class="flex flex-1 flex-wrap gap-1.5">
-      {#each roleOptions as [value, count]}
-        <button class="{chipBase} {selRoles.includes(value) ? chipOn : chipOff}" onclick={() => (selRoles = toggle(selRoles, value))}>
-          {value} <span class="opacity-60">{count}</span>
-        </button>
-      {/each}
-    </div>
-  </div>
+    {#if advanced}
+      <div class="mt-3 space-y-3">
+        {#each advancedFacets as f (f.id)}
+          {#if facetOptions[f.id].length}
+            <div class="flex flex-wrap items-start gap-x-3 gap-y-2">
+              <span class={rowLabel}>{f.label}</span>
+              <div class="flex flex-1 flex-wrap gap-1.5">
+                {#each facetOptions[f.id] as [value, count] (value)}
+                  <button class="{chipBase} {sel[f.id].includes(value) ? chipOn : chipOff}" onclick={() => toggleFacet(f.id, value)}>
+                    {f.fmt ? f.fmt(value) : value} <span class="opacity-60">{count}</span>
+                  </button>
+                {/each}
+              </div>
+            </div>
+          {/if}
+        {/each}
 
-  <div class="flex flex-wrap items-start gap-x-3 gap-y-2">
-    <span class="w-14 shrink-0 pt-1 text-[0.7rem] tracking-wide text-dim uppercase">Has</span>
-    <div class="flex flex-1 flex-wrap gap-1.5">
-      <button class="{chipBase} {gpsOnly ? chipOn : chipOff}" onclick={() => (gpsOnly = !gpsOnly)}>GPS</button>
-      <button class="{chipBase} {displayOnly ? chipOn : chipOff}" onclick={() => (displayOnly = !displayOnly)}>Display</button>
-      <button class="{chipBase} {batteryOnly ? chipOn : chipOff}" onclick={() => (batteryOnly = !batteryOnly)}>Battery</button>
-      <button class="{chipBase} {solarPanelOnly ? chipOn : chipOff}" onclick={() => (solarPanelOnly = !solarPanelOnly)}>Solar Panel</button>
-      <button class="{chipBase} {solarInputOnly ? chipOn : chipOff}" onclick={() => (solarInputOnly = !solarInputOnly)}>Solar Input</button>
-    </div>
+        <div class="flex flex-wrap items-start gap-x-3 gap-y-2">
+          <span class={rowLabel}>Has</span>
+          <div class="flex flex-1 flex-wrap gap-1.5">
+            {#each advancedToggles as t (t.id)}
+              <button class="{chipBase} {toggles[t.id] ? chipOn : chipOff}" onclick={() => (toggles[t.id] = !toggles[t.id])}>{t.label}</button>
+            {/each}
+          </div>
+        </div>
+
+        <div class="flex flex-wrap items-start gap-x-3 gap-y-2">
+          <span class={rowLabel}>Range</span>
+          <div class="flex flex-1 flex-wrap gap-2">
+            {#each RANGES as r (r.id)}
+              <div class="flex items-center gap-1 rounded-lg border px-2 py-1 text-[0.8rem] {rangeActive(r) ? 'border-accent/60' : 'border-edge'}">
+                <span class="text-dim">{r.label}</span>
+                <input
+                  type="number"
+                  inputmode="numeric"
+                  placeholder="min"
+                  bind:value={ranges[r.id].min}
+                  class="w-12 bg-transparent text-right outline-none placeholder:text-dim/50"
+                />
+                <span class="text-dim">–</span>
+                <input
+                  type="number"
+                  inputmode="numeric"
+                  placeholder="max"
+                  bind:value={ranges[r.id].max}
+                  class="w-12 bg-transparent text-right outline-none placeholder:text-dim/50"
+                />
+                <span class="text-[0.7rem] text-dim">{r.unit}</span>
+              </div>
+            {/each}
+          </div>
+        </div>
+      </div>
+    {/if}
   </div>
 </div>
 

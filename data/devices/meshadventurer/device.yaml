@@ -1,21 +1,75 @@
-# Source: meshcore-dev/MeshCore variants/meshadventurer/platformio.ini
-name: Meshadventurer
-kind: product
+# Source: https://github.com/chrismyers2000/MeshAdventurer
+# Source: https://github.com/chrismyers2000/MeshAdventurer/blob/main/PCB/V1.3/BOM_MeshAdventurer_V1.3.csv
+name: MeshAdventurer
+kind: dev-board
 lifecycle: active
 familyId: meshadventurer
+aliases:
+  - Meshadventurer
 official: true
+product_url: https://github.com/chrismyers2000/MeshAdventurer
+description: >-
+  DIY off-road ESP32 + E22 LoRa board with a 0.96-inch SSD1306 OLED, rotary
+  encoder UI, GPS, and optional BME280 sensor support. Built for 1 W 433 or
+  868/915 MHz builds with an external SMA antenna and wide-range 9-28V input.
+roles:
+  - companion
+  - repeater
+  - room-server
+  - standalone-ui
+transports:
+  - ble
+  - usb
 hardware:
   mcu:
     model: esp32
   radios:
     - technology: lora
       chip: sx1262
+      frequencyVariants:
+        - '868'
+        - '915'
+      txPowerDbm: 30
+      antenna: SMA
     - technology: lora
       chip: sx1268
+      frequencyVariants:
+        - '433'
+      txPowerDbm: 30
+      antenna: SMA
   display:
-    status: unknown
+    status: present
+    technology: oled
+    controller: SSD1306
+    size: 0.96
+    resolution:
+      width: 128
+      height: 64
+    colors: monochrome
   gnss:
-    status: unknown
+    status: present
+    chip: ATGM336H
+  input:
+    - type: button
+      description: user button
+    - type: encoder
+      description: rotary encoder with push switch
+  power:
+    batterySupported: false
+    pmic: CJ7805
+  expansion:
+    - type: header-2.54
+      count: 2
+      pins: 19
 interfaces:
+  usb:
+    connector: Micro-USB
+    capabilities:
+      - power
+      - serial
+      - flashing
+  bluetooth:
+    version: '4.2'
+    ble: true
   wifi:
     status: present

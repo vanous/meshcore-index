@@ -1,23 +1,49 @@
-# Source: meshcore-dev/MeshCore variants/wio_wm1110/platformio.ini
-name: Seeed Studio Wio WM1110
+# Source: https://www.seeedstudio.com/Wio-WM1110-Module-LR1110-and-nRF52840-p-5676.html
+# Source: https://files.seeedstudio.com/products/SenseCAP/Wio-WM1110/Wio-WM1110_Module_Datasheet_V1.3.pdf
+name: Wio WM1110
 vendorId: seeed
-kind: product
+kind: module
 lifecycle: active
 familyId: seeed-wio-wm1110
+aliases:
+  - Seeed Studio Wio WM1110
+  - Wio-WM1110
+  - Wio-WM1110 Wireless Module
 official: true
+product_url: https://www.seeedstudio.com/Wio-WM1110-Module-LR1110-and-nRF52840-p-5676.html
+price:
+  amount: 10
+  currency: USD
+  asOf: 2026-06
+description: >-
+  Fusion-positioning module pairing LR1110 with nRF52840 for long-range IoT,
+  BLE, and passive Wi-Fi/GNSS scanning. Compact 20×20 mm bare module intended
+  as the radio core for tracking and geolocation designs, with no display or
+  enclosure.
 hardware:
   mcu:
-    model: nrf52
+    model: nrf52840
+    flashMb: 1
   radios:
     - technology: lora
       chip: lr1110
+      txPowerDbm: 20
   display:
-    status: unknown
+    status: none
   gnss:
-    status: unknown
+    status: none
+  physical:
+    dimensionsMm:
+      width: 20
+      height: 20
+      depth: 2.3
+  certifications:
+    - FCC
+    - CE
+    - TELEC
 interfaces:
   bluetooth:
-    version: unknown
+    version: '5.0'
     ble: true
   wifi:
-    status: unknown
+    status: none
