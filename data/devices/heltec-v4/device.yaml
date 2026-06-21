@@ -71,6 +71,7 @@ hardware:
     batteryConnector: SH1.25-2
     charging: true
     solarInput: true
+    batteryChemistry: li-po
     # Source: https://mesh-sn.de/en/devices/details/heltec-wifi-lora-32-v4
     consumptionIdleMa: 20
     consumptionTxMa: 120

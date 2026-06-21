@@ -65,6 +65,8 @@ hardware:
     batteryBuiltIn: true
     batteryCapacityMah: 5000
     charging: true
+    # Source: https://mesh-sn.de/en/devices/details/meshpocket-qi2-magnetic-charging-power-bank
+    batteryChemistry: li-po
     pmic: BQ25970
     # Source: https://mesh-sn.de/en/devices/details/meshpocket-qi2-magnetic-charging-power-bank
     consumptionIdleMa: 8

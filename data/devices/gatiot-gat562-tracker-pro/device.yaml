@@ -51,6 +51,8 @@ hardware:
     charging: true
     solarInput: false
     # Source: https://mesh-sn.de/en/devices/details/gat562-mesh-tracker-pro
+    batteryConnector: Built-in Li-ion 2500mAh
+    # Source: https://mesh-sn.de/en/devices/details/gat562-mesh-tracker-pro
     consumptionIdleMa: 8
     consumptionTxMa: 85
   enclosure:

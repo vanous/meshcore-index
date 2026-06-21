@@ -61,6 +61,10 @@ hardware:
       description: PWR/PMU button (power on/off, customizable)
     - type: button
       description: user button (IO38, customizable)
+  leds:
+    status: present
+    # Source: https://mesh-sn.de/hardware/details/lilygo-t-beam-v12-sx1276
+    description: Status LED
   power:
     batterySupported: true
     batteryBuiltIn: false

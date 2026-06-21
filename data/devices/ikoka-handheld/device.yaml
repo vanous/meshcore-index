@@ -55,6 +55,10 @@ hardware:
   input:
     - type: button
       description: user button
+  leds:
+    status: present
+    # Source: https://mesh-sn.de/hardware/details/ikoka-handheld
+    description: Status LED
   power:
     batterySupported: true
     batteryBuiltIn: false

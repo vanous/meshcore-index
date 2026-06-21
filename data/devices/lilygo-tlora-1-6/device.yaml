@@ -52,6 +52,10 @@ hardware:
     colors: monochrome
   gnss:
     status: none
+  leds:
+    status: present
+    # Source: https://mesh-sn.de/hardware/details/lilygo-lora32-v21-16
+    description: Status LED
   power:
     batterySupported: true
     batteryBuiltIn: false

@@ -63,6 +63,7 @@ hardware:
     batteryBuiltIn: false
     batteryConnector: SH1.25-2
     charging: true
+    batteryChemistry: li-po
     # Source: https://mesh-sn.de/en/devices/details/heltec-wifi-lora-32-v3
     consumptionIdleMa: 45
     consumptionTxMa: 120

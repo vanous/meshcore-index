@@ -1,0 +1,62 @@
+name: Meck-P4
+type: fork
+maintainer: pelgraine
+description: >
+  A port of Meck (a MeshCore fork) to the LilyGo T-Display P4, targeting the ESP32-P4 main MCU.
+  The onboard ESP32-C6 provides WiFi companion connectivity to the MeshCore app; BLE is not yet
+  enabled. Features a full touch UI with virtual keyboard, channel messaging, repeater admin,
+  trace route, position adverts, and private channels.
+repository: https://github.com/pelgraine/Meck-P4
+license: GPL-3.0
+status: active
+latest_version: v0.4
+released: '2026-06-16'
+lifecycle: active
+maturity: alpha
+distribution: community
+lineage:
+  kind: fork
+  upstreamFirmwareId: meshcore-official
+  upstreamRepository: https://github.com/meshcore-dev/MeshCore
+runtime:
+  framework: arduino
+  language: cpp
+roles:
+  - companion
+  - repeater
+  - room-server
+features:
+  - ESP32-P4 main MCU with ESP32-C6 WiFi companion
+  - Touch UI with virtual keyboard
+  - Screen-off power saving
+  - Channel messaging and direct messages
+  - Repeater admin and room server
+  - Trace route and path view
+  - Position adverts and share position
+  - Private channels
+  - Per-contact path editor
+  - Region scope
+capabilities:
+  protocol:
+    meshcoreCompatible: true
+  transports:
+    ble: false
+    usbSerial: true
+    nativeTcp: true
+    wifiAp: true
+  operations:
+    ota: false
+    webFlasher: false
+  networking:
+    repeater: true
+    roomServer: true
+    observer: false
+    kissModem: false
+  hardware:
+    gps: true
+    display: true
+    sensors: false
+    lowPowerRx: false
+devices:
+  - id: lilygo-tdisplay-p4
+    status: supported

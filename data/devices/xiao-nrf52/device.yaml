@@ -48,6 +48,13 @@ hardware:
   leds:
     status: present
     description: User/status LED
+  power:
+    batterySupported: true
+    batteryBuiltIn: false
+    charging: true
+    solarInput: false
+    # Source: https://wiki.seeedstudio.com/XIAO_BLE/
+    batteryConnector: JST-PH 2-pin (external)
 interfaces:
   usb:
     connector: USB-C

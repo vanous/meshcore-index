@@ -65,6 +65,7 @@ hardware:
     charging: true
     solarInput: true
     batteryConnector: SH1.25-2
+    batteryChemistry: li-po
     # Source: https://mesh-sn.de/en/devices/details/heltec-mesh-node-t096
     consumptionIdleMa: 13
     consumptionTxMa: 130

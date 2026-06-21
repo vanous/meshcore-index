@@ -1,6 +1,6 @@
 source: github
 repo: MichTronics/MeshCoreNG
-updatedAt: '2026-06-21T04:22:40.371Z'
+updatedAt: '2026-06-21T06:26:55.772Z'
 releases:
   - version: bridge-tcp-ble-v1.1.2
     name: TCP+BLE Bridge Firmware v1.1.2

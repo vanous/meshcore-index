@@ -1,0 +1,68 @@
+name: Meck
+type: fork
+maintainer: pelgraine
+description: >
+  A MeshCore companion firmware fork focused on enabling BLE and WiFi connectivity for the
+  LilyGo T-Deck Pro, T-Deck Max, and T5 E-Paper S3 Pro. Features a full touch UI with
+  on-device keyboard, games, voice notes over LoRa, web browser, SMS, and a configuration
+  launcher with OTA updates.
+repository: https://github.com/pelgraine/Meck
+license: MIT
+status: active
+latest_version: v1.12.2
+released: '2026-06-16'
+lifecycle: active
+maturity: beta
+distribution: community
+lineage:
+  kind: fork
+  upstreamFirmwareId: meshcore-official
+  upstreamRepository: https://github.com/meshcore-dev/MeshCore
+runtime:
+  framework: arduino
+  language: cpp
+roles:
+  - companion
+  - repeater
+  - room-server
+features:
+  - BLE and WiFi companion connectivity
+  - Touch UI with on-device keyboard
+  - Games (Sokoban, Pong, Snake)
+  - Voice notes over LoRa
+  - Web browser and IRC client
+  - SMS and phone app (4G models only)
+  - Per-channel notification preferences and custom tones
+  - Config export/import
+  - OTA firmware update
+  - Lock screen and shutdown
+capabilities:
+  protocol:
+    meshcoreCompatible: true
+  transports:
+    ble: true
+    usbSerial: true
+    nativeTcp: true
+    wifiAp: true
+  operations:
+    ota: true
+    webFlasher: false
+  networking:
+    repeater: true
+    roomServer: true
+    observer: false
+    kissModem: false
+  hardware:
+    gps: true
+    display: true
+    sensors: false
+    lowPowerRx: false
+devices:
+  - id: lilygo-t-deck
+    status: supported
+  - id: lilygo-tdeck-pro
+    status: supported
+    notes: T-Deck Pro variant with ESP32-S3 and e-paper display.
+  - id: lilygo-t5-pro
+    status: supported
+    notes: T5 E-Paper S3 Pro (H752-XX) variant.

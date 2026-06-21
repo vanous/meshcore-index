@@ -1,0 +1,66 @@
+name: MeshCore Solo
+type: fork
+maintainer: MarekZegare4
+description: >
+  A companion-focused MeshCore firmware fork with extended features and UI enhancements —
+  offline GPS navigation (waypoints, compass, GPX export), sensor screens, favourites dial,
+  screen lock, auto-reply bot, and a rich tools screen. Targets Seeed nRF52 boards with
+  unified BLE + USB builds.
+repository: https://github.com/MarekZegare4/MeshCore-Solo
+license: MIT
+status: active
+latest_version: v1.19
+released: '2026-06-16'
+lifecycle: active
+maturity: beta
+distribution: community
+lineage:
+  kind: fork
+  upstreamFirmwareId: meshcore-official
+  upstreamRepository: https://github.com/meshcore-dev/MeshCore
+runtime:
+  framework: arduino
+  language: cpp
+roles:
+  - companion
+features:
+  - Offline GPS navigation (waypoints, compass, GPX export)
+  - Navigate to waypoints, nodes, or shared locations
+  - GPS trail recording with auto-fit map and summary stats
+  - Sensor screens (temperature, humidity, pressure, luminosity, CO₂)
+  - Favourites dial — pin up to six contacts for quick access
+  - Screen lock with lock-screen data display
+  - Auto-reply bot and auto-advert
+  - Native Unicode rendering with Lemon font
+  - Metric or imperial units across the UI
+  - E-ink display support with adaptive layout and rotation
+  - Unified BLE + USB companion build
+capabilities:
+  protocol:
+    meshcoreCompatible: true
+  transports:
+    ble: true
+    usbSerial: true
+    nativeTcp: false
+    wifiAp: false
+  operations:
+    ota: false
+    webFlasher: false
+  networking:
+    repeater: false
+    roomServer: false
+    observer: false
+    kissModem: false
+  hardware:
+    gps: true
+    display: true
+    sensors: true
+    lowPowerRx: false
+devices:
+  - id: wio-tracker-l1
+    status: supported
+  - id: wio-tracker-l1-eink
+    status: supported
+    notes: E-ink variant with GxEPD2 250×122 panel.
+  - id: gatiot-gat562-30s
+    status: supported

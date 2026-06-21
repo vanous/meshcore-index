@@ -64,6 +64,10 @@ hardware:
     - type: encoder
     - type: microphone
     - type: speaker
+  leds:
+    status: present
+    # Source: https://mesh-sn.de/en/devices/details/lilygo-t-lora-pager
+    description: Status LED
   power:
     batterySupported: true
     batteryBuiltIn: true

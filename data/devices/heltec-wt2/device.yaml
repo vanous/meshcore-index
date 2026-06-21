@@ -75,6 +75,8 @@ hardware:
     charging: true
     solarInput: false
     # Source: https://mesh-sn.de/en/devices/details/heltec-wireless-tracker-v2
+    batteryChemistry: li-po
+    # Source: https://mesh-sn.de/en/devices/details/heltec-wireless-tracker-v2
     consumptionIdleMa: 35
     consumptionTxMa: 110
   physical:

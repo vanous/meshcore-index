@@ -46,6 +46,10 @@ hardware:
   input:
     - type: button
       description: power
+  leds:
+    status: present
+    # Source: https://mesh-sn.de/en/devices/details/gat562-mesh-watch
+    description: RGB status LEDs
   power:
     batterySupported: true
     batteryBuiltIn: true

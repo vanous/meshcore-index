@@ -46,6 +46,10 @@ hardware:
   leds:
     status: none
   power:
+    batterySupported: true
+    batteryBuiltIn: false
+    batteryConnector: extern
+    charging: false
     # Source: https://mesh-sn.de/en/devices/details/heltec-ct62-capsule-sensor
     consumptionIdleMa: 10
     consumptionTxMa: 80

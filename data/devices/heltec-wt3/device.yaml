@@ -65,6 +65,10 @@ hardware:
   input:
     - type: button
     - type: button
+  leds:
+    status: present
+    # Source: https://mesh-sn.de/en/devices/details/heltec-wireless-tracker-v11
+    description: Status LED
   power:
     batterySupported: true
     batteryCapacityMah: 4000

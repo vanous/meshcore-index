@@ -54,6 +54,10 @@ hardware:
     colors: monochrome
   gnss:
     status: none
+  leds:
+    status: present
+    # Source: https://github.com/meshcore-dev/MeshCore/issues/1276
+    description: White status LED
   power:
     batterySupported: true
     batteryBuiltIn: false

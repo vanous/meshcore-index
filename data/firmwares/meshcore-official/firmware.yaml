@@ -83,6 +83,10 @@ devices:
     status: supported
     target: gat562_mesh_tracker_pro
     platformio_board: rak4631
+  - id: gatiot-gat562-tracker-pro
+    status: supported
+    target: gat562_mesh_tracker_pro
+    platformio_board: rak4631
   - id: gatiot-gat562-watch13
     status: supported
     target: gat562_mesh_watch13
@@ -140,6 +144,10 @@ devices:
     target: heltec_v2
     platformio_board: heltec_wifi_lora_32_V2
   - id: heltec-v3
+    status: supported
+    target: heltec_v3
+    platformio_board: esp32-s3-devkitc-1
+  - id: heltec-wsl3
     status: supported
     target: heltec_v3
     platformio_board: esp32-s3-devkitc-1

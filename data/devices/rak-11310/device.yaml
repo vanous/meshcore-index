@@ -45,6 +45,8 @@ hardware:
     status: none
   gnss:
     status: none
+  leds:
+    status: none
   power:
     batterySupported: true
     batteryBuiltIn: false

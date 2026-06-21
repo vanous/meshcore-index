@@ -48,6 +48,10 @@ hardware:
     status: none
   gnss:
     status: none
+  leds:
+    status: present
+    # Source: https://mesh-sn.de/hardware/details/rak4631-wisblock-core
+    description: Status LED
   power:
     batterySupported: true
     batteryBuiltIn: false

@@ -1,0 +1,78 @@
+name: MeshCore Low-Power
+type: fork
+maintainer: dt267
+description: >
+  A power-optimised MeshCore firmware with deep sleep, a full companion display UI with
+  multi-transport connectivity (BLE + USB + WiFi in a single build), advanced radio and
+  network controls, a browser-based configuration portal, and battery-life profiling —
+  built for multi-day off-grid operation.
+repository: https://github.com/dt267/MeshCore-Low-Power-Firmware-For-Heltec-V3-V4
+license: MIT
+status: active
+latest_version: v1.16.dev_0614
+released: '2026-06-14'
+lifecycle: active
+maturity: beta
+distribution: community
+lineage:
+  kind: fork
+  upstreamFirmwareId: meshcore-official
+  upstreamRepository: https://github.com/meshcore-dev/MeshCore
+runtime:
+  framework: arduino
+  language: cpp
+roles:
+  - companion
+  - repeater
+  - room-server
+features:
+  - Deep power optimisation with idle current profiling
+  - Unified BLE + USB + WiFi companion build (single binary)
+  - Browser-based configuration portal (backup, restore, flash, reboot)
+  - Companion backup/restore (preferences, WiFi credentials, presets)
+  - Adaptive Rx boosted gain on Heltec V4.2
+  - GPS constellation selection and runtime GPS update interval
+  - Low-battery protection and voltage reading
+  - Native multilingual display on Heltec T096 colour TFT
+  - KCT8103L FEM auto-detection on Heltec V4.3
+capabilities:
+  protocol:
+    meshcoreCompatible: true
+  transports:
+    ble: true
+    usbSerial: true
+    nativeTcp: true
+    wifiAp: true
+  operations:
+    ota: true
+    webFlasher: false
+  networking:
+    repeater: true
+    roomServer: true
+    observer: false
+    kissModem: false
+  hardware:
+    gps: true
+    display: true
+    sensors: true
+    lowPowerRx: true
+devices:
+  - id: heltec-v3
+    status: supported
+  - id: heltec-wsl3
+    status: supported
+  - id: heltec-v4
+    status: supported
+  - id: heltec-e213
+    status: supported
+  - id: heltec-e290
+    status: supported
+  - id: heltec-paper
+    status: supported
+  - id: heltec-t096
+    status: supported
+  - id: xiao-esp32s3
+    status: supported
+  - id: rak-4631
+    status: supported
+    notes: Uses RAK19003 base board for power profiling.
