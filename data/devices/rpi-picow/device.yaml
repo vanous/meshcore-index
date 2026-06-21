@@ -1,10 +1,13 @@
 # Source: meshcore-dev/flasher.meshcore.io config.json
+# Source: https://www.raspberrypi.com/documentation/microcontrollers/pico-series.html
+# Source: https://pip.raspberrypi.com/documents/RP-008307-DS-pico-datasheet.pdf
 name: RPI Pico 2040 + WaveShare SX1262
 vendorId: raspberry
 kind: kit
 lifecycle: active
 familyId: raspberry-rpi-pico-2040-waveshare
 image: rpi_picow.svg
+datasheet: datasheet.pdf
 official: true
 description: >-
   Raspberry Pi Pico 2040 paired with a WaveShare SX1262 LoRa board for
@@ -17,7 +20,6 @@ roles:
   - room-server
 transports:
   - usb
-  - wifi
 hardware:
   mcu:
     model: rp2040
@@ -40,5 +42,4 @@ interfaces:
     version: unknown
     ble: false
   wifi:
-    status: present
-    standard: 802.11 b/g/n
+    status: none

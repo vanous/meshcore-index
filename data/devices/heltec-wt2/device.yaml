@@ -1,4 +1,5 @@
 # Source: https://heltec.org/project/wireless-tracker-v2/
+# Source: https://resource.heltec.cn/download/Wireless_Tracker_V2/Wireless_Tracker_v2_Datasheet/Wireless%20Tracker%20v2.pdf
 # Source: https://wiki.heltec.org/docs/devices/open-source-hardware/esp32-series/lora-32/wireless-tracker-v2/
 name: Heltec Wireless Tracker v2
 vendorId: heltec
@@ -9,6 +10,7 @@ revision: '2'
 aliases:
   - Wireless Tracker v2
 image: heltec_wt2.svg
+datasheet: datasheet.pdf
 official: true
 product_url: https://heltec.org/project/wireless-tracker-v2/
 description: >-
@@ -33,8 +35,11 @@ hardware:
     - technology: lora
       chip: sx1262
       frequencyVariants:
-        - '863'
-        - '928'
+        - '865'
+        - '868'
+        - '915'
+        - '920'
+        - '923'
       txPowerDbm: 28
       antenna: IPEX-1.0
   display:
@@ -48,12 +53,23 @@ hardware:
   gnss:
     status: present
     chip: UC6580
+  input:
+    - type: button
+      description: USER_SW
+    - type: button
+      description: RST_SW
   power:
     batterySupported: true
     batteryBuiltIn: false
     batteryConnector: SH1.25-2
     charging: true
     solarInput: true
+  physical:
+    dimensionsMm:
+      width: 53
+      height: 25.4
+      depth: 9.37
+    weightG: 55
   expansion:
     - type: header-2.54
       count: 2

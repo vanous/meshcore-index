@@ -11,6 +11,8 @@ aliases:
   - Wio-WM1110 Wireless Module
 official: true
 product_url: https://www.seeedstudio.com/Wio-WM1110-Module-LR1110-and-nRF52840-p-5676.html
+transports:
+  - ble
 price:
   amount: 10
   currency: USD
@@ -27,6 +29,12 @@ hardware:
   radios:
     - technology: lora
       chip: lr1110
+      frequencyVariants:
+        - '865'
+        - '868'
+        - '915'
+        - '920'
+        - '923'
       txPowerDbm: 20
   display:
     status: none
@@ -43,7 +51,7 @@ hardware:
     - TELEC
 interfaces:
   bluetooth:
-    version: '5.0'
+    version: '5.3'
     ble: true
   wifi:
     status: none

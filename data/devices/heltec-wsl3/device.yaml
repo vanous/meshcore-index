@@ -1,4 +1,5 @@
 # Source: https://heltec.org/project/wireless-shell-v3/
+# Source: https://resource.heltec.cn/download/Wireless_Shell_V3/HTIT-Wsh_V3%28Rev1.1%29.pdf
 # Source: https://wiki.heltec.org/docs/devices/open-source-hardware/esp32-series/lora-32/wireless-shell/
 name: Heltec WSL3
 vendorId: heltec
@@ -6,6 +7,7 @@ kind: product
 lifecycle: active
 familyId: heltec-wsl3
 image: heltec_wsl3.svg
+datasheet: datasheet.pdf
 official: true
 product_url: https://heltec.org/project/wireless-shell-v3/
 description: >-
@@ -30,9 +32,10 @@ hardware:
       chip: sx1262
       frequencyVariants:
         - '470'
-        - '863'
+        - '868'
         - '915'
       txPowerDbm: 21
+      antenna: IPEX-1.0
   display:
     status: none
   gnss:
@@ -41,7 +44,7 @@ hardware:
     dimensionsMm:
       width: 38.4
       height: 16.1
-      depth: 3.2
+      depth: 2.8
 interfaces:
   usb:
     connector: USB-C

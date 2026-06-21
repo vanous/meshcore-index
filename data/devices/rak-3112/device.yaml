@@ -31,8 +31,11 @@ hardware:
     - technology: lora
       chip: sx1262
       frequencyVariants:
+        - '865'
         - '868'
         - '915'
+        - '920'
+        - '923'
       txPowerDbm: 20
   display:
     status: none
@@ -40,7 +43,7 @@ hardware:
     status: none
 interfaces:
   usb:
-    connector: USB-C
+    connector: unknown
     capabilities:
       - power
       - serial

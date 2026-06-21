@@ -7,6 +7,8 @@ lifecycle: active
 familyId: seeed-sensecap-indicator-esp-now
 official: true
 product_url: https://wiki.seeedstudio.com/sensecap_indicator_meshtastic/
+roles:
+  - standalone-ui
 description: >-
   4-inch SenseCAP Indicator touchscreen platform for firmware experiments and
   mesh-network control panels. The product line pairs ESP32 and RP2040-class
@@ -24,7 +26,10 @@ hardware:
     size: 4
     touch: true
   gnss:
-    status: unknown
+    status: none
+  input:
+    - type: button
+      description: power / wake / reset button
 interfaces:
   usb:
     connector: USB-C

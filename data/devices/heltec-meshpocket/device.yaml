@@ -1,5 +1,5 @@
 # Source: https://heltec.org/project/meshpocket/
-# Source: https://resource.heltec.cn/download/MeshPocket/datasheet
+# Source: https://resource.heltec.cn/download/MeshPocket/datasheet/MeshPocket_1.0.1.pdf
 name: Heltec MeshPocket
 vendorId: heltec
 kind: product
@@ -44,20 +44,26 @@ hardware:
       antenna: IPEX-1.0
   display:
     status: present
-    technology: display
-    size: 0.65
+    technology: e-ink
+    size: 2.13
     resolution:
-      width: 64
-      height: 128
+      width: 122
+      height: 250
     colors: monochrome
   gnss:
     status: none
   power:
     batterySupported: true
     batteryBuiltIn: true
-    batteryCapacityMah: 4000
+    batteryCapacityMah: 5000
     charging: true
     pmic: BQ25970
+  physical:
+    dimensionsMm:
+      width: 102
+      height: 74.1
+      depth: 11.5
+    weightG: 140
   expansion:
     - type: header-2.54
       count: 1
