@@ -1,25 +1,71 @@
 # Source: meshcore-dev/MeshCore variants/meshtiny/platformio.ini + boards/meshtiny.json
+# Source: https://shop.mtoolstec.com/product/meshtiny
+# Source: https://meshtiny.com/product/meshtiny/
 name: Meshtiny
 vendorId: mtools
 kind: product
 lifecycle: active
 familyId: mtools-meshtiny
-product_url: https://shop.mtoolstec.com/product/meshtiny
+product_url: https://meshtiny.com/product/meshtiny/
 official: true
+roles:
+  - companion
+  - repeater
+  - room-server
+  - standalone-ui
+transports:
+  - ble
+  - usb
 hardware:
   mcu:
     model: nrf52
+    flashMb: 1
   radios:
     - technology: lora
       chip: sx1262
+      frequencyVariants:
+        - '868'
+        - '915'
   display:
-    status: unknown
-  gnss:
     status: present
-    chip: unknown
+    technology: oled
+    controller: SSD1306
+    size: 0.96
+    resolution:
+      width: 128
+      height: 64
+    colors: monochrome
+  gnss:
+    status: none
+  input:
+    - type: encoder
+      description: up/down encoder
+    - type: button
+      description: user button
+  power:
+    batterySupported: true
+    batteryBuiltIn: true
+    batteryCapacityMah: 250
+    charging: true
+    solarInput: false
+  physical:
+    dimensionsMm:
+      width: 51.7
+      height: 25.4
+      depth: 10.7
+  environmental:
+    operatingTempC:
+      min: -20
+      max: 70
 interfaces:
+  usb:
+    connector: USB-C
+    capabilities:
+      - power
+      - serial
+      - flashing
   bluetooth:
-    version: unknown
+    version: '5.0'
     ble: true
   wifi:
-    status: unknown
+    status: none

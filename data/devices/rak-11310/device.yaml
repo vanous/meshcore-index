@@ -6,6 +6,10 @@ kind: product
 lifecycle: active
 familyId: rak-11310
 official: true
+roles:
+  - companion
+  - repeater
+  - room-server
 transports:
   - usb
 hardware:
@@ -21,6 +25,11 @@ hardware:
         - '920'
         - '923'
       antenna: IPEX-1.0
+  physical:
+    dimensionsMm:
+      width: 20
+      height: 30
+      depth: 2
   display:
     status: none
   gnss:

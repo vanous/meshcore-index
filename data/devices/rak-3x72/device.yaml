@@ -22,10 +22,16 @@ hardware:
         - '915'
         - '920'
         - '923'
+      txPowerDbm: 22
   display:
     status: none
   gnss:
     status: none
+  certifications:
+    - CE
+    - FCC
+    - ISED
+    - UKCA
 interfaces:
   wifi:
     status: none

@@ -1,4 +1,6 @@
 # Source: meshcore-dev/flasher.meshcore.io config.json
+# Source: https://mesh-sn.de/en/devices/details/gat562-30s-mesh-kit-1w
+# Source: https://github.com/gat-iot/GAT562-family
 name: GAT-IoT GAT562 30s
 vendorId: gatiot
 kind: product
@@ -8,30 +10,68 @@ variantOf: gatiot-gat562
 aliases:
   - GAT562 30s
 image: gatiot_gat562_30s.svg
+datasheet: datasheet.pdf
 official: true
 roles:
   - companion
   - repeater
   - room-server
+  - standalone-ui
 transports:
   - ble
   - usb
+  - wifi
+product_url: https://www.gat-iot.com/products/gat562-30s-mesh-kit/
 hardware:
   mcu:
     model: nrf52
+    flashMb: 1
+  radios:
+    - technology: lora
+      chip: sx1262
+      frequencyVariants:
+        - '868'
+        - '915'
+      txPowerDbm: 30
+      antenna: SMA
   display:
-    status: unknown
+    status: present
+    technology: display
+    size: 1.3
+    resolution:
+      width: 128
+      height: 64
+    colors: color
   gnss:
-    status: unknown
+    status: present
+    chip: ATGM336H
+  input:
+    - type: joystick
+      description: 4-way
+    - type: button
+      description: user
+    - type: button
+      description: boot
+  power:
+    batterySupported: true
+    batteryBuiltIn: false
+    charging: true
+    solarInput: true
+  physical:
+    dimensionsMm:
+      width: 100
+      height: 65
+      depth: 30
+    weightG: 200
 interfaces:
   usb:
-    connector: unknown
+    connector: USB-C
     capabilities:
       - power
       - serial
       - flashing
   bluetooth:
-    version: unknown
+    version: '5.0'
     ble: true
   wifi:
-    status: unknown
+    status: none

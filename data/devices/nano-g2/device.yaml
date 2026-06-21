@@ -1,4 +1,5 @@
 # Source: meshcore-dev/flasher.meshcore.io config.json
+# Source: https://wiki.bqvoy.com/en/meshtastic/nano-g2-ultra
 name: UnitEng Nano G2 Ultra
 vendorId: uniteng
 kind: product
@@ -6,25 +7,58 @@ lifecycle: active
 familyId: uniteng-nano-g2-ultra
 image: nano_g2.svg
 official: true
+product_url: https://wiki.bqvoy.com/en/meshtastic/nano-g2-ultra
 roles:
   - companion
+  - repeater
+  - room-server
+  - standalone-ui
 transports:
   - ble
+  - usb
 hardware:
   mcu:
-    model: nrf52
+    model: nrf52840
+    flashMb: 2
   display:
-    status: unknown
+    status: present
+    technology: oled
+    size: 1.3
+    colors: monochrome
   gnss:
     status: present
-    chip: unknown
+    chip: ATGM336H
+  input:
+    - type: button
+      description: program
+    - type: button
+      description: message read
+    - type: button
+      description: gps on/off
+    - type: button
+      description: led or buzzer
+    - type: button
+      description: power on/off
   power:
     batterySupported: true
+    batteryBuiltIn: false
     charging: true
     solarInput: false
+  physical:
+    dimensionsMm:
+      width: 100
+      height: 58
+      depth: 25
+    weightG: 123
 interfaces:
+  usb:
+    connector: USB-C
+    capabilities:
+      - power
+      - serial
+      - flashing
   bluetooth:
-    version: unknown
+    version: '5.4'
     ble: true
   wifi:
-    status: unknown
+    status: none

@@ -1,4 +1,5 @@
 # Source: meshcore-dev/MeshCore variants/lilygo_tbeam_1w/platformio.ini + boards/t_beam_1w.json
+# Source: https://lilygo.cc/en-us/products/t-beam-1w
 name: LilyGo T-Beam 1W
 vendorId: lilygo
 kind: product
@@ -8,12 +9,22 @@ aliases:
   - T-Beam 1W
 product_url: http://www.lilygo.cn/
 official: true
+transports:
+  - ble
+  - usb
+  - wifi
 hardware:
   mcu:
     model: esp32-s3
+    flashMb: 16
+    psramMb: 8
   radios:
     - technology: lora
       chip: sx1262
+      frequencyVariants:
+        - '433'
+        - '868'
+        - '915'
   display:
     status: unknown
   gnss:
@@ -23,9 +34,25 @@ hardware:
     batterySupported: true
     charging: true
     solarInput: false
+    pmic: AXP2101
+  input:
+    - type: button
+      description: boot
+    - type: button
+      description: reset
+    - type: button
+      description: power
+    - type: button
+      description: io03
 interfaces:
+  usb:
+    connector: unknown
+    capabilities:
+      - power
+      - serial
+      - flashing
   bluetooth:
-    version: unknown
+    version: '5.0'
     ble: true
   wifi:
     status: present

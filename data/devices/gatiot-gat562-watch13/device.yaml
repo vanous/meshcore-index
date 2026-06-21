@@ -1,4 +1,5 @@
 # Source: meshcore-dev/MeshCore variants/gat562_mesh_watch13/platformio.ini
+# Source: https://github.com/gat-iot/GAT562-family
 name: GAT-IoT GAT562 Mesh Watch13
 vendorId: gatiot
 kind: product
@@ -8,21 +9,54 @@ variantOf: gatiot-gat562
 aliases:
   - GAT562 Watch13
 official: true
+datasheet: datasheet.pdf
+roles:
+  - companion
+  - repeater
+  - room-server
+  - standalone-ui
+transports:
+  - ble
+  - usb
 hardware:
   mcu:
     model: nrf52
+    flashMb: 1
   radios:
     - technology: lora
       chip: sx1262
+      frequencyVariants:
+        - '868'
+        - '915'
   display:
     status: present
     technology: display
+    size: 1.3
+    colors: monochrome
   gnss:
-    status: unknown
+    status: present
+    chip: ATGM336H
+  input:
+    - type: button
+      description: power
   power:
     batterySupported: true
+    batteryBuiltIn: true
+    batteryCapacityMah: 800
     charging: true
     solarInput: false
+  enclosure:
+    builtIn: true
+    ipRating: IP65
 interfaces:
+  usb:
+    connector: USB-C
+    capabilities:
+      - power
+      - serial
+      - flashing
+  bluetooth:
+    version: '5.0'
+    ble: true
   wifi:
-    status: unknown
+    status: none
