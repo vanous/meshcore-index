@@ -3,17 +3,90 @@
   import { page } from '$app/stores';
   import { browser } from '$app/environment';
   import { goto } from '$app/navigation';
-  import { getDevice, deviceMcuLabel, deviceRadioLabel, deviceShortName } from '$lib/data.js';
+  import { getDevice, deviceMcuLabel, deviceRadioLabel } from '$lib/data.js';
   import Seo from '$lib/Seo.svelte';
   let { data } = $props();
+  let selectedRevision = $state('latest');
 
   // Optional device context (?device=<id>): show whose bands we're highlighting.
   // Query params only exist client-side — this page is prerendered, where
   // accessing url.searchParams throws, so guard on `browser`.
   let device = $derived(browser ? getDevice($page.url.searchParams.get('device')) ?? null : null);
-  let deviceBands = $derived(
-    new Set((device?.hardware?.radios ?? []).flatMap((r) => (r.bands ?? []).map(String)))
-  );
+
+  const known = (v) => v !== undefined && v !== null && v !== '' && v !== 'unknown';
+
+  function revisionLabel(revision) {
+    if (!known(revision)) return null;
+    const value = String(revision);
+    return value.toLowerCase().startsWith('v') ? value : `V${value}`;
+  }
+
+  function revisionParts(revision) {
+    const matches = String(revision).match(/\d+|[a-z]+/gi) ?? [];
+    return matches.map((part) => (/^\d+$/.test(part) ? Number(part) : part.toLowerCase()));
+  }
+
+  function compareRevision(a, b) {
+    const aa = revisionParts(a);
+    const bb = revisionParts(b);
+    const length = Math.max(aa.length, bb.length);
+    for (let i = 0; i < length; i += 1) {
+      if (aa[i] === undefined) return -1;
+      if (bb[i] === undefined) return 1;
+      if (aa[i] === bb[i]) continue;
+      if (typeof aa[i] === 'number' && typeof bb[i] === 'number') return aa[i] - bb[i];
+      return String(aa[i]).localeCompare(String(bb[i]), undefined, { numeric: true });
+    }
+    return String(a).localeCompare(String(b), undefined, { numeric: true });
+  }
+
+  let deviceVariantRevisions = $derived.by(() => {
+    const seen = new Set();
+    const out = [];
+    for (const variant of device?.variants ?? []) {
+      if (!known(variant.revision)) continue;
+      const revision = String(variant.revision);
+      if (seen.has(revision)) continue;
+      seen.add(revision);
+      out.push(revision);
+    }
+    return out.sort(compareRevision);
+  });
+
+  let showRevisionFilter = $derived(deviceVariantRevisions.length > 1);
+  let latestRevision = $derived(deviceVariantRevisions.at(-1) ?? null);
+  let activeRevision = $derived(selectedRevision === 'latest' ? latestRevision : selectedRevision);
+
+  let activeVariants = $derived.by(() => {
+    const variants = device?.variants ?? [];
+    if (!variants.length) return [];
+    if (!showRevisionFilter || activeRevision === 'all' || !activeRevision) return variants;
+    return variants.filter((variant) => String(variant.revision) === activeRevision);
+  });
+
+  let deviceBands = $derived.by(() => {
+    if (activeVariants.length) {
+      return new Set(activeVariants.flatMap((variant) => (variant.bands ?? []).map(String)));
+    }
+    return new Set((device?.hardware?.radios ?? []).flatMap((r) => (r.bands ?? []).map(String)));
+  });
+
+  function variantsForBand(band) {
+    const key = String(band);
+    return activeVariants.filter((variant) => (variant.bands ?? []).map(String).includes(key));
+  }
+
+  $effect(() => {
+    if (!showRevisionFilter) {
+      selectedRevision = 'latest';
+    } else if (
+      selectedRevision !== 'latest' &&
+      selectedRevision !== 'all' &&
+      !deviceVariantRevisions.includes(selectedRevision)
+    ) {
+      selectedRevision = 'latest';
+    }
+  });
 
   // Make the whole row clickable, but stay out of the way of the explicit
   // links and of text selection (so copying a frequency range still works).
@@ -51,12 +124,38 @@
     <div class="min-w-0 flex-1">
       <div class="text-[0.75rem] uppercase tracking-wide text-dim">Supported bands for</div>
       <a class="block truncate font-semibold hover:text-accent hover:underline" href="{base}/device/{device.id}/" title={device.name}>
-        {deviceShortName(device)}
+        {device.name}
       </a>
       <div class="truncate font-mono text-[0.75rem] text-dim">
         {deviceMcuLabel(device)}{#if deviceRadioLabel(device) && deviceRadioLabel(device) !== 'Unknown'} · {deviceRadioLabel(device)}{/if}
       </div>
     </div>
+    {#if showRevisionFilter}
+      <div class="flex flex-wrap justify-end gap-1.5" aria-label="Filter bands by hardware revision">
+        <button
+          type="button"
+          class="rounded-full border px-2.5 py-1 text-[0.75rem] font-semibold transition {selectedRevision === 'all'
+            ? 'border-accent2 bg-accent2/15 text-accent2'
+            : 'border-edge bg-elev text-dim hover:border-accent2/60 hover:text-ink'}"
+          aria-pressed={selectedRevision === 'all'}
+          onclick={() => (selectedRevision = 'all')}
+        >
+          All revisions
+        </button>
+        {#each deviceVariantRevisions as revision}
+          <button
+            type="button"
+            class="rounded-full border px-2.5 py-1 text-[0.75rem] font-semibold transition {activeRevision === revision
+              ? 'border-accent2 bg-accent2/15 text-accent2'
+              : 'border-edge bg-elev text-dim hover:border-accent2/60 hover:text-ink'}"
+            aria-pressed={activeRevision === revision}
+            onclick={() => (selectedRevision = revision)}
+          >
+            {revisionLabel(revision)}
+          </button>
+        {/each}
+      </div>
+    {/if}
     <a class="shrink-0 text-[0.8rem] text-dim hover:text-accent hover:underline" href="{base}/bands/">Clear</a>
   </div>
 {/if}
@@ -68,12 +167,14 @@
         <th class="px-4 py-2.5 font-semibold">Region</th>
         <th class="px-4 py-2.5 font-semibold">Band</th>
         <th class="px-4 py-2.5 font-semibold">Frequency range</th>
+        {#if device}<th class="px-4 py-2.5 font-semibold">Variants</th>{/if}
         <th class="px-4 py-2.5 text-right font-semibold">Devices</th>
       </tr>
     </thead>
     <tbody>
       {#each data.bands as b (b.key)}
         {@const supported = deviceBands.has(b.key)}
+        {@const variants = device ? variantsForBand(b.key) : []}
         <tr
           class="group cursor-pointer border-b border-edge last:border-0 transition hover:bg-elev {supported ? 'bg-accent2/10' : device ? 'opacity-45' : ''}"
           onclick={(e) => rowClick(e, b.key)}
@@ -85,6 +186,26 @@
           </td>
           <td class="px-4 py-3 font-medium">{b.name}</td>
           <td class="px-4 py-3 font-mono text-[0.85rem] text-dim">{b.range ?? '—'}</td>
+          {#if device}
+            <td class="px-4 py-3">
+              {#if variants.length}
+                <div class="flex flex-wrap gap-1.5">
+                  {#each variants as variant}
+                    <span
+                      class="rounded-full bg-accent2/10 px-2 py-0.5 text-[0.72rem] font-semibold text-accent2"
+                      title={[revisionLabel(variant.revision), variant.sku ? `SKU ${variant.sku}` : null].filter(Boolean).join(' · ')}
+                    >
+                      {variant.name}{#if variant.sku} · {variant.sku}{/if}
+                    </span>
+                  {/each}
+                </div>
+              {:else if supported}
+                <span class="text-dim">Radio support</span>
+              {:else}
+                <span class="text-muted">—</span>
+              {/if}
+            </td>
+          {/if}
           <td class="px-4 py-3 text-right tabular-nums">
             {#if b.deviceCount > 0}
               <a class="text-accent2 hover:underline" href="{base}/devices/?band={b.key}">

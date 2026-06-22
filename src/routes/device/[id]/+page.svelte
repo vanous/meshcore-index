@@ -38,6 +38,7 @@
   import ChartNoAxesColumn from '@lucide/svelte/icons/chart-no-axes-column';
   let { data } = $props();
   let d = $derived(data.device);
+  let selectedVariantRevision = $state('latest');
 
   // Meta description: prefer the authored blurb, else synthesise from specs.
   let metaDescription = $derived(
@@ -131,6 +132,57 @@
     return out;
   }
 
+  function variantBandsLabel(variant) {
+    return (variant.bands ?? []).map((band) => bandLabel(band) ?? band).join(' / ');
+  }
+
+  function variantBandsTitle(variant) {
+    return (variant.bands ?? [])
+      .map((band) => {
+        const fp = resolveFrequency(band);
+        return fp ? [fp.name, fp.range].filter(Boolean).join(' · ') : band;
+      })
+      .join(' · ');
+  }
+
+  function variantRevisionLabel(revision) {
+    if (!known(revision)) return null;
+    const value = String(revision);
+    return value.toLowerCase().startsWith('v') ? value : `V${value}`;
+  }
+
+  function revisionParts(revision) {
+    const matches = String(revision).match(/\d+|[a-z]+/gi) ?? [];
+    return matches.map((part) => (/^\d+$/.test(part) ? Number(part) : part.toLowerCase()));
+  }
+
+  function compareRevision(a, b) {
+    const aa = revisionParts(a);
+    const bb = revisionParts(b);
+    const length = Math.max(aa.length, bb.length);
+    for (let i = 0; i < length; i += 1) {
+      if (aa[i] === undefined) return -1;
+      if (bb[i] === undefined) return 1;
+      if (aa[i] === bb[i]) continue;
+      if (typeof aa[i] === 'number' && typeof bb[i] === 'number') return aa[i] - bb[i];
+      return String(aa[i]).localeCompare(String(bb[i]), undefined, { numeric: true });
+    }
+    return String(a).localeCompare(String(b), undefined, { numeric: true });
+  }
+
+  function escapeRegExp(value) {
+    return String(value).replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  }
+
+  function variantDisplayName(variant, activeRevision) {
+    const name = variant.name ?? 'Variant';
+    const revision = variantRevisionLabel(variant.revision);
+    if (!revision || !activeRevision) return name;
+    return String(name)
+      .replace(new RegExp(`\\s*/\\s*${escapeRegExp(revision)}\\s*$`, 'i'), '')
+      .trim();
+  }
+
   // Keep only rows whose value is actually known, so cards never show "unknown".
   const rows = (entries) => entries.filter((r) => known(r.value));
 
@@ -162,6 +214,64 @@
       { label: 'Connectivity', value: interfaceLabel(d) }
     ].filter((s) => known(s.value))
   );
+
+  let variantRevisions = $derived.by(() => {
+    const seen = new Set();
+    const out = [];
+    for (const variant of d.variants ?? []) {
+      if (!known(variant.revision)) continue;
+      const revision = String(variant.revision);
+      if (seen.has(revision)) continue;
+      seen.add(revision);
+      out.push(revision);
+    }
+    return out.sort(compareRevision);
+  });
+
+  let showVariantRevisionFilter = $derived(variantRevisions.length > 1);
+  let latestVariantRevision = $derived(variantRevisions.at(-1) ?? null);
+  let activeVariantRevision = $derived(
+    selectedVariantRevision === 'latest' ? latestVariantRevision : selectedVariantRevision
+  );
+
+  let visibleVariants = $derived.by(() => {
+    const variants = d.variants ?? [];
+    if (!showVariantRevisionFilter || activeVariantRevision === 'all' || !activeVariantRevision) return variants;
+    return variants.filter((variant) => String(variant.revision) === activeVariantRevision);
+  });
+
+  let visibleVariantGroups = $derived.by(() => {
+    if (!showVariantRevisionFilter) return [{ revision: null, variants: visibleVariants }];
+    const revisions =
+      activeVariantRevision === 'all'
+        ? variantRevisions
+        : activeVariantRevision
+          ? [activeVariantRevision]
+          : [];
+    const groups = revisions
+      .map((revision) => ({
+        revision,
+        variants: (d.variants ?? []).filter((variant) => String(variant.revision) === revision)
+      }))
+      .filter((group) => group.variants.length);
+    const unrevised =
+      activeVariantRevision === 'all'
+        ? (d.variants ?? []).filter((variant) => !known(variant.revision))
+        : [];
+    return unrevised.length ? [...groups, { revision: null, variants: unrevised }] : groups;
+  });
+
+  $effect(() => {
+    if (!showVariantRevisionFilter) {
+      selectedVariantRevision = 'latest';
+    } else if (
+      selectedVariantRevision !== 'latest' &&
+      selectedVariantRevision !== 'all' &&
+      !variantRevisions.includes(selectedVariantRevision)
+    ) {
+      selectedVariantRevision = 'latest';
+    }
+  });
 
   // --- Catalog (data/globals.yaml) lookups for outbound datasheet links -------
   // MCU family + architecture are derived from the model via the family tree.
@@ -480,6 +590,55 @@
   {/if}
 {/snippet}
 
+{#snippet variantTable(variants, revision)}
+  <div class="overflow-hidden rounded-xl border border-edge bg-elev">
+    {#if revision}
+      <div class="border-b border-edge bg-elev2/55 px-4 py-2.5">
+        <h3 class="text-[0.86rem] font-bold tracking-wide text-ink uppercase">{variantRevisionLabel(revision)}</h3>
+      </div>
+    {/if}
+    <div class="overflow-x-auto">
+      <table class="w-full min-w-[520px] border-collapse text-[0.88rem]">
+        <thead class="bg-elev2/35 text-left text-[0.7rem] tracking-wide text-dim uppercase">
+          <tr>
+            <th class="px-4 py-2.5 font-semibold">Revision</th>
+            <th class="px-4 py-2.5 font-semibold">Variant</th>
+            <th class="px-4 py-2.5 font-semibold">Band</th>
+            <th class="px-4 py-2.5 font-semibold">SKU</th>
+          </tr>
+        </thead>
+        <tbody>
+          {#each variants as variant}
+            <tr class="border-t border-edge/70">
+              <td class="px-4 py-3 font-semibold text-dim">{variantRevisionLabel(variant.revision) ?? '—'}</td>
+              <td class="px-4 py-3 font-semibold text-ink">{variantDisplayName(variant, activeVariantRevision)}</td>
+              <td class="px-4 py-3">
+                {#if variant.bands?.length}
+                  <span class="inline-flex flex-wrap gap-1.5">
+                    {#each variant.bands as band}
+                      {@const fp = resolveFrequency(band)}
+                      <a
+                        href="{base}/bands/?device={d.id}"
+                        title={[fp ? [fp.name, fp.range].filter(Boolean).join(' · ') : null, 'See all bands for this device'].filter(Boolean).join(' · ')}
+                        class="rounded-full bg-accent2/10 px-2.5 py-1 text-[0.76rem] font-semibold leading-tight text-accent2 transition hover:bg-accent2/15 hover:underline"
+                      >
+                        {fp?.region ?? fp?.name ?? band}
+                      </a>
+                    {/each}
+                  </span>
+                {:else}
+                  <span class="text-dim">—</span>
+                {/if}
+              </td>
+              <td class="px-4 py-3 font-mono text-[0.8rem] text-dim">{variant.sku ?? '—'}</td>
+            </tr>
+          {/each}
+        </tbody>
+      </table>
+    </div>
+  </div>
+{/snippet}
+
 <Seo title={d.name} description={metaDescription} type="article" image={ogImageFor('device', d.id)} jsonLd={productJsonLd} />
 
 <a class="mb-4 inline-block text-[0.9rem] text-dim hover:underline" href="{base}/devices/">← All devices</a>
@@ -623,6 +782,49 @@
   </section>
 {/if}
 
+<!-- Purchasable variants of the same model (e.g. frequency-specific SKUs). -->
+{#if d.variants?.length}
+  <section class="mb-8">
+    <div class="mb-3 flex flex-wrap items-center justify-between gap-x-4 gap-y-2 border-b border-edge pb-1.5">
+      <div class="flex flex-wrap items-baseline gap-x-3 gap-y-1">
+        <h2 class="text-[1.1rem] font-semibold">Variants</h2>
+        <span class="text-[0.8rem] text-dim">Purchasable options for this device</span>
+      </div>
+      {#if showVariantRevisionFilter}
+        <div class="flex flex-wrap justify-end gap-1.5" aria-label="Filter variants by revision">
+          <button
+            type="button"
+            class="rounded-full border px-2.5 py-1 text-[0.75rem] font-semibold transition {selectedVariantRevision === 'all'
+              ? 'border-accent2 bg-accent2/15 text-accent2'
+              : 'border-edge bg-elev text-dim hover:border-accent2/60 hover:text-ink'}"
+            aria-pressed={selectedVariantRevision === 'all'}
+            onclick={() => (selectedVariantRevision = 'all')}
+          >
+            All revisions
+          </button>
+          {#each variantRevisions as revision}
+            <button
+              type="button"
+              class="rounded-full border px-2.5 py-1 text-[0.75rem] font-semibold transition {activeVariantRevision === revision
+                ? 'border-accent2 bg-accent2/15 text-accent2'
+                : 'border-edge bg-elev text-dim hover:border-accent2/60 hover:text-ink'}"
+              aria-pressed={activeVariantRevision === revision}
+              onclick={() => (selectedVariantRevision = revision)}
+            >
+              {variantRevisionLabel(revision)}
+            </button>
+          {/each}
+        </div>
+      {/if}
+    </div>
+    <div class="space-y-4">
+      {#each visibleVariantGroups as group}
+        {@render variantTable(group.variants, selectedVariantRevision === 'all' ? group.revision : null)}
+      {/each}
+    </div>
+  </section>
+{/if}
+
 <!-- Detailed hardware spec cards -->
 <section class="mb-8">
   <h2 class="mb-3 border-b border-edge pb-1.5 text-[1.1rem] font-semibold">Hardware</h2>
@@ -635,27 +837,31 @@
         <h3 class="mb-3 flex items-center gap-2 text-[0.95rem] font-semibold">
           <Radio class="h-[1.05em] w-[1.05em] text-accent2" aria-hidden="true" /> Radio{radios.length > 1 ? ` · ${(radio.technology ?? '').toUpperCase()}` : ''}
         </h3>
-        <dl class="grid grid-cols-[auto_1fr] gap-x-4 gap-y-2 text-[0.9rem]">
-          {#if known(radio.technology)}<dt class="text-dim">Technology</dt><dd class="text-right font-medium">{radio.technology.toUpperCase()}</dd>{/if}
-          {#if known(radio.chip)}<dt class="text-dim">Chip</dt><dd class="text-right font-medium">{@render specValue(resolveRadio(radio.chip), radio.chip)}</dd>{/if}
+        <dl class="grid grid-cols-[auto_minmax(0,1fr)] gap-x-4 gap-y-2 text-[0.9rem]">
+          {#if known(radio.technology)}<dt class="text-dim">Technology</dt><dd class="min-w-0 break-words text-right font-medium">{radio.technology.toUpperCase()}</dd>{/if}
+          {#if known(radio.chip)}<dt class="text-dim">Chip</dt><dd class="min-w-0 break-words text-right font-medium">{@render specValue(resolveRadio(radio.chip), radio.chip)}</dd>{/if}
           {#if radio.bands?.length}
             <dt class="text-dim"><a class="transition hover:text-accent hover:underline" href="{base}/bands/" title="About frequency bands">Bands</a></dt>
-            <dd class="text-right font-medium">
-              {#each radio.bands as band, i}{@const fp = resolveFrequency(band)}{#if i > 0}, {/if}<a href="{base}/bands/?device={d.id}" title={[fp ? [fp.name, fp.range].filter(Boolean).join(' · ') : null, 'See all bands for this device'].filter(Boolean).join(' · ')} class="underline decoration-dotted decoration-edge underline-offset-2 transition hover:text-accent">{fp?.region ?? fp?.name ?? band}</a>{/each}
+            <dd class="min-w-0 text-right font-medium">
+              <span class="inline-flex flex-wrap justify-end gap-1.5">
+                {#each radio.bands as band}{@const fp = resolveFrequency(band)}
+                  <a
+                    href="{base}/bands/?device={d.id}"
+                    title={[fp ? [fp.name, fp.range].filter(Boolean).join(' · ') : null, 'See all bands for this device'].filter(Boolean).join(' · ')}
+                    class="rounded-full border border-edge bg-elev2 px-2 py-0.5 text-[0.78rem] leading-tight transition hover:border-accent/60 hover:text-accent"
+                  >
+                    {fp?.region ?? fp?.name ?? band}
+                  </a>
+                {/each}
+              </span>
             </dd>
           {/if}
-          {#if ri === 0 && d.variants?.length}
-            <dt class="text-dim">Sold as</dt>
-            <dd class="text-right font-medium">
-              {#each d.variants as v, i}{#if i > 0}, {/if}<span title={[v.sku ? `SKU ${v.sku}` : null, v.bands.map((b) => bandLabel(b) ?? b).join(', ')].filter(Boolean).join(' · ')} class="cursor-help underline decoration-dotted decoration-edge underline-offset-2">{v.name}</span>{/each}
-            </dd>
-          {/if}
-          {#if known(radio.txPowerDbm)}<dt class="text-dim">TX power</dt><dd class="text-right font-medium">{@render rankableValue({ value: `${radio.txPowerDbm} dBm`, metric: 'tx-power' })}</dd>{/if}
+          {#if known(radio.txPowerDbm)}<dt class="text-dim">TX power</dt><dd class="min-w-0 break-words text-right font-medium">{@render rankableValue({ value: `${radio.txPowerDbm} dBm`, metric: 'tx-power' })}</dd>{/if}
           {#if known(radio.txPowerDbm) && known(d.hardware?.power?.consumptionTxMa)}
             <dt class="text-dim">TX efficiency</dt>
-            <dd class="text-right font-medium">{@render rankableValue({ value: metricDisplay('tx-efficiency'), metric: 'tx-efficiency' })}</dd>
+            <dd class="min-w-0 break-words text-right font-medium">{@render rankableValue({ value: metricDisplay('tx-efficiency'), metric: 'tx-efficiency' })}</dd>
           {/if}
-          {#if known(radio.antenna)}<dt class="text-dim">Antenna</dt><dd class="text-right font-medium">{radio.antenna}</dd>{/if}
+          {#if known(radio.antenna)}<dt class="text-dim">Antenna</dt><dd class="min-w-0 break-words text-right font-medium">{radio.antenna}</dd>{/if}
         </dl>
       </div>
     {/each}
@@ -665,10 +871,10 @@
         <h3 class="mb-3 flex items-center gap-2 text-[0.95rem] font-semibold">
           <card.icon class="h-[1.05em] w-[1.05em] text-accent2" aria-hidden="true" /> {card.title}
         </h3>
-        <dl class="grid grid-cols-[auto_1fr] gap-x-4 gap-y-2 text-[0.9rem]">
+        <dl class="grid grid-cols-[auto_minmax(0,1fr)] gap-x-4 gap-y-2 text-[0.9rem]">
           {#each card.rows as row}
             <dt class="text-dim">{row.label}</dt>
-            <dd class="text-right font-medium">{@render rankableValue(row)}</dd>
+            <dd class="min-w-0 break-words text-right font-medium">{@render rankableValue(row)}</dd>
           {/each}
         </dl>
       </div>

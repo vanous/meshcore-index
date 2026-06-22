@@ -211,7 +211,7 @@ Create `data/devices/<id>/device.yaml`.
 | `datasheet`       | no       | string   | PDF filename in the same directory (e.g. `datasheet.pdf`); immutable copy of the vendor spec sheet. |
 | `roles`           | no       | enum[]   | Canonical roles: `companion`, `repeater`, `room-server`, `observer`, `sensor`, `kiss-modem`, `standalone-ui`. |
 | `transports`      | no       | enum[]   | Canonical transports: `ble`, `usb`, `tcp`, `wifi`, `ethernet`, `serial`. |
-| `variants`        | no       | array    | Purchasable per-band options (`{ name, sku?, bands[] }`); omit for a single-board product. Each `bands[]` must be a subset of `radios[].bands`. |
+| `variants`        | no       | array    | Purchasable options (`{ name, sku?, revision?, bands[] }`) such as per-band SKUs or revision+band SKUs; omit for a single-board product. Each `bands[]` must be a subset of `radios[].bands`. |
 | `hardware`        | yes      | object   | Structured hardware details; `hardware.mcu` is required, absent optional values mean unknown. |
 | `interfaces`      | no       | object   | Structured USB/BLE/Wi-Fi interface details. |
 | `description`     | no       | string   | One short paragraph. |

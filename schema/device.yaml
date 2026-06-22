@@ -108,9 +108,10 @@ properties:
   variants:
     type: array
     description: >-
-      Purchasable SKUs of this board that differ by frequency band. Omit for a
-      device sold as a single board (including single wideband boards). Each
-      variant's `bands` must be a subset of the radios' `bands` union.
+      Purchasable SKUs/options of this board, commonly differing by frequency
+      band and sometimes by hardware revision. Omit for a device sold as a
+      single board (including single wideband boards). Each variant's `bands`
+      must be a subset of the radios' `bands` union.
     minItems: 1
     items:
       type: object
@@ -127,6 +128,10 @@ properties:
           type: string
           minLength: 1
           description: Manufacturer's real SKU / part number, when known.
+        revision:
+          type: string
+          minLength: 1
+          description: Hardware revision for this purchasable SKU, e.g. "3.0" or "3.1".
         bands:
           type: array
           minItems: 1

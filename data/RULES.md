@@ -166,6 +166,36 @@ the configuration meant.
 Optional **LoRa** at purchase: still document `radios[]` for the MeshCore target
 board; mention an optional/no-LoRa SKU in `description` only.
 
+### Variants and revisions
+
+Use device-root `variants[]` for purchasable options of the same catalogued
+device. If the manufacturer sells each hardware revision + band combination
+under a distinct SKU, list each combination as its own variant even when that
+looks repetitive — the SKU is the real-world purchasable unit.
+
+```yaml
+revision: '3' # broad/default generation for the device page
+variants:
+  - name: V3.0 433MHz
+    revision: '3.0'
+    sku: ZC-152-2-433
+    bands:
+      - '433'
+  - name: V3.1 863~870MHz
+    revision: '3.1'
+    sku: ZC-153-2-868
+    bands:
+      - '868'
+```
+
+- `hardware.radios[].bands` remains the union of every band offered by the
+  purchasable variants.
+- `variants[].bands` is the band or bands for that exact SKU.
+- `variants[].revision` is the hardware revision for that exact SKU when known.
+- Use separate device records only when revisions meaningfully change firmware
+  compatibility, pinout, radio/FEM, display, GNSS, power, physical specs, or
+  another important hardware behavior.
+
 ### Fields to fill when enriching
 
 Use the **datasheet**, not just the shop blurb.

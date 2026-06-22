@@ -33,17 +33,58 @@ transports:
   - ble
   - usb
 # Sold in four per-band options; pick one at purchase (radios.bands is their union).
+# SKU sources: Heltec WooCommerce product page (V3.2, variation IDs 78555-78562).
 variants:
-  - name: 433MHz
+  - name: 433MHz / V3.0
+    revision: '3.0'
     bands:
       - '433'
-  - name: 470~510MHz
+  - name: 433MHz / V3.1
+    revision: '3.1'
+    bands:
+      - '433'
+  - name: 433MHz / V3.2
+    sku: ZC-152-2-433
+    revision: '3.2'
+    bands:
+      - '433'
+  - name: 470~510MHz / V3.0
+    revision: '3.0'
     bands:
       - '470'
-  - name: 863~870MHz
+  - name: 470~510MHz / V3.1
+    revision: '3.1'
+    bands:
+      - '470'
+  - name: 470~510MHz / V3.2
+    sku: ZC-152-2-470
+    revision: '3.2'
+    bands:
+      - '470'
+  - name: 863~870MHz / V3.0
+    revision: '3.0'
     bands:
       - '868'
-  - name: 902~928MHz
+  - name: 863~870MHz / V3.1
+    revision: '3.1'
+    bands:
+      - '868'
+  - name: 863~870MHz / V3.2
+    sku: ZC-153-2-868
+    revision: '3.2'
+    bands:
+      - '868'
+  - name: 902~928MHz / V3.0
+    revision: '3.0'
+    bands:
+      - '915'
+  - name: 902~928MHz / V3.1
+    revision: '3.1'
+    bands:
+      - '915'
+  - name: 902~928MHz / V3.2
+    sku: ZC-153-2-915
+    revision: '3.2'
     bands:
       - '915'
 hardware:
