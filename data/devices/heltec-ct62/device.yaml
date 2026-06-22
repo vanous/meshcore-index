@@ -29,6 +29,25 @@ price:
   amount: 7
   currency: USD
   asOf: 2026-06
+# Source: https://heltec.org/project/ht-ct62/ (variation data embedded in product page).
+variants:
+  - name: 433MHz
+    sku: ZC-140-433
+    bands:
+      - '433'
+  - name: 470~510MHz
+    sku: ZC-140-470
+    bands:
+      - '470'
+  - name: 863~870MHz
+    sku: ZC-141-868
+    bands:
+      - '868'
+  - name: 902~928MHz
+    sku: ZC-141-915
+    bands:
+      - '915'
+
 hardware:
   mcu:
     model: esp32-c3
@@ -39,6 +58,7 @@ hardware:
     - technology: lora
       chip: sx1262
       bands:
+        - '433'
         - '470'
         - '868'
         - '915'

@@ -25,11 +25,23 @@ roles:
 transports:
   - ble
   - usb
+# Source: https://heltec.org/project/t096/ (variation data embedded in product page).
+variants:
+  - name: 863~870MHz
+    sku: ZC-347-868
+    bands:
+      - '868'
+  - name: 902~928MHz
+    sku: ZC-347-915
+    bands:
+      - '915'
+
 price:
   # Source: https://heltec.org/project/t096/
   amount: 34
   currency: USD
   asOf: 2026-06
+
 hardware:
   mcu:
     model: nrf52840

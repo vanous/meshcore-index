@@ -29,6 +29,17 @@ roles:
   - room-server
 transports:
   - ble
+# Source: https://www.elecrow.com/thinknode-m3-meshtastic-tracker-with-gps-wifi-ble-function-for-positioning.html (base SKU ILO13903D, frequency selectable).
+variants:
+  - name: 868 MHz
+    sku: ILO13903D
+    bands:
+      - '868'
+  - name: 915 MHz
+    sku: ILO13903D
+    bands:
+      - '915'
+
 hardware:
   mcu:
     model: nrf52840

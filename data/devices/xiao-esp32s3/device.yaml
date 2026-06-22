@@ -19,6 +19,15 @@ roles:
 transports:
   - ble
   - usb
+  - wifi
+# Source: https://www.seeedstudio.com/Wio-SX1262-with-XIAO-ESP32S3-p-5982.html (SKU 102010611).
+variants:
+  - name: 868/915MHz
+    sku: '102010611'
+    bands:
+      - '868'
+      - '915'
+
 hardware:
   mcu:
     model: esp32-s3
@@ -29,6 +38,10 @@ hardware:
   radios:
     - technology: lora
       chip: sx1262
+      bands:
+        - '868'
+        - '915'
+      txPowerDbm: 22
   display:
     status: none
   gnss:
@@ -56,6 +69,7 @@ hardware:
 price:
   # Source: https://www.seeedstudio.com/Wio-SX1262-with-XIAO-ESP32S3-p-5982.html
   amount: 10
+  currency: USD
   asOf: 2026-06
 interfaces:
   usb:

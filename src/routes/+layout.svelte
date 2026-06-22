@@ -183,6 +183,8 @@
     <div class="flex flex-wrap items-center justify-center gap-x-3 gap-y-1.5">
       <a class="text-accent2 hover:underline" href="{base}/about/">About</a>
       <span class="text-edge">·</span>
+      <a class="text-accent2 hover:underline" href="{base}/status/">API status</a>
+      <span class="text-edge">·</span>
       <a class="text-accent2 hover:underline" href="{base}/about/">How to contribute</a>
       {#if updatedLabel}
         <span class="text-edge">·</span>

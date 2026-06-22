@@ -29,6 +29,17 @@ transports:
   - ble
   - usb
   - wifi
+# Source: https://www.elecrow.com/thinknode-m5-meshtastic-lora-signal-transceiver-esp32-s3-1-54-screen-gps-function.html (base SKU ILM13205D, frequency selectable).
+variants:
+  - name: 868 MHz
+    sku: ILM13205D
+    bands:
+      - '868'
+  - name: 915 MHz
+    sku: ILM13205D
+    bands:
+      - '915'
+
 hardware:
   mcu:
     model: esp32-s3

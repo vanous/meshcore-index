@@ -32,6 +32,18 @@ roles:
 transports:
   - ble
   - usb
+# Source: https://heltec.org/project/meshpocket/ (variation data embedded in product page).
+# Base 5000mAh grey variant per band; other battery/color SKUs exist.
+variants:
+  - name: 863~870MHz
+    sku: ZC-301-1-868
+    bands:
+      - '868'
+  - name: 902~928MHz
+    sku: ZC-301-1
+    bands:
+      - '915'
+
 hardware:
   mcu:
     model: nrf52840

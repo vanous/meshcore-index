@@ -34,6 +34,21 @@ transports:
   - ble
   - usb
   - wifi
+# Source: https://heltec.org/project/wireless-tracker/ (variation data embedded in product page).
+variants:
+  - name: 433MHz
+    sku: ZC-192-2-470
+    bands:
+      - '433'
+  - name: 863~870MHz
+    sku: ZC-193-2-868
+    bands:
+      - '868'
+  - name: 902~928MHz
+    sku: ZC-193-2-915
+    bands:
+      - '915'
+
 hardware:
   mcu:
     model: esp32-s3

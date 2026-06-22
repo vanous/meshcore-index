@@ -28,6 +28,13 @@ roles:
 transports:
   - ble
   - usb
+# Source: https://www.elecrow.com/thinknode-m6-outdoor-solar-power-for-meshtastic-powered-by-nrf52840-supports-gps.html (base SKU LMM14106D, frequency selectable).
+variants:
+  - name: 915 MHz
+    sku: LMM14106D
+    bands:
+      - '915'
+
 hardware:
   mcu:
     model: nrf52840

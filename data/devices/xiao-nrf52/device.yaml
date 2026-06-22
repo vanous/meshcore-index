@@ -25,6 +25,15 @@ description: >-
 transports:
   - ble
   - usb
+# Single SKU; XIAO nRF52840 Wio-SX1262 bundle.
+# Source: https://www.seeedstudio.com/Seeed-XIAO-BLE-nRF52840-p-5201.html (SKU 102010448).
+variants:
+  - name: 868/915MHz
+    sku: '102010448'
+    bands:
+      - '868'
+      - '915'
+
 hardware:
   mcu:
     model: nrf52840
@@ -55,10 +64,19 @@ hardware:
     solarInput: false
     # Source: https://wiki.seeedstudio.com/XIAO_BLE/
     batteryConnector: JST-PH 2-pin (external)
+  radios:
+    - technology: lora
+      chip: sx1262
+      bands:
+        - '868'
+        - '915'
+      txPowerDbm: 22
+      antenna: PCB
 price:
   # Source: https://www.seeedstudio.com/Seeed-XIAO-BLE-nRF52840-p-5201.html
   # Source: https://forum.seeedstudio.com/t/xiao-nrf52840-wio-sx1262-kit-for-meshtastic-no-sensor-passthru/292616
   amount: 13
+  currency: USD
   asOf: 2026-06
 interfaces:
   usb:

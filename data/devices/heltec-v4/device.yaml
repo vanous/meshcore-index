@@ -34,6 +34,18 @@ roles:
 transports:
   - ble
   - usb
+  - wifi
+# Source: https://heltec.org/project/wifi-lora-32-v4/ (variation data embedded in product page).
+variants:
+  - name: 863~870MHz OLED (CN)
+    sku: ZC-310-1-CN
+    bands:
+      - '868'
+  - name: 902~928MHz OLED (CN)
+    sku: ZC-310-1-CN2
+    bands:
+      - '915'
+
 hardware:
   mcu:
     model: esp32-s3

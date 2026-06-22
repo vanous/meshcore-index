@@ -20,6 +20,15 @@ transports:
   - ble
   - usb
   - wifi
+# Single SKU kit; unsoldered screen-connect kit for Nibble.
+# Source: https://retia.io/products/nibble-screen-connect (SKU RE-NI-CNCT).
+variants:
+  - name: 868/915MHz
+    sku: RE-NI-CNCT
+    bands:
+      - '868'
+      - '915'
+
 hardware:
   mcu:
     model: esp32-s3

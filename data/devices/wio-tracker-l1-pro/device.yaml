@@ -28,6 +28,18 @@ roles:
 transports:
   - ble
   - usb
+# Single SKU; radio supports the 862-930 MHz range across regional bands.
+# Source: https://www.seeedstudio.com/Wio-Tracker-L1-Pro-p-6454.html (SKU 114993649).
+variants:
+  - name: 862–930MHz
+    sku: '114993649'
+    bands:
+      - '865'
+      - '868'
+      - '915'
+      - '920'
+      - '923'
+
 hardware:
   mcu:
     model: nrf52840

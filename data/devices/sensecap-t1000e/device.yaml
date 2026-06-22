@@ -29,6 +29,18 @@ roles:
   - room-server
 transports:
   - ble
+# Single SKU; radio covers the 863-928 MHz range across regional bands.
+# Source: https://www.seeedstudio.com/SenseCAP-Card-Tracker-T1000-E-for-Meshtastic-p-5913.html (SKU 114993369).
+variants:
+  - name: 863–928MHz
+    sku: '114993369'
+    bands:
+      - '865'
+      - '868'
+      - '915'
+      - '920'
+      - '923'
+
 hardware:
   mcu:
     model: nrf52840

@@ -28,6 +28,15 @@ roles:
 transports:
   - ble
   - usb
+# Single SKU; sold as 868 MHz / 915 MHz configurable via on-board Wio-SX1262 module.
+# Source: https://www.seeedstudio.com/SenseCAP-Solar-Node-P1-for-Meshtastic-LoRa-p-6425.html (SKU 114993643).
+variants:
+  - name: 868/915MHz
+    sku: '114993643'
+    bands:
+      - '868'
+      - '915'
+
 hardware:
   mcu:
     model: nrf52840

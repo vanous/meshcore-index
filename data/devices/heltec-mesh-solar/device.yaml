@@ -30,11 +30,29 @@ roles:
 transports:
   - ble
   - usb
+# Source: https://heltec.org/project/meshsolar/ (variation data embedded in product page).
+variants:
+  - name: 863~870MHz
+    sku: ZC-312-1
+    bands:
+      - '868'
+  - name: 902~928MHz
+    sku: ZC-312-1-915
+    bands:
+      - '915'
+
 hardware:
   mcu:
     model: nrf52
     # Source: https://mesh-sn.de/en/devices/details/heltec-mesh-solar
     ramKb: 256
+  radios:
+    - technology: lora
+      chip: sx1262
+      bands:
+        - '868'
+        - '915'
+      antenna: IPEX-1.0
   display:
     status: none
   gnss:

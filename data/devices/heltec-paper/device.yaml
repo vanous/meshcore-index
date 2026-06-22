@@ -29,6 +29,25 @@ transports:
   - ble
   - usb
   - wifi
+# Source: https://heltec.org/project/wireless-paper/ (variation data embedded in product page).
+variants:
+  - name: 433MHz
+    sku: ZC-194-2-433
+    bands:
+      - '433'
+  - name: 470~510MHz
+    sku: ZC-194-2-470
+    bands:
+      - '470'
+  - name: 863~870MHz
+    sku: ZC-195-2-868
+    bands:
+      - '868'
+  - name: 902~928MHz
+    sku: ZC-195-2-915
+    bands:
+      - '915'
+
 hardware:
   mcu:
     model: esp32-s3
@@ -39,6 +58,7 @@ hardware:
     - technology: lora
       chip: sx1262
       bands:
+        - '433'
         - '470'
         - '868'
         - '915'

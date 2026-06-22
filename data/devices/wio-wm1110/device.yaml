@@ -13,6 +13,19 @@ official: true
 product_url: https://www.seeedstudio.com/Wio-WM1110-Module-LR1110-and-nRF52840-p-5676.html
 transports:
   - ble
+  - usb
+# Single SKU; Wio-WM1110 LR1110 + nRF52840 module.
+# Source: https://www.seeedstudio.com/Wio-WM1110-Module-LR1110-and-nRF52840-p-5676.html (SKU 114992865).
+variants:
+  - name: 865/868/915/920/923MHz
+    sku: '114992865'
+    bands:
+      - '865'
+      - '868'
+      - '915'
+      - '920'
+      - '923'
+
 price:
   amount: 10
   currency: USD

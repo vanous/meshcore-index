@@ -32,6 +32,26 @@ roles:
 transports:
   - ble
   - usb
+  - wifi
+# Source: https://heltec.org/project/wifi-lora-32v2/ (variation data embedded in product page).
+variants:
+  - name: 433MHz
+    sku: ZC-29-2-433
+    bands:
+      - '433'
+  - name: 470~510MHz
+    sku: ZC-29-2-470
+    bands:
+      - '470'
+  - name: 863~870MHz
+    sku: ZC-30-2-868
+    bands:
+      - '868'
+  - name: 902~928MHz
+    sku: ZC-30-2-915
+    bands:
+      - '915'
+
 hardware:
   mcu:
     model: esp32

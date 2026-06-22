@@ -34,6 +34,15 @@ transports:
   - ble
   - usb
   - wifi
+# Source: https://heltec.org/project/wifi-lora-32-v4-expansion-housing/ (variation data embedded in product page).
+# Base touch-screen, no GNSS, no battery variant; other front-panel/GNSS/battery SKUs exist.
+variants:
+  - name: 863~928MHz
+    sku: ZC-326-2
+    bands:
+      - '868'
+      - '915'
+
 hardware:
   mcu:
     model: esp32-s3

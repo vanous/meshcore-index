@@ -20,6 +20,15 @@ roles:
 transports:
   - ble
   - usb
+# Single SKU; sold as Meshtiny V4.
+# Source: https://meshtiny.com/product/meshtiny/ (SKU HTV4).
+variants:
+  - name: 868/915MHz
+    sku: HTV4
+    bands:
+      - '868'
+      - '915'
+
 hardware:
   mcu:
     model: nrf52

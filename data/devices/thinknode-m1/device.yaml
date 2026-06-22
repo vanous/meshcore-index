@@ -28,6 +28,17 @@ roles:
 transports:
   - ble
   - usb
+# Source: https://www.elecrow.com/thinknode-m1-meshtastic-lora-signal-transceiver-powered-by-nrf52840-with-154-screen-support-gps.html (base SKU CIL12901M-1, frequency selectable).
+variants:
+  - name: 868 MHz
+    sku: CIL12901M-1
+    bands:
+      - '868'
+  - name: 915 MHz
+    sku: CIL12901M-1
+    bands:
+      - '915'
+
 hardware:
   mcu:
     model: nrf52840

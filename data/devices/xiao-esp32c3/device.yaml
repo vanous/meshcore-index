@@ -23,6 +23,16 @@ description: >-
 transports:
   - ble
   - usb
+  - wifi
+# Single SKU for the XIAO C3 + Wio-SX1262 variant bundle.
+# Source: https://www.seeedstudio.com/seeed-xiao-esp32c3-p-5431.html (SKU 113991054).
+variants:
+  - name: 868/915MHz
+    sku: '113991054'
+    bands:
+      - '868'
+      - '915'
+
 hardware:
   mcu:
     model: esp32-c3
@@ -62,6 +72,7 @@ price:
   # Source: https://www.seeedstudio.com/Seeed-XIAO-ESP32C3-p-5431.html
   # Source: https://forum.seeedstudio.com/t/xiao-esp32s3-sx1262-lorawan-wiki-example/292535
   amount: 10
+  currency: USD
   asOf: 2026-06
 interfaces:
   usb:
