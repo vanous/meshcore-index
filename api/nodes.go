@@ -155,6 +155,22 @@ func (r *NodeRegistry) ClearPending(n int) {
 	r.pending = append(r.pending[:0], r.pending[n:]...)
 }
 
+// Lookup returns a snapshot copy of one node's overview row by pubkey, used to
+// resolve neighbor metadata for the links endpoint. The heavy LatestAdverts list
+// is dropped. ok is false when the node has never been heard via an advert.
+func (r *NodeRegistry) Lookup(pubkey string) (NodeRecord, bool) {
+	r.mu.Lock()
+	defer r.mu.Unlock()
+	n := r.nodes[pubkey]
+	if n == nil {
+		return NodeRecord{}, false
+	}
+	rec := *n
+	rec.Networks = append([]string(nil), n.Networks...)
+	rec.LatestAdverts = nil
+	return rec, true
+}
+
 // --- API view shapes ---
 
 // AdvertView is one entry in a node's rolling latest-adverts list. The pubkey is

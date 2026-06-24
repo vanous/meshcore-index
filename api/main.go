@@ -20,6 +20,7 @@ func main() {
 	dataDir := flag.String("data", "../data", "path to the repo's data/ directory")
 	allowOrigin := flag.String("allow-origin", "*", "Access-Control-Allow-Origin value")
 	dedupWindow := flag.Duration("dedup-window", 15*time.Minute, "how long a content hash counts as already-seen")
+	linkHalfLife := flag.Duration("link-halflife", 24*time.Hour, "half-life of a link's recent-activity score")
 	observerTTL := flag.Duration("observer-ttl", time.Hour, "drop observers/nodes idle longer than this")
 	dbPath := flag.String("db", "meshcore.db", "SQLite file for persisting counters across restarts (empty = in-memory only)")
 	persistEvery := flag.Duration("persist-interval", 20*time.Second, "how often to flush counters/nodes to --db")
@@ -41,6 +42,7 @@ func main() {
 	store := NewStore(configs)
 	registry := newNodeRegistry(defaultAdvertsPerNode)
 	observers := newObserverRegistry()
+	links := newLinkRegistry(linkHalfLife.Seconds())
 	imported := newImportRegistry()
 
 	// Optional durable counter store. When --db is set we restore the last
@@ -88,6 +90,14 @@ func main() {
 		}
 
 		t = time.Now()
+		if lks, err := db.LoadLinks(); err != nil {
+			log.Printf("warning: loading persisted links: %v", err)
+		} else if len(lks) > 0 {
+			links.Restore(lks)
+			log.Printf("startup: restored %d link(s) in %s", len(lks), time.Since(t).Round(time.Millisecond))
+		}
+
+		t = time.Now()
 		if imp, err := db.LoadImportedNodes(); err != nil {
 			log.Printf("warning: loading imported nodes: %v", err)
 		} else if len(imp) > 0 {
@@ -121,7 +131,7 @@ func main() {
 	// One collector goroutine per analyzer.
 	for _, ns := range store.Networks {
 		for _, az := range ns.Analyzers {
-			col, err := NewCollector(ns, az, registry, observers)
+			col, err := NewCollector(ns, az, registry, observers, links)
 			if err != nil {
 				log.Printf("[%s/%s] bad analyzer URL %q: %v", ns.ID, az.Name, az.URL, err)
 				continue
@@ -145,7 +155,9 @@ func main() {
 			case <-ctx.Done():
 				return
 			case <-ticker.C:
-				store.sweep(nowUnix(), int64(dedupWindow.Seconds()), int64(observerTTL.Seconds()))
+				now := nowUnix()
+				store.sweep(now, int64(dedupWindow.Seconds()), int64(observerTTL.Seconds()))
+				links.sweep(now, int64(dedupWindow.Seconds()))
 			}
 		}
 	}()
@@ -169,6 +181,12 @@ func main() {
 						log.Printf("advert flush: %v", err)
 					} else {
 						registry.ClearPending(len(pending))
+					}
+				}
+				if dirty := links.TakeDirty(); len(dirty) > 0 {
+					if err := db.SaveLinks(dirty, now); err != nil {
+						log.Printf("link flush: %v", err)
+						links.Requeue(dirty) // retry next cycle
 					}
 				}
 			}
@@ -207,7 +225,7 @@ func main() {
 
 	srv := &http.Server{
 		Addr:         *addr,
-		Handler:      NewServer(store, registry, observers, imported, *allowOrigin).Handler(),
+		Handler:      NewServer(store, registry, observers, links, imported, *allowOrigin).Handler(),
 		ReadTimeout:  10 * time.Second,
 		WriteTimeout: 15 * time.Second,
 	}

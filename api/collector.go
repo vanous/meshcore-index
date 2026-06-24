@@ -48,6 +48,7 @@ type Collector struct {
 	az         *AnalyzerState
 	nodes      *NodeRegistry     // global node/advert registry (nil disables advert collection)
 	observers  *ObserverRegistry // global observer activity registry (nil disables it)
+	links      *LinkRegistry     // global observed-link registry (nil disables it)
 	origin     string
 	candidates []string // ws(s) URLs to try, in preference order
 }
@@ -57,7 +58,7 @@ type Collector struct {
 // https — which looks like a "bad handshake"), and try the reverse-proxy root
 // before CoreScope's registered /ws path. This makes us robust even when the
 // data file declares http:// for a host that actually serves over https.
-func NewCollector(net *NetworkState, az *AnalyzerState, nodes *NodeRegistry, observers *ObserverRegistry) (*Collector, error) {
+func NewCollector(net *NetworkState, az *AnalyzerState, nodes *NodeRegistry, observers *ObserverRegistry, links *LinkRegistry) (*Collector, error) {
 	u, err := url.Parse(az.URL)
 	if err != nil {
 		return nil, err
@@ -76,6 +77,7 @@ func NewCollector(net *NetworkState, az *AnalyzerState, nodes *NodeRegistry, obs
 		az:         az,
 		nodes:      nodes,
 		observers:  observers,
+		links:      links,
 		origin:     "https://" + u.Host,
 		candidates: candidates,
 	}, nil
@@ -190,6 +192,13 @@ func (c *Collector) handle(data []byte) {
 			NetworkID:  c.net.ID,
 			At:         now,
 		})
+	}
+
+	// Observed links: record the adjacent node pairs in the resolved path. The
+	// registry deduplicates globally by (packet hash, link) across observers and
+	// networks, so this is fed every packet (not just adverts).
+	if c.links != nil {
+		c.links.ObservePath(hash, c.net.ID, p.ResolvedPath, now)
 	}
 
 	// ADVERT packets carry node identity. Decode the wire bytes locally and feed

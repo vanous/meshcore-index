@@ -2,6 +2,7 @@ package main
 
 import (
 	"compress/gzip"
+	"encoding/hex"
 	"encoding/json"
 	"net/http"
 	"strings"
@@ -12,12 +13,13 @@ type Server struct {
 	store       *Store
 	nodes       *NodeRegistry
 	observers   *ObserverRegistry
+	links       *LinkRegistry
 	imported    *ImportRegistry
 	allowOrigin string
 }
 
-func NewServer(store *Store, nodes *NodeRegistry, observers *ObserverRegistry, imported *ImportRegistry, allowOrigin string) *Server {
-	return &Server{store: store, nodes: nodes, observers: observers, imported: imported, allowOrigin: allowOrigin}
+func NewServer(store *Store, nodes *NodeRegistry, observers *ObserverRegistry, links *LinkRegistry, imported *ImportRegistry, allowOrigin string) *Server {
+	return &Server{store: store, nodes: nodes, observers: observers, links: links, imported: imported, allowOrigin: allowOrigin}
 }
 
 func (s *Server) Handler() http.Handler {
@@ -26,6 +28,7 @@ func (s *Server) Handler() http.Handler {
 	mux.HandleFunc("/api/networks", s.handleNetworks)
 	mux.HandleFunc("/api/networks/", s.handleNetworkDetail)
 	mux.HandleFunc("/api/nodes", s.handleNodes)
+	mux.HandleFunc("/api/nodes/", s.handleNodeSub)
 	mux.HandleFunc("/api/map", s.handleMap)
 	mux.HandleFunc("/api/observers", s.handleObservers)
 	return s.withCORS(gzipMiddleware(mux))
@@ -189,6 +192,174 @@ func (s *Server) handleNodes(w http.ResponseWriter, r *http.Request) {
 	writeJSON(w, http.StatusOK, map[string]any{
 		"nodes": s.nodes.Snapshot(),
 	})
+}
+
+// link endpoint defaults: 50 links returned by default, hard-capped at 200,
+// sorted by recent activity descending.
+const (
+	defaultLinksLimit = 50
+	maxLinksLimit     = 200
+)
+
+// linkNeighborView is the neighbor metadata embedded in a link, resolved through
+// the global node registry (with an imported-directory fallback) so the frontend
+// can render the link without a second request. Coordinates are omitted when the
+// neighbor has no known GPS — such links list but cannot be drawn.
+type linkNeighborView struct {
+	PubKey   string  `json:"pubkey"`
+	Name     string  `json:"name"`
+	Type     byte    `json:"type"`
+	TypeName string  `json:"typeName"`
+	HasGPS   bool    `json:"hasGps"`
+	Lat      float64 `json:"lat,omitempty"`
+	Lon      float64 `json:"lon,omitempty"`
+}
+
+type linkView struct {
+	Neighbor       linkNeighborView `json:"neighbor"`
+	PacketCount    uint64           `json:"packetCount"`
+	RecentActivity float64          `json:"recentActivity"`
+	FirstSeen      int64            `json:"firstSeen"`
+	LastSeen       int64            `json:"lastSeen"`
+	Networks       []string         `json:"networks"`
+}
+
+// handleNodeSub routes /api/nodes/{pubkey}/links (the only sub-resource today).
+func (s *Server) handleNodeSub(w http.ResponseWriter, r *http.Request) {
+	rest := strings.TrimPrefix(r.URL.Path, "/api/nodes/")
+	pubkey, sub, _ := strings.Cut(rest, "/")
+	sub = strings.Trim(sub, "/")
+	if sub == "links" {
+		s.handleNodeLinks(w, r, pubkey)
+		return
+	}
+	writeJSON(w, http.StatusNotFound, map[string]string{"error": "not found"})
+}
+
+// handleNodeLinks serves the observed links for one node:
+//
+//	GET /api/nodes/{pubkey}/links?limit=&active=&networks=
+//
+// Only links with the selected node as an endpoint are returned (never the global
+// topology). The network filter narrows which links are included but never changes
+// the globally-deduplicated packet count. Neighbor metadata is resolved here so
+// the frontend needs no follow-up request.
+func (s *Server) handleNodeLinks(w http.ResponseWriter, r *http.Request, rawPub string) {
+	node, ok := normalizePub(rawPub)
+	if !ok {
+		writeJSON(w, http.StatusBadRequest, map[string]string{"error": "invalid pubkey"})
+		return
+	}
+	pubHex := hex.EncodeToString(node[:])
+
+	qv := r.URL.Query()
+	limit := atoiDefault(qv.Get("limit"), defaultLinksLimit)
+	if limit <= 0 {
+		limit = defaultLinksLimit
+	}
+	if limit > maxLinksLimit {
+		limit = maxLinksLimit
+	}
+	netFilter := parseStringSet(qv.Get("networks"))
+	var since int64
+	if d, ok := parseActive(qv.Get("active")); ok {
+		since = nowUnix() - int64(d.Seconds())
+	}
+
+	now := nowUnix()
+	all := s.links.LinksForNode(node, now)
+
+	// Apply the network and activity filters. The network filter only includes or
+	// excludes whole links; it does not touch packetCount.
+	filtered := all[:0:0]
+	for _, l := range all {
+		if since > 0 && l.LastSeen < since {
+			continue
+		}
+		if len(netFilter) > 0 && !anyInSet(l.Networks, netFilter) {
+			continue
+		}
+		filtered = append(filtered, l)
+	}
+
+	sortNeighborsByActivity(filtered)
+	total := len(filtered)
+	capped := false
+	if len(filtered) > limit {
+		filtered = filtered[:limit]
+		capped = true
+	}
+
+	var imported []*ImportedNode
+	if s.imported != nil {
+		imported = s.imported.Records()
+	}
+
+	views := make([]linkView, 0, len(filtered))
+	for _, l := range filtered {
+		views = append(views, linkView{
+			Neighbor:       s.neighborView(l.Neighbor, imported),
+			PacketCount:    l.PacketCount,
+			RecentActivity: round2(l.RecentActivity),
+			FirstSeen:      l.FirstSeen,
+			LastSeen:       l.LastSeen,
+			Networks:       l.Networks,
+		})
+	}
+
+	w.Header().Set("Cache-Control", "public, max-age=15")
+	writeJSON(w, http.StatusOK, map[string]any{
+		"node":     pubHex,
+		"links":    views,
+		"returned": len(views),
+		"total":    total,
+		"capped":   capped,
+	})
+}
+
+// neighborView resolves a neighbor's display metadata: live node registry first,
+// then the imported directory (which may enrich identity but never creates links).
+// A neighbor with no known data still returns, flagged non-drawable (HasGPS false).
+func (s *Server) neighborView(pubkey string, imported []*ImportedNode) linkNeighborView {
+	if n, ok := s.nodes.Lookup(pubkey); ok {
+		return linkNeighborView{
+			PubKey:   n.PubKey,
+			Name:     n.Name,
+			Type:     n.NodeType,
+			TypeName: nodeTypeName(n.NodeType),
+			HasGPS:   n.HasGPS,
+			Lat:      n.Lat,
+			Lon:      n.Lon,
+		}
+	}
+	for _, in := range imported {
+		if in.PublicKey == pubkey {
+			t := byte(in.Type)
+			v := linkNeighborView{
+				PubKey:   pubkey,
+				Name:     in.AdvName,
+				Type:     t,
+				TypeName: nodeTypeName(t),
+			}
+			if in.hasCoords() {
+				v.HasGPS = true
+				v.Lat = in.AdvLat
+				v.Lon = in.AdvLon
+			}
+			return v
+		}
+	}
+	return linkNeighborView{PubKey: pubkey, TypeName: nodeTypeName(0)}
+}
+
+// anyInSet reports whether any value is present in the set.
+func anyInSet(values []string, set map[string]bool) bool {
+	for _, v := range values {
+		if set[v] {
+			return true
+		}
+	}
+	return false
 }
 
 // handleMap serves a viewport query against the node registry as a GeoJSON

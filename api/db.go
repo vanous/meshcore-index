@@ -69,6 +69,29 @@ CREATE TABLE IF NOT EXISTS observers (
 	updated_at   INTEGER NOT NULL DEFAULT 0
 );
 
+CREATE TABLE IF NOT EXISTS links (
+	node_a           TEXT    NOT NULL,
+	node_b           TEXT    NOT NULL,
+	packet_count     INTEGER NOT NULL DEFAULT 0,
+	first_seen       INTEGER NOT NULL DEFAULT 0,
+	last_seen        INTEGER NOT NULL DEFAULT 0,
+	activity_score   REAL    NOT NULL DEFAULT 0,
+	score_updated_at INTEGER NOT NULL DEFAULT 0,
+	PRIMARY KEY (node_a, node_b)
+);
+-- The PK covers lookups by node_a; this index covers lookups by node_b, so all
+-- links touching a selected public key (either endpoint) are found cheaply.
+CREATE INDEX IF NOT EXISTS idx_links_node_b ON links(node_b);
+
+CREATE TABLE IF NOT EXISTS link_networks (
+	node_a     TEXT    NOT NULL,
+	node_b     TEXT    NOT NULL,
+	network_id TEXT    NOT NULL,
+	first_seen INTEGER NOT NULL DEFAULT 0,
+	last_seen  INTEGER NOT NULL DEFAULT 0,
+	PRIMARY KEY (node_a, node_b, network_id)
+);
+
 CREATE TABLE IF NOT EXISTS imported_nodes (
 	public_key      TEXT PRIMARY KEY,
 	type            INTEGER NOT NULL DEFAULT 0,
@@ -264,6 +287,105 @@ func (d *DB) AppendAdverts(adverts []AdvertObservation) error {
 		}
 	}
 	return tx.Commit()
+}
+
+// SaveLinks batch-upserts the given (dirty) link aggregates and their network
+// associations in one transaction. Called from the periodic persistence cycle —
+// never per packet. The packet_count is the global deduplicated count and is
+// written verbatim; first_seen only moves backwards (MIN) so an out-of-order
+// flush can't lose the earliest observation.
+func (d *DB) SaveLinks(records []LinkRecord, now int64) error {
+	if len(records) == 0 {
+		return nil
+	}
+	tx, err := d.db.Begin()
+	if err != nil {
+		return err
+	}
+	defer tx.Rollback()
+
+	linkStmt, err := tx.Prepare(`
+		INSERT INTO links (node_a, node_b, packet_count, first_seen, last_seen, activity_score, score_updated_at)
+		VALUES (?, ?, ?, ?, ?, ?, ?)
+		ON CONFLICT(node_a, node_b) DO UPDATE SET
+			packet_count     = excluded.packet_count,
+			first_seen       = MIN(links.first_seen, excluded.first_seen),
+			last_seen        = MAX(links.last_seen, excluded.last_seen),
+			activity_score   = excluded.activity_score,
+			score_updated_at = excluded.score_updated_at`)
+	if err != nil {
+		return err
+	}
+	defer linkStmt.Close()
+
+	netStmt, err := tx.Prepare(`
+		INSERT INTO link_networks (node_a, node_b, network_id, first_seen, last_seen)
+		VALUES (?, ?, ?, ?, ?)
+		ON CONFLICT(node_a, node_b, network_id) DO UPDATE SET
+			first_seen = MIN(link_networks.first_seen, excluded.first_seen),
+			last_seen  = MAX(link_networks.last_seen, excluded.last_seen)`)
+	if err != nil {
+		return err
+	}
+	defer netStmt.Close()
+
+	for _, rec := range records {
+		if _, err := linkStmt.Exec(rec.NodeA, rec.NodeB, rec.PacketCount, rec.FirstSeen, rec.LastSeen, rec.Score, rec.ScoreUpdatedAt); err != nil {
+			return err
+		}
+		for _, n := range rec.Networks {
+			if _, err := netStmt.Exec(rec.NodeA, rec.NodeB, n.NetworkID, n.FirstSeen, n.LastSeen); err != nil {
+				return err
+			}
+		}
+	}
+	return tx.Commit()
+}
+
+// LoadLinks reads every persisted link aggregate plus its network associations
+// back into memory at startup.
+func (d *DB) LoadLinks() ([]LinkRecord, error) {
+	rows, err := d.db.Query(`SELECT node_a, node_b, packet_count, first_seen, last_seen, activity_score, score_updated_at FROM links`)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	byPair := make(map[[2]string]*LinkRecord)
+	var out []LinkRecord
+	for rows.Next() {
+		var rec LinkRecord
+		if err := rows.Scan(&rec.NodeA, &rec.NodeB, &rec.PacketCount, &rec.FirstSeen, &rec.LastSeen, &rec.Score, &rec.ScoreUpdatedAt); err != nil {
+			return nil, err
+		}
+		out = append(out, rec)
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	for i := range out {
+		byPair[[2]string{out[i].NodeA, out[i].NodeB}] = &out[i]
+	}
+
+	nrows, err := d.db.Query(`SELECT node_a, node_b, network_id, first_seen, last_seen FROM link_networks`)
+	if err != nil {
+		return nil, err
+	}
+	defer nrows.Close()
+	for nrows.Next() {
+		var (
+			a, b, net string
+			ln        linkNetwork
+		)
+		if err := nrows.Scan(&a, &b, &net, &ln.FirstSeen, &ln.LastSeen); err != nil {
+			return nil, err
+		}
+		ln.NetworkID = net
+		if rec := byPair[[2]string{a, b}]; rec != nil {
+			rec.Networks = append(rec.Networks, ln)
+		}
+	}
+	return out, nrows.Err()
 }
 
 // LoadObservers reads every persisted observer activity row back into memory.
