@@ -1,5 +1,11 @@
 // Small formatting helpers shared across release listings.
 
+/** Count + noun with naive pluralization: pluralize(2, 'device') → "2 devices".
+ *  Pass an explicit plural for irregular nouns. */
+export function pluralize(n, singular, plural = `${singular}s`) {
+  return `${n} ${n === 1 ? singular : plural}`;
+}
+
 /** Prefix bare numeric versions with "v" (e.g. 1.16.0 → v1.16.0). */
 export function displayVersion(v) {
   return /^\d/.test(v) ? 'v' + v : v;
@@ -43,6 +49,20 @@ export function fullDateTime(dt) {
     minute: '2-digit',
     timeZoneName: 'short'
   });
+}
+
+/** Tailwind text colour for a release date — fresh, aging, or stale. */
+export function releaseFreshnessTone(dt) {
+  if (!dt) return 'text-dim/80';
+  const then = new Date(dt).getTime();
+  if (Number.isNaN(then)) return 'text-dim/80';
+  const ageMs = Date.now() - then;
+  if (ageMs < 0) return 'text-dim/80';
+  const day = 24 * 60 * 60 * 1000;
+  if (ageMs <= 7 * day) return 'text-ok';
+  if (ageMs <= 30 * day) return 'text-dim/80';
+  if (ageMs <= 90 * day) return 'text-warn';
+  return 'text-bad';
 }
 
 /** Use relative time only for fresh timestamps, falling back to a full date. */

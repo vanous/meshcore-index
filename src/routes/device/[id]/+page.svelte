@@ -1,6 +1,8 @@
 <script>
   import { base } from '$app/paths';
   import RecordFooter from '$lib/RecordFooter.svelte';
+  import BackLink from '$lib/BackLink.svelte';
+  import { pluralize } from '$lib/format.js';
   import {
     STATUS_META,
     TYPE_META,
@@ -16,12 +18,14 @@
     deviceDisplayLabel,
     devicePriceLabel,
     stripVendorLabel,
-    deviceShortName
+    deviceShortName,
+    descriptionToPlain
   } from '$lib/data.js';
   import { metricById } from '$lib/metrics.js';
   import { compareIds } from '$lib/compare.js';
   import { clampDescription, abs, absUrl, ogImageFor } from '$lib/seo.js';
   import Seo from '$lib/Seo.svelte';
+  import RichText from '$lib/RichText.svelte';
   import Chip from '$lib/Chip.svelte';
   import { Toggle } from 'bits-ui';
   import { favoriteIds, toggleFavorite } from '$lib/favorites.js';
@@ -38,18 +42,50 @@
   import Ruler from '@lucide/svelte/icons/ruler';
   import Cable from '@lucide/svelte/icons/cable';
   import Info from '@lucide/svelte/icons/info';
+  import Box from '@lucide/svelte/icons/box';
+  import Heart from '@lucide/svelte/icons/heart';
   import ChartNoAxesColumn from '@lucide/svelte/icons/chart-no-axes-column';
   let { data } = $props();
   let d = $derived(data.device);
   let selectedVariantRevision = $state('latest');
 
+  // 3D-printable models, ranked by host popularity (likes). Enclosures (full
+  // housings) get their own section; cases and accessories share one section with
+  // a sub-filter shown only when both sub-types are present.
+  const byLikes = (a, b) => (b.likes ?? 0) - (a.likes ?? 0) || a.name.localeCompare(b.name);
+  const ptype = (p) => p.type ?? 'case';
+  let printEnclosures = $derived((d.prints ?? []).filter((p) => ptype(p) === 'enclosure').sort(byLikes));
+  let printAccessories = $derived((d.prints ?? []).filter((p) => ptype(p) === 'case' || ptype(p) === 'accessory').sort(byLikes));
+  // Sub-types present among the accessory-grade prints, in display order.
+  let accessorySubTypes = $derived(
+    ['case', 'accessory'].filter((t) => printAccessories.some((p) => ptype(p) === t))
+  );
+  let accessoryFilter = $state('all');
+  let filteredAccessories = $derived(
+    accessoryFilter === 'all' ? printAccessories : printAccessories.filter((p) => ptype(p) === accessoryFilter)
+  );
+
+  // Friendly label for the host a printable is published on.
+  const PRINT_HOSTS = {
+    'printables.com': 'Printables', 'thingiverse.com': 'Thingiverse', 'makerworld.com': 'MakerWorld',
+    'github.com': 'GitHub', 'heltec.org': 'Heltec', 'lilygo.cc': 'LilyGo', 'docs.rakwireless.com': 'RAKwireless'
+  };
+  function printHost(url) {
+    try {
+      const host = new URL(url).hostname.replace(/^www\./, '');
+      return PRINT_HOSTS[host] ?? host;
+    } catch {
+      return 'Link';
+    }
+  }
+
   // Meta description: prefer the authored blurb, else synthesise from specs.
   let metaDescription = $derived(
     clampDescription(
-      d.description ||
+      descriptionToPlain(d.description) ||
         [d.vendorName, deviceMcuLabel(d), deviceRadioLabel(d)]
           .filter((s) => s && s !== 'Unknown')
-          .join(' · ') + ` — runs ${data.firmwares.length} MeshCore firmware${data.firmwares.length === 1 ? '' : 's'}.`
+          .join(' · ') + ` — runs ${pluralize(data.firmwares.length, 'MeshCore firmware')}.`
     )
   );
 
@@ -58,7 +94,7 @@
     '@context': 'https://schema.org',
     '@type': 'Product',
     name: d.name,
-    ...(d.description ? { description: clampDescription(d.description, 300) } : {}),
+    ...(d.description ? { description: clampDescription(descriptionToPlain(d.description), 300) } : {}),
     ...(d.imageUrl ? { image: abs(d.imageUrl) } : {}),
     ...(d.vendorName ? { brand: { '@type': 'Brand', name: d.vendorName } } : {}),
     category: 'LoRa device',
@@ -644,7 +680,7 @@
 
 <Seo title={d.name} description={metaDescription} type="article" image={ogImageFor('device', d.id)} jsonLd={productJsonLd} />
 
-<a class="mb-4 inline-block text-[0.9rem] text-dim hover:underline" href="{base}/devices/">← All devices</a>
+<BackLink href="{base}/devices/">All devices</BackLink>
 
 <header class="mb-7 flex flex-wrap items-start gap-6">
   <div class="flex h-44 w-44 shrink-0 items-center justify-center rounded-xl border border-edge bg-elev2 p-3 text-muted">
@@ -660,8 +696,7 @@
   <div class="min-w-[240px] flex-1">
     <div class="flex flex-wrap items-center gap-2">
       <h1 class="text-[clamp(1.5rem,5vw,2rem)] font-bold">{d.name}</h1>
-      {#if d.official}<span class="rounded-md bg-accent/15 px-2 py-0.5 text-[0.72rem] font-bold tracking-wide text-accent uppercase">Official</span>
-      {:else}<span class="rounded-md bg-accent2/15 px-2 py-0.5 text-[0.72rem] font-bold tracking-wide text-accent2 uppercase">Community</span>{/if}
+      {#if d.official}<span class="rounded-md bg-accent/15 px-2 py-0.5 text-[0.72rem] font-bold tracking-wide text-accent uppercase">Official</span>{/if}
       {#if known(d.lifecycle)}<span class="rounded-md px-2 py-0.5 text-[0.72rem] font-bold tracking-wide uppercase {LIFECYCLE_TW[d.lifecycle] ?? LIFECYCLE_TW.unknown}">{titleCase(d.lifecycle)}</span>{/if}
     </div>
     {#if d.vendor}
@@ -672,7 +707,7 @@
     {:else if d.vendorName}
       <p class="mt-1 text-dim">{d.vendorName}</p>
     {/if}
-    {#if d.description}<p class="mt-2 max-w-[70ch] text-dim">{d.description}</p>{/if}
+    {#if d.description}<RichText class="mt-2 max-w-[70ch] text-dim" text={d.description} />{/if}
     {#if devicePriceLabel(d)}
       <p class="mt-3 flex items-baseline gap-2">
         <span class="text-[1.25rem] font-bold">{devicePriceLabel(d)}</span>
@@ -912,5 +947,76 @@
     <p class="text-dim">No firmware in the atlas lists this device yet.</p>
   {/if}
 </section>
+
+<!-- Community 3D-printable models, split into enclosures and accessories and
+     ranked by host popularity. Image is the model's remote cover thumbnail; an
+     icon stands in when one isn't recorded. -->
+{#snippet printGrid(items)}
+  <div class="grid gap-4 [grid-template-columns:repeat(auto-fill,minmax(200px,1fr))]">
+    {#each items as p (p.url)}
+      <a
+        class="group flex flex-col overflow-hidden rounded-xl border border-edge bg-elev transition hover:-translate-y-0.5 hover:border-accent"
+        href={p.url}
+        target="_blank"
+        rel="noreferrer"
+      >
+        <div class="relative flex aspect-[4/3] items-center justify-center overflow-hidden bg-elev2 text-muted">
+          {#if p.image}
+            <img src={p.image} alt={p.name} loading="lazy" class="h-full w-full object-cover transition group-hover:scale-105" />
+          {:else}
+            <Box class="h-12 w-12" aria-hidden="true" />
+          {/if}
+          {#if p.likes != null}
+            <span class="absolute top-1.5 right-1.5 inline-flex items-center gap-1 rounded-full bg-black/65 px-1.5 py-0.5 text-[0.7rem] font-medium text-white backdrop-blur-sm" title="{p.likes.toLocaleString()} likes on {printHost(p.url)}">
+              <Heart class="h-3 w-3 shrink-0" strokeWidth={2} aria-hidden="true" />
+              <span class="tabular-nums">{p.likes.toLocaleString()}</span>
+            </span>
+          {/if}
+        </div>
+        <div class="flex flex-1 flex-col gap-0.5 p-3">
+          <span class="text-[0.9rem] leading-tight font-medium group-hover:text-accent" title={p.name}>{p.name}</span>
+          {#if p.author}<span class="text-[0.78rem] text-dim">by {p.author}</span>{/if}
+          <span class="mt-1.5 text-[0.72rem] text-accent2">{printHost(p.url)} ↗</span>
+        </div>
+      </a>
+    {/each}
+  </div>
+{/snippet}
+
+{#if printEnclosures.length}
+  <section class="mb-7">
+    <div class="mb-3 flex flex-wrap items-baseline gap-x-3 gap-y-1 border-b border-edge pb-1.5">
+      <h2 class="text-[1.1rem] font-semibold">3D-printed enclosures</h2>
+      <span class="text-[0.8rem] text-dim">Full housings you can print yourself</span>
+    </div>
+    {@render printGrid(printEnclosures)}
+  </section>
+{/if}
+
+{#if printAccessories.length}
+  <section class="mb-7">
+    <div class="mb-3 flex flex-wrap items-baseline gap-x-3 gap-y-1 border-b border-edge pb-1.5">
+      <h2 class="text-[1.1rem] font-semibold">3D-printed accessories</h2>
+      <span class="text-[0.8rem] text-dim">Cases, mounts, brackets and add-ons you can print yourself</span>
+      <!-- Sub-filter — only shown when more than one accessory-grade category exists. -->
+      {#if accessorySubTypes.length > 1}
+        <div class="ml-auto flex flex-wrap gap-1.5">
+          {#each ['all', ...accessorySubTypes] as t (t)}
+            <button
+              type="button"
+              onclick={() => (accessoryFilter = t)}
+              class="rounded-full border px-2.5 py-1 text-[0.78rem] transition select-none {accessoryFilter === t
+                ? 'border-accent bg-accent/15 text-accent'
+                : 'border-edge bg-elev text-dim hover:border-accent/60 hover:text-ink'}"
+            >
+              {t === 'all' ? 'All' : t === 'case' ? 'Cases' : 'Accessories'}
+            </button>
+          {/each}
+        </div>
+      {/if}
+    </div>
+    {@render printGrid(filteredAccessories)}
+  </section>
+{/if}
 
 <RecordFooter source={d.source} jsonPath="{base}/device/{d.id}.json" />

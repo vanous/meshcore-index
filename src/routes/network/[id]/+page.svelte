@@ -1,6 +1,7 @@
 <script>
   import { base } from '$app/paths';
   import RecordFooter from '$lib/RecordFooter.svelte';
+  import BackLink from '$lib/BackLink.svelte';
   import {
     NETWORK_SCOPE_META,
     NETWORK_STATUS_META,
@@ -13,11 +14,13 @@
     deviceMcuLabel,
     deviceRadioLabel,
     isAppPresetNetwork,
-    resolveRefs
+    resolveRefs,
+    descriptionToPlain
   } from '$lib/data.js';
   import AppPresetBadge from '$lib/AppPresetBadge.svelte';
   import { clampDescription, absUrl, ogImageFor } from '$lib/seo.js';
   import Seo from '$lib/Seo.svelte';
+  import RichText from '$lib/RichText.svelte';
   import { onMount } from 'svelte';
   import { LIVE_ENABLED, poll, fmtRate, agoLabel } from '$lib/pulse.js';
   let { data } = $props();
@@ -107,7 +110,7 @@
 
   let networkDescription = $derived(
     clampDescription(
-      n.description ||
+      descriptionToPlain(n.description) ||
         `${n.name} — ${NETWORK_SCOPE_META[n.scope]?.label ?? n.scope ?? ''} MeshCore network${
           networkBandLabel(n) ? ` on ${networkBandLabel(n)}` : ''
         }.`
@@ -117,7 +120,7 @@
     '@context': 'https://schema.org',
     '@type': 'Organization',
     name: n.name,
-    ...(n.description ? { description: clampDescription(n.description, 300) } : {}),
+    ...(n.description ? { description: clampDescription(descriptionToPlain(n.description), 300) } : {}),
     ...(n.community?.website ? { url: n.community.website } : { url: absUrl(`/network/${n.id}/`) })
   });
 </script>
@@ -129,7 +132,7 @@
   jsonLd={networkJsonLd}
 />
 
-<a class="mb-4 inline-block text-[0.9rem] text-dim hover:underline" href="{base}/networks/">← All networks</a>
+<BackLink href="{base}/networks/">All networks</BackLink>
 
 <header class="mb-6">
   <div class="flex flex-wrap items-center gap-3">
@@ -168,7 +171,7 @@
       Coverage area <span class="font-mono text-ink">≈ {n.areaKm2.toLocaleString()} km²</span>
     </p>
   {/if}
-  {#if n.description}<p class="mt-1 max-w-[70ch] text-dim">{n.description}</p>{/if}
+  {#if n.description}<RichText class="mt-1 max-w-[70ch] text-dim" text={n.description} />{/if}
   {#if communityLinks.length || refs.length}
     <div class="mt-2 flex flex-wrap gap-x-4 gap-y-1 text-[0.92rem]">
       {#each communityLinks as link}
@@ -201,7 +204,7 @@
                   <span class="text-dim">— select this by name in the MeshCore app</span>
                 </p>
               {/if}
-              {#if preset.description}<p class="mt-0.5 text-[0.85rem] text-dim">{preset.description}</p>{/if}
+              {#if preset.description}<RichText class="mt-0.5 text-[0.85rem] text-dim" text={preset.description} />{/if}
             </div>
           {/if}
           <dl class="grid gap-x-6 gap-y-3 [grid-template-columns:repeat(auto-fill,minmax(120px,1fr))]">

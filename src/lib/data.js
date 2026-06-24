@@ -3,7 +3,9 @@
 import dataset from '$lib/generated/data.json';
 import Fuse from 'fuse.js';
 import * as countryFlags from 'country-flag-icons/string/3x2';
+import * as countryFlagsSquare from 'country-flag-icons/string/1x1';
 import { groupReleases } from '$lib/releases.js';
+import { richTextToPlain } from '$lib/richtext.js';
 
 export { groupReleases } from '$lib/releases.js';
 
@@ -37,6 +39,18 @@ for (const [path, url] of Object.entries(
 )) {
   const parts = path.split('/');
   logoByVendorFile[`${parts.at(-2)}/${parts.at(-1)}`] = url;
+}
+// Software icons and screenshots, keyed `<id>/<file>` (a dir can hold several).
+const softwareAssetByFile = {};
+for (const [path, url] of Object.entries(
+  import.meta.glob('../../data/software/*/*.{svg,png,jpg,jpeg,webp}', {
+    query: '?url',
+    import: 'default',
+    eager: true
+  })
+)) {
+  const parts = path.split('/');
+  softwareAssetByFile[`${parts.at(-2)}/${parts.at(-1)}`] = url;
 }
 
 /** All vendors (from data.json), with their bundled logo URL attached. */
@@ -79,6 +93,125 @@ export function getVendor(id) {
 
 export function getNetwork(id) {
   return networkById.get(id);
+}
+
+/**
+ * All software (from data.json), ordered by name in build-data.js, with the
+ * bundled icon URL and per-screenshot URLs attached (images must go through the
+ * bundler to get hashed asset URLs).
+ */
+export const software = (dataset.software ?? []).map((s) => ({
+  ...s,
+  imageUrl: s.image ? (softwareAssetByFile[`${s.id}/${s.image}`] ?? null) : null,
+  screenshotUrls: (s.screenshots ?? []).map((shot) => ({
+    ...shot,
+    url: softwareAssetByFile[`${s.id}/${shot.file}`] ?? null
+  }))
+}));
+
+const softwareById = new Map(software.map((s) => [s.id, s]));
+
+export function getSoftware(id) {
+  return softwareById.get(id);
+}
+
+// Wikilink type → lookup, used by RichText to resolve [[type:id]] references.
+// The route segment equals the type (all entity routes are singular).
+const WIKILINK_RESOLVERS = {
+  device: getDevice,
+  software: getSoftware,
+  firmware: getFirmware,
+  network: getNetwork,
+  vendor: getVendor
+};
+
+/**
+ * Resolve an Obsidian-style wikilink target (`type:id`) against the dataset.
+ * Returns the display text plus the route parts; the caller builds the href
+ * (with the SvelteKit base path). Unknown types/ids come back `missing`.
+ *
+ * @param {string} target e.g. "device:xiao-nrf52"
+ * @param {string|null} [label] optional custom visible label
+ */
+export function resolveWikilink(target, label) {
+  const colon = target.indexOf(':');
+  const type = colon === -1 ? '' : target.slice(0, colon).toLowerCase();
+  const id = colon === -1 ? target : target.slice(colon + 1).trim();
+  const entity = WIKILINK_RESOLVERS[type]?.(id);
+  if (!entity) return { missing: true, type, id, text: label || id || target };
+  return { missing: false, type, id, text: label || entity.name || id };
+}
+
+/** Flatten a rich-text description to a single plain line for SEO meta / card
+ * clamps, resolving wikilinks to their entity names. */
+export function descriptionToPlain(text) {
+  return richTextToPlain(text, (target, label) => resolveWikilink(target, label).text);
+}
+
+/**
+ * Software kinds — one catalogue split by `kind`. `order` drives section order
+ * on the listing; `tw` is the badge colour utility.
+ */
+export const SOFTWARE_KIND_META = {
+  client: { label: 'Clients', singular: 'Client', order: 0, tw: 'bg-accent/15 text-accent' },
+  integration: { label: 'Integrations', singular: 'Integration', order: 1, tw: 'bg-accent2/15 text-accent2' },
+  gateway: { label: 'Gateways & Bridges', singular: 'Gateway / Bridge', order: 2, tw: 'bg-warn/15 text-warn' },
+  monitoring: { label: 'Monitoring & Management', singular: 'Monitoring / Management', order: 3, tw: 'bg-accent/15 text-accent' },
+  utility: { label: 'Utilities', singular: 'Utility', order: 4, tw: 'bg-ok/15 text-ok' },
+  bot: { label: 'Bots', singular: 'Bot', order: 5, tw: 'bg-accent2/15 text-accent2' },
+  library: { label: 'Libraries & SDKs', singular: 'Library / SDK', order: 6, tw: 'bg-dim/20 text-dim' },
+  'network-app': { label: 'Network Apps', singular: 'Network App', order: 7, tw: 'bg-accent/15 text-accent' }
+};
+
+/** Kinds present in the catalogue, in display order. */
+export function softwareKindsInUse() {
+  return Object.keys(SOFTWARE_KIND_META)
+    .filter((k) => software.some((s) => s.kind === k))
+    .sort((a, b) => SOFTWARE_KIND_META[a].order - SOFTWARE_KIND_META[b].order);
+}
+
+/**
+ * 3D-print types — one catalogue split by `type`. `order` drives section/chip
+ * order; `tw` is the badge colour utility. An `enclosure` is a full device
+ * housing; a `case` is an accessory-grade case (often confused with the former);
+ * an `accessory` is a mount, bracket or add-on.
+ */
+export const PRINT_TYPE_META = {
+  enclosure: { label: 'Enclosures', singular: 'Enclosure', order: 0, tw: 'bg-accent/15 text-accent', blurb: 'Full protective housings you can print yourself' },
+  case: { label: 'Cases', singular: 'Case', order: 1, tw: 'bg-accent2/15 text-accent2', blurb: 'Accessory-grade cases and shells' },
+  accessory: { label: 'Accessories', singular: 'Accessory', order: 2, tw: 'bg-ok/15 text-ok', blurb: 'Mounts, brackets and add-ons' }
+};
+
+/** Normalised print type, defaulting untyped legacy entries to "case". */
+export function printType(print) {
+  return print?.type ?? 'case';
+}
+
+/**
+ * Every 3D-printable model across all devices, each tagged with its `device`,
+ * newest first. Prints with a `date` sort ahead of dateless ones; ties (and
+ * dateless prints) fall back to host popularity (likes) then name.
+ * @returns {Array<object & { device: any }>}
+ */
+export function allPrints() {
+  const out = [];
+  for (const device of devices) {
+    for (const print of device.prints ?? []) out.push({ ...print, device });
+  }
+  return out.sort((a, b) => {
+    const da = a.date ?? '';
+    const db = b.date ?? '';
+    if (da !== db) return db.localeCompare(da);
+    return (b.likes ?? 0) - (a.likes ?? 0) || a.name.localeCompare(b.name);
+  });
+}
+
+/** Print types present across the catalogue, in display order. */
+export function printTypesInUse() {
+  const present = new Set(devices.flatMap((d) => (d.prints ?? []).map(printType)));
+  return Object.keys(PRINT_TYPE_META)
+    .filter((t) => present.has(t))
+    .sort((a, b) => PRINT_TYPE_META[a].order - PRINT_TYPE_META[b].order);
 }
 
 /**
@@ -485,19 +618,58 @@ export function compatibilityMatrix() {
   return { firmwares: matrixFirmwares, rows };
 }
 
+// Descriptor attached to each release-feed row so ReleaseRow can render and link
+// to the source project, regardless of whether it's a firmware or software.
+// `href` points at the project's releases page; `kind` drives the /releases
+// filter and badge.
+const firmwareReleaseProject = (fw) => ({
+  id: fw.id,
+  name: fw.name,
+  kind: 'firmware',
+  type: fw.type,
+  href: `/firmware/${fw.id}/releases/`
+});
+const softwareReleaseProject = (s) => ({
+  id: s.id,
+  name: s.name,
+  kind: 'software',
+  type: s.kind,
+  href: `/software/${s.id}/releases/`
+});
+
 /**
- * Newest release groups across all firmwares, each tagged with its firmware.
+ * Newest release groups across all firmwares, each tagged with its project.
  * Variants are already collapsed by groupReleases().
  */
 export function latestReleases(limit = 12) {
   const out = [];
   for (const fw of firmwares) {
     for (const g of groupReleases(fw.releases)) {
-      out.push({ firmware: { id: fw.id, name: fw.name, type: fw.type }, ...g });
+      out.push({ project: firmwareReleaseProject(fw), ...g });
     }
   }
   out.sort((a, b) => (b.datetime ?? '').localeCompare(a.datetime ?? ''));
   return limit ? out.slice(0, limit) : out;
+}
+
+/**
+ * Every release group across all firmwares AND software, newest first, each
+ * tagged with its source project. Powers the /releases page.
+ */
+export function allReleases() {
+  const out = [];
+  for (const fw of firmwares) {
+    for (const g of groupReleases(fw.releases)) {
+      out.push({ project: firmwareReleaseProject(fw), ...g });
+    }
+  }
+  for (const s of software) {
+    for (const g of groupReleases(s.releases)) {
+      out.push({ project: softwareReleaseProject(s), ...g });
+    }
+  }
+  out.sort((a, b) => (b.datetime ?? '').localeCompare(a.datetime ?? ''));
+  return out;
 }
 
 /** The single newest release group for each firmware, newest firmware first. */
@@ -505,7 +677,7 @@ export function latestReleasePerFirmware() {
   const out = [];
   for (const fw of firmwares) {
     const [newest] = groupReleases(fw.releases);
-    if (newest) out.push({ firmware: { id: fw.id, name: fw.name, type: fw.type }, ...newest });
+    if (newest) out.push({ project: firmwareReleaseProject(fw), ...newest });
   }
   out.sort((a, b) => (b.datetime ?? '').localeCompare(a.datetime ?? ''));
   return out;
@@ -533,6 +705,45 @@ export const FW_STATUS_TW = {
   inactive: 'text-bad'
 };
 
+/** High-level source model → label + badge utility classes. */
+export const LICENSE_TYPE_META = {
+  'open-source': { label: 'Open source', tw: 'bg-ok/15 text-ok' },
+  'source-available': { label: 'Source available', tw: 'bg-warn/15 text-warn' },
+  proprietary: { label: 'Proprietary', tw: 'bg-bad/15 text-bad' }
+};
+
+// SPDX ids (license families) treated as open source when deriving a record's
+// license_type from its `license`. Matched case-insensitively against the id
+// with any "+"/"-or-later"/"-only" qualifier stripped; "NOASSERTION" and other
+// unknown ids don't match (so they stay unclassified rather than guessed).
+const OPEN_SOURCE_LICENSES = new Set([
+  'mit', 'isc', 'apache-2.0', 'bsd-2-clause', 'bsd-3-clause', 'bsd-4-clause',
+  'mpl-2.0', 'gpl-2.0', 'gpl-3.0', 'lgpl-2.1', 'lgpl-3.0', 'agpl-3.0',
+  'unlicense', 'cc0-1.0', 'zlib', 'epl-2.0', 'eupl-1.2', 'osl-3.0',
+  'cddl-1.0', 'artistic-2.0', 'wtfpl'
+]);
+
+function isOpenSourceLicense(license) {
+  if (!license) return false;
+  const id = String(license).trim().toLowerCase().replace(/\+$/, '').replace(/-(or-later|only)$/, '');
+  return OPEN_SOURCE_LICENSES.has(id);
+}
+
+/**
+ * High-level source model for a firmware or software record: 'open-source',
+ * 'source-available' or 'proprietary'. Prefers an explicit `license_type`;
+ * otherwise derives it from a recognised open-source SPDX `license`, or from an
+ * explicit `verification.sourceAvailable: false` (→ proprietary). Returns null
+ * when nothing indicates a classification.
+ */
+export function licenseType(record) {
+  if (!record) return null;
+  if (record.license_type) return record.license_type;
+  if (isOpenSourceLicense(record.license)) return 'open-source';
+  if (record.verification?.sourceAvailable === false) return 'proprietary';
+  return null;
+}
+
 /** Network scope → label + badge utility classes. */
 export const NETWORK_SCOPE_META = {
   general: { label: 'General', tw: 'bg-dim/15 text-dim' },
@@ -548,6 +759,15 @@ export const NETWORK_STATUS_META = {
   planned: { label: 'Planned', tw: 'text-warn' },
   dormant: { label: 'Dormant', tw: 'text-dim' },
   inactive: { label: 'Inactive', tw: 'text-bad' }
+};
+
+/** Software status → label + text colour utility. */
+export const SOFTWARE_STATUS_META = {
+  active: { label: 'Active', tw: 'text-ok' },
+  planned: { label: 'Planned', tw: 'text-warn' },
+  dormant: { label: 'Dormant', tw: 'text-dim' },
+  inactive: { label: 'Inactive', tw: 'text-bad' },
+  archived: { label: 'Archived', tw: 'text-bad' }
 };
 
 /** Compact band label for a network, e.g. "EU868" or "EU433 / CN, EU868". */
@@ -574,6 +794,12 @@ export function networkRadioLabel(radio) {
 export function countryFlagSvg(code) {
   if (!code) return null;
   return countryFlags[String(code).toUpperCase()] ?? null;
+}
+
+/** Inline SVG markup for a 1:1 (square) country flag, or null. Case-insensitive. */
+export function countryFlagSquareSvg(code) {
+  if (!code) return null;
+  return countryFlagsSquare[String(code).toUpperCase()] ?? null;
 }
 
 /**
@@ -636,6 +862,9 @@ export const searchItems = [
       .filter(Boolean)
       .join(' · '),
     href: `/network/${n.id}/`,
+    // Primary country flag (square 1:1, to fill the avatar tile), falling back
+    // to an initial when the network has no country coverage.
+    flag: countryFlagSquareSvg(networkFlags(n)[0]?.code) ?? null,
     text: [
       n.name,
       n.short_name,
@@ -645,6 +874,30 @@ export const searchItems = [
       ...networkBands(n),
       ...networkRadioSettings(n).flatMap((r) => [r.name, r.description, r.frequency_mhz]),
       ...(n.regions ?? []).flatMap((r) => [r.code, r.name])
+    ]
+      .filter(Boolean)
+      .join(' ')
+      .toLowerCase()
+  })),
+  ...software.map((s) => ({
+    type: 'Software',
+    title: s.name,
+    subtitle: [SOFTWARE_KIND_META[s.kind]?.singular ?? s.kind, (s.maintainers ?? [])[0]?.name]
+      .filter(Boolean)
+      .join(' · '),
+    href: `/software/${s.id}/`,
+    image: s.imageUrl,
+    kind: s.kind,
+    text: [
+      s.name,
+      s.short_name,
+      ...(s.also_known_as ?? []),
+      SOFTWARE_KIND_META[s.kind]?.label ?? s.kind,
+      s.description,
+      ...(s.tags ?? []),
+      ...(s.languages ?? []),
+      ...(s.platforms ?? []),
+      ...(s.maintainers ?? []).map((m) => m.name)
     ]
       .filter(Boolean)
       .join(' ')

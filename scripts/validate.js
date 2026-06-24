@@ -86,6 +86,7 @@ const deviceSchema = loadSchema('device');
 const firmwareSchema = loadSchema('firmware');
 const vendorSchema = loadSchema('vendor');
 const networkSchema = loadSchema('network');
+const softwareSchema = loadSchema('software');
 const changelogSchema = loadSchema('changelog');
 const compatibilitySchema = loadSchema('compatibility');
 const globalsSchema = loadSchema('globals');
@@ -94,12 +95,14 @@ const vendors = readCollection('vendors', 'vendor.yaml');
 const devices = readCollection('devices', 'device.yaml');
 const firmwares = readCollection('firmwares', 'firmware.yaml');
 const networks = readCollection('networks', 'network.yaml');
+const software = readCollection('software', 'software.yaml');
 const compatibility = [];
 
 validateAll(vendors, vendorSchema);
 validateAll(devices, deviceSchema);
 validateAll(firmwares, firmwareSchema);
 validateAll(networks, networkSchema);
+validateAll(software, softwareSchema);
 
 const compatibilityBase = join(root, 'data', 'compatibility');
 if (existsSync(compatibilityBase)) {
@@ -184,7 +187,7 @@ for (const f of firmwares) {
 }
 
 // Every `refs` key must name a ref database registered in globals.refs.
-for (const r of [...vendors, ...devices, ...firmwares, ...networks]) {
+for (const r of [...vendors, ...devices, ...firmwares, ...networks, ...software]) {
   for (const key of Object.keys(r.data.refs ?? {})) {
     if (!refIds.has(key)) {
       err(r.where, `refs key "${key}" is not defined in data/globals.yaml refs`);
@@ -285,6 +288,29 @@ for (const d of devices) {
       err(d.where, `datasheet "${d.data.datasheet}" file not found`);
     }
   }
+  const seenPrintUrls = new Set();
+  for (const [index, print] of (d.data.prints ?? []).entries()) {
+    const url = print?.url;
+    if (!url) continue;
+    if (seenPrintUrls.has(url)) {
+      err(d.where, `prints[${index}].url duplicates another print on this device: ${url}`);
+    }
+    seenPrintUrls.add(url);
+  }
+}
+for (const s of software) {
+  if (s.data.image) {
+    const imagePath = join(root, 'data', 'software', s.id, s.data.image);
+    if (!existsSync(imagePath)) {
+      err(s.where, `image "${s.data.image}" file not found`);
+    }
+  }
+  for (const [index, shot] of (s.data.screenshots ?? []).entries()) {
+    const file = shot?.file;
+    if (file && !existsSync(join(root, 'data', 'software', s.id, file))) {
+      err(s.where, `screenshots[${index}].file "${file}" file not found`);
+    }
+  }
 }
 for (const f of firmwares) {
   for (const ref of f.data.devices ?? []) {
@@ -311,5 +337,5 @@ if (errors.length) {
   process.exit(1);
 }
 console.log(
-  `✓ valid — ${firmwares.length} firmware(s), ${devices.length} device(s), ${vendors.length} vendor(s), ${networks.length} network(s), ${compatibility.length} compatibility report(s).`
+  `✓ valid — ${firmwares.length} firmware(s), ${devices.length} device(s), ${vendors.length} vendor(s), ${networks.length} network(s), ${software.length} software, ${compatibility.length} compatibility report(s).`
 );

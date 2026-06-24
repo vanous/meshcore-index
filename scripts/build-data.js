@@ -13,6 +13,7 @@ import {
   rmSync,
   statSync
 } from 'node:fs';
+import { gzipSync, zstdCompressSync } from 'node:zlib';
 import { join, dirname } from 'node:path';
 import { execFileSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
@@ -110,6 +111,52 @@ function deepMerge(base, overlay) {
   return out;
 }
 
+// Attach cached releases from a record's sibling changelog.yaml, if present.
+// Shared by firmwares and software: renders each release's markdown notes and
+// derives latest_version/released from the newest release. Records without a
+// changelog file come back with `releases: []` so callers can treat them
+// uniformly. `renderMarkdown` is passed in (it's dynamically imported by
+// buildData to keep the markdown libs out of other entry points).
+function attachChangelog(root, kind, record, renderMarkdown) {
+  const clPath = join(root, 'data', kind, record.id, 'changelog.yaml');
+  if (!existsSync(clPath)) return { ...record, releases: [] };
+  const cl = load(readFileSync(clPath, 'utf8')) ?? {};
+  const rawReleases = cl.releases ?? [];
+  const { latest_version: _lv, released: _r, ...base } = record;
+  return {
+    ...base,
+    ...latestReleaseSummary(rawReleases),
+    releases: rawReleases.map((r) => ({
+      ...r,
+      notesHtml: renderMarkdown(r.notes, { baseUrl: record.repository })
+    })),
+    changelogSource: cl.source ?? null,
+    changelogUpdatedAt: cl.updatedAt ?? null
+  };
+}
+
+// Read every JSON Schema under schema/*.yaml into one importable bundle for the
+// in-app schema explorer (src/routes/schemas). The full schema object is kept
+// verbatim so the explorer can render properties, descriptions, constraints,
+// $defs and examples; the source-of-truth remains the YAML files.
+function readSchemas(root) {
+  const dir = join(root, 'schema');
+  if (!existsSync(dir)) return [];
+  const out = [];
+  for (const file of readdirSync(dir).filter((f) => f.endsWith('.yaml')).sort()) {
+    const schema = load(readFileSync(join(dir, file), 'utf8')) ?? {};
+    const id = file.replace(/\.yaml$/, '');
+    out.push({
+      id,
+      file: `schema/${file}`,
+      title: typeof schema.title === 'string' ? schema.title : id,
+      description: typeof schema.description === 'string' ? schema.description : '',
+      schema
+    });
+  }
+  return out;
+}
+
 // Read the shared parts catalog (data/globals.yaml). Optional.
 function readGlobals(root) {
   const path = join(root, 'data', 'globals.yaml');
@@ -159,8 +206,8 @@ function cleanGeneratedDir(root, dir) {
   rmSync(join(root, 'static', dir), { recursive: true, force: true });
 }
 
-function buildRecordJson(root, { devices, firmwares, vendors, networks, compatibility }) {
-  for (const dir of ['device', 'firmware', 'vendor', 'network', 'compatibility']) {
+function buildRecordJson(root, { devices, firmwares, vendors, networks, software, compatibility }) {
+  for (const dir of ['device', 'firmware', 'vendor', 'network', 'software', 'compatibility']) {
     cleanGeneratedDir(root, dir);
   }
 
@@ -179,6 +226,10 @@ function buildRecordJson(root, { devices, firmwares, vendors, networks, compatib
   }
   for (const network of networks) {
     writeJsonRecord(join(root, 'static', 'network', `${network.id}.json`), network);
+    count += 1;
+  }
+  for (const item of software) {
+    writeJsonRecord(join(root, 'static', 'software', `${item.id}.json`), item);
     count += 1;
   }
   for (const report of compatibility) {
@@ -204,6 +255,7 @@ function buildRecordJson(root, { devices, firmwares, vendors, networks, compatib
     ['firmwares', firmwares],
     ['vendors', vendors],
     ['networks', networks],
+    ['software', software],
     ['compatibility', compatibility]
   ]) {
     writeJsonRecord(join(root, 'static', `${name}.json`), records);
@@ -319,23 +371,46 @@ const SITE_ORIGIN = (process.env.SITE_ORIGIN ?? 'https://meshcore.ninja').replac
 const BASE_PATH = (process.env.BASE_PATH ?? '').replace(/\/+$/, '');
 
 /** Write sitemap.xml + robots.txt from the compiled dataset. */
-function buildSitemap(root, { devices, firmwares, vendors, networks, generatedAt }) {
+function buildSitemap(root, { devices, firmwares, vendors, networks, software, generatedAt }) {
   const lastmod = (generatedAt ?? new Date().toISOString()).slice(0, 10);
   const prefix = `${SITE_ORIGIN}${BASE_PATH}`;
+
+  // Filtered list views are prerendered as their own pages (one per software
+  // kind / firmware type / print type), so include them for indexing.
+  const softwareKinds = [...new Set(software.map((s) => s.kind))].filter(Boolean);
+  const firmwareTypes = [...new Set(firmwares.map((f) => f.type))].filter((t) =>
+    ['official', 'fork', 'custom'].includes(t)
+  );
+  const printTypes = [
+    ...new Set(devices.flatMap((d) => (d.prints ?? []).map((p) => p.type ?? 'case')))
+  ].filter((t) => ['enclosure', 'case', 'accessory'].includes(t));
 
   const paths = [
     '/',
     '/devices/',
     '/vendors/',
     '/networks/',
+    '/software/',
+    ...softwareKinds.map((k) => `/software/${k}/`),
+    '/firmwares/',
+    ...firmwareTypes.map((t) => `/firmwares/${t}/`),
+    '/prints/',
+    ...printTypes.map((t) => `/prints/${t}/`),
+    '/languages/',
     '/matrix/',
     '/releases/',
+    '/schemas/',
+    '/bundle/',
+    '/gallery/',
     '/about/',
     ...METRICS.map((m) => `/device-rank/${m.id}/`),
     ...devices.map((d) => `/device/${d.id}/`),
     ...firmwares.flatMap((f) => [`/firmware/${f.id}/`, `/firmware/${f.id}/releases/`]),
     ...vendors.map((v) => `/vendor/${v.id}/`),
-    ...networks.map((n) => `/network/${n.id}/`)
+    ...networks.map((n) => `/network/${n.id}/`),
+    ...software.flatMap((s) =>
+      s.releases?.length ? [`/software/${s.id}/`, `/software/${s.id}/releases/`] : [`/software/${s.id}/`]
+    )
   ];
 
   const urls = paths
@@ -372,6 +447,10 @@ export async function buildData(root = defaultRoot) {
   );
   const networkAreas = publishNetworkAreas(root, networks);
 
+  const software = readDir(root, 'software', 'software.yaml', dirDate)
+    .map((s) => attachChangelog(root, 'software', s, renderMarkdown))
+    .sort((a, b) => a.name.localeCompare(b.name));
+
   const devices = readDir(root, 'devices', 'device.yaml', dirDate)
     .map((d) => ({ ...d, vendorName: vendorById.get(d.vendorId)?.name ?? null }))
     .sort((a, b) => a.name.localeCompare(b.name));
@@ -382,41 +461,46 @@ export async function buildData(root = defaultRoot) {
   }
 
   const typeRank = { official: 0, fork: 1, custom: 2 };
-  // Active firmwares first, then everything else; ties broken by type, then name.
+  // Active firmwares first; among active ones the most-starred lead. Remaining
+  // ties (and all non-active firmwares) are broken by type, then name.
   const statusRank = (s) => (s === 'active' ? 0 : 1);
+  const stars = (fw) => fw.popularity?.githubStars ?? 0;
   const rawFirmwares = readDir(root, 'firmwares', 'firmware.yaml', dirDate);
   const compatibility = readCompatibility(root);
   const globals = readGlobals(root);
 
   const firmwares = rawFirmwares
-    .map((fw) => {
-      // Attach cached releases from the sibling changelog.yaml, if present.
-      const clPath = join(root, 'data', 'firmwares', fw.id, 'changelog.yaml');
-      if (existsSync(clPath)) {
-        const cl = load(readFileSync(clPath, 'utf8')) ?? {};
-        const rawReleases = cl.releases ?? [];
-        const { latest_version: _lv, released: _r, ...fwBase } = fw;
-        return {
-          ...fwBase,
-          ...latestReleaseSummary(rawReleases),
-          releases: rawReleases.map((r) => ({
-            ...r,
-            notesHtml: renderMarkdown(r.notes, { baseUrl: fw.repository })
-          })),
-          changelogSource: cl.source ?? null,
-          changelogUpdatedAt: cl.updatedAt ?? null
-        };
-      }
-      return { ...fw, releases: [] };
-    })
+    .map((fw) => attachChangelog(root, 'firmwares', fw, renderMarkdown))
     .sort((a, b) => {
       const sa = statusRank(a.status);
       const sb = statusRank(b.status);
       if (sa !== sb) return sa - sb;
+      if (a.status === 'active') {
+        const ds = stars(b) - stars(a);
+        if (ds !== 0) return ds;
+      }
       const ra = typeRank[a.type] ?? 9;
       const rb = typeRank[b.type] ?? 9;
       return ra !== rb ? ra - rb : a.name.localeCompare(b.name);
     });
+
+  // The global data.json is imported into every page's shared bundle, so it must
+  // stay lean. A record's releases carry the rendered changelog HTML
+  // (notes/notesHtml, ~1MB — two thirds of the dataset) plus per-variant URLs and
+  // titles. None of that is needed by the release listings (homepage feed,
+  // /releases, /firmwares), which only show version/date/prerelease and a variant
+  // count. The firmware and software detail pages, which DO render notes, fetch
+  // the full per-record JSON instead. So ship only the listing fields here;
+  // buildRecordJson() writes the full releases per record.
+  const liteReleases = (releases) =>
+    (releases ?? []).map(({ version, datetime, date, prerelease }) => ({
+      version,
+      ...(datetime != null ? { datetime } : {}),
+      ...(date != null ? { date } : {}),
+      ...(prerelease ? { prerelease } : {})
+    }));
+  const liteFirmwares = firmwares.map((fw) => ({ ...fw, releases: liteReleases(fw.releases) }));
+  const liteSoftware = software.map((s) => ({ ...s, releases: liteReleases(s.releases) }));
 
   const dataset = {
     schemaVersion: 3,
@@ -427,12 +511,14 @@ export async function buildData(root = defaultRoot) {
       vendors: vendors.length,
       networks: networks.length,
       networkAreas,
+      software: software.length,
       compatibility: compatibility.length
     },
-    firmwares,
+    firmwares: liteFirmwares,
     devices,
     vendors,
     networks,
+    software: liteSoftware,
     compatibility,
     globals
   };
@@ -446,18 +532,49 @@ export async function buildData(root = defaultRoot) {
     writeFileSync(target, json);
   }
 
+  // Minified bundle plus pre-compressed siblings, published for programmatic
+  // consumers and transfer. Sizes are surfaced on the /bundle overview page.
+  const minified = JSON.stringify(dataset);
+  const minGz = gzipSync(minified, { level: 9 });
+  const minZst = zstdCompressSync(minified);
+  const minPath = join(root, 'static', 'data.min.json');
+  writeFileSync(minPath, minified);
+  writeFileSync(`${minPath}.gz`, minGz);
+  writeFileSync(`${minPath}.zst`, minZst);
+  const bundleBytes = {
+    min: Buffer.byteLength(minified),
+    gzip: minGz.length,
+    zstd: minZst.length
+  };
+
+  // Schemas ship as their own bundle, not inside data.json: only the schema
+  // explorer route needs them, and data.json is imported into every page's
+  // shared bundle, so it must stay lean.
+  const schemas = readSchemas(root);
+  const schemaBundle = { generatedAt: dataset.generatedAt, schemas };
+  const schemaJson = JSON.stringify(schemaBundle, null, 2) + '\n';
+  for (const target of [
+    join(root, 'src', 'lib', 'generated', 'schemas.json'),
+    join(root, 'static', 'schemas.json')
+  ]) {
+    mkdirSync(dirname(target), { recursive: true });
+    writeFileSync(target, schemaJson);
+  }
+
   const sitemapUrls = buildSitemap(root, {
     devices,
     firmwares,
     vendors,
     networks,
+    software,
     generatedAt: dataset.generatedAt
   });
 
   return {
     ...dataset.counts,
-    recordsJson: buildRecordJson(root, { devices, firmwares, vendors, networks, compatibility }),
-    sitemapUrls
+    recordsJson: buildRecordJson(root, { devices, firmwares, vendors, networks, software, compatibility }),
+    sitemapUrls,
+    bundleBytes
   };
 }
 
@@ -468,12 +585,18 @@ if (process.argv[1] && fileURLToPath(import.meta.url) === process.argv[1]) {
     devices,
     vendors,
     networks,
+    software,
     compatibility,
     networkAreas,
     recordsJson,
-    sitemapUrls
+    sitemapUrls,
+    bundleBytes
   } = await buildData();
+  const kb = (n) => `${(n / 1024).toFixed(1)} KB`;
   console.log(
-    `✓ Wrote data.json — ${firmwares} firmware(s), ${devices} device(s), ${vendors} vendor(s), ${networks} network(s), ${networkAreas} network area(s), ${compatibility} compatibility report(s); ${recordsJson} record JSON file(s); ${sitemapUrls} sitemap URL(s).`
+    `✓ Wrote data.json — ${firmwares} firmware(s), ${devices} device(s), ${vendors} vendor(s), ${networks} network(s), ${networkAreas} network area(s), ${software} software, ${compatibility} compatibility report(s); ${recordsJson} record JSON file(s); ${sitemapUrls} sitemap URL(s).`
+  );
+  console.log(
+    `✓ Wrote data.min.json — ${kb(bundleBytes.min)} minified, ${kb(bundleBytes.gzip)} gzip, ${kb(bundleBytes.zstd)} zstd.`
   );
 }

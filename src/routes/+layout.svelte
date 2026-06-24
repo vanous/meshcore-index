@@ -13,6 +13,8 @@
   import Button from '$lib/Button.svelte';
   import AtlasTooltip from '$lib/Tooltip.svelte';
   import ShortcutHint from '$lib/ShortcutHint.svelte';
+  import { NAV_COLLECTIONS } from '$lib/collections.js';
+  import { TOOLS } from '$lib/tools.js';
   import pkg from '../../package.json';
   let { children } = $props();
 
@@ -35,7 +37,7 @@
   const updatedLabel = recentTimeLabel(generatedAt);
   const updatedTitle = fullDateTime(generatedAt);
   const plausibleScriptUrl = env.PUBLIC_PLAUSIBLE_SCRIPT_URL;
-  const versionLabel = `v${pkg.version}`;
+  const versionLabel = `v${pkg.version}${import.meta.env.VITE_VERSION_SUFFIX}`;
 
   function onkeydown(e) {
     if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') {
@@ -46,11 +48,9 @@
 
   const nav = [
     { href: '/', label: 'Home' },
-    { href: '/networks/', label: 'Networks' },
-    { href: '/devices/', label: 'Devices' },
-    { href: '/firmwares/', label: 'Firmwares' },
+    ...NAV_COLLECTIONS.map((c) => ({ href: c.href, label: c.label })),
     { href: '/matrix/', label: 'Compatibility' },
-    { href: '/about/', label: 'About' }
+    { href: TOOLS.about.href, label: TOOLS.about.label }
   ];
 
   function isActive(href) {

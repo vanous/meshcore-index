@@ -18,6 +18,15 @@
 #   gnss                   → hardware.gnss.chip
 
 family:
+  mg24:
+    name: Silicon Labs MG24 series
+    vendor: Silicon Labs
+    url: https://www.silabs.com/wireless/zigbee/efr32mg24-series-2-socs
+    architecture: arm-cortex-m33
+    models:
+      efr32mg24:
+        name: Silicon Labs EFR32MG24
+        url: https://www.silabs.com/wireless/zigbee/efr32mg24-series-2-socs
   nrf52:
     name: Nordic nRF52 series
     vendor: Nordic Semiconductor
@@ -122,6 +131,10 @@ radio:
     name: Semtech LR1110
     vendor: Semtech
     url: https://www.semtech.com/products/wireless-rf/lora-edge/lr1110
+  lr1121:
+    name: Semtech LR1121
+    vendor: Semtech
+    url: https://www.semtech.com/products/wireless-rf/lora-edge/lr1121
   stm32wl:
     name: ST STM32WL (integrated LoRa)
     vendor: STMicroelectronics
@@ -162,6 +175,10 @@ frequency:
     name: 923 MHz
     range: 920–925 MHz
     region: AS923
+  "2400":
+    name: 2.4 GHz
+    range: 2.4–2.5 GHz
+    region: ISM 2.4 GHz
 
 display:
   oled:

@@ -1,11 +1,14 @@
 <script>
   import { base } from '$app/paths';
+  import { onMount } from 'svelte';
+  import BackLink from '$lib/BackLink.svelte';
   import { page } from '$app/stores';
   import { browser } from '$app/environment';
   import { goto } from '$app/navigation';
   import { METRICS } from '$lib/metrics.js';
   import { favoriteIds } from '$lib/favorites.js';
   import Seo from '$lib/Seo.svelte';
+  import PageHeader from '$lib/PageHeader.svelte';
   import Button from '$lib/Button.svelte';
   import Tooltip from '$lib/Tooltip.svelte';
   import ArrowUpDown from '@lucide/svelte/icons/arrow-up-down';
@@ -15,8 +18,14 @@
   let metric = $derived(data.metric);
 
   // Reference device + sort direction use query params (shareable overrides).
-  // searchParams aren't available during prerender, so read them only in the browser.
-  let params = $derived(browser ? $page.url.searchParams : new URLSearchParams());
+  // searchParams aren't available during prerender, and letting them take effect
+  // during the first client render would diverge from the prerendered
+  // (default-direction) order and corrupt hydration — the ranked list would
+  // reorder and its device images would stick on the wrong rows. So gate on
+  // `mounted`: defaults until hydration completes, then the URL applies.
+  let mounted = $state(false);
+  onMount(() => (mounted = true));
+  let params = $derived(mounted && browser ? $page.url.searchParams : new URLSearchParams());
   let fromId = $derived(params.get('from') ?? null);
   let dir = $derived(params.get('dir') ?? metric.dir);
 
@@ -59,12 +68,11 @@
   description={`Every MeshCore device ranked by ${metric.label.toLowerCase()}${metric.unit ? ` (${metric.unit})` : ''}.`}
 />
 
-<a class="mb-4 inline-block text-[0.9rem] text-dim hover:underline" href="{base}/devices/">← All devices</a>
+<BackLink href="{base}/devices/">All devices</BackLink>
 
-<h1 class="mb-1 text-[clamp(1.5rem,5vw,2rem)] font-bold">Device ranking</h1>
-<p class="mb-4 max-w-[60ch] text-dim">
+<PageHeader tool="device-rank" subtitleClass="mb-4 max-w-[60ch]">
   Every device ranked by a single spec. Pick a metric and the table re-sorts.
-</p>
+</PageHeader>
 
 <div class="mb-5 flex flex-wrap gap-1.5">
   {#each METRICS as m (m.id)}
