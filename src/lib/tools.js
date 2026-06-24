@@ -8,17 +8,41 @@ import GitCompare from '@lucide/svelte/icons/git-compare';
 import Tags from '@lucide/svelte/icons/tags';
 import Braces from '@lucide/svelte/icons/braces';
 import Activity from '@lucide/svelte/icons/activity';
+import Boxes from '@lucide/svelte/icons/boxes';
+import Database from '@lucide/svelte/icons/database';
 import Info from '@lucide/svelte/icons/info';
 
-/** @typedef {'matrix' | 'device-rank' | 'compare' | 'compare-firmwares' | 'releases' | 'languages' | 'bands' | 'schemas' | 'status' | 'about'} ToolId */
+/** @typedef {'matrix' | 'device-rank' | 'compare' | 'compare-firmwares' | 'releases' | 'languages' | 'bands' | 'prints' | 'schemas' | 'bundle' | 'status' | 'about'} ToolId */
 
 /** @type {Record<ToolId, { id: ToolId, label: string, href: string, icon: import('svelte').Component, home?: boolean, homeLabel?: string }>} */
 export const TOOLS = {
+  bands: {
+    id: 'bands',
+    label: 'Frequency bands',
+    href: '/bands/',
+    icon: Radio,
+    home: true
+  },
   matrix: {
     id: 'matrix',
     label: 'Compatibility matrix',
     href: '/matrix/',
     icon: Grid2X2Check,
+    home: true
+  },
+  releases: {
+    id: 'releases',
+    label: 'Releases',
+    homeLabel: 'All releases',
+    href: '/releases/',
+    icon: Tags,
+    home: true
+  },
+  prints: {
+    id: 'prints',
+    label: '3D Prints',
+    href: '/prints/',
+    icon: Boxes,
     home: true
   },
   'device-rank': {
@@ -42,14 +66,6 @@ export const TOOLS = {
     icon: GitCompare,
     home: true
   },
-  releases: {
-    id: 'releases',
-    label: 'Releases',
-    homeLabel: 'All releases',
-    href: '/releases/',
-    icon: Tags,
-    home: true
-  },
   languages: {
     id: 'languages',
     label: 'Language leaderboard',
@@ -57,18 +73,18 @@ export const TOOLS = {
     icon: Code,
     home: true
   },
-  bands: {
-    id: 'bands',
-    label: 'Frequency bands',
-    href: '/bands/',
-    icon: Radio,
-    home: true
-  },
   schemas: {
     id: 'schemas',
     label: 'Schema explorer',
     href: '/schemas/',
     icon: Braces,
+    home: true
+  },
+  bundle: {
+    id: 'bundle',
+    label: 'Data bundle size',
+    href: '/bundle/',
+    icon: Database,
     home: true
   },
   status: {
@@ -88,14 +104,16 @@ export const TOOLS = {
 
 /** Tool links on the home page Tools section, in display order. */
 export const HOME_TOOL_IDS = [
+  'bands',
   'matrix',
   'device-rank',
+  'releases',
+  'prints',
   'compare',
   'compare-firmwares',
-  'releases',
   'languages',
-  'bands',
   'schemas',
+  'bundle',
   'status'
 ];
 

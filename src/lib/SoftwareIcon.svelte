@@ -19,7 +19,9 @@
     /** Size + shape live here (e.g. "h-10 w-10 rounded-md"). */
     class: rootClass = '',
     /** Placeholder glyph size, relative to the box. */
-    iconClass = 'h-1/2 w-1/2'
+    iconClass = 'h-1/2 w-1/2',
+    /** Tile background — override to match surrounding avatars (e.g. "bg-bg"). */
+    bg = 'bg-elev2'
   } = $props();
 
   const ICONS = {
@@ -36,7 +38,7 @@
 </script>
 
 <div
-  class="flex shrink-0 items-center justify-center overflow-hidden border border-edge bg-elev2 {rootClass}"
+  class="flex shrink-0 items-center justify-center overflow-hidden border border-edge {bg} {rootClass}"
 >
   {#if src}
     <img {src} alt={name} loading="lazy" class="h-full w-full object-cover" />

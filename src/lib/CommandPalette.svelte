@@ -55,7 +55,7 @@
           <Search class="size-4 shrink-0 text-dim" />
           <Command.Input
             bind:value={query}
-            placeholder="Search devices, firmwares, vendors…"
+            placeholder="Search devices, software, networks, firmwares…"
             autofocus
             class="w-full bg-transparent py-3.5 text-[1rem] outline-none placeholder:text-dim"
           />
@@ -70,7 +70,7 @@
           <Command.Viewport>
             {#if !query.trim()}
               <p class="px-4 py-8 text-center text-[0.9rem] text-dim">
-                Search devices, firmwares, vendors…
+                Search devices, software, networks, firmwares…
               </p>
             {:else}
               <Command.Empty class="px-4 py-8 text-center text-[0.9rem] text-dim">
@@ -86,7 +86,15 @@
                   class="flex w-full cursor-pointer items-center gap-3 px-4 py-2.5 text-left outline-none data-[selected]:bg-elev2"
                 >
                   {#if item.type === 'Software'}
-                    <SoftwareIcon src={item.image} name={item.title} kind={item.kind} class="h-9 w-9 rounded-md" iconClass="h-4 w-4" />
+                    <SoftwareIcon src={item.image} name={item.title} kind={item.kind} class="h-9 w-9 rounded-md" iconClass="h-4 w-4" bg="bg-bg" />
+                  {:else if item.type === 'Network' && item.flag}
+                    <!-- Networks show their primary country flag (square) as the avatar. -->
+                    <span
+                      class="flex h-9 w-9 shrink-0 overflow-hidden rounded-md border border-edge bg-bg [&>svg]:h-full [&>svg]:w-full [&>svg]:object-cover"
+                      aria-hidden="true"
+                    >
+                      {@html item.flag}
+                    </span>
                   {:else}
                     <Avatar
                       src={item.image}

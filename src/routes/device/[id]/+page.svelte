@@ -49,10 +49,21 @@
   let d = $derived(data.device);
   let selectedVariantRevision = $state('latest');
 
-  // 3D-printable models split by kind and ranked by host popularity (likes).
+  // 3D-printable models, ranked by host popularity (likes). Enclosures (full
+  // housings) get their own section; cases and accessories share one section with
+  // a sub-filter shown only when both sub-types are present.
   const byLikes = (a, b) => (b.likes ?? 0) - (a.likes ?? 0) || a.name.localeCompare(b.name);
-  let printCases = $derived((d.prints ?? []).filter((p) => (p.type ?? 'case') === 'case').sort(byLikes));
-  let printAccessories = $derived((d.prints ?? []).filter((p) => p.type === 'accessory').sort(byLikes));
+  const ptype = (p) => p.type ?? 'case';
+  let printEnclosures = $derived((d.prints ?? []).filter((p) => ptype(p) === 'enclosure').sort(byLikes));
+  let printAccessories = $derived((d.prints ?? []).filter((p) => ptype(p) === 'case' || ptype(p) === 'accessory').sort(byLikes));
+  // Sub-types present among the accessory-grade prints, in display order.
+  let accessorySubTypes = $derived(
+    ['case', 'accessory'].filter((t) => printAccessories.some((p) => ptype(p) === t))
+  );
+  let accessoryFilter = $state('all');
+  let filteredAccessories = $derived(
+    accessoryFilter === 'all' ? printAccessories : printAccessories.filter((p) => ptype(p) === accessoryFilter)
+  );
 
   // Friendly label for the host a printable is published on.
   const PRINT_HOSTS = {
@@ -972,13 +983,13 @@
   </div>
 {/snippet}
 
-{#if printCases.length}
+{#if printEnclosures.length}
   <section class="mb-7">
     <div class="mb-3 flex flex-wrap items-baseline gap-x-3 gap-y-1 border-b border-edge pb-1.5">
-      <h2 class="text-[1.1rem] font-semibold">3D-printed cases</h2>
-      <span class="text-[0.8rem] text-dim">Community enclosures you can print yourself</span>
+      <h2 class="text-[1.1rem] font-semibold">3D-printed enclosures</h2>
+      <span class="text-[0.8rem] text-dim">Full housings you can print yourself</span>
     </div>
-    {@render printGrid(printCases)}
+    {@render printGrid(printEnclosures)}
   </section>
 {/if}
 
@@ -986,9 +997,25 @@
   <section class="mb-7">
     <div class="mb-3 flex flex-wrap items-baseline gap-x-3 gap-y-1 border-b border-edge pb-1.5">
       <h2 class="text-[1.1rem] font-semibold">3D-printed accessories</h2>
-      <span class="text-[0.8rem] text-dim">Mounts, brackets and add-ons you can print yourself</span>
+      <span class="text-[0.8rem] text-dim">Cases, mounts, brackets and add-ons you can print yourself</span>
+      <!-- Sub-filter — only shown when more than one accessory-grade category exists. -->
+      {#if accessorySubTypes.length > 1}
+        <div class="ml-auto flex flex-wrap gap-1.5">
+          {#each ['all', ...accessorySubTypes] as t (t)}
+            <button
+              type="button"
+              onclick={() => (accessoryFilter = t)}
+              class="rounded-full border px-2.5 py-1 text-[0.78rem] transition select-none {accessoryFilter === t
+                ? 'border-accent bg-accent/15 text-accent'
+                : 'border-edge bg-elev text-dim hover:border-accent/60 hover:text-ink'}"
+            >
+              {t === 'all' ? 'All' : t === 'case' ? 'Cases' : 'Accessories'}
+            </button>
+          {/each}
+        </div>
+      {/if}
     </div>
-    {@render printGrid(printAccessories)}
+    {@render printGrid(filteredAccessories)}
   </section>
 {/if}
 

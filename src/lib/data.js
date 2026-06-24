@@ -3,6 +3,7 @@
 import dataset from '$lib/generated/data.json';
 import Fuse from 'fuse.js';
 import * as countryFlags from 'country-flag-icons/string/3x2';
+import * as countryFlagsSquare from 'country-flag-icons/string/1x1';
 import { groupReleases } from '$lib/releases.js';
 import { richTextToPlain } from '$lib/richtext.js';
 
@@ -167,6 +168,50 @@ export function softwareKindsInUse() {
   return Object.keys(SOFTWARE_KIND_META)
     .filter((k) => software.some((s) => s.kind === k))
     .sort((a, b) => SOFTWARE_KIND_META[a].order - SOFTWARE_KIND_META[b].order);
+}
+
+/**
+ * 3D-print types — one catalogue split by `type`. `order` drives section/chip
+ * order; `tw` is the badge colour utility. An `enclosure` is a full device
+ * housing; a `case` is an accessory-grade case (often confused with the former);
+ * an `accessory` is a mount, bracket or add-on.
+ */
+export const PRINT_TYPE_META = {
+  enclosure: { label: 'Enclosures', singular: 'Enclosure', order: 0, tw: 'bg-accent/15 text-accent', blurb: 'Full protective housings you can print yourself' },
+  case: { label: 'Cases', singular: 'Case', order: 1, tw: 'bg-accent2/15 text-accent2', blurb: 'Accessory-grade cases and shells' },
+  accessory: { label: 'Accessories', singular: 'Accessory', order: 2, tw: 'bg-ok/15 text-ok', blurb: 'Mounts, brackets and add-ons' }
+};
+
+/** Normalised print type, defaulting untyped legacy entries to "case". */
+export function printType(print) {
+  return print?.type ?? 'case';
+}
+
+/**
+ * Every 3D-printable model across all devices, each tagged with its `device`,
+ * newest first. Prints with a `date` sort ahead of dateless ones; ties (and
+ * dateless prints) fall back to host popularity (likes) then name.
+ * @returns {Array<object & { device: any }>}
+ */
+export function allPrints() {
+  const out = [];
+  for (const device of devices) {
+    for (const print of device.prints ?? []) out.push({ ...print, device });
+  }
+  return out.sort((a, b) => {
+    const da = a.date ?? '';
+    const db = b.date ?? '';
+    if (da !== db) return db.localeCompare(da);
+    return (b.likes ?? 0) - (a.likes ?? 0) || a.name.localeCompare(b.name);
+  });
+}
+
+/** Print types present across the catalogue, in display order. */
+export function printTypesInUse() {
+  const present = new Set(devices.flatMap((d) => (d.prints ?? []).map(printType)));
+  return Object.keys(PRINT_TYPE_META)
+    .filter((t) => present.has(t))
+    .sort((a, b) => PRINT_TYPE_META[a].order - PRINT_TYPE_META[b].order);
 }
 
 /**
@@ -751,6 +796,12 @@ export function countryFlagSvg(code) {
   return countryFlags[String(code).toUpperCase()] ?? null;
 }
 
+/** Inline SVG markup for a 1:1 (square) country flag, or null. Case-insensitive. */
+export function countryFlagSquareSvg(code) {
+  if (!code) return null;
+  return countryFlagsSquare[String(code).toUpperCase()] ?? null;
+}
+
 /**
  * Country flags to display for a network — one per `coverage.countries` entry,
  * regardless of scope (a regional mesh like CascadiaMesh shows CA + US). Networks
@@ -811,6 +862,9 @@ export const searchItems = [
       .filter(Boolean)
       .join(' · '),
     href: `/network/${n.id}/`,
+    // Primary country flag (square 1:1, to fill the avatar tile), falling back
+    // to an initial when the network has no country coverage.
+    flag: countryFlagSquareSvg(networkFlags(n)[0]?.code) ?? null,
     text: [
       n.name,
       n.short_name,

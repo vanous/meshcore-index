@@ -13,6 +13,7 @@ import {
   rmSync,
   statSync
 } from 'node:fs';
+import { gzipSync, zstdCompressSync } from 'node:zlib';
 import { join, dirname } from 'node:path';
 import { execFileSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
@@ -375,11 +376,14 @@ function buildSitemap(root, { devices, firmwares, vendors, networks, software, g
   const prefix = `${SITE_ORIGIN}${BASE_PATH}`;
 
   // Filtered list views are prerendered as their own pages (one per software
-  // kind / firmware type), so include them for indexing.
+  // kind / firmware type / print type), so include them for indexing.
   const softwareKinds = [...new Set(software.map((s) => s.kind))].filter(Boolean);
   const firmwareTypes = [...new Set(firmwares.map((f) => f.type))].filter((t) =>
     ['official', 'fork', 'custom'].includes(t)
   );
+  const printTypes = [
+    ...new Set(devices.flatMap((d) => (d.prints ?? []).map((p) => p.type ?? 'case')))
+  ].filter((t) => ['enclosure', 'case', 'accessory'].includes(t));
 
   const paths = [
     '/',
@@ -390,10 +394,13 @@ function buildSitemap(root, { devices, firmwares, vendors, networks, software, g
     ...softwareKinds.map((k) => `/software/${k}/`),
     '/firmwares/',
     ...firmwareTypes.map((t) => `/firmwares/${t}/`),
+    '/prints/',
+    ...printTypes.map((t) => `/prints/${t}/`),
     '/languages/',
     '/matrix/',
     '/releases/',
     '/schemas/',
+    '/bundle/',
     '/about/',
     ...METRICS.map((m) => `/device-rank/${m.id}/`),
     ...devices.map((d) => `/device/${d.id}/`),
@@ -524,6 +531,21 @@ export async function buildData(root = defaultRoot) {
     writeFileSync(target, json);
   }
 
+  // Minified bundle plus pre-compressed siblings, published for programmatic
+  // consumers and transfer. Sizes are surfaced on the /bundle overview page.
+  const minified = JSON.stringify(dataset);
+  const minGz = gzipSync(minified, { level: 9 });
+  const minZst = zstdCompressSync(minified);
+  const minPath = join(root, 'static', 'data.min.json');
+  writeFileSync(minPath, minified);
+  writeFileSync(`${minPath}.gz`, minGz);
+  writeFileSync(`${minPath}.zst`, minZst);
+  const bundleBytes = {
+    min: Buffer.byteLength(minified),
+    gzip: minGz.length,
+    zstd: minZst.length
+  };
+
   // Schemas ship as their own bundle, not inside data.json: only the schema
   // explorer route needs them, and data.json is imported into every page's
   // shared bundle, so it must stay lean.
@@ -550,7 +572,8 @@ export async function buildData(root = defaultRoot) {
   return {
     ...dataset.counts,
     recordsJson: buildRecordJson(root, { devices, firmwares, vendors, networks, software, compatibility }),
-    sitemapUrls
+    sitemapUrls,
+    bundleBytes
   };
 }
 
@@ -565,9 +588,14 @@ if (process.argv[1] && fileURLToPath(import.meta.url) === process.argv[1]) {
     compatibility,
     networkAreas,
     recordsJson,
-    sitemapUrls
+    sitemapUrls,
+    bundleBytes
   } = await buildData();
+  const kb = (n) => `${(n / 1024).toFixed(1)} KB`;
   console.log(
     `✓ Wrote data.json — ${firmwares} firmware(s), ${devices} device(s), ${vendors} vendor(s), ${networks} network(s), ${networkAreas} network area(s), ${software} software, ${compatibility} compatibility report(s); ${recordsJson} record JSON file(s); ${sitemapUrls} sitemap URL(s).`
+  );
+  console.log(
+    `✓ Wrote data.min.json — ${kb(bundleBytes.min)} minified, ${kb(bundleBytes.gzip)} gzip, ${kb(bundleBytes.zstd)} zstd.`
   );
 }
