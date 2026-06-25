@@ -1,7 +1,87 @@
 source: github
 repo: OffbandMesh/meshcore-firmware
-updatedAt: '2026-06-24T05:07:56.565Z'
+updatedAt: '2026-06-25T09:32:11.408Z'
 releases:
+  - version: offband-v1.2.0-beta1
+    name: Offband offband-v1.2.0-beta1
+    datetime: '2026-06-25T04:37:13Z'
+    url: https://github.com/OffbandMesh/meshcore-firmware/releases/tag/offband-v1.2.0-beta1
+    prerelease: true
+    notes: >-
+      Adds **MeshSmith Photon‑1W support** (both MCU flavors) plus a NimBLE build fix, on the
+
+      **MeshCore 1.16.0** base. Shipping in `-beta` until the Photon‑1W is bench‑verified on
+      hardware.
+
+
+      ### Added
+
+      - **MeshSmith Photon‑1W support — ESP32‑C6 + nRF52 (#193, #194)** — vendors MeshSmith's MIT
+      Photon
+        variants (`meshsmith_photon_esp32c6`, `meshsmith_photon_nrf52`; Seeed XIAO ESP32‑C6 / XIAO nRF52840 +
+        Ebyte E22‑900M30S 1 W radio) and wires all roles into CI + the release pipeline. ESP32‑C6 needed
+        minimal MeshCore‑consistent base edits (antenna‑switch virtuals, protected `_gps_serial`, NimBLE dep);
+        nRF52 needed none. **Not yet bench‑verified** — vendored drivers kept for round‑1; review findings
+        tracked as bench checkpoints on #193/#194.
+
+      ### Fixed
+
+      - **`Xiao_S3_WIO_companion_radio_usb` build (#89)** — exclude `SerialBLEInterface.cpp` from
+      the USB
+        companion env (it has no BLE), resolving the `NimBLEDevice.h` regression from the #288 NimBLE migration.
+
+      ### Changed
+
+      - **CLAUDE.md: no‑upstream‑merge policy (#197)** — Offband does not merge from upstream
+      MeshCore; the
+        `upstream` remote stays fetch‑only for reference. Keep MeshCore nomenclature/coding‑standard consistency
+        for clean rebasing.
+
+
+      ---
+
+
+      ### Which file do I download?
+
+
+      | File | What it is | When to use it |
+
+      |---|---|---|
+
+      | `*-merged.bin` (ESP32 — Heltec V3/V4, XIAO) | **Full image** — bootloader + partition table
+      + app in one, flashed at `0x0` after a chip erase. Self-contained, works on a blank chip. |
+      **First install / clean setup.** In a web flasher this is the **"Full Firmware"** option. |
+
+      | `*.bin` (ESP32) | **App only** — flashed at the app offset (`0x10000`); the bootloader must
+      already be on the chip. | **Updating** an existing node — OTA / **"Update Only."** Keeps the
+      device identity + WiFi/MQTT config. |
+
+      | `*.uf2` (nRF52 — RAK, T-Echo, XIAO nRF52) | Complete self-contained image. | **First install
+      *and* updates** — double-tap reset, then drag-drop onto the USB drive. (nRF52 has no
+      merged/app split.) |
+
+
+      > ⚠️ **ESP32:** the app-only `*.bin` will **not boot** if flashed at `0x0` — use
+      `*-merged.bin` for a fresh install. A full erase / "Full Firmware" wipes the device's identity
+      + saved config, so use it only for a first install or recovery, **never** a routine update.
+
+
+
+      ## What's Changed
+
+      * docs(#192): Photon-1W (MeshSmith) support design-of-record by @Strycher in
+      https://github.com/OffbandMesh/meshcore-firmware/pull/195
+
+      * chore(#197): CLAUDE.md -- record no-upstream-merge policy by @Strycher in
+      https://github.com/OffbandMesh/meshcore-firmware/pull/198
+
+      * fix(#89): exclude SerialBLEInterface.cpp from Xiao_S3_WIO USB companion by @Strycher in
+      https://github.com/OffbandMesh/meshcore-firmware/pull/200
+
+
+
+      **Full Changelog**:
+      https://github.com/OffbandMesh/meshcore-firmware/compare/offband-v1.1.0...offband-v1.2.0-beta1
   - version: offband-v1.1.0
     name: Offband offband-v1.1.0
     datetime: '2026-06-24T04:41:17Z'
