@@ -12,11 +12,19 @@ import Boxes from '@lucide/svelte/icons/boxes';
 import Database from '@lucide/svelte/icons/database';
 import Images from '@lucide/svelte/icons/images';
 import Info from '@lucide/svelte/icons/info';
+import Terminal from '@lucide/svelte/icons/terminal';
 
-/** @typedef {'matrix' | 'device-rank' | 'compare' | 'compare-firmwares' | 'releases' | 'languages' | 'bands' | 'prints' | 'gallery' | 'schemas' | 'bundle' | 'status' | 'about'} ToolId */
+/** @typedef {'repeater-commands' | 'matrix' | 'device-rank' | 'compare' | 'compare-firmwares' | 'releases' | 'languages' | 'bands' | 'prints' | 'gallery' | 'schemas' | 'bundle' | 'status' | 'about'} ToolId */
 
 /** @type {Record<ToolId, { id: ToolId, label: string, href: string, icon: import('svelte').Component, home?: boolean, homeLabel?: string }>} */
 export const TOOLS = {
+  'repeater-commands': {
+    id: 'repeater-commands',
+    label: 'Repeater commands',
+    href: '/repeater-commands/',
+    icon: Terminal,
+    home: true
+  },
   bands: {
     id: 'bands',
     label: 'Frequency bands',
@@ -112,6 +120,7 @@ export const TOOLS = {
 
 /** Tool links on the home page Tools section, in display order. */
 export const HOME_TOOL_IDS = [
+  'repeater-commands',
   'bands',
   'matrix',
   'device-rank',
