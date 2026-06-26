@@ -5,7 +5,7 @@
 // Usage:
 //   npm run enrich:firmwares
 //   npm run enrich:firmwares -- --dry-run
-//   npm run enrich:firmwares -- --only meshcore-official,zephcore
+//   npm run enrich:firmwares -- --only meshcore,zephcore
 //
 // Honors GITHUB_TOKEN to raise the GitHub API rate limit.
 import { readFileSync, writeFileSync, readdirSync, existsSync } from 'node:fs';

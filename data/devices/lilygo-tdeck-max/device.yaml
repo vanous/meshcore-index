@@ -9,7 +9,7 @@ revision: max
 aliases:
   - T-Deck MAX
   - T-Deck Max
-official: true
+flasherListed: true
 product_url: https://lilygo.cc/en-us/products/t-deck-max
 price:
   # Source: https://lilygo.cc/en-us/products/t-deck-max

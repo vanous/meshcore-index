@@ -5,7 +5,7 @@ vendorId: m5stack
 kind: product
 lifecycle: active
 familyId: m5stack-cardputer
-official: false
+flasherListed: false
 aliases:
   - Cardputer-Adv
   - Cardputer-Adv + Cap LoRa-1262

@@ -9,7 +9,7 @@ aliases:
   - T-Watch-S3-Plus
 image: lilygo_twatch_plus.svg
 datasheet: datasheet.pdf
-official: true
+flasherListed: true
 refs:
   mesh-sh-device: lilygo-t-watch-s3-plus
 product_url: https://lilygo.cc/products/t-watch-s3-plus

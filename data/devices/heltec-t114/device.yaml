@@ -11,7 +11,7 @@ aliases:
   - HT-n5262
 image: heltec_t114.svg
 datasheet: datasheet.pdf
-official: true
+flasherListed: true
 product_url: https://heltec.org/project/mesh-node-t114/
 refs:
   mesh-sh-device: heltec-mesh-node-t114-v2

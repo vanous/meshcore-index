@@ -8,7 +8,7 @@ familyId: heltec-meshsolar-meshtower
 aliases:
   - MeshTower V2
   - MeshTower
-official: false
+flasherListed: false
 product_url: https://heltec.org/project/meshtower/
 price:
   amount: 109

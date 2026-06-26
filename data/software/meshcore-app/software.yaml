@@ -1,11 +1,12 @@
-name: Official MeshCore app
-short_name: MeshCore
+name: MeshCore App by Liam Cottle
+short_name: MeshCore App
 kind: client
 status: active
 maturity: stable
 description: >-
-  The official MeshCore companion app for messaging, managing contacts and
-  channels, and configuring nodes over BLE/serial.
+  The proprietary companion app recommended by the MeshCore project, for
+  messaging, managing contacts and channels, and configuring nodes over
+  BLE/serial.
 
 image: icon.webp
 #screenshots:
@@ -60,5 +61,6 @@ verification:
   lastChecked: 2026-06-23
 
 tags:
-  - official
+  - project-recommended
+  - proprietary
   - companion

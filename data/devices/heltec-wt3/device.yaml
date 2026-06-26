@@ -12,7 +12,7 @@ aliases:
 replaces: heltec-wt2
 image: heltec_wt3.svg
 datasheet: datasheet.pdf
-official: true
+flasherListed: true
 product_url: https://heltec.org/project/wireless-tracker/
 refs:
   mesh-sh-device: heltec-wireless-tracker

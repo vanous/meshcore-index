@@ -6,7 +6,7 @@ vendorId: rak
 kind: product
 lifecycle: active
 familyId: rak-wismesh-pocket-v2
-official: true
+flasherListed: true
 product_url: https://store.rakwireless.com/products/wismesh-pocket
 image: rak-wishmesh-pocket-v2.svg
 refs:

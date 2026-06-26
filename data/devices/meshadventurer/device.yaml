@@ -6,7 +6,7 @@ lifecycle: active
 familyId: meshadventurer
 aliases:
   - Meshadventurer
-official: true
+flasherListed: true
 product_url: https://github.com/chrismyers2000/MeshAdventurer
 price:
   # Source: BOM-driven DIY build estimate

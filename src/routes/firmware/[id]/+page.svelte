@@ -35,7 +35,7 @@
     signedReleases: 'Signed releases',
     reproducibleBuilds: 'Reproducible builds',
     ciBuilds: 'CI builds',
-    officialFlasher: 'Official flasher',
+    webFlasher: 'Web flasher',
     hasDocumentation: 'Documentation'
   };
   const numberFmt = new Intl.NumberFormat('en');

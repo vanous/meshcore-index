@@ -3,7 +3,7 @@ kind: client
 status: active
 maturity: alpha
 description: >-
-  Unofficial cross-platform Flutter client for MeshCore with encrypted
+  Cross-platform Flutter client for MeshCore with encrypted
   messaging, contacts, channels, offline maps, node configuration and remote
   repeater administration over Bluetooth, USB or TCP.
 

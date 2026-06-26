@@ -9,7 +9,7 @@ aliases:
   - Mesh Node T096
 product_url: https://heltec.org/project/t096/
 datasheet: datasheet.pdf
-official: true
+flasherListed: true
 refs:
   mesh-sh-device: heltec-mesh-node-t096
 description: >-

@@ -1,4 +1,4 @@
-// Custom changelog source for the official MeshCore firmware.
+// Custom changelog source for the reference MeshCore firmware.
 //
 // The GitHub release bodies only link to the real release notes on the MeshCore
 // blog (blog.meshcore.io, a Jekyll site). This script reads the blog's Atom feed

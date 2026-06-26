@@ -6,7 +6,7 @@ lifecycle: active
 familyId: lilygo-t-eth-elite
 aliases:
   - T-ETH Elite
-official: true
+flasherListed: true
 product_url: https://lilygo.cc/en-us/products/t-eth-elite-1
 price:
   # Source: https://lilygo.cc/en-us/products/t-eth-elite-1

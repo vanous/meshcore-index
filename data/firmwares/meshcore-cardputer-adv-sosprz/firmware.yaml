@@ -12,7 +12,7 @@ maturity: beta
 distribution: personal
 lineage:
   kind: fork
-  upstreamFirmwareId: meshcore-official
+  upstreamFirmwareId: meshcore
 roles:
   - companion
   - standalone-ui

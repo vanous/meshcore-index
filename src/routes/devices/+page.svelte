@@ -82,7 +82,7 @@
     { id: 'lifecycle', label: 'Status', get: (d) => (d.lifecycle ? [d.lifecycle] : []), fmt: humanize },
     { id: 'display', label: 'Screen', get: displayTech, fmt: (v) => DISPLAY_LABELS[v] ?? humanize(v) },
     { id: 'connector', label: 'USB', get: (d) => { const c = d.interfaces?.usb?.connector; return c ? [c] : []; } },
-    { id: 'source', label: 'Source', get: (d) => (d.official ? ['Official'] : []) }
+    { id: 'source', label: 'Source', get: (d) => (d.flasherListed ? ['In flasher'] : []) }
   ];
 
   // --- Boolean capability toggles --------------------------------------------

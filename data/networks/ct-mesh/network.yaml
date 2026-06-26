@@ -61,7 +61,7 @@ resources:
       url: https://ctmesh.org/meshcore-resources.html
     - name: LetsMesh BDL packet analyzer
       url: https://analyzer.letsmesh.net/packets?region=BDL
-    - name: MeshCore official site
+    - name: MeshCore site
       url: https://meshcore.io/
     - name: MeshCore flasher
       url: https://flasher.meshcore.io/

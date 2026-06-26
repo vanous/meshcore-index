@@ -58,7 +58,7 @@ resources:
       url: https://mayomesh.net/#/meshcore
     - name: MeshCore coverage area
       url: https://mayomesh.net/#/mc-coverage
-    - name: MeshCore official site
+    - name: MeshCore site
       url: https://meshcore.io/
     - name: MeshCore GitHub
       url: https://github.com/ripplebiz/MeshCore

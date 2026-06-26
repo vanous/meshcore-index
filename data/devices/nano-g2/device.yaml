@@ -6,7 +6,7 @@ kind: product
 lifecycle: active
 familyId: uniteng-nano-g2-ultra
 image: nano_g2.svg
-official: true
+flasherListed: true
 refs:
   mesh-sh-device: nano-g2-ultra
 aliases:

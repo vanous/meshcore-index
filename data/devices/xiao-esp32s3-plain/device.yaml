@@ -5,7 +5,7 @@ vendorId: seeed
 kind: dev-board
 lifecycle: active
 familyId: seeed-xiao
-official: true
+flasherListed: true
 product_url: https://wiki.seeedstudio.com/xiao_esp32s3_getting_started/
 description: >-
   Thumb-sized ESP32-S3 XIAO board with Wi-Fi, BLE, USB flashing, and onboard

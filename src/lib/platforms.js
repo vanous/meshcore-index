@@ -1,6 +1,6 @@
 // Platform slugs from software.yaml `platforms` — labels and icon ids.
 //
-// `devicon` (an `<name>-<variant>` id from the official devicon library) is
+// `devicon` (an `<name>-<variant>` id from the devicon library) is
 // preferred when present because its brand-coloured artwork reads better; the
 // monochrome Iconify `icon` (simple-icons / lucide) is the fallback for
 // platforms Devicon doesn't cover well (e.g. Apple, which is a solid glyph that

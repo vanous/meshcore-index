@@ -8,7 +8,7 @@ aliases:
   - Wireless Paper
 image: heltec_paper.svg
 datasheet: datasheet.pdf
-official: true
+flasherListed: true
 refs:
   mesh-sh-device: heltec-wireless-paper
 product_url: https://heltec.org/project/wireless-paper/

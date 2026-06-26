@@ -13,7 +13,7 @@ maturity: experimental
 distribution: personal
 lineage:
   kind: reimplementation
-  upstreamFirmwareId: meshcore-official
+  upstreamFirmwareId: meshcore
 runtime:
   framework: esp-idf
   language: Rust

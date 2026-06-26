@@ -5,7 +5,7 @@ vendorId: seeed
 kind: dev-board
 lifecycle: active
 familyId: seeed-xiao
-official: true
+flasherListed: true
 product_url: https://wiki.seeedstudio.com/XIAO-RP2040/
 description: >-
   Tiny RP2040 XIAO board with USB flashing, a 14-pin footprint, and the

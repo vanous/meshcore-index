@@ -25,7 +25,7 @@ import { Resvg } from '@resvg/resvg-js';
 // Firmware type → label. Mirrors TYPE_META in src/lib/data.js (kept inline so
 // this script stays runnable under plain Node, without Vite's $lib/glob).
 const TYPE_META = {
-  official: { label: 'Official' },
+  reference: { label: 'Reference' },
   fork: { label: 'Fork' },
   custom: { label: 'Custom' }
 };
@@ -317,7 +317,7 @@ function deviceCard(d, img) {
 
 function firmwareCard(fw) {
   const type = TYPE_META[fw.type];
-  const accent = fw.type === 'official' ? C.accent : fw.type === 'fork' ? C.accent2 : C.warn;
+  const accent = fw.type === 'reference' ? C.accent : fw.type === 'fork' ? C.accent2 : C.warn;
   const supported = (fw.devices || []).filter((x) => x.status === 'supported').length;
   const repoHost = (() => {
     try {

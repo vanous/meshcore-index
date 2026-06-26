@@ -3,7 +3,7 @@ name: Generic E22 SX126x
 kind: generic-build
 lifecycle: active
 familyId: generic-e22
-official: true
+flasherListed: true
 description: >-
   Generic ESP32-based build target for SX1262 or SX1268 LoRa hardware. Used as
   a fallback profile for E22-family modules when a vendor-specific record is

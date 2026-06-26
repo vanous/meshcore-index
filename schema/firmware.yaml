@@ -13,7 +13,7 @@ required:
   - devices
 properties:
   name:
-    description: Human-readable firmware name, e.g. "MeshCore (official)".
+    description: Human-readable firmware name, e.g. "MeshCore (Reference)".
     type: string
     minLength: 1
   refs:
@@ -27,9 +27,11 @@ properties:
       type: string
       minLength: 1
   type:
-    description: Relationship to the upstream MeshCore project.
+    description: >-
+      Relationship to the upstream MeshCore project. `reference` is the canonical
+      meshcore-dev build; everything else is a fork or a custom implementation.
     enum:
-      - official
+      - reference
       - fork
       - custom
   maintainer:
@@ -82,9 +84,10 @@ properties:
       - beta
       - stable
   distribution:
-    description: How the firmware is distributed.
+    description: >-
+      How the firmware is distributed — who ships it. The canonical build's
+      status lives in `type: reference`, not here.
     enum:
-      - official
       - vendor
       - community
       - personal
@@ -100,7 +103,7 @@ properties:
           - fork
           - reimplementation
       upstreamFirmwareId:
-        description: Firmware id this one derives from, e.g. "meshcore-official".
+        description: Firmware id this one derives from, e.g. "meshcore".
         type: string
         pattern: ^[a-z0-9-]+$
       upstreamRepository:
@@ -185,7 +188,8 @@ properties:
         type: boolean
       ciBuilds:
         type: boolean
-      officialFlasher:
+      webFlasher:
+        description: Ships a hosted web-based flasher for installing the firmware.
         type: boolean
       hasDocumentation:
         type: boolean

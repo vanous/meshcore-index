@@ -5,7 +5,7 @@ vendorId: nibble
 kind: product
 lifecycle: active
 familyId: nibble-nibble-screen-connect
-official: true
+flasherListed: true
 product_url: https://retia.io/products/nibble-screen-connect
 price:
   # Source: https://retia.io/collections/all

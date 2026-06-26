@@ -41,7 +41,7 @@ export const COLLECTIONS = {
     label: 'Firmwares',
     href: '/firmwares/',
     icon: FileCog,
-    blurb: 'The official build plus community forks and custom variants.',
+    blurb: 'The reference build plus community forks and custom variants.',
     home: true,
     nav: true
   },

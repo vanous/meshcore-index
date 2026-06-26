@@ -8,7 +8,7 @@ variantOf: lilygo-t-deck
 aliases:
   - T-Deck community build
 image: lilygo_tdeck.svg
-official: true
+flasherListed: true
 product_url: https://lilygo.cc/en-us/products/t-deck
 price:
   # Source: https://lilygo.cc/en-us/products/t-deck-meshtastic

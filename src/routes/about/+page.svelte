@@ -18,7 +18,7 @@
   <a class="text-accent2 hover:underline" href="{base}/networks/">networks</a> people run, the
   <a class="text-accent2 hover:underline" href="{base}/devices/">devices</a> that join them, and the
   <a class="text-accent2 hover:underline" href="{base}/firmwares/">firmwares</a> that run on them
-  (the official build plus community forks and custom variants). Each entry carries detailed specs,
+  (the reference build plus community forks and custom variants). Each entry carries detailed specs,
   and a <a class="text-accent2 hover:underline" href="{base}/matrix/">compatibility matrix</a>
   shows which firmware supports which hardware at a glance.
 </p>

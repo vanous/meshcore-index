@@ -1,6 +1,6 @@
 // Route matcher: only these firmware-type slugs resolve to the filtered firmware
 // list at /firmwares/<type>/. Invalid types 404 instead of rendering an empty list.
-const TYPES = new Set(['official', 'fork', 'custom']);
+const TYPES = new Set(['reference', 'fork', 'custom']);
 
 /** @param {string} param */
 export function match(param) {

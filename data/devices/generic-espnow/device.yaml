@@ -3,7 +3,7 @@ name: Generic ESP-NOW Radio
 kind: generic-build
 lifecycle: active
 familyId: generic-espnow
-official: true
+flasherListed: true
 description: >-
   Generic ESP32-C3 MeshCore target using ESP-NOW as the packet radio. Used when
   the hardware is Wi-Fi-centric and no vendor-specific board record is

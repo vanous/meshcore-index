@@ -7,7 +7,7 @@ familyId: heltec-cubecell
 aliases:
   - CubeCell Dev-Board Plus
   - HTCC-AB02
-official: true
+flasherListed: true
 product_url: https://heltec.org/project/htcc-ab02/
 price:
   # Source: https://heltec.org/project/htcc-ab02/

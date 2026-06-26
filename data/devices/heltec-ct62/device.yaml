@@ -9,7 +9,7 @@ aliases:
   - HT-CT62
 product_url: https://heltec.org/project/ht-ct62/
 datasheet: datasheet.pdf
-official: true
+flasherListed: true
 refs:
   mesh-sh-device: heltec-ct62-capsule-sensor
 description: >-

@@ -349,7 +349,7 @@ properties:
   tags:
     description: >-
       Free-form facets not already represented by structured properties,
-      such as official, bbs, bot, experimental or smart-home.
+      such as bbs, bot, experimental or smart-home.
     type: array
     uniqueItems: true
     items:

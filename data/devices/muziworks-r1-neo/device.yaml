@@ -7,7 +7,7 @@ lifecycle: active
 familyId: muziworks-muzi-works-r1-neo
 aliases:
   - R1 Neo - Complete Meshtastic Device with GPS
-official: true
+flasherListed: true
 product_url: https://muzi.works/products/r1-neo-complete-meshtastic-device
 refs:
   mesh-sh-device: muzi-works-r1-neo

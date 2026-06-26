@@ -301,7 +301,7 @@
   <p>
     See also the
     <a class="text-accent2 hover:underline" href="https://docs.meshcore.io/cli_commands/" target="_blank" rel="noreferrer">
-      official CLI reference ↗
+      MeshCore CLI reference ↗
     </a>.
   </p>
 </div>

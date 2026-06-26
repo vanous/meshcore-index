@@ -93,7 +93,7 @@ Drop vendor marketing filler that doesn't distinguish the product.
 - `LilyGo T-Echo` not `LilyGo T-Echo LILYGO`
 - `ThinkNode M2 Mini` when that's the distinct SKU
 
-**Put in `aliases`** (not `name`): official product titles, module codes, old
+**Put in `aliases`** (not `name`): formal product titles, module codes, old
 names. Examples: `Mesh Node T114`, `Vision Master T190`, `WiFi LoRa 32 V3`,
 `HT-VMT190`.
 
@@ -222,7 +222,7 @@ architecture) from **`data/globals.yaml`**. Unmatched keys still render, but as
 raw text with no link — **fix that when you notice it**.
 
 **When enriching a device, if a part isn't catalogued yet, add it** — same PR as
-the device YAML. Copy an existing entry's shape; use the vendor's official name
+the device YAML. Copy an existing entry's shape; use the vendor's formal name
 and product-page URL from the datasheet.
 
 | Device field | Globals section | Example key |

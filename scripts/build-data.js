@@ -380,7 +380,7 @@ function buildSitemap(root, { devices, firmwares, vendors, networks, software, g
   // kind / firmware type / print type), so include them for indexing.
   const softwareKinds = [...new Set(software.map((s) => s.kind))].filter(Boolean);
   const firmwareTypes = [...new Set(firmwares.map((f) => f.type))].filter((t) =>
-    ['official', 'fork', 'custom'].includes(t)
+    ['reference', 'fork', 'custom'].includes(t)
   );
   const printTypes = [
     ...new Set(devices.flatMap((d) => (d.prints ?? []).map((p) => p.type ?? 'case')))
@@ -525,7 +525,7 @@ export async function buildData(root = defaultRoot) {
     v.deviceCount = devices.filter((d) => d.vendorId === v.id).length;
   }
 
-  const typeRank = { official: 0, fork: 1, custom: 2 };
+  const typeRank = { reference: 0, fork: 1, custom: 2 };
   // Active firmwares first; among active ones the most-starred lead. Remaining
   // ties (and all non-active firmwares) are broken by type, then name.
   const statusRank = (s) => (s === 'active' ? 0 : 1);

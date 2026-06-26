@@ -5,7 +5,7 @@ kind: kit
 lifecycle: active
 familyId: uart-cz-solar-node
 variantOf: rak-4631
-official: false
+flasherListed: false
 product_url: https://lectronz.com/products/solar-mppt-charger-for-meshtastic
 price:
   amount: 55

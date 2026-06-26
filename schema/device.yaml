@@ -53,7 +53,7 @@ properties:
     type: string
     pattern: ^[a-z0-9-]+$
   aliases:
-    description: Alternate names, module codes or longer official titles, e.g. ["WSL-S3"].
+    description: Alternate names, module codes or longer formal titles, e.g. ["WSL-S3"].
     type: array
     items:
       type: string
@@ -97,8 +97,8 @@ properties:
     type: string
     pattern: \.pdf$
     description: PDF filename in the same directory as device.yaml; served from the repo.
-  official:
-    description: True if the board appears in the official MeshCore flasher.
+  flasherListed:
+    description: True if the board appears in the MeshCore web flasher.
     type: boolean
   roles:
     description: Node roles this board can run in MeshCore firmware.

@@ -5,7 +5,7 @@ vendorId: seeed
 kind: product
 lifecycle: active
 familyId: seeed-sensecap-indicator-esp-now
-official: true
+flasherListed: true
 product_url: https://www.seeedstudio.com/SenseCAP-Indicator-D1L-for-Meshtastic-p-6304.html
 price:
   # Source: https://forum.seeedstudio.com/t/i-cant-even-get-started-is-there-phone-support/285080

@@ -4,7 +4,7 @@ vendorId: seeed
 kind: product
 lifecycle: active
 familyId: seeed-wio-tracker-l1
-official: true
+flasherListed: true
 product_url: https://www.seeedstudio.com/Wio-Tracker-L1-p-6453.html
 price:
   # Source: https://www.seeedstudio.com/Wio-Tracker-L1-p-6453.html

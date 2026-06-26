@@ -4,7 +4,7 @@ maintainer: mattzzw
 description: >
   An improved repeater-focused fork of MeshCore that bundled pending upstream PRs and improvements
   for dense meshes — notably flood-advert traffic mitigation and enhanced `denyf *` handling.
-  Largely superseded once official 1.16.0 added native flood traffic management.
+  Largely superseded once reference 1.16.0 added native flood traffic management.
 repository: https://github.com/mattzzw/MeshCore-Evo
 website: https://meshcore.io
 license: MIT
@@ -14,7 +14,7 @@ maturity: beta
 distribution: community
 lineage:
   kind: fork
-  upstreamFirmwareId: meshcore-official
+  upstreamFirmwareId: meshcore
   upstreamRepository: https://github.com/meshcore-dev/MeshCore
 runtime:
   framework: arduino

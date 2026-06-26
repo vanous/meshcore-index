@@ -79,5 +79,5 @@ resources:
       url: https://meshcore.radio-actief.be/meshcore-regio-configurator/
     - name: MeshCore analyzer page
       url: https://meshcore.radio-actief.be/meshcore-analyzer/
-    - name: MeshCore official site
+    - name: MeshCore site
       url: https://meshcore.io/

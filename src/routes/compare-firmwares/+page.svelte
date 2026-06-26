@@ -84,7 +84,7 @@
     { label: 'Signed releases', get: (f) => yesNo(f.verification?.signedReleases) },
     { label: 'Reproducible builds', get: (f) => yesNo(f.verification?.reproducibleBuilds) },
     { label: 'CI builds', get: (f) => yesNo(f.verification?.ciBuilds) },
-    { label: 'Official flasher', get: (f) => yesNo(f.verification?.officialFlasher) },
+    { label: 'Web flasher', get: (f) => yesNo(f.verification?.webFlasher) },
     { label: 'Documentation', get: (f) => yesNo(f.verification?.hasDocumentation) },
     { label: 'Verification checked', get: (f) => txt(f.verification?.lastChecked) }
   ];

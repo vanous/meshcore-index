@@ -13,7 +13,7 @@ maturity: beta
 distribution: community
 lineage:
   kind: fork
-  upstreamFirmwareId: meshcore-official
+  upstreamFirmwareId: meshcore
 runtime:
   framework: arduino
   language: C++

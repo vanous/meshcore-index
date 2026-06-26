@@ -1,4 +1,4 @@
-// The official MeshCore app ships a list of suggested radio presets
+// The MeshCore app ships a list of suggested radio presets
 // (https://api.meshcore.nz/api/v1/config). We mirror each one as a `general`
 // network record so it lives in the catalogue and can be tracked over time.
 //
@@ -130,11 +130,11 @@ function checkDrift(networks, entries) {
 
 function renderReport(problems) {
   const lines = [
-    '### Radio preset drift vs the official MeshCore app',
+    '### Radio preset drift vs the MeshCore app',
     '',
     `Source: ${CONFIG_URL}`,
     '',
-    'Our `general` preset networks no longer match the official app config:',
+    'Our `general` preset networks no longer match the MeshCore app config:',
     '',
     '| Network | Preset | Change |',
     '| ------- | ------ | ------ |',
@@ -176,7 +176,7 @@ function presetYaml(entry) {
   // Preserve a hand-built coverage shape across regeneration if one exists.
   const hasArea = existsSync(join(root, 'data', 'networks', slugify(entry.title), 'area.geojson'));
   const lines = [
-    '# Generated from the official MeshCore app radio presets',
+    '# Generated from the MeshCore app radio presets',
     '# (https://api.meshcore.nz/api/v1/config) and tracked for drift by',
     '# .github/workflows/app-presets.yml. The radio values mirror upstream —',
     '# change them there, not here; `app_preset` is the upstream foreign key.',
@@ -207,7 +207,7 @@ function presetYaml(entry) {
   ].join('\n');
 }
 
-const GENERATED_MARKER = 'Generated from the official MeshCore app';
+const GENERATED_MARKER = 'Generated from the MeshCore app';
 
 function importPresets(networks, entries) {
   // Presets bound to a hand-authored network (national or general) keep that
@@ -286,7 +286,7 @@ async function main() {
     console.error(`✗ ${problems.length} preset drift issue(s).`);
   } else {
     if (outFile) writeFileSync(outFile, '');
-    console.log('✓ Preset networks match the official app config.');
+    console.log('✓ Preset networks match the MeshCore app config.');
   }
   if (process.env.GITHUB_OUTPUT) appendFileSync(process.env.GITHUB_OUTPUT, `drift=${drift}\n`);
 }

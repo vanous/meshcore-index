@@ -1,6 +1,6 @@
 // Programming-language slugs (as carried in software.yaml `languages`) mapped to
 // a proper display label and a Devicon icon id (`<name>-<variant>` from the
-// official devicon library). Shared by the Language Leaderboard and the software
+// devicon library). Shared by the Language Leaderboard and the software
 // detail page so naming and icons stay consistent everywhere. Languages without
 // a Devicon icon simply render as their label.
 //

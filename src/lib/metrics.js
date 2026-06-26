@@ -75,7 +75,7 @@ function completenessPercent(d) {
   add(d.kind);
   add(d.lifecycle);
   add(d.familyId);
-  add(d.official);
+  add(d.flasherListed);
   add(d.product_url);
   add(d.description);
   add(d.image);

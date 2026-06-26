@@ -40,7 +40,7 @@ Create `data/firmwares/<id>/firmware.yaml`.
 | Field            | Required | Type     | Notes |
 |------------------|----------|----------|-------|
 | `name`           | yes      | string   | Human-readable name. |
-| `type`           | yes      | enum     | `official` \| `fork` \| `custom`. |
+| `type`           | yes      | enum     | `reference` \| `fork` \| `custom`. `reference` is the canonical meshcore-dev build. |
 | `maintainer`     | yes      | string   | Person or team. |
 | `description`    | yes      | string   | One short paragraph. |
 | `status`         | yes      | enum     | `active` \| `maintenance` \| `inactive` \| `experimental`. |
@@ -53,7 +53,7 @@ Create `data/firmwares/<id>/firmware.yaml`.
 | `features`       | no       | string[] | Short feature labels. |
 | `lifecycle`      | no       | enum     | `active` \| `maintenance` \| `archived`. |
 | `maturity`       | no       | enum     | `experimental` \| `alpha` \| `beta` \| `stable`. |
-| `distribution`   | no       | enum     | `official` \| `vendor` \| `community` \| `personal`. |
+| `distribution`   | no       | enum     | `vendor` \| `community` \| `personal` — who ships it. Canonical status lives in `type: reference`. |
 | `lineage`        | no       | object   | Upstream/fork/reimplementation metadata. |
 | `runtime`        | no       | object   | Framework/language metadata. |
 | `capabilities`   | no       | object   | Stable feature flags for filtering/comparison. |
@@ -106,7 +106,7 @@ network data.
 ```
 
 Manual verification fields that cannot be inferred automatically, such as
-`signedReleases`, `reproducibleBuilds`, `officialFlasher`, `hasDocumentation`,
+`signedReleases`, `reproducibleBuilds`, `webFlasher`, `hasDocumentation`,
 or `notes`, may still be authored in `firmware.yaml`. The generated overlay is
 merged on top for the compiled site data.
 
@@ -124,7 +124,7 @@ filesystem-safe version folder such as `v1.16.0` or `PowerSaving-16`.
 status: supported          # supported | partial | untested | unsupported
 support:
   availability: available  # available | unavailable | unknown
-  level: official          # official | vendor | community | experimental
+  level: reference         # reference | vendor | community | experimental
   verification: imported-unverified
 
 roles:
@@ -165,7 +165,7 @@ themselves are cached in a sibling `changelog.yaml` (see below).
 when releases live somewhere other than plain GitHub release bodies. The updater
 fetches the GitHub releases (for tags/dates/links), then calls the script's
 default export — `async ({ githubReleases, mapRelease, fetch }) => releases` —
-to produce the final list. Example: `data/firmwares/meshcore-official/fetch-changelog.js`
+to produce the final list. Example: `data/firmwares/meshcore/fetch-changelog.js`
 pulls the real notes from the MeshCore blog's Atom feed.
 
 ## Changelogs (`changelog.yaml`)
@@ -203,10 +203,10 @@ Create `data/devices/<id>/device.yaml`.
 | `familyId`        | no       | string   | Shared family/group id for related boards. |
 | `revision`        | no       | string   | Hardware revision label. |
 | `variantOf`       | no       | string   | Device id this record varies from. |
-| `aliases`         | no       | string[] | Longer official titles, module codes, alternate names. |
+| `aliases`         | no       | string[] | Longer formal titles, module codes, alternate names. |
 | `replaces`        | no       | string   | Older device id this record replaces. |
 | `product_url`     | no       | url      | Vendor product or marketing page. |
-| `official`        | no       | bool     | `true` if listed in the official MeshCore flasher. |
+| `flasherListed`   | no       | bool     | `true` if listed in the MeshCore web flasher. |
 | `image`           | no       | string   | SVG filename placed in the same directory; shown as the thumbnail. |
 | `datasheet`       | no       | string   | PDF filename in the same directory (e.g. `datasheet.pdf`); immutable copy of the vendor spec sheet. |
 | `roles`           | no       | enum[]   | Canonical roles: `companion`, `repeater`, `room-server`, `observer`, `sensor`, `kiss-modem`, `standalone-ui`. |
@@ -216,7 +216,7 @@ Create `data/devices/<id>/device.yaml`.
 | `interfaces`      | no       | object   | Structured USB/BLE/Wi-Fi interface details. |
 | `description`     | no       | string   | One short paragraph. |
 
-Most boards were generated from the official flasher
+Most boards were generated from the MeshCore web flasher
 [`config.json`](https://github.com/meshcore-dev/flasher.meshcore.io/blob/main/config.json);
 their thumbnails come from that repo's `img/` folder.
 
@@ -298,7 +298,7 @@ the device catalog — networks never list devices themselves.
 | Field            | Required | Type   | Notes |
 |------------------|----------|--------|-------|
 | `name`           | yes      | string | Short display name. Drop repeated prefixes such as `MeshCore` when the context already makes that obvious. |
-| `also_known_as`  | no       | list   | Longer official names or alternate labels, e.g. `MeshCore Germany`. |
+| `also_known_as`  | no       | list   | Longer formal names or alternate labels, e.g. `MeshCore Germany`. |
 | `short_name`     | no       | string | Abbreviated label (e.g. `MeshCore CZ`). |
 | `description`    | no       | string | One short paragraph. |
 | `scope`          | no       | enum   | `general` (a standard preset/region, not a community) \| `national` \| `regional` \| `local` \| `experimental`. |
@@ -328,7 +328,7 @@ match), `frequency_mhz` (exact centre frequency shown to users), `bandwidth_khz`
 `public_channel`, `app_preset`. A network with no `radio.frequency` or
 `radios[].frequency` simply shows no derived device list.
 
-`app_preset` is a foreign key to a suggested preset in the official MeshCore app
+`app_preset` is a foreign key to a suggested preset in the MeshCore app
 config (`title` from <https://api.meshcore.nz/api/v1/config>). Set it when a
 network's radio is meant to mirror that preset; the daily
 `.github/workflows/app-presets.yml` checks the values still match and opens an

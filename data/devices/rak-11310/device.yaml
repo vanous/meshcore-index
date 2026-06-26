@@ -7,7 +7,7 @@ lifecycle: active
 familyId: rak-11310
 aliases:
   - RAK11310 WisBlock Core
-official: true
+flasherListed: true
 refs:
   mesh-sh-device: rak11310-wisblock-core
 description: >-

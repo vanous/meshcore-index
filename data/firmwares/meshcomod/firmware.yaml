@@ -14,7 +14,7 @@ maturity: stable
 distribution: community
 lineage:
   kind: fork
-  upstreamFirmwareId: meshcore-official
+  upstreamFirmwareId: meshcore
   upstreamRepository: https://github.com/meshcore-dev/MeshCore
 runtime:
   framework: arduino

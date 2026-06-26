@@ -7,7 +7,7 @@ familyId: lilygo-t-lora-pager
 aliases:
   - T-Lora Pager
 image: lilygo_pager.svg
-official: true
+flasherListed: true
 refs:
   mesh-sh-device: lilygo-t-lora-pager
 product_url: https://lilygo.cc/en-us/products/t-lora-pager

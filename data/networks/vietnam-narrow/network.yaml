@@ -1,4 +1,4 @@
-# Generated from the official MeshCore app radio presets
+# Generated from the MeshCore app radio presets
 # (https://api.meshcore.nz/api/v1/config) and tracked for drift by
 # .github/workflows/app-presets.yml. The radio values mirror upstream —
 # change them there, not here; `app_preset` is the upstream foreign key.

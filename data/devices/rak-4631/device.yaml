@@ -11,7 +11,7 @@ aliases:
   - RAK4631-R
 image: rak_4631.svg
 datasheet: datasheet.pdf
-official: true
+flasherListed: true
 refs:
   mesh-sh-device: rak4631-wisblock-core
 price:

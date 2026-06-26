@@ -16,7 +16,7 @@ coverage:
     - PT
 
 # Radio values published on the 433 MHz & 868 MHz network cards at
-# https://www.meshcore.pt/en/home — they match the official MeshCore app
+# https://www.meshcore.pt/en/home — they match the MeshCore app
 # presets, so each radio carries an `app_preset` foreign key tracked for drift
 # by .github/workflows/app-presets.yml.
 radios:

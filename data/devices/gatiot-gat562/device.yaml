@@ -7,7 +7,7 @@ familyId: gatiot-gat562
 aliases:
   - GAT562 Tracker
 image: gatiot_gat562.svg
-official: true
+flasherListed: true
 product_url: https://www.keepteen.com/GAT562-Pocket-Lora-Node-Radio-for-Meshtastic-Meshcore-Mesh-Tracker-with-SX1262-NRF53840-L76K-GPS-p6556031.html
 description: >-
   Pocket nRF52840 tracker with SX1262 LoRa, L76K GNSS, OLED display, Bluetooth,

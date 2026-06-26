@@ -14,7 +14,7 @@ maturity: beta
 distribution: community
 lineage:
   kind: reimplementation
-  upstreamFirmwareId: meshcore-official
+  upstreamFirmwareId: meshcore
   upstreamRepository: https://github.com/meshcore-dev/MeshCore
 runtime:
   framework: zephyr

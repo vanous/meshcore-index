@@ -10,7 +10,7 @@ aliases:
   - ThinkNode M1
 image: thinknode_m1.svg
 datasheet: datasheet.pdf
-official: true
+flasherListed: true
 product_url: https://www.elecrow.com/thinknode-m1-meshtastic-lora-signal-transceiver-powered-by-nrf52840-with-154-screen-support-gps.html
 price:
   amount: 54

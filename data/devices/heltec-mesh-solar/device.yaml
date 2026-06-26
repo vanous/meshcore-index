@@ -9,7 +9,7 @@ aliases:
   - Heltec Mesh Solar
   - Heltec MeshTower
 image: heltec_mesh_solar.svg
-official: true
+flasherListed: true
 product_url: https://heltec.org/project/meshsolar/
 refs:
   mesh-sh-device: heltec-mesh-solar

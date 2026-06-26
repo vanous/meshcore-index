@@ -6,7 +6,7 @@ kind: product
 lifecycle: active
 familyId: lilygo-t-impulse
 product_url: https://www.lilygo.cc/
-official: true
+flasherListed: true
 description: >-
   Low-power nRF52840 wristband with SX1262 LoRa, a 64x32 OLED, GPS, and a
   touch-button wake flow. Built for wearable MeshCore companions with very low

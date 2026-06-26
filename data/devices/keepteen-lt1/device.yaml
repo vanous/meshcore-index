@@ -7,7 +7,7 @@ lifecycle: active
 familyId: keepteen-keepteen-lt1
 image: keepteen_lt1.svg
 product_url: https://www.keepteen.com/GAT562-Pocket-Lora-Node-Radio-for-Meshtastic-Meshcore-Mesh-Tracker-with-SX1262-NRF53840-L76K-GPS-p6556031.html
-official: true
+flasherListed: true
 refs:
   mesh-sh-device: keepteen-lt1
 price:

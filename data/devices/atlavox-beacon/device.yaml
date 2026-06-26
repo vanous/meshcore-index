@@ -8,7 +8,7 @@ variantOf: rak-4631
 aliases:
   - Atlavox Beacon Solar Mesh Node
   - Atlavox Beacon
-official: false
+flasherListed: false
 product_url: https://atlavox.com/products/atlavox-beacon-solar-meshtastic-node
 price:
   amount: 236

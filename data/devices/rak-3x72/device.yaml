@@ -6,7 +6,7 @@ kind: product
 lifecycle: active
 familyId: rak-3x72
 product_url: https://store.rakwireless.com/products/wisduo-lpwan-module-rak3172
-official: true
+flasherListed: true
 price:
   # Source: https://store.rakwireless.com/products/wisduo-lpwan-module-rak3172
   amount: 6

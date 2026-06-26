@@ -9,7 +9,7 @@ variantOf: rak-4631
 aliases:
   - WisMesh Repeater Mini
   - RAK10718
-official: false
+flasherListed: false
 product_url: https://store.rakwireless.com/products/wismesh-meshtastic-solar-repeater-mini
 price:
   amount: 99

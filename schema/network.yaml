@@ -19,7 +19,7 @@ properties:
     type: string
     minLength: 1
   also_known_as:
-    description: Longer official names or alternate labels, e.g. "MeshCore Germany".
+    description: Longer formal names or alternate labels, e.g. "MeshCore Germany".
     type: array
     minItems: 1
     items:
@@ -223,7 +223,7 @@ $defs:
         minLength: 1
       app_preset:
         description: >-
-          Foreign key to the matching preset in the official MeshCore app config
+          Foreign key to the matching preset in the MeshCore app config
           (https://api.meshcore.nz/api/v1/config →
           config.suggested_radio_settings.entries[].title). The value is that
           entry's exact `title`. A daily workflow (.github/workflows/app-presets.yml)

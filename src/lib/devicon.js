@@ -1,4 +1,4 @@
-// Inlined SVGs from the official Devicon library (https://devicon.dev), via the
+// Inlined SVGs from the Devicon library (https://devicon.dev), via the
 // `devicon` npm package. Only the icons referenced by our programming-language
 // and platform maps are imported here, so the bundle stays small. Keyed by the
 // Devicon `<name>-<variant>` identifier.

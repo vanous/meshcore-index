@@ -3,7 +3,7 @@ type: fork
 maintainer: MeshCore Portugal
 maintainerUrl: https://github.com/Meshcore-Portugal
 description: >
-  The official MeshCore firmware distribution for the Portuguese community, with Portugal-oriented
+  A community MeshCore firmware distribution for the Portuguese community, with Portugal-oriented
   radio defaults, duty-cycle enforcement, network time synchronisation, flood-advert controls, and
   curated repeater and bridge builds.
 repository: https://github.com/Meshcore-Portugal/lusofw
@@ -15,7 +15,7 @@ maturity: stable
 distribution: community
 lineage:
   kind: fork
-  upstreamFirmwareId: meshcore-official
+  upstreamFirmwareId: meshcore
   upstreamRepository: https://github.com/meshcore-dev/MeshCore
 runtime:
   framework: arduino
@@ -55,7 +55,7 @@ verification:
   signedReleases: false
   reproducibleBuilds: false
   ciBuilds: true
-  officialFlasher: false
+  webFlasher: false
   hasDocumentation: true
   lastChecked: '2026-06-25'
   notes:

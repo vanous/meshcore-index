@@ -10,7 +10,7 @@ description: >-
   daughterboard, and a 1.3-inch OLED display. Designed for external 9-19 V
   power input and firmware compatibility with Station G2 profiles.
 product_url: https://wiki.bqvoy.com/en/devkits/station-g3
-official: true
+flasherListed: true
 price:
   # Source: https://shop.uniteng.com/product/meshtastic-mesh-device-station-edition/
   amount: 109

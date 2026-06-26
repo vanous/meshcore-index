@@ -9,7 +9,7 @@ variantOf: gatiot-gat562
 aliases:
   - GAT562 Watch13
   - GAT562 Mesh Watch
-official: true
+flasherListed: true
 refs:
   mesh-sh-device: gat562-mesh-watch
 price:

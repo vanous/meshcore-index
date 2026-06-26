@@ -9,7 +9,7 @@ aliases:
   - Seeed Studio Wio WM1110
   - Wio-WM1110
   - Wio-WM1110 Wireless Module
-official: true
+flasherListed: true
 product_url: https://www.seeedstudio.com/Wio-WM1110-Module-LR1110-and-nRF52840-p-5676.html
 transports:
   - ble

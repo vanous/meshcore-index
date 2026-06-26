@@ -9,7 +9,7 @@ aliases:
   - WisMesh Tap
   - RAK10701
 image: rak_wismesh_tag.svg
-official: true
+flasherListed: true
 refs:
   mesh-sh-device: rak-wismesh-tag
 price:

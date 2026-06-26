@@ -8,7 +8,7 @@ aliases:
   - Vision Master T190
   - HT-VMT190
 datasheet: datasheet.pdf
-official: true
+flasherListed: true
 product_url: https://heltec.org/project/vision-master-t190/
 description: >-
   ESP32-S3R8 + optional SX1262 LoRa dev board with built-in 1.9-inch TFT

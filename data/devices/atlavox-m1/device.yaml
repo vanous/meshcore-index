@@ -8,7 +8,7 @@ variantOf: rak-4631
 aliases:
   - Atlavox M1 Meshtastic Radio
   - Atlavox M1 Meshtastic™ Radio
-official: false
+flasherListed: false
 product_url: https://atlavox.com/products/atlavox-m1
 price:
   amount: 77

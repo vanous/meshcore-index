@@ -4,7 +4,7 @@ vendorId: waveshare
 kind: product
 lifecycle: active
 familyId: waveshare-waveshare-lora
-official: true
+flasherListed: true
 product_url: https://www.waveshare.com/rp2040-lora.htm
 description: >-
   Compact RP2040 + SX1262 LoRa development board sold in LF and HF variants,

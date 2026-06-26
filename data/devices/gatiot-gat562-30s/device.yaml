@@ -12,7 +12,7 @@ aliases:
   - GAT562 30s
 image: gatiot_gat562_30s.svg
 datasheet: datasheet.pdf
-official: true
+flasherListed: true
 roles:
   - companion
   - repeater

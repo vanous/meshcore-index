@@ -10,7 +10,7 @@ aliases:
   - HT-VME213
 image: heltec_e213.svg
 datasheet: datasheet.pdf
-official: true
+flasherListed: true
 product_url: https://heltec.org/project/vision-master-e213/
 price:
   amount: 20

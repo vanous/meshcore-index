@@ -5,7 +5,7 @@ vendorId: raspberry
 kind: kit
 lifecycle: active
 familyId: raspberry-pi-pico2-w-waveshare-sx1262
-official: true
+flasherListed: true
 refs:
   mesh-sh-device: raspberry-pi-pico2-w-waveshare-sx1262
 price:

@@ -5,7 +5,7 @@ vendorId: tenstar
 kind: product
 lifecycle: active
 familyId: tenstar-tenstar-c3
-official: true
+flasherListed: true
 description: >-
   ESP32-C3 MeshCore target sold/selected in SX1262 and SX1268 LoRa builds.
   Provides Wi-Fi, Bluetooth LE, and USB flashing for low-cost companion,

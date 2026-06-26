@@ -3,7 +3,7 @@ kind: client
 status: active
 maturity: stable
 description: >-
-  Docker-packaged web build of the official MeshCore Companion app, providing
+  Docker-packaged web build of the MeshCore companion app by Liam Cottle, providing
   browser-based messaging, contacts, channels, topology and repeater management
   through Web Bluetooth or Web Serial.
 
@@ -77,7 +77,7 @@ verification:
     - Browser radio access requires Chrome or Edge over HTTPS or localhost.
 
 tags:
-  - official-client-build
+  - companion-client-build
   - docker
   - web-bluetooth
   - web-serial

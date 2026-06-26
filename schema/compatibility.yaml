@@ -31,7 +31,7 @@ properties:
       level:
         description: Who provides/blesses the build.
         enum:
-          - official
+          - reference
           - vendor
           - community
           - experimental

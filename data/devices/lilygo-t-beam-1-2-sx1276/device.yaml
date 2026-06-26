@@ -11,7 +11,7 @@ aliases:
   - T-Beam V1.2 SX1276
 image: lilygo_tbeam.svg
 datasheet: datasheet.pdf
-official: true
+flasherListed: true
 refs:
   mesh-sh-device: lilygo-t-beam-v12-sx1276
 product_url: https://github.com/Xinyuan-LilyGO/LilyGo-LoRa-Series

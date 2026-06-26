@@ -10,7 +10,7 @@ aliases:
   - T-Echo
   - T-Echo LILYGO
 image: lilygo_techo.svg
-official: true
+flasherListed: true
 product_url: https://lilygo.cc/en-us/products/t-echo-lilygo
 price:
   amount: 45

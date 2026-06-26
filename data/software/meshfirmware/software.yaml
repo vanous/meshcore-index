@@ -55,7 +55,7 @@ verification:
   hasDocumentation: true
   lastChecked: 2026-06-23
   notes:
-    - Downloads release metadata from the official MeshCore and Meshtastic repositories and keeps a local cache for offline fallback.
+    - Downloads release metadata from the upstream MeshCore and Meshtastic repositories and keeps a local cache for offline fallback.
     - Automatically detects matching USB devices and firmware artifacts before flashing.
 
 tags:

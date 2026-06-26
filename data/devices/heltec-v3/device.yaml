@@ -11,7 +11,7 @@ aliases:
 replaces: heltec-v2
 image: heltec_v3.svg
 datasheet: datasheet.pdf
-official: true
+flasherListed: true
 product_url: https://heltec.org/project/wifi-lora-32-v3/
 price:
   amount: 18

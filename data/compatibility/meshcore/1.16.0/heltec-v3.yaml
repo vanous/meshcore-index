@@ -1,7 +1,7 @@
 status: supported
 support:
   availability: available
-  level: official
+  level: reference
   verification: verified
 roles:
   companion:
@@ -47,4 +47,4 @@ verification:
 provenance:
   source: user-report
   importedAt: '2026-06-20'
-notes: Everything works on Heltec v3 with the latest official MeshCore firmware.
+notes: Everything works on Heltec v3 with the latest reference MeshCore firmware.

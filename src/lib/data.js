@@ -694,7 +694,7 @@ export const STATUS_META = {
 
 /** Firmware type → label + badge utility classes. */
 export const TYPE_META = {
-  official: { label: 'Official', tw: 'bg-accent/15 text-accent' },
+  reference: { label: 'Reference', tw: 'bg-accent/15 text-accent' },
   fork: { label: 'Fork', tw: 'bg-accent2/15 text-accent2' },
   custom: { label: 'Custom', tw: 'bg-warn/15 text-warn' }
 };
@@ -778,7 +778,7 @@ export function networkBandLabel(network) {
   return labels.length ? labels.join(', ') : null;
 }
 
-/** True when any of the network's radios maps to an official MeshCore app preset. */
+/** True when any of the network's radios maps to an MeshCore app preset. */
 export function isAppPresetNetwork(network) {
   return networkRadioSettings(network).some((r) => r?.app_preset);
 }

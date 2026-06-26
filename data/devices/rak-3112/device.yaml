@@ -8,7 +8,7 @@ familyId: rak-wisblock
 aliases:
   - RAK3112
 image: rak_3112.svg
-official: true
+flasherListed: true
 product_url: https://docs.rakwireless.com/product-categories/wisduo/rak3112-module/overview/
 description: >-
   ESP32-S3 WisDuo module combining BLE, Wi-Fi, and SX1262 LoRa for compact

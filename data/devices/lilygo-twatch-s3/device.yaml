@@ -7,7 +7,7 @@ lifecycle: active
 familyId: lilygo-t-watch-s3
 aliases:
   - T-Watch S3
-official: true
+flasherListed: true
 refs:
   mesh-sh-device: lilygo-t-watch-s3
 product_url: https://lilygo.cc/en-us/products/t-watch-s3

@@ -7,7 +7,7 @@ lifecycle: active
 familyId: lilygo-t-display
 image: lilygo_tdisplay.svg
 product_url: https://lilygo.cc/en-us/products/t-display-s3-pro
-official: true
+flasherListed: true
 refs:
   mesh-sh-device: lilygo-t-display-pro
 price:

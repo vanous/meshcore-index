@@ -11,7 +11,7 @@ aliases:
   - MeshPocket Qi2 Magnetic Charging Power Bank
 image: heltec_meshpocket.svg
 datasheet: datasheet.pdf
-official: true
+flasherListed: true
 refs:
   mesh-sh-device: meshpocket-qi2-magnetic-charging-power-bank
 product_url: https://heltec.org/project/meshpocket/

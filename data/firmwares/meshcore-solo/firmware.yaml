@@ -11,7 +11,7 @@ repository: https://github.com/MarekZegare4/MeshCore-Solo
 website: https://marekzegare4.github.io/Solo-tools/
 license: MIT
 description: >
-  A fork of the official MeshCore companion radio firmware with extended features and UI
+  A fork of the reference MeshCore companion radio firmware with extended features and UI
   enhancements. Adds GPS navigation (waypoints, compass, trail recording with GPX export),
   battery power-saving (hardware RX duty-cycle + adaptive power control), favourite contacts
   dial, extended language support with native Unicode rendering, message delivery status,
@@ -23,7 +23,7 @@ maturity: stable
 distribution: community
 lineage:
   kind: fork
-  upstreamFirmwareId: meshcore-official
+  upstreamFirmwareId: meshcore
   upstreamRepository: https://github.com/meshcore-dev/MeshCore
 runtime:
   framework: arduino

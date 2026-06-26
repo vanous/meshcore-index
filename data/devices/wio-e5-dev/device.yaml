@@ -5,7 +5,7 @@ vendorId: seeed
 kind: dev-board
 lifecycle: active
 familyId: seeed-wio-e5-dev-board
-official: true
+flasherListed: true
 product_url: https://wiki.seeedstudio.com/LoRa_E5_Dev_Board/
 description: >-
   Compact Wio-E5 development board for STM32WLE5JC / LoRaWAN prototyping with

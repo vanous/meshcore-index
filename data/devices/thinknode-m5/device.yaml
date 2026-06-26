@@ -10,7 +10,7 @@ aliases:
   - ThinkNode M5
 image: thinknode_m5.svg
 datasheet: datasheet.pdf
-official: true
+flasherListed: true
 product_url: https://www.elecrow.com/thinknode-m5-meshtastic-lora-signal-transceiver-esp32-s3-1-54-screen-gps-function.html
 price:
   amount: 54

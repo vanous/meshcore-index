@@ -41,7 +41,7 @@
     return String(n);
   }
 
-  const TYPE_TABS = ['all', 'official', 'fork', 'custom'];
+  const TYPE_TABS = ['all', 'reference', 'fork', 'custom'];
   const chipBase = 'rounded-full border px-3 py-1.5 text-[0.85rem] transition select-none';
   const chipOn = 'border-accent bg-accent/15 text-accent';
   const chipOff = 'border-edge bg-elev text-dim hover:border-accent/60 hover:text-ink';
@@ -63,7 +63,7 @@
 </script>
 
 <PageHeader collection="firmwares" subtitleClass="max-w-[60ch]">
-  The official MeshCore build plus community forks and custom variants — with node roles and the
+  The reference MeshCore build plus community forks and custom variants — with node roles and the
   <a class="text-accent2 hover:underline" href="{base}/devices/">devices</a> they run on.
 </PageHeader>
 

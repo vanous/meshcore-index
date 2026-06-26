@@ -35,5 +35,5 @@ verification:
   confidence: manufacturer
 notes: >-
   Vendor states the Meshtastic Motherboard is electrically compatible with
-  RAK4631 — use the official RAK4631 MeshCore build. Product retired on
+  RAK4631 — use the reference RAK4631 MeshCore build. Product retired on
   Lectronz; baseboard docs remain at pcb.uart.cz.

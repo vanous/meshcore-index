@@ -10,7 +10,7 @@ variantOf: gatiot-gat562
 aliases:
   - GAT562 Mesh EVB Pro
   - GAT562 EVB Pro
-official: true
+flasherListed: true
 datasheet: datasheet.pdf
 product_url: https://www.gat-iot.com/products/gat562-mesh-evb-pro/
 image: gat-562-evb-pro.svg

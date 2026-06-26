@@ -1,5 +1,5 @@
 <script>
-  // Renders an inlined Devicon SVG (official devicon library) at a given size.
+  // Renders an inlined Devicon SVG (devicon library) at a given size.
   import { deviconSvg } from '$lib/devicon.js';
 
   // `mono` flattens the icon to the current text colour. Devicon's baked-in

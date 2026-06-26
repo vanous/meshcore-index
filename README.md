@@ -28,7 +28,7 @@ All content lives as YAML under [`data/`](data/):
 
 - `networks/` — organized regional/national MeshCore meshes and how to join them
 - `devices/` — supported LoRa hardware
-- `firmwares/` — official and community MeshCore firmwares
+- `firmwares/` — the reference build plus community and custom MeshCore firmwares
 - `vendors/` — hardware/firmware vendors
 - `compatibility/` — which firmwares run on which devices
 - `globals.yaml` — shared definitions (node roles, MCU/radio catalogs, etc.)

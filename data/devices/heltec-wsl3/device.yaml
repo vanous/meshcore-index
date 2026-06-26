@@ -8,7 +8,7 @@ lifecycle: active
 familyId: heltec-wsl3
 image: heltec_wsl3.svg
 datasheet: datasheet.pdf
-official: true
+flasherListed: true
 product_url: https://heltec.org/project/wireless-shell-v3/
 description: >-
   Compact ESP32-S3 + SX1262 LoRa module with Wi-Fi and BLE, built as a

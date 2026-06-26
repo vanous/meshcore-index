@@ -6,7 +6,7 @@ lifecycle: discontinued
 familyId: uart-cz-solar-node
 variantOf: rak-4631
 datasheet: datasheet.pdf
-official: false
+flasherListed: false
 product_url: https://lectronz.com/products/fully-assembled-meshtastic-solar-node-station
 price:
   amount: 183

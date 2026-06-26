@@ -15,7 +15,7 @@ price:
   amount: 17
   currency: USD
   asOf: 2026-06
-official: true
+flasherListed: true
 refs:
   mesh-sh-device: lilygo-t-lora-c6
 roles:

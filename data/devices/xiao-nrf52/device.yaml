@@ -10,7 +10,7 @@ aliases:
   - Seeed XIAO nRF52840 + Wio-SX1262 Kit
   - XIAO nRF52840 + Wio-SX1262 Kit
 image: xiao_nrf52.svg
-official: true
+flasherListed: true
 product_url: https://wiki.seeedstudio.com/XIAO_BLE/
 refs:
   mesh-sh-device: seeed-xiao-nrf52840-wio-sx1262-kit

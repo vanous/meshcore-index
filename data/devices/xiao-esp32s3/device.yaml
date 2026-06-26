@@ -6,7 +6,7 @@ kind: dev-board
 lifecycle: active
 familyId: seeed-xiao-s3-wio
 image: xiao_esp32s3.svg
-official: true
+flasherListed: true
 product_url: https://wiki.seeedstudio.com/xiao_esp32s3_getting_started/
 description: >-
   Thumb-sized ESP32-S3 XIAO host board paired with the Wio-SX1262 LoRa module.

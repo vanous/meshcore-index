@@ -6,7 +6,7 @@ lifecycle: active
 familyId: lilygo-t-echo-card
 aliases:
   - T-Echo Card
-official: true
+flasherListed: true
 product_url: https://github.com/Xinyuan-LilyGO/T-Echo-Card
 price:
   # Source: https://lilygo.cc/en-us/products/t-echo-lilygo

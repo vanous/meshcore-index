@@ -11,7 +11,7 @@ aliases:
   - ThinkNode M6 Outdoor Solar Power
 image: thinknode_m6.svg
 datasheet: datasheet.pdf
-official: true
+flasherListed: true
 product_url: https://www.elecrow.com/thinknode-m6-outdoor-solar-power-for-meshtastic-powered-by-nrf52840-supports-gps.html
 price:
   amount: 80

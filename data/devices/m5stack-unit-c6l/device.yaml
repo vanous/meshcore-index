@@ -5,7 +5,7 @@ vendorId: m5stack
 kind: product
 lifecycle: active
 familyId: m5stack-m5stack-unit-c6l
-official: true
+flasherListed: true
 refs:
   mesh-sh-device: m5stack-unit-c6l
 price:
@@ -17,7 +17,7 @@ product_url: https://docs.m5stack.com/en/unit/Unit_C6L
 datasheet: datasheet.pdf
 description: >-
   ESP32-C6 LoRa unit with an onboard SX1262 radio, OLED status display, RGB
-  indicator, buzzer, and a user button. The official documentation highlights
+  indicator, buzzer, and a user button. The vendor documentation highlights
   Wi-Fi 6, Meshtastic support, and the pair of RP-SMA antenna connectors.
 image: m5stack-unit-c6l.svg
 roles:

@@ -10,7 +10,7 @@ aliases:
   - Heltec WiFi LoRa 32 V2
   - WiFi LoRa 32 V2
 image: heltec_v2.svg
-official: true
+flasherListed: true
 product_url: https://heltec.org/project/wifi-lora-32v2/
 datasheet: datasheet.pdf
 price:

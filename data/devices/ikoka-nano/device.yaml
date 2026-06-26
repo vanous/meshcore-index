@@ -7,7 +7,7 @@ kind: product
 lifecycle: active
 familyId: ikoka-nano
 image: ikoka_nano.svg
-official: true
+flasherListed: true
 aliases:
   - Ikoka Nano Meshtastic Device
 price:

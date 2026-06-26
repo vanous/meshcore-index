@@ -10,7 +10,7 @@ aliases:
   - WisMesh 1W Booster
   - RAK3401 + RAK13302
 image: rak_13302.svg
-official: true
+flasherListed: true
 refs:
   mesh-sh-device: rak3401-wisblock-1w-booster
 price:

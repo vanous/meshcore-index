@@ -6,7 +6,7 @@ kind: product
 lifecycle: active
 familyId: ikoka-stick
 image: ikoka_stick.svg
-official: true
+flasherListed: true
 aliases:
   - Ikoka Stick Meshtastic Device
 product_url: https://github.com/ndoo/ikoka-stick-meshtastic-device

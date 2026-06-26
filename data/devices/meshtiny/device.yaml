@@ -7,7 +7,7 @@ kind: product
 lifecycle: active
 familyId: mtools-meshtiny
 product_url: https://meshtiny.com/product/meshtiny/
-official: true
+flasherListed: true
 price:
   amount: 60
   currency: USD

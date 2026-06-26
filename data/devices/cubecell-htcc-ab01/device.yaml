@@ -8,7 +8,7 @@ familyId: heltec-cubecell
 aliases:
   - CubeCell Board
   - HTCC-AB01
-official: false
+flasherListed: false
 product_url: https://heltec.org/project/htcc-ab01/
 description: >-
   Ultra-low-power CubeCell LoRa development board based on ASR6502-class

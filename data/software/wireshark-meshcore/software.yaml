@@ -58,7 +58,7 @@ verification:
   hasDocumentation: true
   lastChecked: 2026-06-23
   notes:
-    - The converter currently uses temporary DLT_USER0 link-layer type 147; captures will need regeneration if an official LINKTYPE is assigned.
+    - The converter currently uses temporary DLT_USER0 link-layer type 147; captures will need regeneration if a registered LINKTYPE is assigned.
     - The converter requires Python 3.6+ and has no external runtime dependencies.
 
 tags:

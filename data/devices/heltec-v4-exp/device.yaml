@@ -11,7 +11,7 @@ aliases:
   - WiFi LoRa 32 Expansion Kit
   - WiFi LoRa 32 V4 Expansion Kit
 image: heltec_v4_exp.svg
-official: true
+flasherListed: true
 product_url: https://heltec.org/project/wifi-lora-32-v4-expansion-housing/
 datasheet: datasheet.pdf
 price:

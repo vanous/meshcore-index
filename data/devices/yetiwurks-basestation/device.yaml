@@ -7,7 +7,7 @@ familyId: yetiwurks-basestation
 variantOf: rak-4631
 aliases:
   - Yeti Wurks Meshtastic Base Station
-official: false
+flasherListed: false
 product_url: https://www.yetiwurks.com/product/yeti-wurks-meshtastic-basestation/
 price:
   amount: 125

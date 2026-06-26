@@ -6,7 +6,7 @@ kind: product
 lifecycle: active
 familyId: uniteng-station-g2
 image: station_g2.svg
-official: true
+flasherListed: true
 refs:
   mesh-sh-device: station-g2
 price:

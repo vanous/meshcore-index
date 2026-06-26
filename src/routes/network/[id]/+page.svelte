@@ -157,7 +157,7 @@
       </span>
     {/if}
     {#if isAppPresetNetwork(n)}
-      <AppPresetBadge label title="This network uses an official MeshCore app radio preset — selectable by name in the app" />
+      <AppPresetBadge label title="This network uses an MeshCore app radio preset — selectable by name in the app" />
     {/if}
   </div>
   {#if n.short_name && n.short_name !== n.name}

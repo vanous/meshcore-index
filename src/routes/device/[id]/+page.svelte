@@ -696,7 +696,7 @@
   <div class="min-w-[240px] flex-1">
     <div class="flex flex-wrap items-center gap-2">
       <h1 class="text-[clamp(1.5rem,5vw,2rem)] font-bold">{d.name}</h1>
-      {#if d.official}<span class="rounded-md bg-accent/15 px-2 py-0.5 text-[0.72rem] font-bold tracking-wide text-accent uppercase">Official</span>{/if}
+      {#if d.flasherListed}<span class="rounded-md bg-accent/15 px-2 py-0.5 text-[0.72rem] font-bold tracking-wide text-accent uppercase" title="Listed in the MeshCore web flasher">In flasher</span>{/if}
       {#if known(d.lifecycle)}<span class="rounded-md px-2 py-0.5 text-[0.72rem] font-bold tracking-wide uppercase {LIFECYCLE_TW[d.lifecycle] ?? LIFECYCLE_TW.unknown}">{titleCase(d.lifecycle)}</span>{/if}
     </div>
     {#if d.vendor}

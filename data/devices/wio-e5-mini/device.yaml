@@ -5,7 +5,7 @@ vendorId: seeed
 kind: product
 lifecycle: active
 familyId: seeed-wio-e5-mini
-official: true
+flasherListed: true
 product_url: https://wiki.seeedstudio.com/LoRa_E5_mini/
 description: >-
   Compact Wio-E5 LoRaWAN development board with factory AT firmware support

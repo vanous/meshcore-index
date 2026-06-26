@@ -7,7 +7,7 @@ familyId: promicro-nrf52
 aliases:
   - ProMicro nRF52
 image: faketec.svg
-official: true
+flasherListed: true
 description: >-
   DIY ProMicro nRF52840 MeshCore target with an external SX1262 LoRa module.
   The upstream firmware profile exposes OLED, GNSS and sensor hooks for

@@ -8,7 +8,7 @@ aliases:
   - SenseCAP Solar Node P1
   - SenseCAP Solar P1
 image: sensecap_solar.svg
-official: true
+flasherListed: true
 product_url: https://www.seeedstudio.com/SenseCAP-Solar-Node-P1-for-Meshtastic-LoRa-p-6425.html
 refs:
   mesh-sh-device: sensecap-solar-node-p1

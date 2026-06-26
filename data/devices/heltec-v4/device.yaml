@@ -14,7 +14,7 @@ aliases:
   - WiFi LoRa 32 V4.3.1
 replaces: heltec-v3
 image: heltec_v4.svg
-official: true
+flasherListed: true
 product_url: https://heltec.org/project/wifi-lora-32-v4/
 datasheet: datasheet.pdf
 price:

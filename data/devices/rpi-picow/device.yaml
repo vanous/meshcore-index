@@ -8,7 +8,7 @@ lifecycle: active
 familyId: raspberry-rpi-pico-2040-waveshare
 image: rpi_picow.svg
 datasheet: datasheet.pdf
-official: true
+flasherListed: true
 description: >-
   Raspberry Pi Pico 2040 paired with a WaveShare SX1262 LoRa board for
   lightweight MeshCore and Meshtastic experimentation. The kit emphasizes USB
