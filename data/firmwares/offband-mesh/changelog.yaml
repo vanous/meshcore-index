@@ -1,7 +1,73 @@
 source: github
 repo: OffbandMesh/meshcore-firmware
-updatedAt: '2026-06-25T09:32:11.408Z'
+updatedAt: '2026-06-26T08:54:09.258Z'
 releases:
+  - version: offband-v1.1.1
+    name: Offband offband-v1.1.1
+    datetime: '2026-06-26T05:24:03Z'
+    url: https://github.com/OffbandMesh/meshcore-firmware/releases/tag/offband-v1.1.1
+    prerelease: false
+    notes: >-
+      Urgent patch: the **RAK3401 1W companion** radio was dead on v1.1.0. Still on the
+
+      **MeshCore 1.16.0** base.
+
+
+      ### Fixed
+
+      - **RAK3401 1W companion radio dead on Offband (no TX/RX).** Offband's GPS support
+        (#104) probed a pin that doubles as the radio's power-enable on the RAK3401; with no
+        GPS attached it left the radio unpowered, so it couldn't transmit or receive. GPS is
+        now disabled on the RAK3401 companion build until the probe is fixed. (#211)
+
+
+      ---
+
+
+      ### Which file do I download?
+
+
+      | File | What it is | When to use it |
+
+      |---|---|---|
+
+      | `*-merged.bin` (ESP32 — Heltec V3/V4, XIAO) | **Full image** — bootloader + partition table
+      + app in one, flashed at `0x0` after a chip erase. Self-contained, works on a blank chip. |
+      **First install / clean setup.** In a web flasher this is the **"Full Firmware"** option. |
+
+      | `*.bin` (ESP32) | **App only** — flashed at the app offset (`0x10000`); the bootloader must
+      already be on the chip. | **Updating** an existing node — OTA / **"Update Only."** Keeps the
+      device identity + WiFi/MQTT config. |
+
+      | `*.uf2` (nRF52 — RAK, T-Echo, XIAO nRF52) | Complete self-contained image. | **First install
+      *and* updates** — double-tap reset, then drag-drop onto the USB drive. (nRF52 has no
+      merged/app split.) |
+
+
+      > ⚠️ **ESP32:** the app-only `*.bin` will **not boot** if flashed at `0x0` — use
+      `*-merged.bin` for a fresh install. A full erase / "Full Firmware" wipes the device's identity
+      + saved config, so use it only for a first install or recovery, **never** a routine update.
+
+
+
+      ## What's Changed
+
+      * docs(#192): Photon-1W (MeshSmith) support design-of-record by @Strycher in
+      https://github.com/OffbandMesh/meshcore-firmware/pull/195
+
+      * chore(#197): CLAUDE.md -- record no-upstream-merge policy by @Strycher in
+      https://github.com/OffbandMesh/meshcore-firmware/pull/198
+
+      * fix(#89): exclude SerialBLEInterface.cpp from Xiao_S3_WIO USB companion by @Strycher in
+      https://github.com/OffbandMesh/meshcore-firmware/pull/200
+
+      * fix(rak3401): companion GPS probe floats WB_IO2, killing the 1W radio (#211) by @Strycher in
+      https://github.com/OffbandMesh/meshcore-firmware/pull/212
+
+
+
+      **Full Changelog**:
+      https://github.com/OffbandMesh/meshcore-firmware/compare/offband-v1.1.0...offband-v1.1.1
   - version: offband-v1.2.0-beta1
     name: Offband offband-v1.2.0-beta1
     datetime: '2026-06-25T04:37:13Z'
