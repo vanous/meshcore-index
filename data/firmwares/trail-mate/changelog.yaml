@@ -1,7 +1,13 @@
 source: github
 repo: vicliu624/trail-mate
-updatedAt: '2026-06-24T16:32:46.025Z'
+updatedAt: '2026-06-26T19:52:22.864Z'
 releases:
+  - version: v0.1.31-alpha
+    name: v0.1.31-alpha
+    datetime: '2026-06-26T19:05:53Z'
+    url: https://github.com/vicliu624/trail-mate/releases/tag/v0.1.31-alpha
+    prerelease: true
+    notes: "## [0.1.31-alpha] - 2026-06-27\n### Fixed / 修复\n- Fixed [#64](https://github.com/vicliu624/trail-mate/issues/64) and [#41](https://github.com/vicliu624/trail-mate/issues/41). / 修复 [#64](https://github.com/vicliu624/trail-mate/issues/64) 和 [#41](https://github.com/vicliu624/trail-mate/issues/41)。\r\n\r\n\n\n**Full Changelog**: https://github.com/vicliu624/trail-mate/compare/v0.1.30-alpha...v0.1.31-alpha"
   - version: v0.1.30-alpha
     name: v0.1.30-alpha
     datetime: '2026-06-24T14:24:42Z'
@@ -608,9 +614,3 @@ releases:
     url: https://github.com/vicliu624/trail-mate/releases/tag/v0.1.12-alpha
     prerelease: true
     notes: "**Full Changelog**: https://github.com/vicliu624/trail-mate/compare/v0.1.11-alpha...v0.1.12-alpha\r\n\r\n## [0.1.12-alpha] - 2026-02-22\r\n### Added / 新增\r\n- MeshCore identity module with Ed25519 + ECDH key material handling and persistent peer-key storage path / 新增 MeshCore 身份模块，支持 Ed25519 + ECDH 密钥材料处理与对端公钥持久化存储\r\n- Independent `team::proto` payloads for Team Position and Team Waypoint, decoupled from Meshtastic envelope path / 新增独立 `team::proto` 的 Team Position 与 Team Waypoint 报文，解耦 Meshtastic 信封路径\r\n- Contacts \"Discover\" mode with inline actions (`Scan Local`, `Send ID Local`, `Send ID Broadcast`, `Cancel`) and MeshCore-only guard / 联系人页新增 Discover 模式，内置 `Scan Local`、`Send ID Local`、`Send ID Broadcast`、`Cancel` 动作，并带 MeshCore 协议保护\r\n\r\n### Changed / 变更\r\n- MeshCore adapter behavior aligned further with native protocol semantics, including app-data unicast `dest`, discover/advert/control handling, PATH/trace/multipart plumbing, and route-quality updates / MeshCore 适配器进一步对齐原生协议语义，补齐 app-data 单播 `dest`、discover/advert/control 处理，以及 PATH/trace/multipart 与路由质量链路\r\n- Chat/Contacts protocol presentation is now protocol-aware to reduce cross-protocol reply confusion while keeping mixed history visible for review / Chat 与 Contacts 展示改为协议感知，保留混合历史可查看，同时降低跨协议误回复\r\n- README (EN/CN) updated to explicitly state Meshtastic + MeshCore dual-protocol compatibility / README 中英文版已明确声明 Meshtastic + MeshCore 双协议兼容\r\n\r\n### Fixed / 修复\r\n- Discovery filter-mode focus/highlight consistency in Contacts list navigation / 修复 Contacts 中 Discover 过滤模式在列表导航时的焦点与高亮一致性\r\n- MeshCore peer-key load/persistence wiring and related decrypt-failure diagnostics for interop debugging / 修复 MeshCore 对端密钥加载/持久化链路并补强解密失败诊断日志，便于互通排障\n\n**Full Changelog**: https://github.com/vicliu624/trail-mate/compare/v0.1.11-alpha...v0.1.12-alpha"
-  - version: v0.1.11-alpha
-    name: v0.1.11-alpha
-    datetime: '2026-02-21T03:21:09Z'
-    url: https://github.com/vicliu624/trail-mate/releases/tag/v0.1.11-alpha
-    prerelease: true
-    notes: "## What's Changed\r\n* map by @vicliu624 in https://github.com/vicliu624/trail-mate/pull/9\r\n\r\n\r\n**Full Changelog**: https://github.com/vicliu624/trail-mate/compare/v0.1.9-alpha...v0.1.11-alpha"

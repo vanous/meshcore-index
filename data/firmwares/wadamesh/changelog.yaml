@@ -1,7 +1,63 @@
 source: github
 repo: ALLFATHER-BV/wadamesh
-updatedAt: '2026-06-24T16:32:46.402Z'
+updatedAt: '2026-06-26T19:52:23.275Z'
 releases:
+  - version: beta_18
+    name: wadamesh beta_18
+    datetime: '2026-06-26T17:55:17Z'
+    url: https://github.com/ALLFATHER-BV/wadamesh/releases/tag/beta_18
+    prerelease: false
+    notes: >-
+      # wadamesh beta_18
+
+
+      A unified release across all three boards — **LilyGo T-Deck**, **Heltec V4 TFT**, and the
+      **Tanmatsu** (ESP32-P4).
+
+
+      Flash it the easy way at **<https://flasher.wadamesh.com>**, or grab a bin below. On a
+      normally-flashed device you can also update straight from **Settings → About**.
+
+
+      ## ✨ New
+
+      - **Topographic maps** — turn on *Map → Options → Topographic map* for terrain-relief tiles;
+      OpenStreetMap stays the default. Thanks to **@samuelcoustet** for the proxy work (#52).
+
+      - **More emoji** in the picker: ⚽ 🏈 🗿 🏳️‍⚧️.
+
+      - **Contacts sorting** gained ascending/descending and a new **Nearest first** distance sort;
+      the **Discovered** list gets the same sort options.
+
+      - The **Chats header** is tidied up — add / mark-read / share grouped on the left, with a
+      proper QR icon for sharing your contact.
+
+
+      ## 🐛 Fixed
+
+      - The **USB/PC companion connection** no longer drops or throws *"bad state"* errors — also
+      fixes repeater admin mode disconnecting and member-room login (#25, #54, #23).
+
+      - **Map edge/corner tiles** now fill in as you pan instead of needing a manual reload (#20).
+
+      - **~41 KB of memory reclaimed** (moved a large buffer to PSRAM) — fixes the **Heltec V4
+      rebooting** when loading map tiles, and frees headroom on every board.
+
+      - The map's **Show link lines** toggle now survives a reboot. Thanks to **@Yazutsu** (#61).
+
+      - **Settings** category names fit on one line (no more mid-word splits); keyboard-nav toggling
+      no longer jumps the list to the top (#45).
+
+      - **Heltec V4**: node name no longer covers the clock (#47a). **T-Deck**: keyboard backlight
+      no longer stuck on after flashing (#33).
+
+      - More reliable crash reporting and fewer stray reboots while saving settings.
+
+      - **Tanmatsu**: LoRa radio changes (frequency, etc.) now take effect immediately without a
+      reboot, and the app's settings drive the radio.
+
+
+      _Everything from beta_16 (and the Tanmatsu's beta_17) is included._
   - version: beta_16
     name: wadamesh beta_16
     datetime: '2026-06-24T13:45:58Z'
