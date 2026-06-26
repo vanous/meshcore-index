@@ -1,0 +1,47 @@
+name: NorthMesh
+also_known_as:
+  - NorthMesh UK
+short_name: NorthMesh
+description: >-
+  Live MeshCore and LoRa mesh network map for northern England and the UK,
+  tracking repeaters, packet activity, RF coverage, and MQTT-connected nodes.
+scope: regional
+status: active
+visibility: public
+area: area.geojson
+
+coverage:
+  countries:
+    - GB
+
+regions:
+  - code: gb
+    name: United Kingdom
+  - code: eng
+    name: England
+    parent: gb
+  - code: neng
+    name: Northern England
+    parent: eng
+
+radio:
+  frequency: '868'
+  frequency_mhz: 869.525
+  bandwidth_khz: 250
+  spreading_factor: 11
+  coding_rate: 4/5
+  region_code: uk
+  public_channel: Public
+
+community:
+  website: https://northmesh.co.uk
+
+maps:
+  - name: NorthMesh live map
+    url: https://northmesh.co.uk/map
+
+resources:
+  getting_started: https://meshcore.co.uk
+  links:
+    - name: MQTT repeater flasher
+      url: https://northmesh.co.uk/mqtt-flasher/

@@ -1,0 +1,32 @@
+name: Slovenia
+also_known_as:
+  - MeshCore Slovenia
+short_name: MeshCore SI
+description: >-
+  National MeshCore network in Slovenia, operated on the standard EU/UK narrow
+  preset with a live CoreScope map and regional repeater coverage.
+scope: national
+status: active
+visibility: public
+area: area.geojson
+
+coverage:
+  countries:
+    - SI
+
+regions:
+  - code: si
+    name: Slovenia
+
+radio:
+  frequency: '868'
+  frequency_mhz: 869.618
+  bandwidth_khz: 62.5
+  spreading_factor: 8
+  coding_rate: 4/8
+  app_preset: 'EU/UK (Narrow)'
+
+analyzers:
+  # Source: node-name scan of map.meshcore.io 2026-06-26 — CoreScope at map.meshcore.si (785 nodes, Slovenia)
+  - name: MeshCore Slovenia CoreScope
+    url: https://map.meshcore.si

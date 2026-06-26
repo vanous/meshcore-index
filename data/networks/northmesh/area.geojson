@@ -4,31 +4,31 @@
     {
       "type": "Feature",
       "properties": {
-        "name": "New England"
+        "name": "NorthMesh coverage area"
       },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
           [
             [
-              -73.7,
-              41.0
+              -4.5,
+              52.0
             ],
             [
-              -66.9,
-              41.0
+              -1.0,
+              52.0
             ],
             [
-              -66.9,
-              47.5
+              -1.0,
+              55.7
             ],
             [
-              -73.7,
-              47.5
+              -4.5,
+              55.7
             ],
             [
-              -73.7,
-              41.0
+              -4.5,
+              52.0
             ]
           ]
         ]

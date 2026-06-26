@@ -28,8 +28,12 @@ maps:
     url: https://nhmesh.live
 
 analyzers:
-  # Source: Shodan/Censys scan 2026-06-26 — CoreScope at 86.48.21.240:3000 (50 nodes, New England)
-  - name: CoreScope
+  # Source: community website scan 2026-06-26 — CoreScope at analyzer.newenglandme.sh (1,017 nodes, New England)
+  - name: New England CoreScope
+    url: https://analyzer.newenglandme.sh
+
+  # Source: Shodan/Censys scan 2026-06-26 — CoreScope at 86.48.21.240:3000 (legacy)
+  - name: CoreScope (legacy IP)
     url: http://86.48.21.240:3000
 
 resources:

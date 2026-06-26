@@ -17,3 +17,8 @@ radio:
   spreading_factor: 8
   coding_rate: 4/8
   app_preset: 'Brazil'
+
+analyzers:
+  # Source: directory scan of MeshCore community sites 2026-06-26 — CoreScope at corescope.meshcore.com.br (62 nodes, Brazil)
+  - name: MeshCore Brasil CoreScope
+    url: https://corescope.meshcore.com.br
