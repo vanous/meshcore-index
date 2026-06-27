@@ -1,0 +1,63 @@
+# Source: https://github.com/PhilMo6/meshpunk
+# Source: https://github.com/PhilMo6/meshpunk/releases/tag/v0.2.0
+name: MeshPunk
+type: fork
+maintainer: PhilMo6
+description: >-
+  LVGL + Lua handheld firmware for the LilyGo T-Deck with full MeshCore support.
+  Features offline OpenStreetMap tiles with mesh contact overlays and meshprint
+  sender triangulation, themes, games (Doom, PICO-8, Flappy Bird, Snake,
+  Scorched Earth), SD-card storage, WiFi, BLE, and GPS time sync.
+repository: https://github.com/PhilMo6/meshpunk
+license: MIT
+status: active
+lifecycle: active
+maturity: alpha
+distribution: community
+lineage:
+  kind: fork
+  upstreamFirmwareId: meshcore
+  upstreamRepository: https://github.com/meshcore-dev/MeshCore
+runtime:
+  framework: arduino
+  language: cpp
+roles:
+  - companion
+  - repeater
+  - room-server
+  - standalone-ui
+features:
+  - LVGL + Lua app framework
+  - Offline map with tile caching and meshprint triangulation
+  - Themes and custom UI styling
+  - Games (Doom, PICO-8, Flappy Bird, Snake, Scorched Earth)
+  - SD-card persistence for mesh and firmware settings
+  - BLE and WiFi companion connectivity
+  - GPS time sync
+  - Launcher-compatible build
+  - MeshCore protocol compatible
+capabilities:
+  protocol:
+    meshcoreCompatible: true
+  transports:
+    ble: true
+    usbSerial: true
+    nativeTcp: true
+    wifiAp: true
+  operations:
+    ota: false
+    webFlasher: true
+  networking:
+    repeater: true
+    roomServer: true
+    observer: false
+    kissModem: false
+  hardware:
+    gps: true
+    display: true
+    sensors: false
+    lowPowerRx: false
+devices:
+  - id: lilygo-t-deck
+    status: supported
+    notes: Primary target device. Use -merged.bin for first install, -firmware.bin for updates, or -launcher.bin with bmorcelli's Launcher.

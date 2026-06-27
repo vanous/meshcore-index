@@ -66,8 +66,7 @@ radio:
   app_preset: 'Netherlands'
 
 community:
-  website: https://www.localmesh.nl/en/
-  contact: https://www.localmesh.nl/en/contact/
+  website: https://dutchmeshcore.nl/
 
 maps:
   - name: MeshCore map
@@ -77,8 +76,11 @@ analyzers:
   - name: cornmeister.nl
     url: https://cornmeister.nl
   # Source: Shodan/Censys scan 2026-06-26 — CoreScope instance at fedora.ictravi.com (226 nodes, NL)
-  - name: CoreScope (ictravi.com)
+  - name: fedora.ictravi.com
     url: https://fedora.ictravi.com
+  - name: mesh.override.nl
+    url: https://mesh.override.nl/
+
 
 resources:
   getting_started: https://www.localmesh.nl/en/meshcore-setup/

@@ -32,6 +32,9 @@ analyzers:
   # Source: Shodan/Censys scan 2026-06-26 — CoreScope at 20.109.157.39 (699 nodes, Bay Area CA)
   - name: CoreScope
     url: http://20.109.157.39
+  # Source: GitHub CoreScope issues — staging instance for Bay Area mesh (50 nodes, same set as 20.109.157.39)
+  - name: analyzer-stg.00id.net
+    url: http://analyzer-stg.00id.net
 
 resources:
   getting_started: https://bayareameshcore.org/
