@@ -76,7 +76,7 @@ export default defineConfig({
         scope: pwaScope,
         display: 'standalone',
         background_color: '#ffffff',
-        theme_color: '#111111',
+        theme_color: '#161b22',
         icons: [
           {
             src: `${BASE_PATH}/pwa-192.png`,

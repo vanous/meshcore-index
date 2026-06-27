@@ -23,6 +23,7 @@
   import { NAV_COLLECTIONS, collectionLabel } from '$lib/collections.js';
   import { href, routePath } from '$lib/i18n.js';
   import { m } from '$lib/paraglide/messages.js';
+  import { applyThemeChrome } from '$lib/theme-chrome.js';
   import pkg from '../../package.json';
   let { children } = $props();
 
@@ -40,6 +41,7 @@
   let theme = $state('dark');
   onMount(() => {
     theme = document.documentElement.getAttribute('data-theme') === 'light' ? 'light' : 'dark';
+    applyThemeChrome(theme);
 
     if (pwaInfo) {
       import('virtual:pwa-register').then(({ registerSW }) => {
@@ -50,6 +52,7 @@
   function toggleTheme() {
     theme = theme === 'dark' ? 'light' : 'dark';
     document.documentElement.setAttribute('data-theme', theme);
+    applyThemeChrome(theme);
     try {
       localStorage.setItem('theme', theme);
     } catch (e) {
@@ -90,7 +93,7 @@
 
 <svelte:head>
   {@html webManifestLink}
-  <meta name="theme-color" content="#111111" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
   {#if plausibleScriptUrl}
     <!-- Privacy-friendly analytics by Plausible -->
     <script data-plausible-src={plausibleScriptUrl}>
