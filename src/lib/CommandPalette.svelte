@@ -6,6 +6,7 @@
   import Search from '@lucide/svelte/icons/search';
   import Avatar from '$lib/Avatar.svelte';
   import SoftwareIcon from '$lib/SoftwareIcon.svelte';
+  import LucideIcon from '$lib/LucideIcon.svelte';
   import { searchAtlas } from '$lib/data.js';
   import { m } from '$lib/paraglide/messages.js';
 
@@ -102,12 +103,11 @@
                   {#if item.type === 'Software'}
                     <SoftwareIcon src={item.image} name={item.title} kind={item.kind} class="h-9 w-9 rounded-md" iconClass="h-4 w-4" bg="bg-bg" />
                   {:else if item.type === 'Page' && item.icon}
-                    {@const Icon = item.icon}
                     <span
                       class="flex h-9 w-9 shrink-0 items-center justify-center rounded-md border border-edge bg-bg text-muted"
                       aria-hidden="true"
                     >
-                      <Icon class="h-4 w-4" />
+                      <LucideIcon name={item.icon} class="h-4 w-4" />
                     </span>
                   {:else if item.type === 'Network' && item.flag}
                     <!-- Networks show their primary country flag (square) as the avatar. -->

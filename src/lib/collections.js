@@ -1,20 +1,17 @@
 // Catalog collections — labels, routes, icons and where each appears in the UI.
+// `icon` is a Lucide icon name (kebab-case); render it via <LucideIcon> /
+// the sprite, not a per-icon Svelte component.
 import { m } from '$lib/paraglide/messages.js';
-import RadioTower from '@lucide/svelte/icons/radio-tower';
-import CodeXml from '@lucide/svelte/icons/code-xml';
-import CircuitBoard from '@lucide/svelte/icons/circuit-board';
-import FileCog from '@lucide/svelte/icons/file-cog';
-import Factory from '@lucide/svelte/icons/factory';
 
 /** @typedef {'networks' | 'software' | 'devices' | 'firmwares' | 'vendors'} CollectionId */
 
-/** @type {Record<CollectionId, { id: CollectionId, label: string, href: string, icon: import('svelte').Component, blurb: string, home: boolean, nav: boolean }>} */
+/** @type {Record<CollectionId, { id: CollectionId, label: string, href: string, icon: string, blurb: string, home: boolean, nav: boolean }>} */
 export const COLLECTIONS = {
   networks: {
     id: 'networks',
     label: 'Networks',
     href: '/networks/',
-    icon: RadioTower,
+    icon: 'radio-tower',
     blurb: 'Regional & national meshes — radio settings, coverage and how to join.',
     home: true,
     nav: true
@@ -23,7 +20,7 @@ export const COLLECTIONS = {
     id: 'software',
     label: 'Software',
     href: '/software/',
-    icon: CodeXml,
+    icon: 'code-xml',
     blurb: 'Clients, integrations, gateways, monitoring, utilities, bots and libraries for the network.',
     home: true,
     nav: true
@@ -32,7 +29,7 @@ export const COLLECTIONS = {
     id: 'devices',
     label: 'Devices',
     href: '/devices/',
-    icon: CircuitBoard,
+    icon: 'circuit-board',
     blurb: 'LoRa hardware that runs MeshCore — specs, radios and node roles.',
     home: true,
     nav: true
@@ -41,7 +38,7 @@ export const COLLECTIONS = {
     id: 'firmwares',
     label: 'Firmwares',
     href: '/firmwares/',
-    icon: FileCog,
+    icon: 'file-cog',
     blurb: 'The reference build plus community forks and custom variants.',
     home: true,
     nav: true
@@ -50,7 +47,7 @@ export const COLLECTIONS = {
     id: 'vendors',
     label: 'Vendors',
     href: '/vendors/',
-    icon: Factory,
+    icon: 'factory',
     blurb: 'Hardware makers whose boards run MeshCore firmware.',
     home: false,
     nav: false

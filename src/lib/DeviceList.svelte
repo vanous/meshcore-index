@@ -1,3 +1,12 @@
+<script module>
+  // Survives across client navigations (instance state would reset every mount).
+  // The first mount in a session is the prerendered page hydrating — render
+  // everything so the HTML matches and SEO stays intact; later mounts are
+  // client-side navigations, where we progressively reveal cards to avoid one
+  // long render task on slower phones. (Mirrors SoftwareList.)
+  let warmedUp = false;
+</script>
+
 <script>
   import { href } from '$lib/i18n.js';
   import { m } from '$lib/paraglide/messages.js';
@@ -25,7 +34,7 @@
   import CompareBar from '$lib/CompareBar.svelte';
   import { Collapsible } from 'bits-ui';
   import { browser } from '$app/environment';
-  import { onMount } from 'svelte';
+  import { onMount, untrack } from 'svelte';
   // `activeCategory` comes from the route (/devices/ or /devices/<category>/) so
   // each category view is its own prerendered, indexable page.
   let { devices, activeCategory = 'all' } = $props();
@@ -159,6 +168,13 @@
   let sort = $state('name');
   let hydrated = $state(false);
 
+  // Progressive mount window (mirrors SoftwareList): unbounded on a cold/
+  // hydrating page so the prerendered HTML stays complete, but a warm client
+  // navigation starts windowed and grows as the sentinel scrolls into view.
+  const PAGE = 24;
+  let limit = $state(warmedUp ? PAGE : Infinity);
+  let sentinel = $state(null);
+
   // Sort options. `cmp` orders two devices; null-valued devices always sink to
   // the bottom regardless of direction.
   const numAsc = (get) => (a, b) => nullLast(get(a), get(b), (x, y) => x - y);
@@ -220,6 +236,7 @@
       })
     );
     hydrated = true;
+    warmedUp = true;
   });
 
   function toggleFacet(id, value) {
@@ -289,6 +306,23 @@
     })).filter((g) => g.items.length)
   );
 
+  // Apply the progressive-mount window. The grouped view fills its sections
+  // against one shared budget so they reveal top-to-bottom; `more` gates the
+  // scroll sentinel.
+  let visibleSorted = $derived(sorted.slice(0, limit));
+  let visibleGroups = $derived.by(() => {
+    let remaining = limit;
+    const out = [];
+    for (const g of categoryGroups) {
+      if (remaining <= 0) break;
+      const items = g.items.slice(0, remaining);
+      remaining -= items.length;
+      out.push({ ...g, items, total: g.items.length });
+    }
+    return out;
+  });
+  let more = $derived(limit < filtered.length);
+
   // When a metric sort is active, the value to surface on each card (or null).
   function sortBadge(d) {
     const m = activeSort.metric;
@@ -323,6 +357,36 @@
     if (sort !== 'name') p.set('sort', sort);
     const qs = p.toString();
     history.replaceState(history.state, '', qs ? `${location.pathname}?${qs}` : location.pathname);
+  });
+
+  // Reset the window whenever the filtered set changes (category / search /
+  // facet / toggle / range). `limit` is read & written untracked so this can't
+  // form a loop with the grow-on-scroll effect below.
+  $effect(() => {
+    filtered;
+    untrack(() => {
+      if (limit !== Infinity) limit = PAGE;
+    });
+  });
+
+  // Grow the window as the bottom sentinel nears the viewport; an idle fallback
+  // eventually mounts the rest so in-page find (Ctrl+F) still works.
+  $effect(() => {
+    if (!browser || !sentinel) return;
+    const io = new IntersectionObserver(
+      (entries) => {
+        if (entries.some((e) => e.isIntersecting)) limit += PAGE;
+      },
+      { rootMargin: '600px' }
+    );
+    io.observe(sentinel);
+    const ric = (window.requestIdleCallback ?? ((cb) => setTimeout(cb, 800)))(() => {
+      limit = Infinity;
+    });
+    return () => {
+      io.disconnect();
+      (window.cancelIdleCallback ?? clearTimeout)(ric);
+    };
   });
 </script>
 
@@ -508,7 +572,7 @@
 </div>
 
 {#snippet deviceCard(d)}
-      <Card href={href(`/device/${d.id}/`)} class="flex flex-col p-3">
+      <Card href={href(`/device/${d.id}/`)} class="dev-card flex flex-col p-3">
         <div class="relative mb-3 flex h-[120px] items-center justify-center overflow-hidden rounded-lg bg-elev2">
           {#if d.imageUrl}
             <img src={d.imageUrl} alt={d.name} loading="lazy" class="max-h-full max-w-full object-contain p-3 transition group-hover:scale-105" />
@@ -601,14 +665,14 @@
 {#if !filtered.length}
   <p class="rounded-xl border border-edge bg-elev p-8 text-center text-dim">{m.dev_list_empty()}</p>
 {:else if collapsed}
-  {@render cardGrid(sorted)}
+  {@render cardGrid(visibleSorted)}
 {:else}
   <div class="flex flex-col gap-9">
-    {#each categoryGroups as g (g.category)}
+    {#each visibleGroups as g (g.category)}
       <section>
         <h2 class="mb-3 flex items-baseline gap-2 border-b border-edge pb-1.5 text-[1.1rem] font-semibold">
           {g.label}
-          <span class="text-[0.85rem] font-normal text-dim">{g.items.length}</span>
+          <span class="text-[0.85rem] font-normal text-dim">{g.total}</span>
         </h2>
         {@render cardGrid(g.items)}
       </section>
@@ -616,8 +680,22 @@
   </div>
 {/if}
 
+<!-- Grows the mounted-card window as it nears the viewport (warm client navs). -->
+{#if more}
+  <div bind:this={sentinel} aria-hidden="true" class="h-px w-full"></div>
+{/if}
+
 <CompareBar
   count={$compareIds.length}
   href={href(`/compare/?ids=${$compareIds.join(',')}`)}
   onclear={clearCompare}
 />
+
+<style>
+  /* Skip layout/paint for off-screen cards; the reserved size keeps the
+     scrollbar roughly honest before a card is rendered. */
+  :global(.dev-card) {
+    content-visibility: auto;
+    contain-intrinsic-size: auto 19rem;
+  }
+</style>

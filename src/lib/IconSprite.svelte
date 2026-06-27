@@ -4,7 +4,8 @@
   // collapses to a `<use href>` reference. Rendered hidden and out of the
   // accessibility tree; it only provides definitions.
   import { DEVICON_SYMBOLS, UI_SYMBOLS } from '$lib/icon-sprite.js';
-  const symbols = [...DEVICON_SYMBOLS, ...UI_SYMBOLS];
+  import { LUCIDE_SYMBOLS } from '$lib/lucide-sprite.js';
+  const symbols = [...DEVICON_SYMBOLS, ...UI_SYMBOLS, ...LUCIDE_SYMBOLS];
 </script>
 
 <svg

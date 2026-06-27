@@ -7,6 +7,7 @@
   // registries, or set `title` / `icon` explicitly.
   import { collectionById, collectionLabel } from '$lib/collections.js';
   import { toolById, toolLabel } from '$lib/tools.js';
+  import LucideIcon from '$lib/LucideIcon.svelte';
 
   let { title, collection = null, tool = null, icon = null, subtitleClass = '', children, actions } =
     $props();
@@ -14,7 +15,8 @@
   const meta = $derived(
     collection ? collectionById(collection) : tool ? toolById(tool) : null
   );
-  const Icon = $derived(icon ?? meta?.icon ?? null);
+  /** Lucide icon name (kebab-case). */
+  const iconName = $derived(icon ?? meta?.icon ?? null);
   const localizedLabel = $derived(
     collection ? collectionLabel(collection) : tool ? toolLabel(tool) : null
   );
@@ -23,8 +25,8 @@
 
 <div class="mb-1 flex flex-wrap items-center justify-between gap-x-3 gap-y-2">
   <h1 class="flex min-w-0 items-center gap-2.5 text-[clamp(1.5rem,5vw,2rem)] font-bold">
-    {#if Icon}
-      <Icon class="h-[0.9em] w-[0.9em] shrink-0 text-accent" aria-hidden="true" />
+    {#if iconName}
+      <LucideIcon name={iconName} class="h-[0.9em] w-[0.9em] shrink-0 text-accent" />
     {/if}
     <span>{displayTitle}</span>
   </h1>

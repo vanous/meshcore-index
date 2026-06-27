@@ -7,6 +7,7 @@
   import Seo from '$lib/Seo.svelte';
   import Button from '$lib/Button.svelte';
   import Card from '$lib/Card.svelte';
+  import LucideIcon from '$lib/LucideIcon.svelte';
   import ShortcutHint from '$lib/ShortcutHint.svelte';
   import { COLLECTIONS, HOME_COLLECTIONS, collectionLabel, collectionBlurb } from '$lib/collections.js';
   import { HOME_TOOL_IDS, TOOLS, toolHomeLabel } from '$lib/tools.js';
@@ -89,10 +90,9 @@
 
 <section class="mb-8 grid gap-4 [grid-template-columns:repeat(auto-fill,minmax(230px,1fr))]">
   {#each sections as s}
-    {@const Icon = s.icon}
     <Card href={href(s.href)} class="flex flex-col gap-2 p-5">
       <div class="flex items-center justify-between">
-        <Icon class="h-6 w-6 text-accent" aria-hidden="true" />
+        <LucideIcon name={s.icon} class="h-6 w-6 text-accent" />
         <span class="font-mono text-[1.4rem] font-bold tabular-nums">{s.n}</span>
       </div>
       <h2 class="text-[1.1rem] font-semibold group-hover:text-accent">{collectionLabel(s.id)}</h2>
@@ -115,12 +115,11 @@
   <h2 class="mb-3 text-[1.1rem] font-semibold">{m.home_tools()}</h2>
   <div class="flex flex-wrap gap-2">
     {#each tools as t}
-      {@const Icon = t.icon}
       <a
         class="inline-flex items-center gap-2 rounded-lg border border-edge bg-elev px-3.5 py-2 text-[0.9rem] text-dim transition hover:border-accent hover:text-ink"
         href={href(t.href)}
       >
-        <Icon class="h-4 w-4 shrink-0 text-accent" aria-hidden="true" />
+        <LucideIcon name={t.icon} class="h-4 w-4 shrink-0 text-accent" />
         {t.label}
       </a>
     {/each}
