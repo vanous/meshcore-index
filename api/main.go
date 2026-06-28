@@ -19,6 +19,7 @@ func main() {
 	addr := flag.String("addr", ":8080", "HTTP listen address")
 	dataDir := flag.String("data", "../data", "path to the repo's data/ directory")
 	allowOrigin := flag.String("allow-origin", "*", "Access-Control-Allow-Origin value")
+	tangleveilURL := flag.String("tangleveil", "", "Tangleveil WebSocket URL (wss://…); when set, all CoreScope streams are consumed through Tangleveil instead of connecting to analyzers directly")
 	dedupWindow := flag.Duration("dedup-window", 15*time.Minute, "how long a content hash counts as already-seen")
 	linkHalfLife := flag.Duration("link-halflife", 24*time.Hour, "half-life of a link's recent-activity score")
 	observerTTL := flag.Duration("observer-ttl", time.Hour, "drop observers/nodes idle longer than this")
@@ -143,15 +144,25 @@ func main() {
 		}()
 	}
 
-	// One collector goroutine per analyzer.
-	for _, ns := range store.Networks {
-		for _, az := range ns.Analyzers {
-			col, err := NewCollector(ns, az, registry, observers, links, metrics)
-			if err != nil {
-				log.Printf("[%s/%s] bad analyzer URL %q: %v", ns.ID, az.Name, az.URL, err)
-				continue
+	// One collector goroutine per analyzer, or a single Tangleveil collector
+	// that multiplexes all streams when --tangleveil is set.
+	if *tangleveilURL != "" {
+		tv, err := NewTangleveilCollector(*tangleveilURL, store, registry, observers, links, metrics)
+		if err != nil {
+			log.Fatalf("tangleveil: %v", err)
+		}
+		go tv.Run(ctx)
+		log.Printf("tangleveil: routing %d network source(s) through %s", len(tv.routes), *tangleveilURL)
+	} else {
+		for _, ns := range store.Networks {
+			for _, az := range ns.Analyzers {
+				col, err := NewCollector(ns, az, registry, observers, links, metrics)
+				if err != nil {
+					log.Printf("[%s/%s] bad analyzer URL %q: %v", ns.ID, az.Name, az.URL, err)
+					continue
+				}
+				go col.Run(ctx)
 			}
-			go col.Run(ctx)
 		}
 	}
 
