@@ -188,6 +188,7 @@
   "dev_list_favourites": "Улюблені пристрої",
   "dev_list_compare_favourites": "Порівняти улюблені →",
   "dev_list_empty": "Жоден пристрій не відповідає цим фільтрам.",
+  "dev_cat_module": "Modules",
   "dev_cat_development_board": "Плати для розробки",
   "dev_cat_companion_radio": "Радіо-компаньйони",
   "dev_cat_standalone": "Автономні портативні",

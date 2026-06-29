@@ -188,6 +188,7 @@
   "dev_list_favourites": "Dispositivos favoritos",
   "dev_list_compare_favourites": "Comparar favoritos →",
   "dev_list_empty": "Nenhum dispositivo corresponde a estes filtros.",
+  "dev_cat_module": "Modules",
   "dev_cat_development_board": "Placas de desenvolvimento",
   "dev_cat_companion_radio": "Rádios complementares",
   "dev_cat_standalone": "Portáteis autónomos",

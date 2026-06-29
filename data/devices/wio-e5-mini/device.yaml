@@ -1,6 +1,6 @@
 # Source: https://wiki.seeedstudio.com/LoRa_E5_mini/
 # Source: https://files.seeedstudio.com/products/113990939/LoRa-E5%20mini%20v1.0.pdf
-name: Seeed Studio Wio-E5 mini
+name: Wio-E5 mini
 vendorId: seeed
 kind: product
 category: development-board

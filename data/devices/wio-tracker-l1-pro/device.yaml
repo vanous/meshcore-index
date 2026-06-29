@@ -1,5 +1,5 @@
 # Source: meshcore-dev/flasher.meshcore.io config.json
-name: Seeed Studio Wio Tracker L1 Pro
+name: Wio Tracker L1 Pro
 vendorId: seeed
 kind: product
 category: companion-radio

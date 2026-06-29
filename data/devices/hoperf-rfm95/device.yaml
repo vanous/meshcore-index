@@ -1,0 +1,34 @@
+name: HopeRF RFM95W
+vendorId: hoperf
+kind: module
+moduleType: radio
+category: module
+lifecycle: active
+product_url: https://www.hoperf.com/modules/lora/RFM95.html
+aliases:
+  - RFM95
+  - RFM96W
+  - RFM98W
+description: >-
+  Widely used LoRa radio module built around the SX1276, available in 868 MHz
+  and 915 MHz variants. SPI interface with a simple footprint, common in DIY
+  and low-cost LoRa builds.
+variants:
+  - name: 868 MHz
+    sku: RFM95W-868S2
+    bands:
+      - "868"
+  - name: 915 MHz
+    sku: RFM95W-915S2
+    bands:
+      - "915"
+hardware:
+  mcu: {}
+  radios:
+    - technology: lora
+      chip: sx1276
+      txPowerDbm: 20
+      bands:
+        - "868"
+        - "915"
+      antenna: IPEX/u.FL

@@ -112,15 +112,17 @@ device list. Pick the value that best describes the device as purchased/built.
 
 | Value | Meaning | Examples |
 |-------|---------|---------|
+| `module` | A radio module or system-on-module intended to be soldered or socketed into another design. Use `moduleType: radio` for RF-only PCBs (no general-purpose MCU); `moduleType: system` for MCU + radio modules intended for integration. | Ebyte E22P, Seeed Wio-SX1262, HopeRF RFM95 (radio); RAK3172, Seeed WM1110 (system) |
 | `development-board` | Requires assembly, a host system, or non-trivial configuration before it does anything useful. Includes bare dev boards, HATs/shields, base boards that need an MCU, and kits sold as build projects. | Heltec V3, PiMesh-1W (needs a Pi), Photon-1W (needs a Xiao MCU), Zindello UltraPeater (kit) |
-| `companion-radio` | A radio module or board whose primary role is to connect to a phone/tablet as a MeshCore BLE/USB companion. No host computer required to relay — the phone *is* the host. | Ebyte E22P, Seeed Wio-SX1262, HopeRF RFM95 |
-| `standalone` | A complete, self-contained device that runs MeshCore without any host. Plug in power and it works — no assembly, no MCU to add. | EtherMesh-1W is **not** this — it needs Ethernet config. A fully enclosed repeater with fixed firmware would be. |
-| `repeater` | A finished, dedicated repeater — sold or built specifically for that role, not a general-purpose board that can be flashed as one. | A sealed outdoor repeater node sold ready-to-deploy |
-| `tracker` | A device built primarily for GPS position tracking and telemetry. | SenseCAP T1000-E, Wio Tracker L1 |
+| `companion-radio` | A finished consumer device — with enclosure and usually a battery — whose primary purpose is to pair with a phone/tablet as a MeshCore BLE/USB companion radio. Ready to use out of the box. | T-Echo, Wio Tracker L1 Pro |
+| `standalone` | A complete, self-contained device that runs MeshCore without any host. Plug in power and it works — no assembly, no MCU to add. | A fully enclosed repeater with fixed firmware |
+| `repeater` | A finished, dedicated repeater with enclosure — sold or built specifically for that role, not a general-purpose board that can be flashed as one. | A sealed outdoor repeater node sold ready-to-deploy |
+| `tracker` | A device built primarily for GPS position tracking and telemetry. Has enclosure and battery like a companion-radio, but the primary use is position reporting rather than serving as a phone companion. | SenseCAP T1000-E, SenseCAP Card Tracker T1000-E, Wio Tracker L1 |
 | `other` | Doesn't fit any of the above. Use sparingly. | |
 
 **Common mistakes:**
-- Do **not** use `companion-radio` for Raspberry Pi HATs — those need a Pi host running software; `development-board` is correct.
+- Do **not** use `companion-radio` for bare boards, HATs, or radio modules — it is reserved for finished consumer devices with enclosure and (usually) battery. HATs → `development-board`; bare radio PCBs → `module`.
+- Do **not** use `module` for full dev boards that happen to have "module" in the name — if it has USB, buttons, and a regulator, it's `development-board`.
 - Do **not** use `repeater` for kits or dev boards that can run repeater firmware — use `development-board` and set `roles: [repeater]` instead.
 - Do **not** use `standalone` unless the device works out of the box with no host, no assembly, and no MCU to add.
 

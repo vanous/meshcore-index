@@ -188,6 +188,7 @@
   "dev_list_favourites": "Oblíbená zařízení",
   "dev_list_compare_favourites": "Porovnat oblíbené →",
   "dev_list_empty": "Žádná zařízení neodpovídají těmto filtrům.",
+  "dev_cat_module": "Modules",
   "dev_cat_development_board": "Vývojové desky",
   "dev_cat_companion_radio": "Companion rádia",
   "dev_cat_standalone": "Samostatná zařízení",

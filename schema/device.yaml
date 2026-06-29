@@ -35,12 +35,30 @@ properties:
       - module
       - kit
       - generic-build
+  moduleType:
+    description: >-
+      Sub-classification for kind: module entries. "radio" is a radio PCB with
+      no general-purpose MCU (e.g. Ebyte E22P, HopeRF RFM95, Seeed Wio-SX1262);
+      "system" is an MCU + radio module intended for integration into a larger
+      design (e.g. RAK3172, Seeed WM1110). Omit for non-module kinds.
+    enum:
+      - radio
+      - system
   category:
     description: >-
       Primary use-class the device list is grouped/filtered by — what the board
-      is *for*, which `kind` alone doesn't capture (a solar repeater and a bare
-      dev board can share specs). Authored explicitly per device.
+      is *for*, which `kind` alone doesn't capture. "module" = radio or
+      system-on-module (use moduleType: radio for RF-only PCBs, system for
+      MCU+radio integration modules); "development-board" = needs assembly, a
+      host, or an MCU to work (HATs, bare boards, kits); "companion-radio" =
+      finished consumer device with enclosure and usually a battery, designed to
+      pair with a phone/tablet as a BLE/USB companion (e.g. T-Echo, Wio Tracker
+      L1 Pro); "standalone" = complete self-contained device, no host or assembly
+      needed; "repeater" = finished dedicated repeater with enclosure, sold or
+      built specifically for that role; "tracker" = finished device whose primary
+      use is GPS position reporting (e.g. SenseCAP T1000-E). See data/RULES.md.
     enum:
+      - module
       - development-board
       - companion-radio
       - standalone

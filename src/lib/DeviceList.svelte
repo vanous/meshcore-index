@@ -40,8 +40,9 @@
   let { devices, activeCategory = 'all' } = $props();
 
   // Use-class category — the routed primary filter. Order = tab order.
-  const CATEGORY_ORDER = ['development-board', 'companion-radio', 'standalone', 'repeater', 'tracker', 'other'];
+  const CATEGORY_ORDER = ['module', 'development-board', 'companion-radio', 'standalone', 'repeater', 'tracker', 'other'];
   const CATEGORY_LABELS = {
+    module: m.dev_cat_module(),
     'development-board': m.dev_cat_development_board(),
     'companion-radio': m.dev_cat_companion_radio(),
     standalone: m.dev_cat_standalone(),

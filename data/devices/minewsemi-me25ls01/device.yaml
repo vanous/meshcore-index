@@ -3,8 +3,9 @@
 # Source: https://en.minewsemi.com/file/ME25LS01_LR1110_Datasheet_K_EN.pdf
 name: MinewSemi ME25LS01
 vendorId: minewsemi
-kind: product
-category: development-board
+kind: module
+moduleType: system
+category: module
 lifecycle: active
 familyId: minewsemi-minewsemi-me25ls01
 product_url: https://en.minewsemi.com/lora-module/lr1110-nrf52840-me25LS01

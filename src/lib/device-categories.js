@@ -1,6 +1,7 @@
 // Device list category slugs — shared by the route matcher, URL de-localization,
 // and filtered list pages.
 export const DEVICE_CATEGORY_SLUGS = new Set([
+  'module',
   'development-board',
   'companion-radio',
   'standalone',

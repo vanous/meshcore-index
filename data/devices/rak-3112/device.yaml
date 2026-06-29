@@ -2,8 +2,9 @@
 # Source: https://docs.rakwireless.com/product-categories/wisduo/rak3112-module/overview/
 name: RAK WisBlock 3112
 vendorId: rak
-kind: product
-category: development-board
+kind: module
+moduleType: system
+category: module
 lifecycle: active
 familyId: rak-wisblock
 aliases:

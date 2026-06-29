@@ -2,7 +2,8 @@
 name: RAK WisBlock / WisMesh (RAK 4631)
 vendorId: rak
 kind: module
-category: development-board
+moduleType: system
+category: module
 lifecycle: active
 familyId: rak-wisblock
 aliases:

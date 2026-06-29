@@ -1,6 +1,6 @@
 # Source: meshcore-dev/MeshCore variants/xiao_rp2040/platformio.ini
 # Source: https://wiki.seeedstudio.com/XIAO-RP2040/
-name: Seeed Studio XIAO RP2040
+name: Xiao RP2040
 vendorId: seeed
 kind: dev-board
 category: development-board

@@ -188,6 +188,7 @@
   "dev_list_favourites": "Thiết bị yêu thích",
   "dev_list_compare_favourites": "So sánh mục yêu thích →",
   "dev_list_empty": "Không có thiết bị nào khớp với bộ lọc này.",
+  "dev_cat_module": "Modules",
   "dev_cat_development_board": "Bo mạch phát triển",
   "dev_cat_companion_radio": "Sóng đồng hành",
   "dev_cat_standalone": "Thiết bị cầm tay độc lập",

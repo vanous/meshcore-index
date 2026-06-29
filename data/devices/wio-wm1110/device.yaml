@@ -3,7 +3,8 @@
 name: Wio WM1110
 vendorId: seeed
 kind: module
-category: development-board
+moduleType: system
+category: module
 lifecycle: active
 familyId: seeed-wio-wm1110
 aliases:

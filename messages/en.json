@@ -188,6 +188,7 @@
   "dev_list_favourites": "Favourite Devices",
   "dev_list_compare_favourites": "Compare favourites →",
   "dev_list_empty": "No devices match these filters.",
+  "dev_cat_module": "Modules",
   "dev_cat_development_board": "Development boards",
   "dev_cat_companion_radio": "Companion radios",
   "dev_cat_standalone": "Standalone handhelds",

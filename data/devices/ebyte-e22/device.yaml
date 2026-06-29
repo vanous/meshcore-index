@@ -1,0 +1,40 @@
+# Source: https://www.ebyte.com/en/product-view-news.aspx?id=437
+name: Ebyte E22
+vendorId: ebyte
+kind: module
+moduleType: radio
+category: module
+lifecycle: active
+product_url: https://www.ebyte.com/en/product-view-news.aspx?id=437
+aliases:
+  - E22-868M22S
+  - E22-900M22S
+description: >-
+  Standard-power LoRa radio module built around the SX1262, delivering 22 dBm
+  output via SPI interface. Available in 433, 868, and 915 MHz variants. Widely
+  used in DIY and embedded MeshCore/Meshtastic builds.
+image: e22.svg
+variants:
+  - name: 433 MHz
+    sku: E22-400M22S
+    bands:
+      - "433"
+  - name: 868 MHz
+    sku: E22-868M22S
+    bands:
+      - "868"
+  - name: 915 MHz
+    sku: E22-900M22S
+    bands:
+      - "915"
+hardware:
+  mcu: {}
+  radios:
+    - technology: lora
+      chip: sx1262
+      txPowerDbm: 22
+      bands:
+        - "433"
+        - "868"
+        - "915"
+      antenna: IPEX/u.FL

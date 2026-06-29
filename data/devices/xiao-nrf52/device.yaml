@@ -1,7 +1,7 @@
 # Source: meshcore-dev/flasher.meshcore.io config.json
 # Source: https://wiki.seeedstudio.com/XIAO_BLE/
 # Source: https://wiki.seeedstudio.com/xiao_nrf52840%26_wio_SX1262_kit_for_meshtastic/
-name: Seeed Studio Xiao nRF52 WIO
+name: Xiao nRF52 WIO
 vendorId: seeed
 kind: dev-board
 category: development-board

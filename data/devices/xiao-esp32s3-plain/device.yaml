@@ -1,6 +1,6 @@
 # Source: meshcore-dev/MeshCore variants/xiao_s3/platformio.ini
 # Source: https://wiki.seeedstudio.com/xiao_esp32s3_getting_started/
-name: Seeed Studio XIAO ESP32S3
+name: Xiao S3 (plain)
 vendorId: seeed
 kind: dev-board
 category: development-board

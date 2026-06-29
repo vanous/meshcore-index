@@ -2,8 +2,9 @@
 # Source: https://docs.rakwireless.com/product-categories/wisblock/rak11310/datasheet/
 name: RAK 11310
 vendorId: rak
-kind: product
-category: development-board
+kind: module
+moduleType: system
+category: module
 lifecycle: active
 familyId: rak-11310
 aliases:

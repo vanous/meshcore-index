@@ -91,9 +91,9 @@ devices:
     status: supported
     target: gat562_mesh_watch13
     platformio_board: rak4631
-  - id: generic-e22
+  - id: generic-ebyte-e22
     status: supported
-    target: generic-e22
+    target: generic-ebyte-e22
     platformio_board: esp32doit-devkit-v1
   - id: generic-espnow
     status: supported

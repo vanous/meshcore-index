@@ -1,6 +1,6 @@
 # Source: https://wiki.seeedstudio.com/LoRa_E5_Dev_Board/
 # Source: https://wiki.seeedstudio.com/LoRa-E5_STM32WLE5JC_Module/
-name: Seeed Studio Wio-E5 Dev Board
+name: Wio-E5 Dev Board
 vendorId: seeed
 kind: dev-board
 category: development-board

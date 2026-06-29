@@ -349,6 +349,7 @@
   "dev_list_favourites": "Izbrane ustrojstva",
   "dev_list_compare_favourites": "Porovnati izbrane →",
   "dev_list_empty": "Nijedno ustrojstvo ne odgovarjaje tym filtrom.",
+  "dev_cat_module": "Modules",
   "dev_cat_development_board": "Razvojne ploče",
   "dev_cat_companion_radio": "Pridružene radija",
   "dev_cat_standalone": "Samostojne prěnosne ustrojstva",

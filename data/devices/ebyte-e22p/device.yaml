@@ -1,0 +1,35 @@
+name: Ebyte E22P
+vendorId: ebyte
+kind: module
+moduleType: radio
+category: module
+lifecycle: active
+product_url: https://www.ebyte.com/en/product-view-news.aspx?id=1189
+aliases:
+  - E22P-868M30S
+  - E22P-915M30S
+description: >-
+  High-power LoRa radio module built around the SX1262, delivering 30 dBm
+  (1 W) output with an integrated LNA and optional band-pass filter. SPI
+  interface. Available in 868 MHz and 915 MHz variants. Used as the RF
+  front-end in several MeshCore-compatible boards including the MeshSmith
+  PiMesh-1W, Photon-1W, and EtherMesh-1W.
+variants:
+  - name: 868 MHz
+    sku: E22P-868M30S
+    bands:
+      - "868"
+  - name: 915 MHz
+    sku: E22P-915M30S
+    bands:
+      - "915"
+hardware:
+  mcu: {}
+  radios:
+    - technology: lora
+      chip: sx1262
+      txPowerDbm: 30
+      bands:
+        - "868"
+        - "915"
+      antenna: IPEX/u.FL

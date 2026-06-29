@@ -1,5 +1,5 @@
 # Source: https://wiki.seeedstudio.com/xiao_mg24_getting_started/
-name: Seeed XIAO MG24 + SX1262
+name: Xiao MG24 + SX1262
 vendorId: seeed
 kind: dev-board
 category: development-board

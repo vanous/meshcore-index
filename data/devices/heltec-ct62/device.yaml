@@ -1,8 +1,9 @@
 # Source: https://heltec.org/project/ht-ct62/
 name: Heltec CT62
 vendorId: heltec
-kind: product
-category: development-board
+kind: module
+moduleType: system
+category: module
 lifecycle: active
 familyId: heltec-ct62
 aliases:

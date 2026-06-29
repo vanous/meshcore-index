@@ -1,0 +1,29 @@
+name: Wio-SX1262
+vendorId: seeed
+kind: module
+moduleType: radio
+category: module
+lifecycle: active
+product_url: https://www.seeedstudio.com/Wio-SX1262-Wireless-Module-p-5981.html
+price:
+  amount: 4
+  currency: USD
+  asOf: 2026-06
+aliases:
+  - Wio-SX1262
+  - Seeed Wio-SX1262
+description: >-
+  Compact LoRa radio module built around the SX1262, designed to pair with
+  Seeed Xiao boards via SPI. Ships as part of several Xiao+Wio-SX1262 kits
+  widely used in the MeshCore and Meshtastic ecosystem for compact companion
+  and repeater nodes.
+hardware:
+  mcu: {}
+  radios:
+    - technology: lora
+      chip: sx1262
+      txPowerDbm: 22
+      bands:
+        - "868"
+        - "915"
+      antenna: IPEX/u.FL
