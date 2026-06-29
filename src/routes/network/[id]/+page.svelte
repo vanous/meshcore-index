@@ -22,6 +22,7 @@
     descriptionToPlain
   } from '$lib/data.js';
   import AppPresetBadge from '$lib/AppPresetBadge.svelte';
+  import BandBadge from '$lib/BandBadge.svelte';
   import { clampDescription, absUrl, ogImageFor } from '$lib/seo.js';
   import Seo from '$lib/Seo.svelte';
   import RichText from '$lib/RichText.svelte';
@@ -210,6 +211,14 @@
             </div>
           {/if}
           <dl class="grid gap-x-6 gap-y-3 [grid-template-columns:repeat(auto-fill,minmax(120px,1fr))]">
+            {#if preset.radio.frequency != null}
+              <div>
+                <dt class="text-[0.72rem] tracking-wide text-dim uppercase">{m.dev_facet_band()}</dt>
+                <dd class="mt-0.5">
+                  <BandBadge band={preset.radio.frequency} />
+                </dd>
+              </div>
+            {/if}
             {#each preset.specs as spec}
               <div>
                 <dt class="text-[0.72rem] tracking-wide text-dim uppercase">{spec.label}</dt>
