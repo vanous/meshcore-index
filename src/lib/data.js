@@ -759,7 +759,9 @@ export function resolveGnss(chip) {
 
 export function deviceMcuLabel(device) {
   const mcu = device.hardware?.mcu;
-  return mcu?.model ?? mcu?.family ?? 'Unknown';
+  if (!mcu) return 'Unknown';
+  if (!mcu.model && !mcu.family) return 'None';
+  return mcu.model ?? mcu.family;
 }
 
 const CURRENCY_SYMBOL = { USD: '$', EUR: '€', GBP: '£', CNY: '¥', JPY: '¥' };
@@ -1069,7 +1071,7 @@ export const searchItems = [
     type: 'Device',
     title: d.name,
     subtitle: [d.vendorName, deviceMcuLabel(d), deviceRadioLabel(d)]
-      .filter((s) => s && s !== 'Unknown')
+      .filter((s) => s && s !== 'Unknown' && s !== 'None')
       .join(' · '),
     href: `/device/${d.id}/`,
     image: d.imageUrl,

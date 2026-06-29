@@ -74,6 +74,31 @@ family:
     vendor: Raspberry Pi
     url: https://www.raspberrypi.com/products/rp2040/
     architecture: arm-cortex-m0-plus
+  luckfox-pico:
+    name: Luckfox Pico
+    vendor: Luckfox
+    url: https://www.luckfox.com/
+    models:
+      luckfox-pico-ultra:
+        name: Luckfox Pico Ultra
+        url: https://wiki.luckfox.com/Luckfox-Pico-Ultra
+  raspberry-pi:
+    name: Raspberry Pi
+    vendor: Raspberry Pi
+    url: https://www.raspberrypi.com/products/
+    models:
+      raspberry-pi-zero-2w:
+        name: Raspberry Pi Zero 2W
+        url: https://www.raspberrypi.com/products/raspberry-pi-zero-2-w/
+      raspberry-pi-3b:
+        name: Raspberry Pi 3B
+        url: https://www.raspberrypi.com/products/raspberry-pi-3-model-b/
+      raspberry-pi-4b:
+        name: Raspberry Pi 4B
+        url: https://www.raspberrypi.com/products/raspberry-pi-4-model-b/
+      raspberry-pi-5:
+        name: Raspberry Pi 5
+        url: https://www.raspberrypi.com/products/raspberry-pi-5/
   asr650x:
     name: ASR Microelectronics ASR650x / ASR605x
     vendor: ASR Microelectronics

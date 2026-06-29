@@ -35,8 +35,8 @@ variants:
 hardware:
   mcu:
     model: luckfox-pico-ultra
-    # Source: vendor documentation; Luckfox Pico Ultra uses Rockchip RV1106
-    ramKb: 256
+    # Source: https://wiki.luckfox.com/Luckfox-Pico-Ultra — RV1106G2, Cortex-A7 1.2GHz
+    ramKb: 131072
   radios:
     - technology: lora
       chip: sx1262

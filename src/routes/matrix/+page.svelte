@@ -7,6 +7,26 @@
   import PageHeader from '$lib/PageHeader.svelte';
   let { data } = $props();
 
+  // Category filter
+  const CATEGORY_ORDER = ['module', 'development-board', 'companion-radio', 'standalone', 'repeater', 'tracker', 'other'];
+  function categoryLabel(slug) {
+    if (slug === 'module') return m.dev_cat_module();
+    if (slug === 'development-board') return m.dev_cat_development_board();
+    if (slug === 'companion-radio') return m.dev_cat_companion_radio();
+    if (slug === 'standalone') return m.dev_cat_standalone();
+    if (slug === 'repeater') return m.dev_cat_repeater();
+    if (slug === 'tracker') return m.dev_cat_tracker();
+    if (slug === 'other') return m.dev_cat_other();
+    return slug;
+  }
+  let activeCategory = $state('all');
+  let availableCategories = $derived(
+    CATEGORY_ORDER.filter((c) => data.rows.some((r) => r.device.category === c))
+  );
+  let filteredRows = $derived(
+    activeCategory === 'all' ? data.rows : data.rows.filter((r) => r.device.category === activeCategory)
+  );
+
   // Track the hovered cell so we can highlight its whole row + column for
   // orientation. -1 means nothing hovered.
   let hoverRow = $state(-1);
@@ -32,8 +52,21 @@
 />
 
 <PageHeader tool="matrix" subtitleClass="mb-4 max-w-[60ch]">
-  {m.matrix_intro({ count: data.rows.length })}
+  {m.matrix_intro({ count: filteredRows.length })}
 </PageHeader>
+
+<div class="mb-3 flex flex-wrap gap-1.5">
+  <button
+    class="rounded-full border px-2.5 py-1 text-[0.8rem] transition {activeCategory === 'all' ? 'border-accent bg-accent/15 text-accent' : 'border-edge bg-elev text-dim hover:border-accent/60 hover:text-ink'}"
+    onclick={() => (activeCategory = 'all')}
+  >All</button>
+  {#each availableCategories as cat}
+    <button
+      class="rounded-full border px-2.5 py-1 text-[0.8rem] transition {activeCategory === cat ? 'border-accent bg-accent/15 text-accent' : 'border-edge bg-elev text-dim hover:border-accent/60 hover:text-ink'}"
+      onclick={() => (activeCategory = cat)}
+    >{categoryLabel(cat)}</button>
+  {/each}
+</div>
 
 <div class="mb-5 flex flex-wrap gap-2">
   {#each Object.entries(STATUS_META) as [status, meta]}
@@ -81,7 +114,7 @@
       </tr>
     </thead>
     <tbody>
-      {#each data.rows as row, ri}
+      {#each filteredRows as row, ri}
         {@const isFav = $favoriteIds.includes(row.device.id)}
         <tr class="group">
           <th

@@ -31,8 +31,28 @@
   let fromId = $derived(params.get('from') ?? null);
   let dir = $derived(params.get('dir') ?? metric.dir);
 
+  // Category filter
+  const CATEGORY_ORDER = ['module', 'development-board', 'companion-radio', 'standalone', 'repeater', 'tracker', 'other'];
+  function categoryLabel(slug) {
+    if (slug === 'module') return m.dev_cat_module();
+    if (slug === 'development-board') return m.dev_cat_development_board();
+    if (slug === 'companion-radio') return m.dev_cat_companion_radio();
+    if (slug === 'standalone') return m.dev_cat_standalone();
+    if (slug === 'repeater') return m.dev_cat_repeater();
+    if (slug === 'tracker') return m.dev_cat_tracker();
+    if (slug === 'other') return m.dev_cat_other();
+    return slug;
+  }
+  let activeCategory = $state('all');
+  let availableCategories = $derived(
+    CATEGORY_ORDER.filter((c) => data.devices.some((d) => d.category === c))
+  );
+
   let ranked = $derived.by(() => {
-    const withVal = data.devices
+    const filtered = activeCategory === 'all'
+      ? data.devices
+      : data.devices.filter((d) => d.category === activeCategory);
+    const withVal = filtered
       .map((d) => ({ device: d, value: metric.get(d) }))
       .filter((r) => r.value != null);
     withVal.sort((a, b) => (dir === 'asc' ? a.value - b.value : b.value - a.value));
@@ -90,6 +110,19 @@
     >
       {metricHeading(met.id)}
     </a>
+  {/each}
+</div>
+
+<div class="mb-5 flex flex-wrap gap-1.5">
+  <button
+    class="rounded-full border px-2.5 py-1 text-[0.8rem] transition {activeCategory === 'all' ? 'border-accent bg-accent/15 text-accent' : 'border-edge bg-elev text-dim hover:border-accent/60 hover:text-ink'}"
+    onclick={() => (activeCategory = 'all')}
+  >All</button>
+  {#each availableCategories as cat}
+    <button
+      class="rounded-full border px-2.5 py-1 text-[0.8rem] transition {activeCategory === cat ? 'border-accent bg-accent/15 text-accent' : 'border-edge bg-elev text-dim hover:border-accent/60 hover:text-ink'}"
+      onclick={() => (activeCategory = cat)}
+    >{categoryLabel(cat)}</button>
   {/each}
 </div>
 

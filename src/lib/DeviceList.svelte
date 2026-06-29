@@ -57,6 +57,13 @@
     const chip = (d.hardware?.radios ?? []).map((r) => r.chip).find((c) => c && c !== 'unknown');
     return chip ? (resolveRadio(chip)?.name ?? chip) : null;
   };
+  const devicePlaceholderLabel = (d) => {
+    const mcu = deviceMcuLabel(d);
+    const chip = (d.hardware?.radios ?? []).map((r) => r.chip).find((c) => c && c !== 'unknown');
+    const radio = chip ? chip.toUpperCase() : null;
+    if (mcu === 'None' || mcu === 'Unknown') return radio ?? mcu;
+    return radio ? `${mcu} + ${radio}` : mcu;
+  };
   const deviceChips = (d) =>
     (d.hardware?.radios ?? []).map((r) => r.chip).filter((c) => c && c !== 'unknown');
 
@@ -422,7 +429,7 @@
             {#if fav.imageUrl}
               <img src={fav.imageUrl} alt="" class="max-h-full max-w-full object-contain" />
             {:else}
-              <span class="font-mono text-[0.55rem]">{deviceMcuLabel(fav)}</span>
+              <span class="font-mono text-[0.55rem]">{devicePlaceholderLabel(fav)}</span>
             {/if}
           </span>
           <span class="min-w-0">
@@ -578,7 +585,7 @@
           {#if d.imageUrl}
             <img src={d.imageUrl} alt={d.name} loading="lazy" class="max-h-full max-w-full object-contain p-3 transition group-hover:scale-105" />
           {:else}
-            <span class="font-mono text-[0.8rem] text-dim">{deviceMcuLabel(d)}</span>
+            <span class="font-mono text-[0.8rem] text-dim">{devicePlaceholderLabel(d)}</span>
           {/if}
           <Button
             variant=""

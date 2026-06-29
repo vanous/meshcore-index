@@ -12,6 +12,7 @@
     "check:presets": "node scripts/check-app-presets.js",
     "import:presets": "node scripts/check-app-presets.js --import",
     "enrich:firmwares": "node scripts/enrich-firmwares.js",
+    "enrich:software": "node scripts/enrich-software.js",
     "enrich:contributors": "node scripts/enrich-contributors.js",
     "enrich:avatars": "node scripts/download-avatars.js",
     "predev": "node scripts/build-data.js",

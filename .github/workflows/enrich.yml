@@ -1,0 +1,68 @@
+name: Enrich firmwares & software
+
+on:
+  schedule:
+    # Once a day at 05:00 UTC.
+    - cron: '0 5 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  actions: write
+
+concurrency:
+  group: enrich
+  cancel-in-progress: false
+
+jobs:
+  enrich:
+    name: Fetch GitHub popularity & verification signals
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 24
+          cache: npm
+
+      - run: npm ci
+
+      - name: Enrich firmwares
+        run: node scripts/enrich-firmwares.js
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Enrich software
+        run: node scripts/enrich-software.js
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      # Make sure the enriched data still validates before committing.
+      - name: Validate
+        run: npm test
+
+      - name: Commit changes
+        id: commit
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          if git diff --quiet -- data/firmwares data/software; then
+            echo "No enrichment changes."
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+          else
+            git add data/firmwares/*/data.json data/software/*/data.json
+            git commit -m "chore: update firmware & software enrichment data"
+            git push
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      # Pushes made with GITHUB_TOKEN don't trigger the push-based deploy
+      # workflow, so kick it off explicitly when enrichment data actually changed.
+      - name: Trigger deploy
+        if: steps.commit.outputs.changed == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: gh workflow run deploy.yml --ref main

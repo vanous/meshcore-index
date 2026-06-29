@@ -30,7 +30,8 @@ variants:
     bands:
       - "868"
 hardware:
-  mcu: {}
+  mcu:
+    model: raspberry-pi
   radios:
     - technology: lora
       chip: sx1262

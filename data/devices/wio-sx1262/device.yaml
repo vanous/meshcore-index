@@ -17,6 +17,7 @@ description: >-
   Seeed Xiao boards via SPI. Ships as part of several Xiao+Wio-SX1262 kits
   widely used in the MeshCore and Meshtastic ecosystem for compact companion
   and repeater nodes.
+image: wio-sx1262.svg
 hardware:
   mcu: {}
   radios:
