@@ -223,7 +223,8 @@ func (c *Collector) handle(data []byte) {
 // collectAdvert decodes an ADVERT's raw wire bytes and records the node. Bad or
 // truncated packets are silently dropped — the analyzer stream is best-effort.
 func (c *Collector) collectAdvert(p wsPacket, hash string, now int64) {
-	raw, err := hex.DecodeString(strings.TrimSpace(p.RawHex))
+	rawHex := strings.ToLower(strings.TrimSpace(p.RawHex))
+	raw, err := hex.DecodeString(rawHex)
 	if err != nil || len(raw) == 0 {
 		c.metrics.recordDecodeError("advert_hex")
 		return
@@ -240,6 +241,7 @@ func (c *Collector) collectAdvert(p wsPacket, hash string, now int64) {
 	}
 	c.nodes.Observe(AdvertObservation{
 		Hash:         hash,
+		RawHex:       rawHex,
 		PubKey:       hex.EncodeToString(adv.PublicKey),
 		Name:         adv.Name,
 		NodeType:     adv.NodeType,

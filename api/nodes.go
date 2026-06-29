@@ -27,6 +27,7 @@ func nodeTypeName(t byte) string {
 // node's overview row and is pushed onto that node's rolling latest-adverts list.
 type AdvertObservation struct {
 	Hash         string  // content hash of the advert packet (for live-feed dedup)
+	RawHex       string  // full wire-format packet as hex, used for packet details
 	PubKey       string  // 32-byte Ed25519 public key, lowercase hex
 	Name         string  // advertised node name ("" if not advertised)
 	NodeType     byte    // 0=unknown,1=chat,2=repeater,3=room,4=sensor
@@ -208,6 +209,8 @@ func (r *NodeRegistry) Lookup(pubkey string) (NodeRecord, bool) {
 // AdvertView is one entry in a node's rolling latest-adverts list. The pubkey is
 // implied by the enclosing node, so it is omitted here.
 type AdvertView struct {
+	Hash         string  `json:"hash,omitempty"`
+	RawHex       string  `json:"rawHex,omitempty"`
 	Name         string  `json:"name"`
 	Type         byte    `json:"type"`
 	TypeName     string  `json:"typeName"`
@@ -217,6 +220,7 @@ type AdvertView struct {
 	AdvertTime   int64   `json:"advertTime"`
 	At           int64   `json:"at"`
 	NetworkID    string  `json:"networkId"`
+	ObserverID   string  `json:"observerId,omitempty"`
 	ObserverName string  `json:"observerName,omitempty"`
 }
 
@@ -240,6 +244,8 @@ func advertViews(adverts []AdvertObservation) []AdvertView {
 	out := make([]AdvertView, 0, len(adverts))
 	for _, a := range adverts {
 		out = append(out, AdvertView{
+			Hash:         a.Hash,
+			RawHex:       a.RawHex,
 			Name:         a.Name,
 			Type:         a.NodeType,
 			TypeName:     nodeTypeName(a.NodeType),
@@ -249,6 +255,7 @@ func advertViews(adverts []AdvertObservation) []AdvertView {
 			AdvertTime:   a.AdvertTime,
 			At:           a.At,
 			NetworkID:    a.NetworkID,
+			ObserverID:   a.ObserverID,
 			ObserverName: a.ObserverName,
 		})
 	}

@@ -45,6 +45,8 @@ CREATE TABLE IF NOT EXISTS nodes (
 
 CREATE TABLE IF NOT EXISTS adverts (
 	id            INTEGER PRIMARY KEY AUTOINCREMENT,
+	hash          TEXT    NOT NULL DEFAULT '',
+	raw_hex       TEXT    NOT NULL DEFAULT '',
 	pubkey        TEXT    NOT NULL,
 	name          TEXT    NOT NULL DEFAULT '',
 	node_type     INTEGER NOT NULL DEFAULT 0,
@@ -122,10 +124,47 @@ func OpenDB(path string) (*DB, error) {
 		_ = sdb.Close()
 		return nil, fmt.Errorf("init schema: %w", err)
 	}
+	if err := ensureColumn(sdb, "adverts", "hash", "TEXT NOT NULL DEFAULT ''"); err != nil {
+		_ = sdb.Close()
+		return nil, fmt.Errorf("migrate adverts.hash: %w", err)
+	}
+	if err := ensureColumn(sdb, "adverts", "raw_hex", "TEXT NOT NULL DEFAULT ''"); err != nil {
+		_ = sdb.Close()
+		return nil, fmt.Errorf("migrate adverts.raw_hex: %w", err)
+	}
 	return &DB{db: sdb}, nil
 }
 
 func (d *DB) Close() error { return d.db.Close() }
+
+func ensureColumn(db *sql.DB, table, column, decl string) error {
+	rows, err := db.Query(`PRAGMA table_info(` + table + `)`)
+	if err != nil {
+		return err
+	}
+	defer rows.Close()
+	for rows.Next() {
+		var (
+			cid        int
+			name       string
+			colType    string
+			notNull    int
+			defaultVal any
+			pk         int
+		)
+		if err := rows.Scan(&cid, &name, &colType, &notNull, &defaultVal, &pk); err != nil {
+			return err
+		}
+		if name == column {
+			return nil
+		}
+	}
+	if err := rows.Err(); err != nil {
+		return err
+	}
+	_, err = db.Exec(`ALTER TABLE ` + table + ` ADD COLUMN ` + column + ` ` + decl)
+	return err
+}
 
 // Load reads every persisted scope back into memory.
 func (d *DB) Load() (map[string]CounterState, error) {
@@ -274,15 +313,15 @@ func (d *DB) AppendAdverts(adverts []AdvertObservation) error {
 	defer tx.Rollback()
 
 	stmt, err := tx.Prepare(`
-		INSERT INTO adverts (pubkey, name, node_type, has_gps, lat, lon, advert_time, received_at, network_id, observer_id, observer_name)
-		VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`)
+		INSERT INTO adverts (hash, raw_hex, pubkey, name, node_type, has_gps, lat, lon, advert_time, received_at, network_id, observer_id, observer_name)
+		VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`)
 	if err != nil {
 		return err
 	}
 	defer stmt.Close()
 
 	for _, a := range adverts {
-		if _, err := stmt.Exec(a.PubKey, a.Name, a.NodeType, b2i(a.HasGPS), a.Lat, a.Lon, a.AdvertTime, a.At, a.NetworkID, a.ObserverID, a.ObserverName); err != nil {
+		if _, err := stmt.Exec(a.Hash, a.RawHex, a.PubKey, a.Name, a.NodeType, b2i(a.HasGPS), a.Lat, a.Lon, a.AdvertTime, a.At, a.NetworkID, a.ObserverID, a.ObserverName); err != nil {
 			return err
 		}
 	}
@@ -455,7 +494,7 @@ func (d *DB) SaveObservers(observers []ObserverRecord, now int64) error {
 // newest-first. This turns a ~75s full-table window scan into a sub-second load.
 func (d *DB) LoadRecentAdverts(perNode int) (map[string][]AdvertObservation, error) {
 	rows, err := d.db.Query(`
-		SELECT a.pubkey, a.name, a.node_type, a.has_gps, a.lat, a.lon, a.advert_time, a.received_at, a.network_id, a.observer_id, a.observer_name
+		SELECT a.hash, a.raw_hex, a.pubkey, a.name, a.node_type, a.has_gps, a.lat, a.lon, a.advert_time, a.received_at, a.network_id, a.observer_id, a.observer_name
 		FROM adverts a
 		JOIN (
 			SELECT id FROM (
@@ -474,7 +513,7 @@ func (d *DB) LoadRecentAdverts(perNode int) (map[string][]AdvertObservation, err
 			a      AdvertObservation
 			hasGPS int
 		)
-		if err := rows.Scan(&a.PubKey, &a.Name, &a.NodeType, &hasGPS, &a.Lat, &a.Lon, &a.AdvertTime, &a.At, &a.NetworkID, &a.ObserverID, &a.ObserverName); err != nil {
+		if err := rows.Scan(&a.Hash, &a.RawHex, &a.PubKey, &a.Name, &a.NodeType, &hasGPS, &a.Lat, &a.Lon, &a.AdvertTime, &a.At, &a.NetworkID, &a.ObserverID, &a.ObserverName); err != nil {
 			return nil, err
 		}
 		a.HasGPS = hasGPS != 0
@@ -490,7 +529,7 @@ func (d *DB) LoadRecentAdverts(perNode int) (map[string][]AdvertObservation, err
 // nextBefore is the smallest id in the returned batch (0 when none), suitable as
 // the cursor for the next page; it is only meaningful when len(out) == limit.
 func (d *DB) AdvertsForNode(pubkey string, limit int, before int64) (out []AdvertObservation, nextBefore int64, err error) {
-	q := `SELECT id, pubkey, name, node_type, has_gps, lat, lon, advert_time, received_at, network_id, observer_id, observer_name
+	q := `SELECT id, hash, raw_hex, pubkey, name, node_type, has_gps, lat, lon, advert_time, received_at, network_id, observer_id, observer_name
 		FROM adverts WHERE pubkey = ?`
 	args := []any{pubkey}
 	if before > 0 {
@@ -512,7 +551,7 @@ func (d *DB) AdvertsForNode(pubkey string, limit int, before int64) (out []Adver
 			a      AdvertObservation
 			hasGPS int
 		)
-		if err := rows.Scan(&id, &a.PubKey, &a.Name, &a.NodeType, &hasGPS, &a.Lat, &a.Lon, &a.AdvertTime, &a.At, &a.NetworkID, &a.ObserverID, &a.ObserverName); err != nil {
+		if err := rows.Scan(&id, &a.Hash, &a.RawHex, &a.PubKey, &a.Name, &a.NodeType, &hasGPS, &a.Lat, &a.Lon, &a.AdvertTime, &a.At, &a.NetworkID, &a.ObserverID, &a.ObserverName); err != nil {
 			return nil, 0, err
 		}
 		a.HasGPS = hasGPS != 0
