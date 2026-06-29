@@ -5,6 +5,7 @@ description: >
   A touch-UI MeshCore firmware for the LilyGo T-Deck / T-Deck Plus and Heltec V4 TFT (ESP32-S3),
   built with LVGL. Split out from meshcomod. Provides a full touch-driven companion experience
   with on-screen keyboard and WiFi connectivity.
+website: https://wadamesh.com/
 repository: https://github.com/ALLFATHER-BV/wadamesh
 license: GPL-3.0
 status: active
