@@ -1,7 +1,46 @@
 source: github
 repo: ALLFATHER-BV/wadamesh
-updatedAt: '2026-07-01T23:18:43.818Z'
+updatedAt: '2026-07-02T19:28:13.213Z'
 releases:
+  - version: beta_26
+    name: wadamesh beta_26
+    datetime: '2026-07-02T19:14:43Z'
+    url: https://github.com/ALLFATHER-BV/wadamesh/releases/tag/beta_26
+    prerelease: true
+    notes: >-
+      Test build on top of the current stable (**beta_25**). One storage-reliability fix — worth
+      flashing if you've seen unexpected reboots.
+
+
+      Flash from the web flasher at **https://wadamesh.com** (Standalone install → Version →
+      beta_26), or grab a `-merged.bin` below.
+
+
+      ## Fixed
+
+      - **Reboot loop during contact saves.** On a busy device, internal-flash housekeeping while
+      saving the contact list could freeze the device long enough to trip the watchdog and restart
+      it — a reboot loop for some users. That save no longer trips it.
+
+
+      ## Improved
+
+      - **Contacts + channels now live on the microSD card when one is present** (chat history and
+      map tiles already did). This keeps the limited internal flash from filling up and puts the
+      frequently-rewritten files on the more reliable card. Existing contacts migrate to the card
+      automatically on first boot; your identity and settings stay in internal flash, so the node is
+      unchanged.
+
+
+      ---
+
+      This is a **test/beta** build (prerelease); stable stays **beta_25**. On-device, enable
+      **Settings → About → "Get test builds (beta)"** to update to test builds over Wi-Fi.
+
+
+      **Already stuck in a reboot loop?** A normal update won't clear it — reinstall with the
+      **Erase device** option checked in the web flasher (or erase the flash, then flash the merged
+      image). Keeping a microSD card inserted is recommended.
   - version: beta_25
     name: wadamesh beta_25 (stable)
     datetime: '2026-07-01T21:34:02Z'
@@ -1136,108 +1175,3 @@ releases:
       ### Community
 
       - Merged map-server and SD-tile rendering fixes contributed by **Vybo** (#11). Thanks!
-  - version: beta_5
-    name: wadamesh beta_5
-    datetime: '2026-06-15T21:19:46Z'
-    url: https://github.com/ALLFATHER-BV/wadamesh/releases/tag/beta_5
-    prerelease: false
-    notes: >-
-      Touch firmware **beta_5** for the **LilyGo T-Deck** and **Heltec V4 + TFT**.
-
-
-      Install or update via the web flasher → **https://flasher.wadamesh.com** (or flash the
-      `*-merged.bin` at `0x0` with esptool). Devices on beta_4 will see beta_5 on their next update
-      check.
-
-
-      ---
-
-
-      ### Contacts
-
-      - Person icon for people and an antenna for repeaters, instead of a generic envelope /
-      lightning bolt.
-
-      - **Block / unblock** anyone straight from their popup — blocked contacts get a red person
-      icon and their messages are hidden.
-
-      - The list is now a proper table: dedicated **last-heard** and **distance** columns, a **Sort
-      & Filter** button, and **multi-select delete** with an are-you-sure prompt and a progress bar
-      (favourites are protected — unfavourite them first).
-
-      - Time and distance are smaller and pushed right so names get more room; a name too long for
-      two lines scrolls instead of spilling onto a third.
-
-      - Un-favouriting a contact removes its star right away.
-
-
-      ### Discovered nodes
-
-      - The Discovered list now **survives reboots** (it used to empty every boot) and holds up to
-      **48** nodes.
-
-      - New **Discovered settings** (cogwheel): auto-delete the oldest node when full, and
-      **auto-delete anything heard via more than N hops** — keeps the list fresh and nearby.
-
-      - The count badge shows **"48!"** when the list is full.
-
-      - Adding a node from Discovered appears in Contacts immediately; a purge-all button sits next
-      to Close.
-
-
-      ### Region & radio
-
-      - **Setting the region / default scope from the official MeshCore app now works** — it used to
-      time out (`no_event_received`); public-channel floods are now region-tagged.
-      (`companion-v1.16.0.3`, issue #31)
-
-      - **US/Canada** radio preset corrected to the proper **910.525 MHz · 62.5 kHz · SF7** (was 915
-      MHz / 250 kHz / SF11).
-
-      - **T-Deck transmit power** restored to the full **+22 dBm** — the SX1262 antenna switch was
-      mis-driven, leaking most of the power (~4 mW). (issue #6)
-
-      - Auto-add settings moved to their own dedicated page (out of Radio), reachable from the
-      Contacts menu too.
-
-
-      ### Chats & sound
-
-      - Each chat / channel row now shows the **time of its most recent message** on the right.
-
-      - **Mute messages and/or @-mentions per channel**, from that channel's settings.
-
-      - The **@-mentions screen** has taller rows (fits two lines); tapping a mention **jumps to
-      that exact message**.
-
-      - **Volume is now +/- buttons** instead of a hard-to-drag slider; a master **Sound** switch
-      silences everything, with independent **Messages** and **@-mention** switches (the @-mention
-      chime is distinct, with its own on/off + volume).
-
-
-      ### Map
-
-      - The map **remembers your zoom and pan** when you leave and come back, instead of snapping
-      back to your location every time.
-
-      - Tapping a contact on the map opens a **compact popup** (no Block button there).
-
-
-      ### Keyboard & input
-
-      - **T-Deck keyboard: backspace deletes at the cursor** instead of always chopping the last
-      character, and editing respects where you place the caret.
-
-      - The **Quick replies** page now scrolls so you can reach and edit every slot.
-
-
-      ### UI polish
-
-      - Refined bottom tab bar — flat icons that take your theme colour with a soft glow under the
-      active tab — plus an **unread-count badge** on the Chats icon.
-
-      - App drawer: colourful app icons, the command tile relabelled **"Cmdr"**, the Apps button in
-      a contrasting accent, and **three-per-row on the Heltec V4**.
-
-      - Full-screen settings pages with a clear X to close, a subtle new-message chip, and a
-      **full-page Signal view** with a live readout and manual refresh.
