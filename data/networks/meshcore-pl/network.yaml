@@ -39,6 +39,9 @@ analyzers:
   # Source: GitHub issue Kpa-clawbot/CoreScope#1607 2026-06-26 — CoreScope at analyzer.marwoj.net (2,704 nodes, Poland)
   - name: MarWoj CoreScope
     url: https://analyzer.marwoj.net
+  # Source: FOFA scan 2026-07-03 — CoreScope at 83.25.40.172 (50 nodes, western/northern Poland)
+  - name: Orange Poznań CoreScope
+    url: http://83.25.40.172
 
 maps:
   - name: MeshCore map

@@ -1,0 +1,90 @@
+# Source: https://meshtexas.net/
+# Source: https://analyzer.meshtexas.net/api/nodes (18 nodes, San Antonio / south-central TX)
+name: MeshTexas
+also_known_as:
+  - Texas MeshCore Mesh Network
+short_name: MeshTexas
+description: >-
+  Statewide MeshCore network built by Texans, using a shared MQTT broker at
+  mqtt.meshtexas.net and a live CoreScope analyzer. Supports region codes for
+  San Antonio, Austin, Houston, Dallas-Fort Worth, El Paso and other Texas cities.
+scope: regional
+status: active
+part_of:
+  - meshcore-tx
+  - usa-canada-recommended
+visibility: public
+area: area.geojson
+
+coverage:
+  countries:
+    - US
+
+regions:
+  - code: us
+    name: United States
+  - code: texas
+    name: Texas
+    parent: us
+  - code: SAT
+    name: San Antonio
+    parent: texas
+  - code: AUS
+    name: Austin
+    parent: texas
+  - code: HOU
+    name: Houston
+    parent: texas
+  - code: DFW
+    name: Dallas-Fort Worth
+    parent: texas
+  - code: ELP
+    name: El Paso
+    parent: texas
+  - code: ABI
+    name: Abilene
+    parent: texas
+  - code: AMA
+    name: Amarillo
+    parent: texas
+  - code: MFE
+    name: McAllen
+    parent: texas
+  - code: SJT
+    name: San Angelo
+    parent: texas
+  - code: TXK
+    name: Texarkana
+    parent: texas
+  - code: CT
+    name: Central Texas
+    parent: texas
+
+radio:
+  frequency: "915"
+  frequency_mhz: 910.525
+  bandwidth_khz: 62.5
+  spreading_factor: 7
+  coding_rate: 4/5
+  region_code: texas
+  public_channel: Public
+  app_preset: USA/Canada (Recommended)
+
+community:
+  website: https://meshtexas.net/
+
+maps:
+  - name: Live map
+    url: https://analyzer.meshtexas.net/#/live
+
+analyzers:
+  - name: analyzer.meshtexas.net
+    url: https://analyzer.meshtexas.net
+
+resources:
+  getting_started: https://meshtexas.net/connect
+  links:
+    - name: Coverage
+      url: https://meshtexas.net/coverage
+    - name: Texas meshes directory
+      url: https://meshcoretx.net/meshes/

@@ -38,11 +38,17 @@ community:
 maps:
 - name: Southwest BC Coverage
   url: https://swbc.meshmapper.net/?coverage-only
+
+analyzers:
+  # Source: FOFA scan 2026-07-03 — CoreScope at swbc.meshhog.top (50 nodes, southwest BC)
+  - name: swbc.meshhog.top
+    url: https://swbc.meshhog.top
+
 resources:
   links:
-  - name: Salish Mesh About
-    url: https://salishmesh.net/about/
-  - name: Coverage
-    url: https://salishmesh.net/coverage/
-  - name: How-To
-    url: https://salishmesh.net/how-to/
+    - name: Salish Mesh About
+      url: https://salishmesh.net/about/
+    - name: Coverage
+      url: https://salishmesh.net/coverage/
+    - name: How-To
+      url: https://salishmesh.net/how-to/
