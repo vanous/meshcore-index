@@ -32,10 +32,6 @@ analyzers:
   - name: New England CoreScope
     url: https://analyzer.newenglandme.sh
 
-  # Source: Shodan/Censys scan 2026-06-26 — CoreScope at 86.48.21.240:3000 (legacy)
-  - name: CoreScope (legacy IP)
-    url: http://86.48.21.240:3000
-
 resources:
   getting_started: https://nhmesh.com/guides
   links:

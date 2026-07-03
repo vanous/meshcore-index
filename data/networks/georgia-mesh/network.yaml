@@ -33,6 +33,7 @@ analyzers:
   - name: CoreScope (csramsh.org)
     url: https://corescope.csramsh.org
   # Source: ZoomEye scan 2026-06-26 — CoreScope at 192.3.62.166:3000 (Augusta GA observer, iata AGS)
-  - name: CoreScope (Augusta)
-    url: https://analyzer.jcope.net
+  # disabled - same as corescope.csramsh.org
+  #- name: CoreScope (Augusta)
+  #  url: https://analyzer.jcope.net
 
