@@ -25,7 +25,7 @@ radio:
   public_channel: Public
   app_preset: Australia (Narrow)
 
-analyzers:
+#analyzers:
   # Source: Shodan/Censys scan 2026-06-26 — CoreScope at 46.250.247.10:8880 (1,944 nodes, VIC, as of 2026-06-26)
-  - name: CoreScope
-    url: http://46.250.247.10:8880
+  #- name: CoreScope
+  #  url: http://46.250.247.10:8880
