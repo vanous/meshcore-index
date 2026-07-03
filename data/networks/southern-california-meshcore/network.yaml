@@ -37,8 +37,3 @@ radio:
   coding_rate: 4/5
   path_hash_mode: 1-Byte
   public_channel: Public
-
-analyzers:
-  # Source: ZoomEye scan 2026-06-26 — CoreScope at 89.117.21.89:443 (Los Angeles observer, iata LAX)
-  - name: CoreScope (Los Angeles)
-    url: https://89.117.21.89:443

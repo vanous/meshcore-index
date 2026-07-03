@@ -35,8 +35,6 @@ analyzers:
     url: https://meshcorekrk.cma.pl/
   - name: jomesh.com
     url: https://jomesh.com
-  - name: MeshCore PL Analyzer
-    url: http://83.25.86.144/
 
   # Source: GitHub issue Kpa-clawbot/CoreScope#1607 2026-06-26 — CoreScope at analyzer.marwoj.net (2,704 nodes, Poland)
   - name: MarWoj CoreScope
