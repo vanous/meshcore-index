@@ -28,10 +28,5 @@ radio:
 community:
   website: https://pvmesh.org/
 
-analyzers:
-  # Source: Shodan/Censys scan 2026-06-26 — CoreScope at 147.93.176.22:8181 (50 nodes, MA)
-  - name: CoreScope
-    url: http://147.93.176.22:8181
-
 resources:
   getting_started: https://pvmesh.org/

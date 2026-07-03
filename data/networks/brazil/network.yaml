@@ -18,7 +18,8 @@ radio:
   coding_rate: 4/8
   app_preset: 'Brazil'
 
-analyzers:
+#analyzers:
   # Source: directory scan of MeshCore community sites 2026-06-26 — CoreScope at corescope.meshcore.com.br (62 nodes, Brazil)
-  - name: MeshCore Brasil CoreScope
-    url: https://corescope.meshcore.com.br
+  # disabled - same as corescope.meshsorocaba.org (mesh-sorocaba)
+  #- name: MeshCore Brasil CoreScope
+  #  url: https://corescope.meshcore.com.br
