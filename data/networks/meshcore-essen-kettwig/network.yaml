@@ -14,7 +14,6 @@ description: >-
 scope: local
 status: active
 part_of:
-  - ruhr-meshcore
   - meshcore-de
   - eu-uk-narrow
 visibility: public
