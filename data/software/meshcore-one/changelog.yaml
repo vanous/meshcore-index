@@ -1,7 +1,13 @@
 source: github
 repo: Avi0n/MeshCoreOne
-updatedAt: '2026-06-23T20:24:20.243Z'
+updatedAt: '2026-07-03T22:14:05.293Z'
 releases:
+  - version: v1.1.0
+    name: 1.1.0
+    datetime: '2026-06-26T21:10:38Z'
+    url: https://github.com/Avi0n/MeshCoreOne/releases/tag/v1.1.0
+    prerelease: false
+    notes: "## What's Changed\r\n- Shortcuts: Check radio status, send messages, and send adverts. Let me know if you have any Shortcut ideas!\r\n- Added a What's New sheet \r\n- Ability to clear DM conversations\r\n- \"@\" button no longer appears if the mention is already on your screen\r\n- Nodes tab list now show inbound hops. These are correlated from the RX Log and the Hop number is overridden if you set a manual Out Path.\r\n- In Room telemetry, the Posts charts now have their own Y axis instead of sharing it with others.\r\n- Map tab remembers the last position instead of auto zooming out upon every open\r\n- In Contact details, press and hold the Out Path to copy the prefix IDs\r\n\r\n## Bug Fixes\r\n- Input field should play nicer with 3rd party keyboards"
   - version: v1.0.1
     name: 1.0.1
     datetime: '2026-06-18T06:06:56Z'
@@ -116,9 +122,3 @@ releases:
     url: https://github.com/Avi0n/MeshCoreOne/releases/tag/v0.3.2
     prerelease: false
     notes: "## New Features\r\n- Room support\r\n- Trace Path UI improvements\r\n- Edit Path (in Contact sheet) UI improvements\r\n- Add Sync Clock command to Repeater Admin\r\n- Syncing pill now shows if it's syncing Channels or Contacts\r\n\r\n## Bug Fixes\r\n- Fix Edit Path sheet showing repeater IDs instead of names\r\n- Fix issue where channels could get stuck syncing forever\r\n\r\n\r\n**Full Changelog**: https://github.com/Avi0n/PocketMesh/compare/v0.3.0...v0.3.2"
-  - version: v0.3.0
-    name: 0.3.0
-    datetime: '2026-01-09T07:39:54Z'
-    url: https://github.com/Avi0n/MeshCoreOne/releases/tag/v0.3.0
-    prerelease: false
-    notes: "## New Features\r\n- Added support for WiFi firmware devices\r\n- Added debug log export feature in Settings\r\n- Syncing pill now shows phase-specific text during syncing operations\r\n\r\n## Bug Fixes\r\n- Fixed issue where BLE devices would not re-connect if they were out of range or off for a while\r\n- Fixed potential issue where chat view would not refresh when services reconnect\r\n- Added missing public channel key\r\n- Improved channel sync reliability\r\n\r\n\r\n**Full Changelog**: https://github.com/Avi0n/PocketMesh/compare/v0.2.1...v0.3.0"

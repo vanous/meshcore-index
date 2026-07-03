@@ -1,7 +1,13 @@
 source: github
 repo: kybl/meshcore-signal-tester
-updatedAt: '2026-06-23T19:45:50.736Z'
+updatedAt: '2026-07-03T22:14:06.383Z'
 releases:
+  - version: v1.2.2
+    name: v1.2.2
+    datetime: '2026-06-27T14:23:20Z'
+    url: https://github.com/kybl/meshcore-signal-tester/releases/tag/v1.2.2
+    prerelease: false
+    notes: "### Added\r\n\r\n- **Import multiple CSV files at once** — select several files and they're\r\n  merged in a single import.\r\n- **3D map keeps loading tiles while \"Center on me\" follows you** — only while\r\n  the map is on-screen and the app is in the foreground, to save data.\r\n- **Auto-reconnect after Bluetooth returns** (for example after leaving\r\n  airplane mode).\r\n\r\n### Changed\r\n\r\n- **Android 15 support with true edge-to-edge** — the dark border around the UI\r\n  is gone; content runs to the screen edges and stays scrollable to the very top.\r\n- **Android app package renamed** to `cz.kyblsoft.meshcore.signaltester`. It\r\n  installs as a new app — the previous build is not replaced.\r\n\r\n### Fixed\r\n\r\n- **\"Connected but no packets\" after airplane mode** — Bluetooth turning off is\r\n  now detected as a disconnect instead of leaving the app stuck \"connected\".\r\n- **Tables no longer go blank after long runs** — Seen Repeaters and Received\r\n  Packets are restored from disk once old data ages out of memory.\r\n- 3D map repeater icons are now correctly hidden behind signal balls in front of\r\n  them, plus various other UI and chart fixes and polish.\r\n\r\n### Internal\r\n\r\n- The `usb-serial-for-android` library is vendored and built from source (no\r\n  JitPack); the build is reproducible with pinned tooling and dependency\r\n  checksum verification, and a CI workflow builds and lints the app on every\r\n  change."
   - version: v1.2.1
     name: v1.2.1
     datetime: '2026-06-22T15:32:24Z'
