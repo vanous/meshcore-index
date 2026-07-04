@@ -1,7 +1,13 @@
 source: github
 repo: ipnet-mesh/meshcore-hub
-updatedAt: '2026-07-03T22:14:03.564Z'
+updatedAt: '2026-07-04T03:23:41.556Z'
 releases:
+  - version: v0.15.6
+    name: v0.15.6
+    datetime: '2026-07-03T23:13:52Z'
+    url: https://github.com/ipnet-mesh/meshcore-hub/releases/tag/v0.15.6
+    prerelease: false
+    notes: "## What's Changed\r\n* feat: persist path_hash_bytes column and add packet list filter by @jinglemansweep in https://github.com/ipnet-mesh/meshcore-hub/pull/293\r\n\r\n\r\n**Full Changelog**: https://github.com/ipnet-mesh/meshcore-hub/compare/v0.15.5...v0.15.6"
   - version: v0.15.5
     name: v0.15.5
     datetime: '2026-07-03T21:46:44Z'
@@ -116,9 +122,3 @@ releases:
     url: https://github.com/ipnet-mesh/meshcore-hub/releases/tag/v0.10.4
     prerelease: false
     notes: "## What's Changed\r\n* fix: enable async SQLite FK enforcement and clean up orphaned node relations by @jinglemansweep in https://github.com/ipnet-mesh/meshcore-hub/pull/211\r\n\r\n\r\n**Full Changelog**: https://github.com/ipnet-mesh/meshcore-hub/compare/v0.10.3...v0.10.4"
-  - version: v0.10.3
-    name: v0.10.3
-    datetime: '2026-05-11T21:19:39Z'
-    url: https://github.com/ipnet-mesh/meshcore-hub/releases/tag/v0.10.3
-    prerelease: false
-    notes: "## What's Changed\r\n* fix: member count badge and operator-only filter dropdowns by @jinglemansweep in https://github.com/ipnet-mesh/meshcore-hub/pull/207\r\n* chore(deps): update tailwindcss monorepo to v4.3.0 by @renovate[bot] in https://github.com/ipnet-mesh/meshcore-hub/pull/203\r\n* docs: add MeshCore Hub Networks section and reorder translation alert by @jinglemansweep in https://github.com/ipnet-mesh/meshcore-hub/pull/208\r\n\r\n\r\n**Full Changelog**: https://github.com/ipnet-mesh/meshcore-hub/compare/v0.10.2...v0.10.3"
