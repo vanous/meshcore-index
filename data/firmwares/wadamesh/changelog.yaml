@@ -1,42 +1,110 @@
 source: github
 repo: ALLFATHER-BV/wadamesh
-updatedAt: '2026-07-03T07:23:45.578Z'
+updatedAt: '2026-07-04T13:39:08.650Z'
 releases:
-  - version: beta_27
-    name: wadamesh beta_27
-    datetime: '2026-07-03T06:07:22Z'
-    url: https://github.com/ALLFATHER-BV/wadamesh/releases/tag/beta_27
+  - version: beta_28
+    name: wadamesh beta_28
+    datetime: '2026-07-04T11:41:57Z'
+    url: https://github.com/ALLFATHER-BV/wadamesh/releases/tag/beta_28
     prerelease: true
     notes: >-
-      Test build on top of the current stable (**beta_25**). A community feature plus a Launcher
-      fix.
+      Test build on top of the current stable (**beta_27**). A room-server fix, the real burn-in
+      fix, and a batch of beta-tester feedback.
 
 
       Flash from the web flasher at **https://wadamesh.com** (Standalone install → Version →
-      beta_27), or grab a `-merged.bin` below.
+      beta_28), or grab a `-merged.bin` below.
 
 
-      ## New — Keyboard backlight control (T-Deck), by @Yazutsu (#85)
+      ## Fixed — room servers going one-way "frozen" (#89)
 
-      Settings → Keyboard now has a **Keyboard backlight** slider plus Off / 25 / 50 / 75 / Max
-      one-tap presets. It dims smoothly with fine control at the low end, applies to the on and auto
-      modes and the new-message flash, and persists across reboots. Thanks to **@Yazutsu** for the
-      PR ([#85](https://github.com/ALLFATHER-BV/wadamesh/pull/85)).
+      A room server silently stops pushing messages to a client after a few missed deliveries, and
+      the device never sent the keep-alives that recover this — so rooms could end up logged-in but
+      dead in both directions, with no way to re-login. The device now keeps its room session alive
+      in the background, automatically logs back in when the session drops, adds a **"Log in
+      again"** option to the room chat's menu, and warns when the room only granted read-only
+      access. Thanks to **EricMW61** for the report.
 
 
-      ## Fixed — Launcher installs no longer offer a broken "Install update"
+      ## Fixed — real screen-off (LCD burn-in / ghosting)
 
-      Under bmorcelli's Launcher the on-device "Install update" can't work (there is no spare slot
-      large enough) and failed with "won't fit: Bad Size Given". That button now hides on Launcher
-      installs — the "update available" note stays, and you update through the Launcher instead.
-      Thanks to **Keith (KM1USR)** for the report.
+      "Screen off" previously only turned the backlight off — the panel kept displaying the last
+      image in the dark, which is what burns it in. The panel itself now sleeps (wake is still
+      instant), a lit lock screen always dims on every board, a screen woken by a message re-darkens
+      after 10 s, and the lock clock drifts to avoid ghosting. Thanks to **wyvern.red** for pinning
+      down the cause.
+
+
+      ## New — from wyvern.red's feedback
+
+      - **Compact messages (IRC style)** — opt-in toggle in chat settings; one dense line per
+      message, 2–3× more history on screen.
+
+      - **Clearer delivery ticks** — ↑ sent (unconfirmed), ✓✓ confirmed; failed messages say **"tap
+      to resend"** and one tap resends.
+
+      - **Keyboard nav** — the scroll keys (F/C) zoom the map; backspace in an empty composer exits
+      typing mode.
+
+      - **"Reset path" in the chat menu** — force a fresh route without the detour through Contacts.
+
+
+      ## Also
+
+      - The on-device "Install update" now hides on mixed/older partition layouts where an update
+      could crash mid-flash (found via a user crash report).
 
 
       ---
 
-      This is a **test/beta** build (prerelease); stable stays **beta_25**. On-device, enable
-      **Settings → About → "Get test builds (beta)"** to update to test builds over Wi-Fi
-      (standalone flashes only).
+      This is a **test/beta** build (prerelease); stable stays **beta_27**. On-device, enable
+      **Settings → About → "Get test builds (beta)"** to follow the test channel over Wi-Fi.
+  - version: beta_27
+    name: wadamesh beta_27 (stable)
+    datetime: '2026-07-03T06:07:22Z'
+    url: https://github.com/ALLFATHER-BV/wadamesh/releases/tag/beta_27
+    prerelease: false
+    notes: >-
+      The new **stable** build — promoted from the test channel, rolling up the **beta_26** and
+      **beta_27** test builds on top of beta_25.
+
+
+      Flash from the web flasher at **https://wadamesh.com**, update through bmorcelli's Launcher,
+      or grab a `-merged.bin` below. Already on wadamesh with a standalone flash? The on-device
+      update check will offer it over Wi-Fi.
+
+
+      ## Fixed
+
+      - **Reboot loop during contact saves** (from beta_26). Internal-flash housekeeping while
+      saving the contact list could freeze the device long enough to trip the watchdog and restart
+      it — a reboot loop for some users. That save no longer trips it. Thanks to the crash report
+      that pinned it down.
+
+      - **Launcher installs no longer offer a broken "Install update"** (from beta_27). Under
+      bmorcelli's Launcher the on-device update can't work (no spare slot large enough) and failed
+      with "won't fit: Bad Size Given". The button now hides there — the "update available" note
+      stays, and you update through the Launcher instead. Thanks to **Keith (KM1USR)** for the
+      report.
+
+
+      ## New — Keyboard backlight control (T-Deck), by @Yazutsu
+      ([#85](https://github.com/ALLFATHER-BV/wadamesh/pull/85))
+
+      Settings → Keyboard now has a **Keyboard backlight** slider plus Off / 25 / 50 / 75 / Max
+      one-tap presets. Smooth dimming with fine control at the low end, applies to the on and auto
+      modes and the new-message flash, and persists across reboots.
+
+
+      ## Improved — contacts + channels on the microSD card (from beta_26)
+
+      On devices with a microSD card, contacts and channels now live on the card (like chat history
+      and map tiles already do). Existing contacts migrate automatically on first boot; your
+      identity and settings stay in internal flash, so the node is unchanged.
+
+
+      **Note:** keep the card inserted afterwards — the contact list lives on it, and an older
+      firmware won't look there if you ever downgrade.
   - version: beta_26
     name: wadamesh beta_26
     datetime: '2026-07-02T19:14:43Z'
@@ -1020,105 +1088,3 @@ releases:
 
       **Assets:** `*-merged.bin` = full image (flash at 0x0 / erase). Plain `*.bin` = app-only (OTA
       / Launcher side-load). T-Deck = `wadamesh-tdeck*`, Heltec V4 TFT = `wadamesh-heltec-v4-tft*`.
-  - version: beta_7
-    name: wadamesh beta_7
-    datetime: '2026-06-18T10:25:46Z'
-    url: https://github.com/ALLFATHER-BV/wadamesh/releases/tag/beta_7
-    prerelease: false
-    notes: >-
-      **wadamesh beta_7** for the LilyGo T-Deck and Heltec V4 TFT.
-
-
-      🔧 **Flash in your browser:** https://flasher.wadamesh.com — or update on-device (Settings →
-      check for update), or side-load `wadamesh-tdeck.bin` through Launcher.
-
-
-      > 🙌 **Most of this release was built by the community.** [@Vybo](https://github.com/Vybo)
-      (Dan Vybiral) contributed the lion's share in
-      [#12](https://github.com/ALLFATHER-BV/wadamesh/pull/12) — the Snake game, battery & telemetry
-      history, map night mode, the PNG/BMP image viewer, and the entire status-bar toolkit.
-      [@tun0](https://github.com/tun0) (Ruben Laban) fixed unread badges and chat-history
-      persistence in [#15](https://github.com/ALLFATHER-BV/wadamesh/pull/15). Thank you both. 🎉
-
-
-      ### 🐍 Snake game — by [@Vybo](https://github.com/Vybo) (#12)
-
-      A Snake game in the app drawer — steer by swiping the screen or with the T-Deck trackball,
-      with pause/resume and restart after a game over. (Touch now stays inside the game and doesn't
-      leak to the screen behind it.)
-
-
-      ### 🔋 Battery & telemetry — by [@Vybo](https://github.com/Vybo) (#12)
-
-      - **Tap the battery** in the status bar for a **24-hour history chart** with an estimated
-      time-left readout (logged every 5 minutes).
-
-      - **Per-node telemetry window** — poll a node's battery, temperature and humidity, watch them
-      on a live chart, and keep a per-node log.
-
-
-      ### 🗺️ Map — by [@Vybo](https://github.com/Vybo) (#12)
-
-      - **Night mode** — the status bar and tab bar invert to match the dark map.
-
-      - Live **zoom-level readout** above the zoom slider, and a proper magnifier icon on the zoom
-      button.
-
-      - New **"Show on map"** contact action that centres the map on that node.
-
-
-      ### 📊 Status bar & tools — by [@Vybo](https://github.com/Vybo) (#12)
-
-      - A **microSD activity LED** that lights on card access (including file-manager reads/copies).
-
-      - An **activity spinner** while a telemetry / admin / ping / trace / range / sightline request
-      is in flight.
-
-      - Option to **hide the device name** and move the clock left.
-
-      - **Hold the status bar** to save a full-screen screenshot to SD.
-
-
-      ### 🖼️ Files & images — by [@Vybo](https://github.com/Vybo) (#12)
-
-      The file browser now previews **PNG and BMP** images (not just JPEG), with no stale image when
-      opening several in a row.
-
-
-      ### 💬 Chat reliability
-
-      - **Fixed garbled / duplicated messages** — chat text is no longer corrupted in transit, so
-      messages arrive intact and duplicates are filtered out correctly. Thanks to
-      [@marcelverdult](https://github.com/marcelverdult) for the precise report
-      ([#13](https://github.com/ALLFATHER-BV/wadamesh/issues/13)).
-
-      - **Accurate unread badges** and **more chat history kept across reboots** — by
-      [@tun0](https://github.com/tun0) ([#15](https://github.com/ALLFATHER-BV/wadamesh/pull/15)).
-
-
-      ### ✨ Also in this release
-
-      - **Lock-screen wallpaper from Files** — view any JPEG on your SD card and tap "Set as
-      wallpaper".
-
-      - **Set your own Bluetooth pairing code** in Settings.
-
-      - The app drawer **fits all the apps** again (no clipped bottom row) and shows a **scrollbar**
-      when there's more to scroll.
-
-      - Fixed map-tile caching (false "storage full"); black/missing tiles re-download. `@`-reply no
-      longer overwrites text you were typing. Fixed an out-of-memory crash and made notification
-      audio more reliable.
-
-
-      ---
-
-
-      **Contributors:** [@Vybo](https://github.com/Vybo) (Dan Vybiral) ·
-      [@tun0](https://github.com/tun0) (Ruben Laban) ·
-      [@marcelverdult](https://github.com/marcelverdult) (reported #13).
-
-
-      **Boards:** T-Deck → `wadamesh-tdeck*.bin` · Heltec V4 TFT → `wadamesh-heltec-v4-tft*.bin`.
-      Use `-merged.bin` for a full flash at 0x0 (web flasher / esptool), or the plain `.bin` for
-      on-device update / Launcher.

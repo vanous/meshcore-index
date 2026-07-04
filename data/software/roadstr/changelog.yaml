@@ -1,7 +1,25 @@
 source: github
 repo: jooray/roadstr
-updatedAt: '2026-06-23T21:03:37.335Z'
+updatedAt: '2026-07-03T22:14:11.741Z'
 releases:
+  - version: v0.3.0
+    name: v0.3.0
+    datetime: '2026-06-24T18:06:17Z'
+    url: https://github.com/jooray/roadstr/releases/tag/v0.3.0
+    prerelease: false
+    notes: >-
+      ## What's new in 0.3.0
+
+
+      - **Imperial units** — new Metric/Imperial option (Settings → Display) showing speed in mph
+      and distances in miles/feet.
+
+      - **Speed Threshold slider** now shows its live value as you drag it.
+
+      - **Cleaner main screen** — Keys and Settings moved into the toolbar overflow menu, freeing
+      space for the events list.
+
+      - **Larger report-type buttons** with bigger icons, easier to tap on high-density screens.
   - version: v0.2.0
     name: v0.2.0
     datetime: '2026-06-16T10:52:18Z'
