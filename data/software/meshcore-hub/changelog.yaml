@@ -1,7 +1,13 @@
 source: github
 repo: ipnet-mesh/meshcore-hub
-updatedAt: '2026-07-04T03:23:41.556Z'
+updatedAt: '2026-07-04T10:13:09.440Z'
 releases:
+  - version: v0.15.7
+    name: v0.15.7
+    datetime: '2026-07-04T09:58:30Z'
+    url: https://github.com/ipnet-mesh/meshcore-hub/releases/tag/v0.15.7
+    prerelease: false
+    notes: "## What's Changed\r\n* fix(web): 2x2 dashboard charts on mobile landscape & path-node popover scroll by @jinglemansweep in https://github.com/ipnet-mesh/meshcore-hub/pull/295\r\n* chore(deps): update dependency daisyui to v5.6.13 by @renovate[bot] in https://github.com/ipnet-mesh/meshcore-hub/pull/294\r\n\r\n\r\n**Full Changelog**: https://github.com/ipnet-mesh/meshcore-hub/compare/v0.15.6...v0.15.7"
   - version: v0.15.6
     name: v0.15.6
     datetime: '2026-07-03T23:13:52Z'
@@ -116,9 +122,3 @@ releases:
     url: https://github.com/ipnet-mesh/meshcore-hub/releases/tag/v0.10.5
     prerelease: false
     notes: "## What's Changed\r\n* fix: add public_key filter to advertisements API by @jinglemansweep in https://github.com/ipnet-mesh/meshcore-hub/pull/212\r\n* feat: add route type tracking and flood-only defaults for advertisements by @jinglemansweep in https://github.com/ipnet-mesh/meshcore-hub/pull/213\r\n\r\n\r\n**Full Changelog**: https://github.com/ipnet-mesh/meshcore-hub/compare/v0.10.4...v0.10.5"
-  - version: v0.10.4
-    name: v0.10.4
-    datetime: '2026-05-15T15:58:04Z'
-    url: https://github.com/ipnet-mesh/meshcore-hub/releases/tag/v0.10.4
-    prerelease: false
-    notes: "## What's Changed\r\n* fix: enable async SQLite FK enforcement and clean up orphaned node relations by @jinglemansweep in https://github.com/ipnet-mesh/meshcore-hub/pull/211\r\n\r\n\r\n**Full Changelog**: https://github.com/ipnet-mesh/meshcore-hub/compare/v0.10.3...v0.10.4"
