@@ -61,7 +61,10 @@ export default defineConfig({
     tailwindcss(),
     sveltekit(),
     SvelteKitPWA({
-      registerType: 'autoUpdate',
+      // Do not let a new service worker claim already-open tabs during a Pages
+      // deploy. Those tabs may still reference the previous build's hashed
+      // chunks, so the old precache must remain available until reload.
+      registerType: 'prompt',
       kit: {
         adapterFallback: '404.html'
       },

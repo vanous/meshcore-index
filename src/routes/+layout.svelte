@@ -3,7 +3,9 @@
   import { onMount } from 'svelte';
   import { slide } from 'svelte/transition';
   import { quintOut } from 'svelte/easing';
+  import { beforeNavigate } from '$app/navigation';
   import { base } from '$app/paths';
+  import { updated } from '$app/state';
   import { page } from '$app/stores';
   import { env } from '$env/dynamic/public';
   import { pwaInfo } from 'virtual:pwa-info';
@@ -26,6 +28,12 @@
   import { applyThemeChrome } from '$lib/theme-chrome.js';
   import pkg from '../../package.json';
   let { children } = $props();
+
+  beforeNavigate(({ willUnload, to }) => {
+    if (updated.current && !willUnload && to?.url) {
+      location.href = to.url.href;
+    }
+  });
 
   // Mobile nav: the full link row only fits on wide screens, so below `lg` it
   // collapses into a hamburger-toggled panel. Close it whenever the route

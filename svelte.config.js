@@ -20,6 +20,9 @@ const config = {
     paths: {
       base: process.env.BASE_PATH ?? ''
     },
+    version: {
+      pollInterval: 60_000
+    },
     prerender: {
       handleHttpError: ({ path, message }) => {
         // Ignore 404s from relative links inside changelog release notes

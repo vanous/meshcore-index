@@ -28,6 +28,6 @@ radios:
   spreading_factor: 7
   coding_rate: 4/5
   public_channel: Public
-analyzers:
-- name: mesh.farewell.dev
-  url: https://mesh.farewell.dev/
+#analyzers:
+#- name: mesh.farewell.dev
+#  url: https://mesh.farewell.dev/

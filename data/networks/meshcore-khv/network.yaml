@@ -27,7 +27,8 @@ radio:
   path_hash_mode: 2-Byte
   public_channel: Public
 
-analyzers:
+#analyzers:
   # Source: ZoomEye scan 2026-06-26 — CoreScope at 62.182.196.25:9443 (Khabarovsk observer, iata KHV)
-  - name: CoreScope (Khabarovsk)
-    url: https://62.182.196.25:9443
+  # No longer available.
+  # name: CoreScope (Khabarovsk)
+  #  url: https://62.182.196.25:9443
