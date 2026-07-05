@@ -1,7 +1,13 @@
 source: github
 repo: sosprz/Meshcore-Wio-Tracker-L1-Pro
-updatedAt: '2026-06-29T21:28:27.831Z'
+updatedAt: '2026-07-05T13:45:17.631Z'
 releases:
+  - version: v1.16.89
+    name: v1.16.89
+    datetime: '2026-07-05T11:37:05Z'
+    url: https://github.com/sosprz/Meshcore-Wio-Tracker-L1-Pro/releases/tag/v1.16.89
+    prerelease: false
+    notes: "- **DM delivery confirmation refresh** - Delivery ACKs now invalidate the cached DM render lines so sent messages update from pending to confirmed immediately on the tracker screen.\r\n- **Message hop display fix** - On-device DM/channel views now decode encoded path length before showing hops.\r\n- **Sound OFF menu option** - Sound volume cycling now includes `OFF` after `HIGH`, so users can mute from the Sound menu as well as with the triple-back shortcut."
   - version: v1.16.88
     name: v1.16.88
     datetime: '2026-06-29T20:16:59Z'
@@ -136,9 +142,3 @@ releases:
       - **Channel unread total consistency fix** - Hidden/removed channels no longer inflate visible
       unread totals. Home `Channels` unread and the shared unread aggregate now count only currently
       active visible channels, matching the channel list.
-  - version: v1.13.0.66
-    name: v1.13.0.66
-    datetime: '2026-03-02T14:05:11Z'
-    url: https://github.com/sosprz/Meshcore-Wio-Tracker-L1-Pro/releases/tag/v1.13.0.66
-    prerelease: false
-    notes: "- **ROOM send gate hardening** - Sending to ROOM now requires an active transport session (not only short post-login fallback state), reducing cases where UI showed delivered `*` but the room server did not publish the message.\r\n- **ROOM send/read session alignment** - ROOM send now also accepts recent confirmed ROOM traffic as a valid send-session signal, reducing cases where reading/receiving worked but compose still asked for the password again.\r\n- **ROOM send grace after login** - After a successful ROOM login, compose now gets a short send window immediately, so sending right after auth does not re-prompt for the room password while transport/session flags catch up.\r\n- **Remote Admin (repeaters + rooms)** - Added one shared `Admin` submenu for repeaters and room servers with admin login, remote tools (`Sync time`, `Show time`, `Stats`, `Telemetry`, `Send advert`, `Owner info`, `Neighbours`), saved-password hint, proper scrolling, popup-based progress/results, and clearer neighbour list / empty-state handling.\r\n- **Radio Settings bug fix** - `Power` now changes directly with `LEFT/RIGHT` when highlighted (instead of page up/down taking over)"
