@@ -1,0 +1,1366 @@
+source: github
+repo: PEG4TRON/MeshCorium
+updatedAt: '2026-07-05T17:14:45.459Z'
+releases:
+  - version: 0.9.0
+    name: MeshCorium v0.9.0 — UI/UX improvements & WIKI page + Android client
+    datetime: '2026-06-30T17:50:27Z'
+    url: https://github.com/PEG4TRON/MeshCorium/releases/tag/0.9.0
+    prerelease: false
+    notes: >-
+      ## v0.9.0 — UI/UX improvements & WIKI page + Android client (2026-06-30)
+
+
+      ### Web: Settings Layout Overhaul
+
+      - Maps page summary cards: centered text in mc-map-summary-card
+
+      - Settings rows grid: minmax(220px, auto) for adaptive control column width
+
+      - Native select and inline input: natural width (not forced 100%)
+
+      - mc-settings-inline-controls: no max-width cap, sizes from content
+
+      - mc-settings-row-control--stack: gap 8px between stacked controls
+
+      - Background blur toggle and wallpaper dropdown swapped order
+
+
+      ### Web: MeshCore Params Radio Section
+
+      - Removed "Section status" and "Companion firmware limitation" info blocks
+
+      - Split SF and CR into two separate rows with individual descriptions and sfHint/crHint i18n
+
+      - Split TX power and Client repeat into separate rows with txPowerHint/clientRepeatHint
+
+      - Client repeat unavailable hint: yellow (mc-settings-inline-hint--warning), moved to label
+      column
+
+      - Client repeat condition: shown only when constraints require allowed-range check AND current
+      frequency is outside allowed ranges
+
+
+      ### Web: MeshCore Params Routing Section
+
+      - Multi-Acks: checkbox moved left of numeric input, duplicate label removed
+
+      - Telemetry broadcast: extracted into separate card with 3 sub-rows
+      (Base/Location/Environment) + card-body descriptions for each mode value
+
+      - TX timing and airtime: extracted into separate card with RX delay base hint (0-20ms) and
+      airtime factor hint (duty_cycle formula)
+
+      - Path hash mode: separate card with hop constraints per mode (1-byte=64, 2-byte=32, 3-byte=21
+      hops) + autoaddMaxHopsHint
+
+      - Auto-add contacts: extracted into separate card with 5 individual rows, each with title and
+      description
+
+
+      ### Web: MeshCore Params Identity Section
+
+      - Latitude/Longitude row: title → "Node coordinates" / "Координаты ноды", description →
+      "Latitude, Longitude" / "Широта, Долгота"
+
+      - Removed read-only rows: Device model, Device time (UTC), Firmware
+
+      - Removed Direct and Flood advert buttons
+
+
+      ### Web: Wiki Page (NEW)
+
+      - New /wiki route with lazy-loaded WikiView
+
+      - ShellPageFrame layout matching settings structure: scroller + workspace
+
+      - Phonebar in workspace-top (desktop) + mobile phonebar support
+
+      - Scroller-footer with MessagesConversationSidebar (status as in Messages)
+
+      - Empty scroller-body placeholder for future navigation
+
+      - Workspace-header with dynamic title/subtitle from route params
+
+      - i18n: wiki section in en.js and ru.js with 5 sections (getting-started, hardware, companion,
+      repeater, faq)
+
+      - Rail button with book icon (rotated open book SVG, gradient style matching existing icons)
+
+      - Mobile dock Wiki button with router navigation
+
+      - Wiki icon: /icons/wiki-icon.svg
+
+
+      ### Web: Settings Control Width Adaptivity
+
+      - All mc-settings-native-select and mc-settings-inline-input: width auto (fit content)
+
+      - All mc-settings-inline-controls: no min/max width constraint
+
+      - Controls align to flex-end within the column
+
+
+      ### Wiki Content and Diagrams
+
+      - Added file-driven wiki content and SVG attachments for English and Russian locales.
+
+      - Docker image now includes `wiki/` and `web/attachments/` runtime content.
+
+      - Fixed SVG text layout in wiki diagrams so Russian labels do not overflow their frames.
+
+
+      ### Android Client
+
+      - Android WebView client APK is provided as a separate downloadable GitHub Release asset.
+
+
+      ---
+
+
+      ## v0.9.0 — UI/UX improvements & WIKI page + Android client (2026-06-30) [RU]
+
+
+      ### Web: переработка layout настроек
+
+      - Карточки summary на странице карт: текст центрирован в `mc-map-summary-card`.
+
+      - Сетка строк настроек получила адаптивную колонку управления `minmax(220px, auto)`.
+
+      - Native select и inline input используют естественную ширину, без принудительного `100%`.
+
+      - `mc-settings-inline-controls` больше не ограничивает ширину, размеры идут от содержимого.
+
+      - Для stacked controls добавлен аккуратный gap 8px.
+
+      - Переключатель background blur и dropdown wallpaper поменяны местами.
+
+
+      ### Web: MeshCore Params
+
+      - Радио-раздел очищен от лишних информационных блоков, SF/CR и TX power/Client repeat вынесены
+      в отдельные строки с под
+
+      …
+  - version: 0.8.3
+    name: MeshCorium v0.8.3 — Fixes & Mobile App
+    datetime: '2026-06-29T02:36:08Z'
+    url: https://github.com/PEG4TRON/MeshCorium/releases/tag/0.8.3
+    prerelease: false
+    notes: >-
+      ## v0.8.3 — Fixes & Mobile App (2026-06-29)
+
+
+      ### Android WebView Client (NEW)
+
+      - Native bottom dock with 5 tabs: notifications, chats, contacts, map, settings
+
+      - WebView ↔ native navigation via JavaScript bridge (no page reloads)
+
+      - Native dock colors and styles matched to web mobile dock
+
+      - Long-press Settings → native client settings → editable server connection URL
+
+      - Server URL editing reuses UrlEntryActivity in two modes (initial/edit)
+
+      - Connection change without app restart (cookie/cache cleanup + WebView reload)
+
+      - FCM push notification registration integrated
+
+      - WebView same-origin enforcement for security
+
+      - Versioned APK in git: meshcorium-android-client.0.8.3.\<hash\>.apk
+
+
+      ### Web: Native Shell Support
+
+      - detectNativeShell() with MeshcoriumAndroid bridge + User-Agent fallback
+
+      - Web mobile dock hidden in native-shell mode (v-if + CSS fallback)
+
+      - installNativeActionBridge() — Android dispatches actions to Vue Router
+
+      - Vue → native dock state sync: active tab, notification badge, connection status
+
+      - Fixed spacer gaps on contacts, maps and settings pages in native-shell mode
+
+      - Settings mobile nodebar repositioned to safe-area bottom (no overlapping)
+
+
+      ### Fixes
+
+      - Fixed long-press Settings gesture race (deferred launch via view.post)
+
+      - Fixed icon/label overlap in native dock (height 84dp, itemPaddingBottom 12dp)
+
+      - Fixed potential badge "0" visibility (zero-string guard)
+
+      - Removed singleTask launchMode from UrlEntryActivity (Activity Result API conflict)
+
+
+      ### Web: CSS & Layout
+
+      - mc-native-shell overrides: dock suppression, spacer removal for all pages
+
+      - Removed dead mc-page--global-mobile-dock CSS rule
+
+      - Settings workspace and section-stack padding adjusted for native-shell
+
+
+
+
+      ---
+
+
+      ## v0.8.3 — Fixes & Mobile App (2026-06-29) [RU]
+
+
+      ### Android WebView-клиент (НОВОЕ)
+
+      - Нативный нижний dock с 5 вкладками: уведомления, чаты, контакты, карта, настройки
+
+      - Навигация WebView ↔ native через JavaScript bridge (без перезагрузок страниц)
+
+      - Цвета и стили нативного дока приведены к web-доку
+
+      - Долгое нажатие Настройки → нативные настройки клиента → редактируемый URL сервера
+
+      - Редактирование URL переиспользует UrlEntryActivity в двух режимах (первый
+      запуск/редактирование)
+
+      - Смена подключения без перезапуска приложения (очистка cookies/cache + перезагрузка WebView)
+
+      - Интегрирована FCM push-регистрация
+
+      - Ограничение WebView доверенным origin (same-origin проверка)
+
+      - Версионированный APK в git: meshcorium-android-client.0.8.3.\<hash\>.apk
+
+
+      ### Web: Поддержка Native Shell
+
+      - detectNativeShell() через MeshcoriumAndroid bridge + User-Agent fallback
+
+      - Web-док скрывается в native-shell режиме (v-if + CSS fallback)
+
+      - installNativeActionBridge() — Android передаёт действия в Vue Router
+
+      - Синхронизация Vue → native dock: активная вкладка, badge, статус подключения
+
+      - Исправлены зазоры на страницах контактов, карт и настроек в native-shell режиме
+
+      - Мобильный nodebar настроек прижат к safe-area снизу (без наложения)
+
+
+      ### Исправления
+
+      - Исправлена гонка жеста долгого нажатия Настроек (отложенный запуск через view.post)
+
+      - Исправлено наложение иконок на подписи в нативном доке (высота 84dp, itemPaddingBottom 12dp)
+
+      - Исправлен потенциальный бадж "0" (защита от нулевой строки)
+
+      - Убран launchMode="singleTask" у UrlEntryActivity (конфликт с Activity Result API)
+
+
+      ### Web: CSS & Layout
+
+      - mc-native-shell overrides: скрытие дока, устранение зазоров для всех страниц
+
+      - Убрано мёртвое CSS-правило mc-page--global-mobile-dock
+
+      - Отступы Settings workspace и section-stack скорректированы для native-shell
+
+
+
+
+      ## Dev / Unreleased (2026-06-19)
+
+
+      ### Message Search in Dialogs (desktop) — GitHub issues #112-118
+
+
+      - **Backend (#112)**: New `GET /api/messages/search` endpoint — full-text search (`lower(text)
+      LIKE`) with optional `@sender` filter (`text LIKE 'partialname%:%'`). Sorting by proximity to
+      viewport center: `ORDER BY ABS(id - viewport_center_id) ASC`. Supports both channel and
+      contact conversations. Files: `meshcorium_web.py` (+88 lines).
+
+      - **Frontend — search panel (#113)**: New 
+
+      …
+  - version: 0.8.2
+    name: MeshCorium v0.8.2 — Auto-Update Fix
+    datetime: '2026-06-18T17:28:17Z'
+    url: https://github.com/PEG4TRON/MeshCorium/releases/tag/0.8.2
+    prerelease: false
+    notes: >-
+      # Changelog
+
+
+      ## v0.8.2 — Auto-Update Fix (2026-06-18)
+
+
+      ### Service & Deployment
+
+      - **CRITICAL FIX**: Added missing `--supervise` flag to systemd service `ExecStart` line in
+      `meshcorium-launcher.sh`. Without this flag, the launcher ran in default `--run` mode —
+      starting the Python process directly without the supervisor loop that handles GitHub release
+      checks and the self-update lifecycle. This prevented automatic update discovery from working
+      in all previous releases that used systemd.
+
+
+      - **Impact**: After this fix, `meshcorium.service` runs `meshcorium-launcher.sh --supervise`
+      instead of `meshcorium-launcher.sh` (default `--run`). The supervisor now polls GitHub every
+      30 minutes for new releases, writes `.meshcorium_update_available` flag file, and manages the
+      full install/rollback lifecycle via `updater.sh`.
+
+
+      - **Upgrade note**: Existing installations can fix the systemd unit without reinstalling by
+      running the provided fix script:
+        ```bash
+        cd /opt/MeshCorium && curl -sSL https://raw.githubusercontent.com/PEG4TRON/MeshCorium/main/fix-autoupdate.sh | bash
+        ```
+        The script detects the installation, creates a backup, patches `ExecStart`, validates with `systemd-analyze verify`, and restarts the service. Alternatively, run `meshcorium-launcher.sh --install` to recreate the unit from the corrected template.
+
+      ---
+
+
+      ## v0.8.1 — Mobile UX & Quality (2026-06-18)
+
+
+      ### Map provider fallback
+
+      - Unified MapLibre provider selection and fallback behavior across all secondary maps: message
+      route maps, repeater geo picker, and contact route editor now honor the saved `map_provider`
+      setting just like the main Maps page.
+
+      - Extracted shared map provider constants, style builders, tile proxy rewriting, provider
+      normalization, and raster fallback helpers into `web/src/lib/mapLibre.js`.
+
+      - Added a 6-second map style boot timeout and error-triggered fallback from OpenFreeMap / OFM
+      Liberty to OSM Raster for secondary map sheets, matching the main Maps page behavior.
+
+      - Continued routing both OpenFreeMap and OSM raster tile requests through the local
+      `/api/tiles/proxy` endpoint to avoid direct LAN/browser tile loading problems.
+
+
+      ### Map settings and data filtering
+
+      - Added a persisted `map_max_distance_km` client setting with a default of 400 km and a
+      supported range of 1–20000 km.
+
+      - Added desktop and mobile Maps UI controls for changing the maximum contact-rendering
+      distance. Contacts outside the configured home-node radius are filtered from map display.
+
+
+      ### Settings and update UX
+
+      - Added a manual update-check button next to the displayed version in Settings → About.
+
+      - Corrected the Settings/About fallback display version for this release.
+
+
+      ### Docker and release packaging
+
+      - Added `.meshcorium_version` to the Docker runtime image so containerized `/api/update/check`
+      reports the same `0.8.1` version as the normal launcher build.
+
+      - Updated Docker Compose image/release metadata to `0.8.1` / `0.8.1--map-fixes`.
+
+      - Added the previously omitted helper script `download_meshcore_node_svgs.py` to the Docker
+      runtime copy list, keeping root Python files explicit in the Dockerfile.
+
+      - Kept the cleaned release tree rules from v0.8.0: runtime data, logs, caches, virtual
+      environments, and node modules are excluded from release artifacts.
+
+
+      ### Messages
+
+
+      #### Scroll-to-newest
+
+      - **Fixed broken scroll-to-bottom button** in conversations: clicking "scroll to newest" now
+      jumps directly to the last message in the database, loading a fresh batch of 50 latest
+      messages and marking all previous messages as read.
+
+      - Added `latest=true` query parameter to `list_channel_messages` and `list_contact_messages` —
+      direct jump to the newest DB messages instead of iterative pagination.
+
+      - Rewrote `scrollToNewestMessage()` in `MessagesView.vue`: single API call replaces old
+      messages instead of merging, marks all messages up to the newest as read via `POST
+      /api/messages/read-up-to`.
+
+      - Fixed infinite loop in `scrollToNewestMessage`: added `lastNewerLoadHadResults` ref guard in
+      `canLoadNewerM
+
+      …
+  - version: 0.8.1
+    name: MeshCorium v0.8.1 — Mobile UX & Quality
+    datetime: '2026-06-18T16:03:06Z'
+    url: https://github.com/PEG4TRON/MeshCorium/releases/tag/0.8.1
+    prerelease: false
+    notes: >-
+      # Changelog
+
+
+      ## v0.8.1 — Mobile UX & Quality (2026-06-18)
+
+
+      ### Map provider fallback
+
+      - Unified MapLibre provider selection and fallback behavior across all secondary maps: message
+      route maps, repeater geo picker, and contact route editor now honor the saved `map_provider`
+      setting just like the main Maps page.
+
+      - Extracted shared map provider constants, style builders, tile proxy rewriting, provider
+      normalization, and raster fallback helpers into `web/src/lib/mapLibre.js`.
+
+      - Added a 6-second map style boot timeout and error-triggered fallback from OpenFreeMap / OFM
+      Liberty to OSM Raster for secondary map sheets, matching the main Maps page behavior.
+
+      - Continued routing both OpenFreeMap and OSM raster tile requests through the local
+      `/api/tiles/proxy` endpoint to avoid direct LAN/browser tile loading problems.
+
+
+      ### Map settings and data filtering
+
+      - Added a persisted `map_max_distance_km` client setting with a default of 400 km and a
+      supported range of 1–20000 km.
+
+      - Added desktop and mobile Maps UI controls for changing the maximum contact-rendering
+      distance. Contacts outside the configured home-node radius are filtered from map display.
+
+
+      ### Settings and update UX
+
+      - Added a manual update-check button next to the displayed version in Settings → About.
+
+      - Corrected the Settings/About fallback display version for this release.
+
+
+      ### Docker and release packaging
+
+      - Added `.meshcorium_version` to the Docker runtime image so containerized `/api/update/check`
+      reports the same `0.8.1` version as the normal launcher build.
+
+      - Updated Docker Compose image/release metadata to `0.8.1` / `0.8.1--map-fixes`.
+
+      - Added the previously omitted helper script `download_meshcore_node_svgs.py` to the Docker
+      runtime copy list, keeping root Python files explicit in the Dockerfile.
+
+      - Kept the cleaned release tree rules from v0.8.0: runtime data, logs, caches, virtual
+      environments, and node modules are excluded from release artifacts.
+
+
+      ### Messages
+
+
+      #### Scroll-to-newest
+
+      - **Fixed broken scroll-to-bottom button** in conversations: clicking "scroll to newest" now
+      jumps directly to the last message in the database, loading a fresh batch of 50 latest
+      messages and marking all previous messages as read.
+
+      - Added `latest=true` query parameter to `list_channel_messages` and `list_contact_messages` —
+      direct jump to the newest DB messages instead of iterative pagination.
+
+      - Rewrote `scrollToNewestMessage()` in `MessagesView.vue`: single API call replaces old
+      messages instead of merging, marks all messages up to the newest as read via `POST
+      /api/messages/read-up-to`.
+
+      - Fixed infinite loop in `scrollToNewestMessage`: added `lastNewerLoadHadResults` ref guard in
+      `canLoadNewerMessages` computed.
+
+      - Fixed missing `/api` prefix and wrong endpoint (`/messages/list` → `/api/messages/channel`
+      with GET query params) in scroll-to-newest.
+
+      - Fixed `read-up-to` call: proper `POST` with `method` + `body: JSON.stringify(...)` and
+      `conversation_kind`/`conversation_value` params.
+
+
+      #### Ghost channels (empty channel_identity)
+
+      - Backend: `_build_channel_unread_payload_for_port` now filters out messages with empty
+      `channel_identity` from unread summary and logs a warning.
+
+      - Frontend: `regularNotificationEntries` in `ConnectedShellLayout.vue` skips channels with
+      empty `channel_identity` (no more #N + 🔒 entries).
+
+      - Fixed `conn.fetchall()` on `sqlite3.Connection` (must be called on cursor, not connection).
+
+
+      ### Mobile UI
+
+
+      #### Composer
+
+      - Send button moved to the right side of the input row, symmetric to the GIF button on the
+      left — 46×46px icon-only button with paper-plane icon, no text label.
+
+      - `MessagesComposerBar.vue` imports `useIsMobile` for conditional rendering (icon on mobile,
+      text label on desktop).
+
+
+      #### Icons
+
+      - All emoji icons (🔔💬👥🗺⚙) replaced with stroke-based SVG icons in the project's
+      cyan-to-blue gradient style (#12B8F4→#5A74C9), viewBox 0 0 512 512.
+
+      - Five new icons created: `contacts-icon.svg`, `map-icon.svg`, `settings-icon.svg`,
+      `disconnect-icon.svg`, `console-icon.svg` i
+
+      …
+  - version: 0.8.0
+    name: MeshCorium v0.8.0 — Mobile UI & Maps (stable)
+    datetime: '2026-05-25T21:49:03Z'
+    url: https://github.com/PEG4TRON/MeshCorium/releases/tag/0.8.0
+    prerelease: false
+    notes: >-
+      ## Mobile UI & Maps (stable)
+
+
+      - **Mobile Responsive UI**: All major views (Maps, Contacts, Messages, Settings, Repeater
+      Management) adapted for 1024px breakpoint with dedicated mobile shells, bottom-sheet overlays,
+      and bottom docks.
+
+      - **Maps**: Map provider selector (OSM Raster / OFM Liberty), reliable tile loading through
+      local proxy, fixed OSM raster fallback template.
+
+      - **SSE fixes**: Cascading disconnection prevention when resuming background sessions.
+
+      - **Read tracking**: Fixed read marker on mobile back navigation, channel unread key mismatch,
+      loadNewerMessages auto-mark.
+
+      - **Systemd service**: Unit with automatic ttyACM0/ttyUSB* permission fix, multi-device
+      support (nRF52, ESP32-S3, ESP32+CP2102/CH340).
+
+      - **Architecture**: `useIsMobile`, `useUpdateCheck`, `shellPanels.js`, `contactRoutes.js`,
+      `statusText.js`.
+
+      - **Desktop unchanged**: All existing transports (USB, BLE, Wi-Fi/LAN, Docker) remain fully
+      functional.
+
+
+      ---
+
+
+      ## Мобильный UI и карты (стабильный)
+
+
+      - **Мобильный адаптивный UI**: Все основные виды (Карты, Контакты, Сообщения, Настройки,
+      Управление репитерами) адаптированы для 1024px с выделенными мобильными оболочками, оверлеями
+      и нижними доками.
+
+      - **Карты**: Выбор источника карт (OSM Raster / OFM Liberty), надёжная загрузка тайлов через
+      локальный прокси, исправлен шаблон OSM raster.
+
+      - **Исправления SSE**: Предотвращение каскадных разрывов при возобновлении фоновых сессий.
+
+      - **Трекинг прочитанного**: Исправлен маркер прочтения при возврате на мобильном, несовпадение
+      ключей unread каналов, авто-отметка loadNewerMessages.
+
+      - **Systemd-сервис**: Юнит с автоматическим исправлением прав ttyACM0/ttyUSB*, поддержка
+      нескольких устройств.
+
+      - **Архитектура**: `useIsMobile`, `useUpdateCheck`, `shellPanels.js`, `contactRoutes.js`,
+      `statusText.js`.
+
+      - **Десктоп без изменений**: Все транспорты (USB, BLE, Wi-Fi/LAN, Docker) полностью
+      работоспособны.
+  - version: 0.7.4
+    name: '(BUG)MeshCorium v0.7.4 — BugFix: missing web/index.html'
+    datetime: '2026-05-22T05:55:00Z'
+    url: https://github.com/PEG4TRON/MeshCorium/releases/tag/0.7.4
+    prerelease: false
+    notes: "Release was missing web/index.html (Vite entry point), causing launcher crash loop. Fixed.\r\nIncludes meshcorium.service with ExecStartPre for automatic /dev/ttyACM0 permission fix (chgrp dialout + chmod g+rw on every start/restart).\r\n\r\n---\r\n\r\nВ релизе не хватало web/index.html (входная точка Vite), из-за чего лаунчер падал в цикл. Исправлено.\r\nДобавлен meshcorium.service с ExecStartPre для авто-фикса прав /dev/ttyACM0 при каждом запуске/рестарте."
+  - version: 0.7.3
+    name: (BUG)MeshCorium v0.7.3 — Update mechanics + notifications (BugFix)
+    datetime: '2026-05-21T18:49:52Z'
+    url: https://github.com/PEG4TRON/MeshCorium/releases/tag/0.7.3
+    prerelease: false
+    notes: "Auto-reload after successful update — page navigates to self for full reload. Fixed state-file race condition (idle written before Python starts). Polling survives network errors during server restart.\r\n\r\n---\r\n\r\nАвто-перезагрузка страницы после успешного обновления (полная навигация). Исправлена гонка состояний (idle пишется до запуска Python). Опрос состояния переживает сетевые ошибки при рестарте сервера."
+  - version: 0.7.2
+    name: (BUG)MeshCorium v0.7.2 — Update mechanics + notifications
+    datetime: '2026-05-21T18:07:30Z'
+    url: https://github.com/PEG4TRON/MeshCorium/releases/tag/0.7.2
+    prerelease: false
+    notes: "Self-update system, update notifications in UI, stub supervisor with auto-check and rollback.\r\n\r\n---\r\n\r\nСистема самообновления, уведомления о новых версиях в интерфейсе, stub supervisor с авто-проверкой GitHub и ролбэком."
+  - version: 0.7.1
+    name: MeshCorium v0.7.1 -- BUGFIX
+    datetime: '2026-05-21T11:04:54Z'
+    url: https://github.com/PEG4TRON/MeshCorium/releases/tag/0.7.1
+    prerelease: false
+    notes: >-
+      Fixed a bug where chats with a large number of unread messages did not load all the way to the
+      most recent messages.
+
+
+      **What was the problem:** when opening a chat where many new messages had accumulated, the app
+      loaded messages starting from the first unread one and showed only a limited window around it.
+      Scrolling down stopped at the edge of that window and did not load the newer messages that had
+      arrived since. The only way to see them was to close and reopen the chat, or refresh the page.
+
+
+      **What was fixed:**
+
+      - scrolling down now automatically loads the next batch of newer messages, the same way
+      scrolling up loads older ones;
+
+      - the «scroll to newest» button now loads all the way to the really newest message in the
+      database without stopping at the edge of the local window.
+
+
+      ---
+
+
+      Исправлен баг, при котором чаты с большим количеством непрочитанных сообщений не догружали
+      переписку до самых свежих сообщений.
+
+
+      **В чём была проблема:** при входе в чат, где накопилось много новых сообщений, приложение
+      начинало показывать переписку от первого непрочитанного и отображало только ограниченное окно
+      вокруг него. Скролл вниз упирался в край этого окна и не подгружал новые сообщения, пришедшие
+      позже. Увидеть их можно было только переоткрыв чат или обновив страницу.
+
+
+      **Что исправлено:**
+
+      - скролл вниз теперь автоматически подгружает следующую порцию более новых сообщений — так же,
+      как скролл вверх подгружает более старые;
+
+      - кнопка «пролистать к самому новому» теперь догружает всё до действительно последнего
+      сообщения в базе, не останавливаясь на краю локального окна.
+  - version: 0.7.0
+    name: MeshCorium v0.7.0 -- Docker + USB + BLE + WIFI/LAN
+    datetime: '2026-05-17T17:35:45Z'
+    url: https://github.com/PEG4TRON/MeshCorium/releases/tag/0.7.0
+    prerelease: false
+    notes: >-
+      MeshCorium v0.7.0 promotes Wi-Fi/LAN TCP transport into the published release profile
+      alongside Docker, USB serial, and BLE. This release aligns the runtime so post-connect
+      behavior is transport-aware across USB, BLE, and Wi-Fi/LAN, improves message bootstrap and
+      dialog preview consistency, and keeps the Docker bundle building the current frontend and
+      backend directly from the release tree.
+
+
+      Key changes:
+
+      - official Wi-Fi/LAN TCP transport release support through a manual `host:port` connection
+      flow;
+
+      - transport-aware active session routing for post-connect runtime behavior across views;
+
+      - bootstrap queue drain immediately after session readiness, so queued messages load without
+      waiting for an extra push event;
+
+      - transient Wi-Fi frame timeouts are treated as idle gaps instead of fatal disconnects;
+
+      - improved dialog preview and unread state synchronization;
+
+      - Docker metadata and compose labels updated for `v0.7.0`.
+
+
+      ---
+
+
+      MeshCorium v0.7.0 переводит Wi-Fi/LAN TCP transport из экспериментального состояния в
+      официальный релизный профиль наряду с Docker, USB serial и BLE. В этом релизе runtime выровнен
+      так, чтобы post-connect поведение было transport-aware для USB, BLE и Wi-Fi/LAN, улучшена
+      начальная синхронизация сообщений и согласованность preview диалогов, а Docker-бандл
+      по-прежнему собирает актуальный frontend и backend прямо из release-tree.
+
+
+      Основные изменения:
+
+      - официальный релизный профиль Wi-Fi/LAN TCP transport с ручным `host:port` сценарием
+      подключения;
+
+      - transport-aware active session routing для post-connect runtime поведения во view-слое;
+
+      - bootstrap queue drain сразу после готовности сессии, чтобы накопленные сообщения загружались
+      без ожидания лишнего push-события;
+
+      - transient Wi-Fi frame timeout больше не считается фатальным disconnect и трактуется как idle
+      gap;
+
+      - улучшена синхронизация preview диалогов и unread-состояния;
+
+      - обновлены Docker metadata и compose labels для `v0.7.0`.
+  - version: 0.6.1
+    name: MeshCorium v0.6.1 -- Docker + USB + BLE
+    datetime: '2026-05-09T15:23:06Z'
+    url: https://github.com/PEG4TRON/MeshCorium/releases/tag/0.6.1
+    prerelease: false
+    notes: >-
+      This release is based on `v0.6.0` and keeps the same runtime variants while polishing
+      browser-side unread behavior and keeping the Docker bundle aligned with the current service
+      code.
+
+
+      ## Main changes since v0.6.0
+
+
+      - Browser notifications are now emitted when unread counts grow across all unread types.
+
+      - Notification delivery uses the same mute and owner-scope filtered unread totals that drive
+      the rail badges.
+
+      - The browser tab title now shows a combined unread badge while unread messages are pending.
+
+      - Notification permission is requested from a real user gesture inside the application shell,
+      which keeps initial page load clean and browser-compatible.
+
+
+      ## Runtime variants
+
+
+      - Ordinary launcher / systemd usage remains supported.
+
+      - Docker Compose usage remains supported.
+
+      - Docker image: `meshcorium:v0.6.1`
+
+      - Docker release label: `v0.6.1-docker-usb-ble`
+
+
+      ## Docker release verification
+
+
+      The release Docker bundle is aligned with the current service code:
+
+
+      - `docker compose config` was validated inside the `v0.6.1` release folder.
+
+      - Docker build context points directly to the `MeshCorium v0.6.1` release directory.
+
+      - The release folder was synchronized from the current git mirror before publication, so
+      Docker builds the same backend/frontend code that was tagged as `v0.6.1`.
+
+      - The release Docker metadata and the in-app About version both report `v0.6.1`.
+
+
+      ## Docker notes
+
+
+      Docker Compose mounts:
+
+
+      - `/etc/meshcorium` for configuration
+
+      - `/var/lib/meshcorium` for runtime data and SQLite DBs
+
+      - `/var/log/meshcorium` for logs
+
+      - `/dev` for USB serial and hardware visibility
+
+      - `/run/udev` read-only for device metadata
+
+      - `/run/dbus` for host BlueZ access when using BLE
+
+
+      The container runs with `privileged: true` so Docker behavior stays close to ordinary launcher
+      operation on the host for USB serial and BLE discovery.
+
+
+      ## Update notes
+
+
+      This release can be used as the next update step after `v0.6.0`.
+
+
+      ---
+
+
+      # MeshCorium v0.6.1 -- Docker + USB + BLE
+
+
+      Этот релиз основан на `v0.6.0` и сохраняет те же варианты запуска, одновременно улучшая
+      browser-side unread behavior и выравнивая Docker bundle с текущим кодом сервиса.
+
+
+      ## Основные изменения относительно v0.6.0
+
+
+      - Browser notifications теперь отправляются при росте unread-счётчиков любого типа.
+
+      - Доставка уведомлений использует те же mute и owner-scope filtered unread totals, что и rail
+      badges.
+
+      - Заголовок вкладки браузера теперь показывает общий unread badge, пока есть непрочитанные
+      сообщения.
+
+      - Разрешение на уведомления запрашивается из реального user gesture внутри application shell,
+      что делает initial page load чище и совместимее с браузерами.
+
+
+      ## Варианты запуска
+
+
+      - Обычный launcher / systemd режим остаётся поддерживаемым.
+
+      - Docker Compose режим остаётся поддерживаемым.
+
+      - Docker image: `meshcorium:v0.6.1`
+
+      - Docker release label: `v0.6.1-docker-usb-ble`
+
+
+      ## Проверка Docker-релиза
+
+
+      Docker bundle релиза выровнен с текущим кодом сервиса:
+
+
+      - `docker compose config` был проверен внутри папки релиза `v0.6.1`.
+
+      - Docker build context указывает прямо на каталог релиза `MeshCorium v0.6.1`.
+
+      - Папка релиза была синхронизирована из текущего git mirror перед публикацией, поэтому Docker
+      собирает тот же backend/frontend код, который был помечен тегом `v0.6.1`.
+
+      - Docker metadata релиза и версия в разделе About внутри приложения показывают `v0.6.1`.
+
+
+      ## Заметки по Docker
+
+
+      Docker Compose монтирует:
+
+
+      - `/etc/meshcorium` для конфигурации
+
+      - `/var/lib/meshcorium` для runtime data и SQLite DB
+
+      - `/var/log/meshcorium` для логов
+
+      - `/dev` для USB serial и видимости устройств
+
+      - `/run/udev` в read-only для metadata устройств
+
+      - `/run/dbus` для доступа к host BlueZ при использовании BLE
+
+
+      Контейнер запускается с `privileged: true`, чтобы поведение Docker оставалось близким к
+      обычному запуску через launcher на хосте для USB serial и BLE discovery.
+
+
+      ## Заметки по обновлению
+
+
+      Этот релиз можно использовать как следующий шаг обновления после `v0.6.0`.
+  - version: 0.6.0
+    name: MeshCorium v0.6.0 -- Docker + USB + BLE
+    datetime: '2026-05-09T15:23:05Z'
+    url: https://github.com/PEG4TRON/MeshCorium/releases/tag/0.6.0
+    prerelease: false
+    notes: >-
+      This release promotes the current development state after `v0.5.3 -- Docker + USB`.
+
+
+      ## Key differences from v0.5.3
+
+
+      - BLE node connection is now available alongside the permanent USB serial transport.
+
+      - USB serial remains a supported first-class connection mode and is not being removed.
+
+      - Docker Compose remains part of the release and is updated for USB + BLE operation.
+
+      - BLE uses Linux / BlueZ on the host; Docker BLE support uses the host D-Bus socket.
+
+      - The connection UI now separates USB, BLE, and Wi-Fi placeholder modes.
+
+      - BLE pairing, PIN entry, unpair, pairing status, known-node history, and saved BLE PIN state
+      were added.
+
+      - Known-node persistence moved successful node history and transport metadata into a local DB.
+
+      - MeshCore node settings were expanded with parameter pages, radio presets, safer BLE pacing,
+      and battery profile settings.
+
+      - MeshCorium settings now include owner-scope controls for contacts, messages, and channels.
+
+      - Channel IDX handling can place DB channels into free node slots and remove channels added by
+      global-channel mode.
+
+      - Category-based DB import/export was added with merge behavior and duplicate/conflict
+      handling.
+
+      - UI/UX was updated across the connection float, phonebar, sync animations, dropdowns,
+      messages, notifications, and battery display.
+
+      - Battery history is persisted per node owner ID and can be displayed with configurable ranges
+      and density.
+
+      - Launcher runtime setup was hardened, including venv recovery and USB serial access group
+      handling.
+
+
+      ## Runtime variants
+
+
+      - Ordinary launcher / systemd usage remains supported.
+
+      - Docker Compose usage remains supported.
+
+      - Docker image: `meshcorium:v0.6.0`
+
+      - Docker release label: `v0.6.0-docker-usb-ble`
+
+
+      ## Docker notes
+
+
+      Docker Compose mounts:
+
+
+      - `/etc/meshcorium` for configuration
+
+      - `/var/lib/meshcorium` for runtime data and SQLite DBs
+
+      - `/var/log/meshcorium` for logs
+
+      - `/dev` for USB serial and hardware visibility
+
+      - `/run/udev` read-only for device metadata
+
+      - `/run/dbus` for host BlueZ access when using BLE
+
+
+      The container runs with `privileged: true` so Docker behavior stays close to ordinary launcher
+      operation on the host for USB serial and BLE discovery.
+
+
+      ---
+
+
+      # MeshCorium v0.6.0 -- Docker + USB + BLE
+
+
+      Этот релиз фиксирует текущее состояние разработки после `v0.5.3 -- Docker + USB`.
+
+
+      ## Ключевые отличия от v0.5.3
+
+
+      - Подключение к ноде по BLE теперь доступно наряду с постоянным USB serial transport.
+
+      - USB serial остаётся поддерживаемым transport первого класса и не удаляется из проекта.
+
+      - Docker Compose остаётся частью релиза и обновлён для сценариев USB + BLE.
+
+      - BLE использует Linux / BlueZ на хосте; поддержка BLE в Docker идёт через host D-Bus socket.
+
+      - UI подключения теперь разделяет режимы USB, BLE и Wi-Fi placeholder.
+
+      - Добавлены BLE pairing, ввод PIN, unpair, статус сопряжения, история известных нод и
+      сохранённое состояние BLE PIN.
+
+      - История успешных нод и transport metadata перенесена в локальную DB known-nodes.
+
+      - Настройки ноды MeshCore расширены страницами параметров, radio presets, более безопасным BLE
+      pacing и battery profile settings.
+
+      - В настройках MeshCorium появились owner-scope controls для контактов, сообщений и каналов.
+
+      - Логика Channel IDX умеет размещать каналы из DB в свободные слоты ноды и удалять каналы,
+      добавленные режимом общих каналов.
+
+      - Добавлен category-based import/export DB с merge-поведением и обработкой duplicate/conflict
+      случаев.
+
+      - UI/UX обновлён в connection float, phonebar, sync animations, dropdowns, сообщениях,
+      уведомлениях и отображении батареи.
+
+      - История батареи сохраняется по owner ID ноды и может отображаться с настраиваемыми
+      диапазонами и плотностью.
+
+      - Launcher runtime стал надёжнее, включая venv recovery и настройку группового доступа к USB
+      serial.
+
+
+      ## Варианты запуска
+
+
+      - Обычный launcher / systemd режим остаётся поддерживаемым.
+
+      - Docker Compose режим остаётся поддерживаемым.
+
+      - Docker image: `meshcorium:v0.6.0`
+
+      - Docker release label: `v0.6.0-docker-usb-ble`
+
+
+      ## Заметки по Docker
+
+
+      Docker Compose монтирует:
+
+      …
+  - version: 0.5.3
+    name: MeshCorium v0.5.3 -- Docker + USB
+    datetime: '2026-05-09T15:23:04Z'
+    url: https://github.com/PEG4TRON/MeshCorium/releases/tag/0.5.3
+    prerelease: false
+    notes: >-
+      ## Highlights compared to v0.5.2
+
+
+      - Ordinary launcher/systemd runtime remains supported.
+
+      - Docker Compose packaging is now included as an official release variant.
+
+      - Docker runtime layout uses `/etc/meshcorium`, `/var/lib/meshcorium`, and
+      `/var/log/meshcorium`.
+
+      - USB serial remains the validated primary transport.
+
+      - BLE remains experimental groundwork and is not yet fully debugged or validated.
+
+
+      ## Upgrade notes
+
+
+      - Existing `v0.5.2` USB installs can still be updated with the ordinary launcher flow.
+
+      - Docker users can now deploy the same release through `docker compose` using the bundled
+      Dockerfile and compose file.
+
+
+      ---
+
+
+      # MeshCorium v0.5.3 -- Docker + USB
+
+
+      ## Основные изменения относительно v0.5.2
+
+
+      - Обычный launcher/systemd runtime остаётся поддерживаемым.
+
+      - Docker Compose packaging включён как официальный вариант релиза.
+
+      - Docker runtime использует структуру `/etc/meshcorium`, `/var/lib/meshcorium` и
+      `/var/log/meshcorium`.
+
+      - USB serial остаётся валидированным основным транспортом.
+
+      - BLE остаётся экспериментальным groundwork и ещё не считается полностью отлаженным или
+      валидированным.
+
+
+      ## Заметки по обновлению
+
+
+      - Существующие USB-установки `v0.5.2` можно обновлять обычным launcher-сценарием.
+
+      - Пользователи Docker теперь могут разворачивать тот же релиз через `docker compose`,
+      используя комплектные Dockerfile и compose-файл.
+  - version: 0.5.2
+    name: MeshCorium v0.5.2 -- USB
+    datetime: '2026-05-09T15:23:03Z'
+    url: https://github.com/PEG4TRON/MeshCorium/releases/tag/0.5.2
+    prerelease: false
+    notes: >-
+      ## Highlights compared to v0.5.1
+
+
+      - Deeper background-session bootstrap telemetry for connect/startup timeout diagnostics.
+
+      - Fixed the fast-response matching race behind intermittent `empty response to APP_START` and
+      `empty response to SEND_CHANNEL_MSG` failures.
+
+      - Completed transport-boundary cleanup so direct serial runtime construction stays inside the
+      adapter/discovery layer.
+
+      - `/settings/about` now shows a MeshCorium header with logo and version.
+
+      - USB remains the validated primary transport.
+
+      - BLE remains experimental groundwork and is not yet fully debugged or validated.
+
+
+      ## Upgrade notes
+
+
+      - Recommended as the next USB release after `v0.5.1`.
+
+      - Keep the previous installation directory as rollback until `v0.5.2` is verified in your
+      environment.
+
+
+      ---
+
+
+      # MeshCorium v0.5.2 -- USB
+
+
+      ## Основные изменения относительно v0.5.1
+
+
+      - Добавлена более глубокая telemetry bootstrap-фазы background-session для диагностики
+      connect/startup timeout.
+
+      - Исправлена гонка fast-response matching, из-за которой появлялись плавающие ошибки `empty
+      response to APP_START` и `empty response to SEND_CHANNEL_MSG`.
+
+      - Завершена очистка transport-boundary: прямое создание serial runtime теперь остаётся внутри
+      adapter/discovery layer.
+
+      - `/settings/about` теперь показывает header MeshCorium с логотипом и версией.
+
+      - USB остаётся валидированным основным транспортом.
+
+      - BLE остаётся экспериментальным groundwork и ещё не считается полностью отлаженным или
+      валидированным.
+
+
+      ## Заметки по обновлению
+
+
+      - Рекомендуется как следующий USB-релиз после `v0.5.1`.
+
+      - Сохраняйте предыдущий каталог установки как rollback-вариант, пока `v0.5.2` не будет
+      проверен в вашей среде.
+  - version: 0.5.1
+    name: MeshCorium v0.5.1 -- USB
+    datetime: '2026-05-09T15:23:03Z'
+    url: https://github.com/PEG4TRON/MeshCorium/releases/tag/0.5.1
+    prerelease: false
+    notes: >-
+      ## What is new compared to v0.5.0
+
+
+      - USB serial remains the primary and permanent supported transport.
+
+      - A transport abstraction layer was added:
+        - `ConnectionRouter`
+        - `ConnectionDescriptor`
+        - `SerialTransportAdapter`
+        - transport-aware `MeshCoreClient`
+      - Added backend protection against the startup failure seen in `v0.5.0`:
+        - `expected CONTACTS_START, got code 18`
+      - Removed the old non-Vue legacy frontend from the runtime.
+
+      - The connection screen now has a `USB / BLE / Wi-Fi` selector, separate connection history by
+      transport mode, and a forget action for saved nodes.
+
+      - Added the first experimental BLE path:
+        - Linux / BlueZ / `bleak`
+        - Nordic UART Service discovery
+        - BLE pairing PIN UI
+        - BLE is still not debugged enough to be considered a validated transport in this release.
+      - `Wi-Fi` is present only as a UI placeholder in this release; the real transport is not
+      implemented yet.
+
+      - Launcher, release docs, and packaging groundwork were improved.
+
+
+      ## Upgrade notes from v0.5.0
+
+
+      1. Stop the current MeshCorium instance.
+         If systemd is used:
+         - `sudo systemctl stop meshcorium.service`
+      2. Back up data from the old installation:
+         - `data/meshcorium_messages.sqlite3`
+         - `data/meshcorium_contacts.sqlite3`
+      3. Replace the application files with `v0.5.1`.
+
+      4. Restore your data files if needed.
+
+      5. Start MeshCorium again.
+
+
+      ---
+
+
+      # MeshCorium v0.5.1 -- USB
+
+
+      ## Что нового относительно v0.5.0
+
+
+      - USB serial остаётся основным и постоянным поддерживаемым транспортом.
+
+      - Добавлен слой транспортной абстракции:
+        - `ConnectionRouter`
+        - `ConnectionDescriptor`
+        - `SerialTransportAdapter`
+        - transport-aware `MeshCoreClient`
+      - Добавлена backend-защита от startup-сценария из `v0.5.0`:
+        - `expected CONTACTS_START, got code 18`
+      - Удалён старый non-Vue legacy frontend из runtime.
+
+      - Экран подключения получил selector `USB / BLE / Wi-Fi`, раздельную историю подключений по
+      transport mode и forget action для сохранённых нод.
+
+      - Добавлен первый экспериментальный BLE path:
+        - Linux / BlueZ / `bleak`
+        - Nordic UART Service discovery
+        - BLE pairing PIN UI
+        - BLE в этом релизе ещё не считается отлаженным и валидированным transport.
+      - `Wi-Fi` присутствует только как UI-заглушка; реальный transport ещё не реализован.
+
+      - Улучшены launcher, release docs и groundwork для packaging.
+
+
+      ## Как обновиться с v0.5.0
+
+
+      1. Остановить текущий экземпляр MeshCorium.
+         Если используется systemd:
+         - `sudo systemctl stop meshcorium.service`
+      2. Сделать резервную копию данных из старой установки:
+         - `data/meshcorium_messages.sqlite3`
+         - `data/meshcorium_contacts.sqlite3`
+      3. Заменить файлы приложения на `v0.5.1`.
+
+      4. При необходимости вернуть сохранённые файлы данных.
+
+      5. Снова запустить MeshCorium.
+  - version: 0.5.0
+    name: MeshCorium v0.5.0 -- USB
+    datetime: '2026-05-09T15:23:02Z'
+    url: https://github.com/PEG4TRON/MeshCorium/releases/tag/0.5.0
+    prerelease: false
+    notes: >-
+      First public USB release of MeshCorium.
+
+
+      MeshCorium is a self-hosted MeshCore client with a hybrid contact model. It provides a local
+      web interface for working with a MeshCore companion node on a Linux host near the node.
+
+
+      ## Contact model
+
+
+      - contacts are loaded from the node;
+
+      - contacts are stored in the local backend database;
+
+      - the local database can be reused between sessions and reconnects.
+
+
+      ## Main transport
+
+
+      - USB serial
+
+
+      ## Highlights
+
+
+      - Python backend with a local web interface
+
+      - Vue frontend for the main screens
+
+      - channels, messages, and direct dialogs
+
+      - contacts backed by a local backend database
+
+      - unread / mention / direct notification counters
+
+      - different notification sounds for different event types
+
+      - map, routes, and route-trace tools
+
+      - optional custom wallpapers
+
+      - remote repeater and room server configuration through the companion session
+
+      - launcher for direct run and systemd service installation
+
+      - bootstrap of system dependencies for Debian-like and RHEL-like systems
+
+
+      ## Quick start
+
+
+      ```bash
+
+      chmod +x meshcorium-launcher.sh
+
+      ./meshcorium-launcher.sh --run
+
+      ```
+
+
+      ## Service installation
+
+
+      Use the launcher service mode if you want MeshCorium to run as a system service.
+
+
+      ---
+
+
+      # MeshCorium v0.5.0 -- USB
+
+
+      Первый публичный USB-релиз MeshCorium.
+
+
+      MeshCorium — self-hosted клиент для MeshCore с гибридной моделью контактов. Проект
+      предоставляет локальный web-интерфейс для работы с MeshCore companion-нодой на Linux-хосте
+      рядом с нодой.
+
+
+      ## Модель контактов
+
+
+      - контакты загружаются из ноды;
+
+      - контакты сохраняются в локальной backend-базе;
+
+      - локальная база может переиспользоваться между сессиями и переподключениями.
+
+
+      ## Основной транспорт
+
+
+      - USB serial
+
+
+      ## Ключевые возможности
+
+
+      - Python backend с локальным web-интерфейсом
+
+      - Vue frontend для основных экранов
+
+      - каналы, сообщения и direct-диалоги
+
+      - контакты на базе локальной backend БД
+
+      - счётчики unread / mention / direct
+
+      - разные звуки уведомлений для разных типов событий
+
+      - карта, маршруты и route-trace инструменты
+
+      - возможность использовать кастомные обои
+
+      - удалённая настройка repeater и room server через companion session
+
+      - launcher для прямого запуска и установки как systemd-сервиса
+
+      - bootstrap системных зависимостей для Debian-подобных и RHEL-подобных систем
+
+
+      ## Быстрый запуск
+
+
+      ```bash
+
+      chmod +x meshcorium-launcher.sh
+
+      ./meshcorium-launcher.sh --run
+
+      ```
+
+
+      ## Установка как сервиса
+
+
+      Если MeshCorium должен работать как системный сервис, используйте сервисный режим launcher.

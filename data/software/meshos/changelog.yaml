@@ -1,0 +1,363 @@
+source: github
+repo: andymux/meshos-releases
+updatedAt: '2026-07-05T17:14:46.973Z'
+releases:
+  - version: v1.0.9
+    name: MeshOS v1.0.9
+    datetime: '2026-06-25T14:00:26Z'
+    url: https://github.com/andymux/meshos-releases/releases/tag/v1.0.9
+    prerelease: false
+    notes: >-
+      ## MeshOS Companion v1.0.9
+
+
+      Pairs with the new **MeshOS 2.0 — "Unified Companion + Repeater"** firmware.
+
+
+      ### Repeater & mesh control
+
+      - **Configurable repeater** — turn your radio into a repeater and choose what it relays:
+      everything, selected regions, or nothing — with hop limits and loop detection, all from the
+      app.
+
+      - **Spam control** — block noisy channels by `#hashtag` or hash, view live per-channel mesh
+      statistics to spot rogue channels, and toggle whether the public channel is repeated.
+
+      - **Stronger user blocking** — blocked users are no longer repeated on channels you hold the
+      key for, enforced on the device even while your phone is disconnected.
+
+
+      ### Firmware updates
+
+      - **Wi-Fi (OTA) firmware updates** straight from the app — no cable required (Wi-Fi-capable
+      radios).
+
+
+      ### Chat & UI
+
+      - **Clear All Messages** from a channel's menu.
+
+      - **Colourful map** option (layers button on the map screen).
+
+      - Tidied sent-message popup — clearer LoRa vs AirLink repeat labels.
+
+      - Settings reorganised under a **Repeater** section.
+
+
+      ---
+
+      Download **MeshOS-v1.0.9.apk** and open it to install. Existing users upgrade in place — your
+      contacts, chats and licence are preserved.
+  - version: v1.0.8
+    name: MeshOS v1.0.8
+    datetime: '2026-06-13T12:44:10Z'
+    url: https://github.com/andymux/meshos-releases/releases/tag/v1.0.8
+    prerelease: false
+    notes: >-
+      ## MeshOS v1.0.8
+
+
+      ### Block users by name — now with wildcards
+
+      - New **Blocked Users** screen (Settings → Messaging) — block an exact username, or use a
+      **wildcard pattern** to catch several at once:
+        - `*` matches any text · `?` matches a single character
+        - e.g. `*bot`   `spam*`   `*casino*`
+      - Great for spammers who append changing text (like a timestamp) to their name — one pattern
+      such as `*meshcore*spammer*` blocks every variant.
+
+      - Blocking is now **complete** — a blocked sender is hidden from:
+        - the channel conversation,
+        - the chat-list preview (no more last-message leak),
+        - the unread badge, and
+        - notifications.
+
+        Their messages are still stored, so unblocking brings them straight back.
+
+      ---
+
+      **Verify your download** (SHA-256):
+
+      `37318e42adbb411daf31aa0fc09bf710c5782f988eb6ca9f3d8496f9cb08477a`
+  - version: v1.0.7
+    name: MeshOS v1.0.7
+    datetime: '2026-06-08T11:18:37Z'
+    url: https://github.com/andymux/meshos-releases/releases/tag/v1.0.7
+    prerelease: false
+    notes: >-
+      ## MeshOS v1.0.7
+
+
+      ### AirLink ↔ LoRa Bridge
+
+      - Bridge your local Bluetooth **AirLink** mesh to the **LoRa (MeshCore)** network — messages
+      now relay both ways automatically.
+
+      - **Direct messages** bridge across AirLink and LoRa too, not just channel chat.
+
+      - When your phone is acting as the bridge, your **own** messages go out on **both**
+      transports.
+
+      - New **"Bridged" indicators**: actively-bridged channels show green icons in the chat list
+      and a green badge in the conversation header.
+
+      - Each message now shows which network it travelled on (**AirLink / LoRa** tags), and on the
+      MeshCore side you'll see the **LoRa repeat count** (✓ x1) as repeaters carry it.
+
+      - **Store-and-forward** now replays missed **DMs** as well as channel messages when you walk
+      back into range.
+
+
+      ### MeshOS Unified Companion Firmware Support
+
+      - One firmware now runs **BLE, Wi-Fi and USB** companions — no more flashing a different
+      variant for each connection type.
+
+      - **Configure Wi-Fi companions right in the MeshOS app** — pick the network and connect over
+      Wi-Fi.
+
+      - Download the MeshCore unified firmware to your device from
+      https://www.meshcore.co.uk/configurator
+
+
+      ### Fixes
+
+      - Fixed AirLink occasionally needing a manual **off/on toggle to start** after a fresh
+      install.
+
+      - Fixed **duplicate messages** appearing when returning to AirLink range.
+
+      - Fixed old channel history showing after deleting a channel and re-adding one by QR.
+
+      - An AirLink channel and a LoRa channel sharing the same key now always appear as **one
+      chat**.
+
+
+      ### Other
+
+      - Add a contact by **QR code now works on macOS**.
+
+      - **"Start on boot"** option for always-on nodes (Android).
+
+      - Settings tidy-up.
+
+
+      ---
+
+      **T-Deck / T-Pager owners:** MeshOS firmware **1.3.7+** is AirLink-enabled, so those devices
+      can act as an AirLink ↔ MeshCore bridge with this app.
+
+
+      **Verify your download** (SHA-256):
+
+      `aedccc2bbec4d7c82374390a93ed114cd81d2310c479981046a4bf9b2cdc0cf0`
+  - version: v1.0.4
+    name: MeshOS v1.0.4
+    datetime: '2026-05-12T14:14:09Z'
+    url: https://github.com/andymux/meshos-releases/releases/tag/v1.0.4
+    prerelease: false
+    notes: >-
+      **What's new**
+
+
+      - Bug fixes
+
+      - Map path markers and message-path legend now readable in light mode (text colour fixed, chip
+      borders removed)
+
+      - Set Path / Reset Path GUI improvements
+
+      - DM Improvements
+
+
+      **Install**
+
+
+      Sideload the APK below over your existing install — contacts, messages, and license are
+      preserved.
+  - version: v1.0.3
+    name: MeshOS v1.0.3
+    datetime: '2026-05-10T19:05:22Z'
+    url: https://github.com/andymux/meshos-releases/releases/tag/v1.0.3
+    prerelease: false
+    notes: >-
+      **What's new**
+
+
+      - Signal Info dialog (tap the signal bars on the home screen) now shows when the last signal
+      was heard — "12s ago" / "5m ago" for recent signals, time-of-day or date for older ones
+
+      - Repeater Login improvements
+
+      - New region settings in repeater admin
+
+
+      **Install**
+
+
+      Sideload the APK below over your existing install — contacts, messages, and license are
+      preserved.
+  - version: v1.0.2
+    name: MeshOS v1.0.2
+    datetime: '2026-05-01T10:47:52Z'
+    url: https://github.com/andymux/meshos-releases/releases/tag/v1.0.2
+    prerelease: false
+    notes: >-
+      v1.0.2 - Patch release
+
+
+      - Fix: BLE mesh received messages now persist channelIdx (so they survive app restarts and
+      reinstalls)
+
+      - Fix: WiFi network scan on Android (was blocked by cleartext traffic restrictions)
+
+      - Fix: Channel name double-hashtag in participants screen
+
+      - Fix: Discord-app dispose crash (ref.read after widget disposed)
+
+      - Fix: Tablet map crashes (LateInitializationError on pinch-zoom)
+
+      - Fix: License panel hidden on iOS (App Store handles licensing)
+
+      - New: Channel hash shown in participants screen (e.g. 'Channel Hash: 1B')
+
+      - New: Block (from map) menu option in heard list
+
+      - Improved: Region Scope rename (was 'Scope'), 'Set Region Scope' dialog
+
+      - Improved: Voice message bubble layout (wider, better progress bar, padding)
+
+      - Improved: Tactical mode color coverage across the app
+
+      - Improved: Light mode metadata legibility on sent/received bubbles
+
+      - Hidden: BLE trace hash size selector (hardcoded to 1B for now)
+  - version: v1.0.1
+    name: MeshOS v1.0.1
+    datetime: '2026-04-29T15:39:42Z'
+    url: https://github.com/andymux/meshos-releases/releases/tag/v1.0.1
+    prerelease: false
+    notes: |-
+      General bug fixes and stability improvements
+      Improvements to licensing and platform consistency
+      Added copy to BLE messaging for easier device-to-device clipboard use
+  - version: v1.0.0
+    name: MeshOS v1.0.0
+    datetime: '2026-04-12T16:17:15Z'
+    url: https://github.com/andymux/meshos-releases/releases/tag/v1.0.0
+    prerelease: false
+    notes: |-
+      v1.0.0 - Major release
+
+      - Phone-to-phone BLE mesh messaging
+      - What's New screen on app updates
+      - Redesigned license screen with in-app purchase flow
+      - Tactical mode color fixes
+      - Voice message UI improvements
+      - Timestamp sanitization for corrupted packets
+      - Message preview toggle now functional
+      - LoRa setup hints trigger on first node connect only
+  - version: v0.4.5
+    name: MeshOS v0.4.5
+    datetime: '2026-03-29T20:04:19Z'
+    url: https://github.com/andymux/meshos-releases/releases/tag/v0.4.5
+    prerelease: false
+    notes: "## What's New\r\n\r\n- **Wide-Screen Map Overlay** — Floating channel/contacts panel over the map on tablets and desktops (toggleable)\r\n- **Resizable Panel** — Drag handle to resize the overlay panel\r\n- **Temporal Node Fade** — Map markers fade by age (today=bright, 7d=invisible), toggleable in settings\r\n- **Map Auto-Center** — Map centers to node activity area, adjusts for panel in overlay mode\r\n- **Desktop Zoom** — +/- zoom buttons and Magic Mouse scroll-to-zoom on macOS (coming soon)\r\n- **Path Analysis on Map** — View path analysis on the background map while keeping chat overlay open\r\n- **Heard List Persistence** — Deletions now persist correctly across app restarts\r\n- **Node Info** — Last heard time shown in map marker popups\r\n- **Cross-Platform Refactor** — Conditional imports for web/native compatibility"
+  - version: v0.4.3
+    name: MeshOS v0.4.3
+    datetime: '2026-03-27T11:39:54Z'
+    url: https://github.com/andymux/meshos-releases/releases/tag/v0.4.3
+    prerelease: false
+    notes: >-
+      ## What's New
+
+      - **Multi-Transport Support** — Connect via Bluetooth, WiFi TCP, or USB Serial
+
+      - **WiFi Network Scanner** — Auto-discover MeshCore devices on your network with protocol
+      verification
+
+      - **USB Serial** — Connect to companion USB firmware at 115200 baud (Android)
+
+      - **Transport-Aware UI** — Connection icon changes to Bluetooth/WiFi/USB based on active
+      transport
+
+      - **Disconnect Confirmation** — Prevents accidental disconnects with a confirmation dialog
+
+      - **WiFi Settings Persistence** — IP and port remembered across sessions
+
+      - **Room Chat Controls** — Set path, reset path, and logout via popup menu
+
+      - **iOS Update Handling** — Software update prompts removed on iOS (handled by App Store)
+  - version: v0.4.2
+    name: MeshOS v0.4.2
+    datetime: '2026-03-26T10:03:27Z'
+    url: https://github.com/andymux/meshos-releases/releases/tag/v0.4.2
+    prerelease: false
+    notes: >-
+      ## What's New
+
+      - **Scope System** — Create and manage scopes, set per-channel scope, scope indicator on
+      messages and app bar
+
+      - **Repeater Names in Resend Dialog** — Shows repeater names alongside IDs with signal bars
+      and SNR
+
+      - **Notification Navigation** — Tap a notification to jump directly to the relevant channel or
+      DM
+
+      - **Community Radio Presets** — Choose from predefined radio presets, with manual override
+      tracking
+
+      - **Room Path Controls** — Set path / reset path menu added to room chat screen
+
+      - **GPS Detection Improvements** — Better distinction between no-fix and no-hardware, toggle
+      reset support
+
+      - **Light Mode Map Fix** — Repeater finder signal info now visible in light mode
+  - version: v0.4.1
+    name: MeshOS v0.4.1
+    datetime: '2026-03-24T15:37:06Z'
+    url: https://github.com/andymux/meshos-releases/releases/tag/v0.4.1
+    prerelease: false
+    notes: >-
+      ## What's New
+
+      - **Telemetry Settings** — Configure how your device responds to telemetry requests
+      (base/location/environment modes)
+
+      - **Per-Contact Telemetry Permissions** — Grant or deny telemetry access per contact when
+      using "From Specific Contacts" mode
+
+      - **Request Telemetry** — Request telemetry from contacts with live Cayenne LPP decoding
+      (battery, temperature, humidity, pressure, GPS, and more)
+
+      - **Telemetry Map** — GPS telemetry data displayed on an embedded map
+
+      - **Telemetry Refresh** — Re-request telemetry without closing the dialog
+
+      - **In-App Update Checker** — Automatic check on startup + manual check in Settings > Version
+  - version: v0.4.0
+    name: MeshOS v0.4.0
+    datetime: '2026-03-23T11:36:55Z'
+    url: https://github.com/andymux/meshos-releases/releases/tag/v0.4.0
+    prerelease: false
+    notes: >-
+      ## What's New
+
+      - **Repeater Settings Tab** — configure repeater settings through a clean UI instead of CLI
+      commands
+
+      - **Location Picker** — set repeater position on a map
+
+      - **CLI Fixes** — responses now display correctly under their commands
+
+      - **Theming** — dark, light, and tactical themes
+
+      - **QR Code** — share and scan contacts via QR
+
+      - **Trace Route** — visualize message paths through the mesh
+
+
+      ## Download
+
+      Download **MeshOS.apk** below and install on your Android device.

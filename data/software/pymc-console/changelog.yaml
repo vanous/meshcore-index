@@ -1,6 +1,6 @@
 source: github
-repo: dmduran12/pymc_console-dist
-updatedAt: '2026-06-23T20:38:38.783Z'
+repo: Treehouse-00/pymc_console-dist
+updatedAt: '2026-07-05T17:14:50.668Z'
 releases:
   - version: v0.9.329
     name: Release v0.9.329

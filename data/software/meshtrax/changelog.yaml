@@ -1,0 +1,45 @@
+source: github
+repo: venamartin/meshtrax
+updatedAt: '2026-07-05T17:14:48.032Z'
+releases:
+  - version: v1.5.0
+    name: Release v1.5.0
+    datetime: '2026-07-01T19:59:09Z'
+    url: https://github.com/venamartin/meshtrax/releases/tag/v1.5.0
+    prerelease: false
+    notes: "## What's Changed\r\n\r\n# Update: Make the app feel more like a standard messaging app\r\n\r\n- Unified Chats Screen: Combined \"Contacts\" and \"Channels\" into a single Inbox so all your active conversations are in one place.\r\n- Better Address Book: Added a \"New Chat\" button that opens a clean list of your saved contacts and newly discovered devices.\r\n- Cleaner Inbox: Channels now show a preview of their most recent message instead of just saying \"Private/Unread\".\r\n- Dedicated Repeaters Screen: Moved repeaters to their own separate page so they no longer clutter up your main contact list.\r\n- General Cleanup: Fixed minor visual bugs, removed duplicate menus, and cleaned up the background code to make the app run smoother.\r\n - QR Code scanning and generation for channels and companion contact. by @venamartin in https://github.com/venamartin/meshtrax/pull/15\r\n\r\n**Full Changelog**: https://github.com/venamartin/meshtrax/compare/v1.4.4...v1.5.0"
+  - version: v1.4.4
+    name: Release v1.4.4
+    datetime: '2026-06-24T20:43:53Z'
+    url: https://github.com/venamartin/meshtrax/releases/tag/v1.4.4
+    prerelease: false
+    notes: "## What's Changed\r\n\r\n* Path Hash Size fixes and low level bug fixes by @venamartin in https://github.com/venamartin/meshtrax/pull/14\r\n\r\n**Full Changelog**: https://github.com/venamartin/meshtrax/compare/v1.4.1...v1.4.4"
+  - version: v1.4.1
+    name: Release v1.4.1
+    datetime: '2026-06-11T20:17:15Z'
+    url: https://github.com/venamartin/meshtrax/releases/tag/v1.4.1
+    prerelease: false
+    notes: "## What's Changed\r\n* Multi-byte prefix fixes\r\n* Linux USB Timeout Fix by @toma63 in https://github.com/venamartin/meshtrax/pull/11\r\n* Linux crash fix by @toma63 in https://github.com/venamartin/meshtrax/pull/12\r\n* Add Neightbor Graph JSON Example by @toma63 in https://github.com/venamartin/meshtrax/pull/10\r\n\r\n\r\n**Full Changelog**: https://github.com/venamartin/meshtrax/compare/v1.4.0...v1.4.1"
+  - version: v1.4.0
+    name: Release v1.4.0
+    datetime: '2026-06-09T19:07:37Z'
+    url: https://github.com/venamartin/meshtrax/releases/tag/v1.4.0
+    prerelease: false
+    notes: "# Major Features\r\n\r\n* Support for 2 and 3 byte hash prefix (this includes path tracing).  \r\n_NOTE: Path trace has a bug in meshcore firmware for 3 byte prefix._\r\n* Discover nearby repeaters.\r\n* Mini map added to top of Repeater Login (if location known).\r\n\r\n\r\n## What's Changed\r\n* Add Contacts by @toma63 in https://github.com/venamartin/meshtrax/pull/8\r\n\r\n\r\n**Full Changelog**: https://github.com/venamartin/meshtrax/compare/v1.3.7...v1.4.0"
+  - version: v1.3.7
+    name: Release v1.3.7
+    datetime: '2026-05-06T19:52:59Z'
+    url: https://github.com/venamartin/meshtrax/releases/tag/v1.3.7
+    prerelease: false
+    notes: |-
+      ## What's Changed
+      * Fix Nearby Repeaters Sort by @toma63 in https://github.com/venamartin/meshtrax/pull/1
+      * Better repeater sorting fix by @toma63 in https://github.com/venamartin/meshtrax/pull/2
+      * Nearby repeaters map by @toma63 in https://github.com/venamartin/meshtrax/pull/4
+      * Timeout popup fix by @toma63 in https://github.com/venamartin/meshtrax/pull/5
+      * Fix phantom nearby repeaters by @toma63 in https://github.com/venamartin/meshtrax/pull/6
+
+      ## New Contributors
+      * @toma63 made their first contribution in https://github.com/venamartin/meshtrax/pull/1
+
+      **Full Changelog**: https://github.com/venamartin/meshtrax/commits/v1.3.7

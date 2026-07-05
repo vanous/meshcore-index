@@ -1,7 +1,130 @@
 source: github
 repo: ALLFATHER-BV/wadamesh
-updatedAt: '2026-07-04T13:39:08.650Z'
+updatedAt: '2026-07-05T17:14:28.959Z'
 releases:
+  - version: beta_30
+    name: wadamesh beta_30
+    datetime: '2026-07-05T11:10:38Z'
+    url: https://github.com/ALLFATHER-BV/wadamesh/releases/tag/beta_30
+    prerelease: true
+    notes: >-
+      Test build on top of beta_29. This one is about speed: the big-mesh sluggishness is fixed, and
+      the Spectrum analyzer is now genuinely live.
+
+
+      Flash from the web flasher at **https://wadamesh.com** (Standalone install → Version →
+      beta_30), or grab a `-merged.bin` below.
+
+
+      ## Fixed — the periodic multi-second freezes on busy meshes (#82)
+
+      Saving the contact list took up to **3 seconds at ~570 contacts and ran on the UI thread**
+      every couple of minutes — exactly the trackball/touch hesitation reported since beta_25. The
+      save now packs the same data into a few large writes instead of thousands of tiny ones,
+      cutting it to a fraction of the time. On top of that, the Contacts tab no longer tears itself
+      down every 60 seconds just to refresh the "heard 2h ago" labels (they update in place now —
+      that rebuild cost over a second on large lists and could yank the list mid-scroll), and advert
+      bursts can no longer queue several rebuilds back to back.
+
+
+      Thanks to **guinnessbear** for the report and to **Yazutsu** for the first-rate timing
+      measurements that pinned down exactly where the stalls came from.
+
+
+      ## Improved — Spectrum analyzer
+
+      - The **waterfall gets a new line ~4x per second** instead of once per sweep, and the trace
+      advances across the band as it sweeps, like a bench analyzer.
+
+      - A full sweep is ~20% faster.
+
+      - The **trace Y-axis now scales itself to the live signal**: it expands instantly when a
+      strong signal appears (no more clipping flat against the top) and eases back once it's gone,
+      never zooming tighter than 30 dB.
+
+
+      ---
+
+      This is a **test/beta** build (prerelease); stable stays **beta_27**. On-device, enable
+      **Settings → About → "Get test builds (beta)"** to follow the test channel over Wi-Fi.
+  - version: beta_29
+    name: wadamesh beta_29
+    datetime: '2026-07-05T08:10:02Z'
+    url: https://github.com/ALLFATHER-BV/wadamesh/releases/tag/beta_29
+    prerelease: true
+    notes: >-
+      Test build on top of the current stable (**beta_27**). Clock hardening for room servers, the
+      BLE "repeats heard" fix, much deeper chat history on SD, and a set of navigation and delete
+      fixes.
+
+
+      Flash from the web flasher at **https://wadamesh.com** (Standalone install → Version →
+      beta_29), or grab a `-merged.bin` below.
+
+
+      ## Fixed — room logins silently locked out by the device clock (#89 follow-up)
+
+      Room servers quietly reject anything older than the newest timestamp they have seen from you,
+      so a device clock that stepped backwards (a reboot without GPS or phone around, or a sync
+      correcting a fast clock) black-holed every Join with zero feedback — and beta_28's keep-alives
+      made that easier to hit. The device now remembers the newest timestamp it has used **across
+      reboots** so it can never fall behind itself, a Join that gets no reply shows a clear error
+      after 20 s (including what the device thinks the time is), and the device **warns when its
+      clock and the room server's clock disagree**. Thanks to **EricMW61** for the follow-up
+      testing.
+
+
+      ## Fixed — "Repeats heard" over Bluetooth (#94)
+
+      The app counts repeats from the per-packet RX log, which beta_23 stopped sending over BLE to
+      fix congestion (#46/#54). The firmware now recognises packets that are **repeats of your own
+      messages** and lets exactly those through to BLE — the counter works again and the congestion
+      fix stays. Thanks to **daryldakine** for the clean bisect and the analyzer capture.
+
+
+      ## Fixed — app-sent channel messages now show on the device
+
+      Messages sent from the phone app through the device now appear on the device itself as your
+      own outgoing message in that channel. This worked for DMs but never for channels.
+
+
+      ## Fixed — deleting chats sticks
+
+      Deleted messages could survive in storage and resurrect the chat later, and removing a channel
+      could miss the underlying channel entry so the thread came right back. Both closed.
+
+
+      ## New — deep chat history on SD (up to 5000 messages)
+
+      Devices with an SD card now keep up to **5000 messages** instead of 500, with **date
+      separators** (Today / Yesterday / day names) between messages from different days.
+
+      **Downgrade note for testers:** builds older than beta_29 will not read the larger history
+      file — downgrading starts with an empty history.
+
+
+      ## Also
+
+      - Chat/channel rows use the same compact style as Contacts — more conversations per screen.
+
+      - The chat/channel settings sheet fits on one screen (same grid as the contact menu) instead
+      of scrolling.
+
+      - Compact chat mode alternates two background tones for readability.
+
+      - Keyboard nav: settings pages no longer jump down on open, and the red update dot can't steal
+      the selection from the About button.
+
+      - The update check waits for Wi-Fi to actually have an address and retries within a minute
+      instead of showing "couldn't reach the update server" for six hours.
+
+      - Tanmatsu: the About page shows the real firmware version.
+
+
+      ---
+
+      This is a **test/beta** build (prerelease); stable stays **beta_27**. On-device, enable
+      **Settings → About → "Get test builds (beta)"** to follow the test channel over Wi-Fi.
   - version: beta_28
     name: wadamesh beta_28
     datetime: '2026-07-04T11:41:57Z'
@@ -956,135 +1079,3 @@ releases:
 
 
       **Boards:** LilyGo T-Deck · Heltec V4 TFT.
-  - version: beta_9
-    name: wadamesh beta_9
-    datetime: '2026-06-20T13:18:47Z'
-    url: https://github.com/ALLFATHER-BV/wadamesh/releases/tag/beta_9
-    prerelease: false
-    notes: >-
-      # wadamesh beta_9
-
-
-      A reliability-focused drop — Wi-Fi recovery, a self-healing chat-history fix, crash-report
-      export, plus room-server, map, contacts and app-drawer improvements.
-
-
-      **Install / update:** flash from [flasher.wadamesh.com](https://flasher.wadamesh.com), grab it
-      in LauncherHub, or use the on-device update check (Settings → About).
-
-
-      ## Stability
-
-      - **Wi-Fi now reconnects on its own** after the link drops — no more rebooting to get back
-      online.
-
-      - **Fixed reboot-on-every-received-message:** a corrupted chat-history file could make the
-      device reboot whenever a message arrived (and hide your messages). The bad file is now
-      detected and reset automatically, so it recovers on its own.
-
-      - **Boot hardening:** NULL-guards on the display draw buffer so a unit with quirky/limited
-      memory degrades gracefully instead of getting stuck on the boot logo.
-
-
-      ## Crash reports
-
-      - After a crash, **Settings → About** shows an **"Export crash report"** button that saves the
-      crash dump to the **microSD card** — so you can send it to the devs and get the bug fixed.
-
-
-      ## Chat & room servers
-
-      - Room-server messages now show the **time each message was actually sent**, not when it
-      arrived.
-
-      - Room-server messages now show **who sent them**.
-
-      - **Sharing your contact QR** now produces a valid `meshcore://contact/add?…` code that the
-      **MeshCore phone app can scan and import**.
-
-      - Unread counts show **"99+"** instead of an alarming raw number on busy channels.
-
-
-      ## Map
-
-      - The **reload button for corrupt tiles** now actually clears the cached tiles — **including
-      when you're offline** — and the missing/blank "twilight zone" tiles re-download on their own.
-
-      - Fixed tiles not re-fetching at **zoom levels 13–15**.
-
-
-      ## Contacts
-
-      - **Favourited contacts always appear** in the contact list now, even with hundreds of
-      similarly-named contacts (they used to stay hidden until you searched).
-
-
-      ## App drawer
-
-      - **New icon-size setting** — tap the **cog** at the top-right of the app drawer to switch
-      between **Compact** and **Large** (bigger icons + labels, easier to read).
-
-      - **Smoother scrolling** through the app list and the other scrollable lists.
-
-
-      ---
-
-      **Assets:** `*-merged.bin` = full image (flash at 0x0 / erase). Plain `*.bin` = app-only (OTA
-      / Launcher side-load). T-Deck = `wadamesh-tdeck*`, Heltec V4 TFT = `wadamesh-heltec-v4-tft*`.
-  - version: beta_8
-    name: wadamesh beta_8
-    datetime: '2026-06-19T12:39:54Z'
-    url: https://github.com/ALLFATHER-BV/wadamesh/releases/tag/beta_8
-    prerelease: false
-    notes: >-
-      # wadamesh beta_8
-
-
-      Polish + fixes for the touch UI — a faster chat acknowledgement, map readout controls, and an
-      internal-memory trim.
-
-
-      **Install / update:** flash from [flasher.wadamesh.com](https://flasher.wadamesh.com), grab it
-      in LauncherHub, or use the on-device update check (Settings → About).
-
-
-      ## Chat
-
-      - **Quick replies insert at the cursor** instead of replacing whatever you'd already typed.
-
-      - **New one-tap "Ack"** — long-press any message and tap *Ack*. It drops a ready-to-send reply
-      into the composer with that message's **signal strength (SNR/RSSI)** and the **route** it took
-      (hop codes), so you can instantly confirm someone's test came through. On a channel it
-      `@`-mentions the sender. You review and send — it's never auto-sent.
-
-      - Fixed the message action menu (**Ack / Copy / Info / Mention / Block**) running off the
-      bottom of the screen — it now fits, and scrolls if it ever needs to.
-
-
-      ## Map
-
-      - The zoom button now shows a clear **"+/-"** icon.
-
-      - **Show or hide each on-map readout independently** in Map settings — the coordinates line,
-      the tile x/y/z line, and the contact markers.
-
-      - Map settings reorganised: the **microSD-tiles** switch sits at the top under its own
-      heading, separated from the new visibility toggles.
-
-      - **New auto-refresh button** — turn it on and the map re-centres on you automatically
-      whenever your position changes, with an on-screen *Auto-refresh on/off* confirmation.
-
-      - Fixed the close (**X**) in Map settings overlapping the switches when the panel was
-      scrolled.
-
-
-      ## Performance
-
-      - Reclaimed **~19 KB of internal RAM** (scratch buffers moved to PSRAM), leaving more headroom
-      for Wi-Fi and trimming the idle-memory growth seen in recent betas.
-
-
-      ---
-
-      **Assets:** `*-merged.bin` = full image (flash at 0x0 / erase). Plain `*.bin` = app-only (OTA
-      / Launcher side-load). T-Deck = `wadamesh-tdeck*`, Heltec V4 TFT = `wadamesh-heltec-v4-tft*`.
