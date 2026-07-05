@@ -1,7 +1,61 @@
 source: github
 repo: ALLFATHER-BV/wadamesh
-updatedAt: '2026-07-05T21:04:22.652Z'
+updatedAt: '2026-07-05T23:03:47.400Z'
 releases:
+  - version: beta_33
+    name: wadamesh beta_33
+    datetime: '2026-07-05T21:38:17Z'
+    url: https://github.com/ALLFATHER-BV/wadamesh/releases/tag/beta_33
+    prerelease: false
+    notes: >-
+      Stable release. Everything since the last stable (beta_31), headlined by the freeze fixes: the
+      periodic 1-2 second freezes with Wi-Fi on, and the freezes with MQTT enabled, are both gone.
+
+
+      A big thank you to **Half Live** for the patient testing behind this one: toggling MQTT and
+      Wi-Fi through every combination and photographing the on-device stall diagnostics is exactly
+      what pinned both root causes down.
+
+
+      Install via the [web flasher](https://flasher.wadamesh.com), the on-device updater (Settings >
+      About), or Launcher. Fresh install: flash the `-merged` bin at 0x0. Launcher/OTA: the plain
+      bin.
+
+
+      ### Fixed
+
+
+      - **Periodic 1-2 second freezes with Wi-Fi on.** When a phone app or web client was connected
+      over Wi-Fi and that connection went stale (phone asleep, out of range), every received mesh
+      packet made the device block on the dead connection. The device now only writes to a
+      connection that can accept data immediately, and a connection that stays unresponsive for 10
+      seconds is dropped so the client can reconnect cleanly. Real messages are unaffected; they
+      re-sync on reconnect.
+
+      - **Freezes with MQTT enabled.** Connecting to the broker (DNS lookup, TCP connect, login)
+      could block the device for 2-10 seconds and retried every 15 seconds while the broker was
+      unreachable, all on the UI thread. Connection attempts now run fully in the background, and
+      writes to an unresponsive broker are skipped instead of waited on. Tip: if your bridge keeps
+      reconnecting, check the broker address and credentials. A healthy connection does not retry.
+
+      - **Chat-history saves could hitch the UI on busy meshes.** The history file now writes in a
+      few large chunks instead of thousands of tiny ones (the same treatment the contact list got in
+      beta_30), and background saves are spaced further apart while messages stream in.
+
+      - **Wrong toast when the favorites list is full.** Favoriting a 17th contact now says
+      "Favorites full (max 16)" instead of the incorrect "Removed from favorites".
+
+
+      ### New
+
+
+      - **Stall diagnostics in About.** Settings > About lists recent main-loop stalls (over 0.2
+      seconds, newest first), so freeze reports can be confirmed or ruled out at a glance. The About
+      page also no longer causes a stall of its own while open (computing the firmware image size
+      used to checksum the whole app image every second).
+
+
+      Boards: LilyGo T-Deck, Heltec V4 TFT. Also ships to the Tanmatsu launcher store.
   - version: beta_31
     name: wadamesh beta_31
     datetime: '2026-07-05T19:09:28Z'
@@ -1000,49 +1054,3 @@ releases:
 
       Full notes in [`release-notes/beta_13.txt`](release-notes/beta_13.txt). Thanks again to all
       contributors and bug reporters — keep it coming! 🚀
-  - version: beta_12
-    name: wadamesh beta_12
-    datetime: '2026-06-23T06:52:16Z'
-    url: https://github.com/ALLFATHER-BV/wadamesh/releases/tag/beta_12
-    prerelease: false
-    notes: >-
-      ## wadamesh beta_12 — GPS hotfix
-
-
-      A focused hotfix for the GPS slowdown several of you reported. Everything else from
-      **beta_11** is unchanged — this release is GPS-only.
-
-
-      ### 🛰️ GPS fix
-
-      On the T-Deck, getting a position fix had gone slow — minutes instead of about a minute — and
-      for some it wouldn't acquire at all. The GPS streams its data over a small serial buffer, and
-      on the busy touch UI a single heavy screen redraw could stall long enough to overflow that
-      buffer and drop the satellite data mid-stream, forcing the receiver to start the fix over. The
-      buffer is now **16× larger**, so redraws no longer cost you the fix. Confirmed on-device —
-      acquisition is back to normal.
-
-
-      ### 💬 A note from Kaj
-
-      More and more people are picking up wadamesh lately — which is genuinely awesome — and it's
-      surfacing feature requests and bug reports fast, in big numbers. I can't get back to every
-      post in every channel, but I'm on it: I'm prioritising the fixes and quality-of-life
-      improvements, and I'll be working through them later today. Thanks for all the reports and for
-      the patience! 🙏
-
-
-      ---
-
-
-      **Install:** [flasher.wadamesh.com](https://flasher.wadamesh.com) · grab the bins below ·
-      update on-device (Settings → check for update) · or via the Launcher store.
-
-
-      | Board | Web-flash / fresh install | OTA / app-only |
-
-      |---|---|---|
-
-      | LilyGo T-Deck | `wadamesh-tdeck-merged.bin` | `wadamesh-tdeck.bin` |
-
-      | Heltec V4 TFT | `wadamesh-heltec-v4-tft-merged.bin` | `wadamesh-heltec-v4-tft.bin` |
