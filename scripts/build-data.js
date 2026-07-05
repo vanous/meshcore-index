@@ -22,6 +22,7 @@ import { latestReleaseSummary, groupReleases } from '../src/lib/releases.js';
 import { METRICS } from '../src/lib/metrics.js';
 import { loadI18nConfig, publicPathForLocale, compareDisallowPaths } from './route-slugs.js';
 import { buildAllRuntimeOverlays, writeRuntimeOverlays } from './catalog-i18n/build-overlays.js';
+import { buildDataChangelog } from './build-changelog.js';
 
 const here = dirname(fileURLToPath(import.meta.url));
 const defaultRoot = join(here, '..');
@@ -467,6 +468,7 @@ function buildSitemap(root, { devices, firmwares, vendors, networks, software, g
     '/bundle/',
     '/gallery/',
     '/about/',
+    '/data-changelog/',
     ...METRICS.map((m) => `/device-rank/${m.id}/`),
     ...devices.map((d) => `/device/${d.id}/`),
     ...firmwares.flatMap((f) => [`/firmware/${f.id}/`, `/firmware/${f.id}/releases/`]),
@@ -775,6 +777,18 @@ export async function buildData(root = defaultRoot) {
   ]) {
     mkdirSync(dirname(target), { recursive: true });
     writeFileSync(target, schemaJson);
+  }
+
+  // Data changelog (git history over data/) ships as its own bundle too — only
+  // the /data-changelog route needs it, and it's ~200 KB.
+  const dataChangelog = buildDataChangelog(root);
+  const changelogJson = JSON.stringify(dataChangelog, null, 2) + '\n';
+  for (const target of [
+    join(root, 'src', 'lib', 'generated', 'data-changelog.json'),
+    join(root, 'static', 'data-changelog.json')
+  ]) {
+    mkdirSync(dirname(target), { recursive: true });
+    writeFileSync(target, changelogJson);
   }
 
   const sitemapUrls = buildSitemap(root, {

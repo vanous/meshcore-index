@@ -322,6 +322,8 @@
       <a class="text-accent2 hover:underline" href="https://analytics.meshcore.ninja/meshcore.ninja" target="_blank" rel="noreferrer">{m.footer_analytics()} ↗</a>
       <span class="text-edge">·</span>
       <a class="text-accent2 hover:underline" href={href('/about/')}>{m.tool_about_label()}</a>
+      <span class="text-edge">·</span>
+      <a class="text-accent2 hover:underline" href={href('/data-changelog/')}>{m.data_changelog_title()}</a>
       {#if updatedLabel}
         <span class="text-edge">·</span>
         <span>{m.footer_last_updated()} <time datetime={generatedAt} title={updatedTitle}>{updatedLabel}</time></span>

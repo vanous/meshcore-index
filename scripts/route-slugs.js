@@ -47,6 +47,7 @@ export const ROUTE_TEMPLATES = [
   '/{route_slug_releases}/:path(.*)?',
   '/{route_slug_schemas}/:path(.*)?',
   '/{route_slug_status}/:path(.*)?',
+  '/{route_slug_data_changelog}/:path(.*)?',
   '/',
   '/:path(.*)?'
 ];
