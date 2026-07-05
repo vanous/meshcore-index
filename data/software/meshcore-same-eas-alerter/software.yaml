@@ -1,0 +1,77 @@
+# Source: https://github.com/Mambo430/MeshCore-SAME-EAS-Alerter (verified 2026-07-03)
+name: MeshCore SAME EAS Alerter
+kind: integration
+status: active
+maturity: beta
+description: >-
+  Lightweight tool that forwards SAME (Specific Area Message Encoding) Emergency
+  Alert System warnings over a local MeshCore network. Connects an RTL-SDR via
+  USB to receive over-the-air weather alerts and a MeshCore companion node via
+  serial or TCP to broadcast alerts to the mesh. Operates without WiFi or internet.
+
+maintainers:
+  - name: Mambo430
+    url: https://github.com/Mambo430
+
+repository: https://github.com/Mambo430/MeshCore-SAME-EAS-Alerter
+license: GPL-3.0-only
+
+languages:
+  - rust
+
+latest_version: v0.1.0
+released: 2025-12-18
+
+platforms:
+  - linux
+  - raspberry-pi
+
+interfaces:
+  - cli
+
+connections:
+  - serial
+  - tcp
+  - usb
+
+node_roles:
+  - companion
+
+capabilities:
+  - messaging
+  - notifications
+  - automation
+
+install:
+  - type: github-release
+    url: https://github.com/Mambo430/MeshCore-SAME-EAS-Alerter/releases
+  - type: source
+    url: https://github.com/Mambo430/MeshCore-SAME-EAS-Alerter
+
+popularity:
+  githubStars: 11
+  githubForks: 0
+  githubWatchers: 0
+  githubOpenIssues: 0
+  githubContributors: 1
+  lastChecked: 2026-07-03
+
+verification:
+  sourceAvailable: true
+  releasesAvailable: true
+  signedReleases: false
+  ciBuilds: false
+  hasDocumentation: true
+  lastChecked: 2026-07-03
+  notes:
+    - "Uses RTL-SDR to receive NOAA SAME/EAS alerts over the air."
+    - "Forwards alerts to MeshCore companion node via serial or TCP."
+    - "Requires rtl_fm and meshcore-cli; available as .deb for Raspbian."
+
+tags:
+  - eas
+  - weather
+  - emergency
+  - sdr
+
+last_reviewed: 2026-07-03

@@ -11,6 +11,10 @@ image: ikoka_nano.svg
 flasherListed: true
 aliases:
   - Ikoka Nano Meshtastic Device
+  # Source: meshcore-dev/MeshCore variants/ikoka_nano_nrf/platformio.ini
+  - Ikoka Nano nRF
+  # Source: meshcore-dev/MeshCore variants/ikoka_nano_nrf/platformio.ini
+  - Ikoka Nano (nRF52840)
 price:
   # Source: mesh101 price range for comparable Ikoka devices ($30-45)
   amount: 39

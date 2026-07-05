@@ -1,11 +1,13 @@
 import { error } from '@sveltejs/kit';
 import { networks, getNetwork, devicesForNetwork } from '$lib/data.js';
+import { maybeRedirect, redirectEntries } from '$lib/redirects.js';
 
 export function entries() {
-  return networks.map((n) => ({ id: n.id }));
+  return [...networks.map((n) => ({ id: n.id })), ...redirectEntries('networks')];
 }
 
 export function load({ params }) {
+  maybeRedirect('networks', params.id);
   const network = getNetwork(params.id);
   if (!network) throw error(404, `Unknown network: ${params.id}`);
   const parentNetworks = (network.part_of ?? []).map((id) => getNetwork(id)).filter(Boolean);

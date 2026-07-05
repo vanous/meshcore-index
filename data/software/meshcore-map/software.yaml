@@ -1,0 +1,68 @@
+# Source: https://github.com/meshcore-dev/map.meshcore.io (verified 2026-07-03)
+# Source: https://map.meshcore.io
+name: MeshCore Map
+kind: network-app
+status: active
+maturity: stable
+description: >-
+  Official MeshCore node map. A fully static Vue 3 frontend with Leaflet
+  clustering that visualizes MeshCore nodes from the official API at
+  map.meshcore.io/api/v1/nodes. Can be self-hosted by cloning to any static
+  web server.
+
+maintainers:
+  - name: meshcore-dev
+    url: https://github.com/meshcore-dev
+
+repository: https://github.com/meshcore-dev/map.meshcore.io
+website: https://map.meshcore.io
+license: MIT
+
+languages:
+  - javascript
+
+platforms:
+  - web
+
+interfaces:
+  - web
+
+connections:
+  - http
+
+capabilities:
+  - mapping
+  - monitoring
+
+install:
+  - type: source
+    url: https://github.com/meshcore-dev/map.meshcore.io
+  - type: web
+    url: https://map.meshcore.io
+
+popularity:
+  githubStars: 36
+  githubForks: 11
+  githubWatchers: 1
+  githubOpenIssues: 0
+  githubContributors: 1
+  lastChecked: 2026-07-03
+
+verification:
+  sourceAvailable: true
+  releasesAvailable: false
+  signedReleases: false
+  ciBuilds: false
+  hasDocumentation: true
+  lastChecked: 2026-07-03
+  notes:
+    - "Official MeshCore map from meshcore-dev."
+    - "Static Vue 3 + Leaflet frontend; uses backend API at map.meshcore.io/api/v1/nodes."
+    - "Can be self-hosted by cloning to any static web server."
+
+tags:
+  - mapping
+  - official
+  - nodes
+
+last_reviewed: 2026-07-03

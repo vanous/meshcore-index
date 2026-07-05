@@ -27,7 +27,7 @@ radios:
   frequency_mhz: 869.618
   bandwidth_khz: 62.5
   spreading_factor: 7
-  coding_rate: 4/8
+  coding_rate: 4/6
   tx_power_dbm: 22
   public_channel: Public
 community:

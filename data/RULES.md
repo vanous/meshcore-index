@@ -35,7 +35,18 @@ data/vendors/<id>/vendor.yaml
 data/networks/<id>/network.yaml  # a regional/national MeshCore mesh
 data/networks/<id>/area.geojson  # optional Leaflet area shape for the network map
 data/globals.yaml                # MCU/radio/display/GNSS/frequency catalog
+data/redirects.yaml              # old-slug → current-slug for renamed records
 ```
+
+## Renaming a record (redirects)
+
+A record's URL is its directory name (`/firmware/<id>`, `/device/<id>`, …). If
+you rename a directory, the old URL breaks. Keep it working by adding the old
+slug to [`data/redirects.yaml`](redirects.yaml) under the matching collection —
+`<old-slug>: <current-slug>`. The build prerenders each old slug as a 301 to the
+record's current page. `npm test` fails if the target doesn't exist or the old
+slug collides with a live record. Prefer stable slugs; use redirects only when a
+rename is unavoidable.
 
 A device counts as supported by a firmware only when it's listed in that
 firmware's `devices[]` (`data/firmwares/<id>/firmware.yaml`) — not merely by

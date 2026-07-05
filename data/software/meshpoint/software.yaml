@@ -1,0 +1,92 @@
+# Source: https://github.com/KMX415/meshpoint (verified 2026-07-03)
+name: Meshpoint
+kind: gateway
+status: active
+maturity: beta
+description: >-
+  Open-source Meshtastic and MeshCore base station running on Raspberry Pi 4
+  with an SX1302/SX1303 LoRa concentrator. Receives on 8 channels simultaneously
+  (SF7–SF12), transmits natively with up to 27 dBm, and provides a full browser
+  dashboard with chat, node discovery, radio configuration and live packet feed.
+  MeshCore traffic supported through a USB companion. Optionally syncs to
+  Meshradar cloud for multi-site mesh intelligence.
+
+maintainers:
+  - name: KMX415
+    url: https://github.com/KMX415
+
+repository: https://github.com/KMX415/meshpoint
+website: https://www.meshradar.io/
+license: AGPL-3.0-only
+
+languages:
+  - python
+
+latest_version: v0.7.3.1
+
+screenshots:
+  - file: dashboard.png
+    caption: Local dashboard with live packet feed and node discovery
+  - file: messaging.png
+    caption: Browser-based messaging with channels and DMs
+  - file: meshradar.png
+    caption: Meshradar cloud dashboard for multi-site mesh intelligence
+
+platforms:
+  - linux
+  - raspberry-pi
+
+interfaces:
+  - web
+
+connections:
+  - spi
+  - usb
+  - http
+
+node_roles:
+  - repeater
+  - observer
+
+capabilities:
+  - messaging
+  - channels
+  - monitoring
+  - telemetry
+  - packet-analysis
+  - mapping
+  - node-configuration
+
+install:
+  - type: source
+    url: https://github.com/KMX415/meshpoint
+
+popularity:
+  githubStars: 199
+  githubForks: 31
+  githubWatchers: 7
+  githubOpenIssues: 37
+  githubContributors: 6
+  lastChecked: 2026-07-03
+
+verification:
+  sourceAvailable: true
+  releasesAvailable: false
+  signedReleases: false
+  ciBuilds: false
+  hasDocumentation: true
+  lastChecked: 2026-07-03
+  notes:
+    - "SX1302/SX1303 concentrator with 8-channel simultaneous reception (SF7-SF12)."
+    - "Dual-protocol capture: Meshtastic via concentrator and MeshCore via USB companion."
+    - "Smart relay feature (experimental) re-broadcasts captured packets identity-preserving."
+    - "Supports US915, EU868, ANZ915, IN865, KR920 and SG923 regions."
+
+tags:
+  - base-station
+  - raspberry-pi
+  - sx1302
+  - meshtastic
+  - dual-protocol
+
+last_reviewed: 2026-07-03

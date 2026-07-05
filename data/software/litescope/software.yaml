@@ -1,0 +1,91 @@
+# Source: https://github.com/RikoDEV/litescope (verified 2026-07-03)
+# Source: https://litescope.riko.dev
+name: LiteScope
+kind: monitoring
+status: active
+maturity: beta
+description: >-
+  Lightweight, self-hosted dashboard for monitoring MeshCore networks. Ingests
+  MQTT telemetry from one or more brokers, stores it in SQLite and serves a
+  real-time React UI with live packet feeds, node analytics, channel
+  decryption, observer timelines, network analytics, Leaflet maps, live packet
+  trace playback and a raw-hex decoder.
+
+maintainers:
+  - name: RikoDEV
+    url: https://github.com/RikoDEV
+
+repository: https://github.com/RikoDEV/litescope
+website: https://litescope.riko.dev
+license: MIT
+
+languages:
+  - typescript
+  - go
+
+latest_version: v1.0.2
+released: 2026-06-20
+
+screenshots:
+  - file: dashboard.png
+    caption: LiteScope main dashboard with live packet feed and analytics
+
+platforms:
+  - web
+  - docker
+  - linux
+
+interfaces:
+  - web
+  - api
+
+connections:
+  - mqtt
+  - http
+  - websocket
+
+node_roles:
+  - companion
+  - repeater
+  - room-server
+  - observer
+
+capabilities:
+  - monitoring
+  - telemetry
+  - packet-analysis
+  - mapping
+  - automation
+
+install:
+  - type: docker-compose
+    url: https://github.com/RikoDEV/litescope
+  - type: source
+    url: https://github.com/RikoDEV/litescope
+
+popularity:
+  githubStars: 4
+  githubForks: 0
+  githubWatchers: 0
+  githubOpenIssues: 3
+  githubContributors: 1
+  lastChecked: 2026-07-03
+
+verification:
+  sourceAvailable: true
+  releasesAvailable: true
+  signedReleases: false
+  ciBuilds: false
+  hasDocumentation: true
+  lastChecked: 2026-07-03
+  notes:
+    - Supports multiple MQTT sources and AES-128 channel decryption.
+    - README includes a screenshot at the top.
+
+tags:
+  - dashboard
+  - self-hosted
+  - mqtt
+  - react
+
+last_reviewed: 2026-07-03

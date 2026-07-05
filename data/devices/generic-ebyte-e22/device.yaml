@@ -1,5 +1,8 @@
 # Source: meshcore-dev/MeshCore variants/generic-e22/platformio.ini
 name: ESP32 + E22 SX126x (generic)
+aliases:
+  # Source: meshcore-dev/MeshCore variants/generic-e22/platformio.ini
+  - Generic E22
 kind: generic-build
 category: development-board
 familyId: generic-e22

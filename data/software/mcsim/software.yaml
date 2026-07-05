@@ -1,0 +1,75 @@
+# Source: https://github.com/Brent-A/mcsim (verified 2026-07-03)
+name: MCSim
+kind: utility
+status: active
+maturity: experimental
+description: >-
+  Deterministic simulation framework for MeshCore LoRa mesh networking firmware.
+  Enables testing and analysis of mesh network behavior, radio propagation, and
+  protocol performance. Simulates repeaters, companions, and room servers with
+  real-time visualization via Rerun, configurable topologies via YAML, terrain-aware
+  radio propagation using the NTIA Irregular Terrain Model, and full packet export
+  to JSON with decoded MeshCore packet structure.
+
+maintainers:
+  - name: Brent-A
+    url: https://github.com/Brent-A
+
+repository: https://github.com/Brent-A/mcsim
+license: MIT
+
+languages:
+  - rust
+
+platforms:
+  - linux
+  - windows
+
+interfaces:
+  - cli
+
+connections:
+  - tcp
+
+node_roles:
+  - companion
+  - repeater
+  - room-server
+
+capabilities:
+  - simulation
+  - packet-analysis
+  - monitoring
+
+install:
+  - type: source
+    url: https://github.com/Brent-A/mcsim
+
+popularity:
+  githubStars: 17
+  githubForks: 3
+  githubWatchers: 0
+  githubOpenIssues: 11
+  githubContributors: 3
+  lastChecked: 2026-07-03
+
+verification:
+  sourceAvailable: true
+  releasesAvailable: false
+  signedReleases: false
+  ciBuilds: false
+  hasDocumentation: true
+  lastChecked: 2026-07-03
+  notes:
+    - "Full simulation of MeshCore firmware with deterministic execution and lockstep timing."
+    - "Uses NTIA Irregular Terrain Model for realistic radio propagation with DEM terrain data."
+    - "Compatible with MeshCore apps and scripts using node UARTs over TCP."
+    - "Real-time visualization via Rerun; metrics collection with packet decoding."
+
+tags:
+  - simulator
+  - testing
+  - terrain
+  - deterministic
+
+last_reviewed: 2026-07-03

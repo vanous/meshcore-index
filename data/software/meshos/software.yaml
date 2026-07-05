@@ -1,0 +1,63 @@
+# Source: https://github.com/andymux/meshos-releases (verified 2026-07-03)
+name: MeshOS
+kind: client
+status: active
+maturity: beta
+description: >-
+  Official MeshCore app providing a mobile interface for MeshCore mesh
+  networking. Distributed as APK releases for Android.
+
+maintainers:
+  - name: andymux
+    url: https://github.com/andymux
+
+repository: https://github.com/andymux/meshos-releases
+license: MIT
+
+platforms:
+  - android
+
+interfaces:
+  - mobile
+
+connections:
+  - ble
+
+node_roles:
+  - companion
+
+capabilities:
+  - messaging
+  - contacts
+  - channels
+  - monitoring
+  - mapping
+
+install:
+  - type: github-release
+    url: https://github.com/andymux/meshos-releases/releases
+
+popularity:
+  githubStars: 38
+  githubForks: 2
+  githubWatchers: 1
+  githubOpenIssues: 0
+  githubContributors: 1
+  lastChecked: 2026-07-03
+
+verification:
+  sourceAvailable: true
+  releasesAvailable: true
+  signedReleases: false
+  ciBuilds: false
+  hasDocumentation: false
+  lastChecked: 2026-07-03
+  notes:
+    - "Official MeshCore app; distributed as APK releases only."
+    - "Source code not in this repo; releases repository only."
+
+tags:
+  - android
+  - official
+
+last_reviewed: 2026-07-03

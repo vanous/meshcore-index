@@ -1,0 +1,102 @@
+# Source: https://github.com/smikme/meshapp (verified 2026-07-03)
+# Source: https://git.privatepractice.app/covox/meshapp (main development)
+name: MeshApp
+kind: client
+status: active
+maturity: beta
+description: >-
+  Java/JavaFX desktop client for Meshtastic and MeshCore devices. Supports
+  parallel TCP, USB/serial and BLE connections; chat, node list with filters and
+  map, telemetry history and charts, LoRa packet inspector, Lua scripting,
+  device settings, and offline map tile downloads.
+
+maintainers:
+  - name: smikme
+    url: https://github.com/smikme
+
+repository: https://github.com/smikme/meshapp
+license: AGPL-3.0
+
+languages:
+  - java
+
+latest_version: v2.3.0
+released: 2026-07-03
+
+screenshots:
+  - file: nodes-b.jpg
+    caption: Network node list in dark theme
+  - file: map-b.jpg
+    caption: Offline-capable node map in dark theme
+  - file: chat-b.jpg
+    caption: Channel and direct-message chat in dark theme
+  - file: telemetry-b.jpg
+    caption: Telemetry history and charts in dark theme
+
+platforms:
+  - linux
+  - macos
+  - windows
+
+interfaces:
+  - gui
+
+connections:
+  - ble
+  - serial
+  - usb
+  - tcp
+
+node_roles:
+  - companion
+  - repeater
+  - room-server
+
+capabilities:
+  - messaging
+  - contacts
+  - channels
+  - node-configuration
+  - monitoring
+  - telemetry
+  - packet-analysis
+  - mapping
+  - firmware-update
+  - automation
+
+install:
+  - type: github-release
+    url: https://git.privatepractice.app/covox/meshapp/releases
+  - type: flatpak
+    url: https://flatpak.privatepractice.app/app.privatepractice.meshapp.flatpakref
+  - type: source
+    url: https://github.com/smikme/meshapp
+
+popularity:
+  githubStars: 17
+  githubForks: 0
+  githubWatchers: 0
+  githubOpenIssues: 0
+  githubContributors: 1
+  lastChecked: 2026-07-03
+
+verification:
+  sourceAvailable: true
+  releasesAvailable: true
+  signedReleases: false
+  ciBuilds: false
+  hasDocumentation: true
+  lastChecked: 2026-07-03
+  notes:
+    - Primary development happens on a private Gitea instance; GitHub repo is a mirror.
+    - MeshCore support is split into KISS (TCP/serial) and Companion (BLE/TCP/serial) modes.
+    - README contains screenshot gallery in docs/screenshots/.
+
+tags:
+  - desktop
+  - java
+  - javafx
+  - multi-protocol
+  - lua
+
+last_reviewed: 2026-07-03

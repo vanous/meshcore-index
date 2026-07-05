@@ -1,0 +1,32 @@
+$schema: https://json-schema.org/draft/2020-12/schema
+$id: https://meshcore-atlas/schema/redirects.yaml
+title: Catalogue Redirects
+description: >
+  Old-slug → current-slug redirects for renamed catalogue records
+  (data/redirects.yaml). Each collection maps a retired directory name to the
+  record's current directory name; the build prerenders every old slug as a 301
+  redirect to the record's current page. Referential checks (target exists, no
+  collision with a live record, no self-redirect) run in scripts/validate.js.
+type: object
+additionalProperties: false
+properties:
+  firmwares:
+    $ref: '#/$defs/redirectMap'
+  devices:
+    $ref: '#/$defs/redirectMap'
+  networks:
+    $ref: '#/$defs/redirectMap'
+  software:
+    $ref: '#/$defs/redirectMap'
+  vendors:
+    $ref: '#/$defs/redirectMap'
+$defs:
+  redirectMap:
+    description: Map of old (retired) slug → current slug, both kebab-case.
+    type: object
+    propertyNames:
+      pattern: ^[a-z0-9-]+$
+    additionalProperties:
+      description: The record's current slug (directory name).
+      type: string
+      pattern: ^[a-z0-9-]+$

@@ -1,0 +1,126 @@
+# Source: https://github.com/VBart/MeshCoreTel-firmware (verified 2026-07-03)
+# Source: https://vbart.github.io/MeshCoreTel-firmware/
+name: MeshCoreTel
+type: fork
+maintainer: VBart
+description: >-
+  Fork of MeshCore-EastMesh firmware for repeaters with WiFi, HTTPS API, local
+  web panel, and MQTT support. Replaces EastMesh AU telemetry with the
+  MeshCoreTel telemetry service. Features WiFi client mode with DHCP, NTP time
+  sync, MQTT brokers (meshcoretel, letsmesh-eu, letsmesh-us), plain TCP and WSS
+  transport, JWT authentication, local HTTPS web panel with password access,
+  battery reporting, fan control on T-Beam 1W, and external LNA toggle on
+  Heltec v4.3. All network processes run on a separate core to avoid LoRa
+  latency.
+
+repository: https://github.com/VBart/MeshCoreTel-firmware
+website: https://vbart.github.io/MeshCoreTel-firmware/
+license: MIT
+status: active
+scope: platform-specific
+scopeCategory: ESP32
+lifecycle: active
+maturity: beta
+distribution: community
+lineage:
+  kind: fork
+  upstreamFirmwareId: eastmesh
+  upstreamRepository: https://github.com/xJARiD/MeshCore-EastMesh
+runtime:
+  framework: arduino
+  language: cpp
+roles:
+  - repeater
+  - companion
+  - observer
+features:
+  - WiFi client mode with DHCP auto-configuration
+  - NTP time synchronization
+  - MQTT broker support (meshcoretel, letsmesh-eu, letsmesh-us)
+  - Plain TCP and WSS transport
+  - JWT authentication using device identity
+  - Local HTTPS web panel with password access
+  - Battery reporting on supported platforms
+  - Fan control on T-Beam 1W
+  - External LNA toggle on Heltec v4.3
+  - Network processes on separate core for zero LoRa latency
+capabilities:
+  protocol:
+    meshcoreCompatible: true
+  transports:
+    ble: true
+    usbSerial: true
+    nativeTcp: true
+    wifiAp: true
+  operations:
+    ota: true
+    webFlasher: false
+  networking:
+    repeater: true
+    roomServer: false
+    observer: true
+    mqtt: true
+    kissModem: false
+  hardware:
+    gps: true
+    display: true
+    sensors: false
+    lowPowerRx: false
+devices:
+  # Source: https://vbart.github.io/MeshCoreTel-firmware/boards/
+  - id: heltec-v4
+    status: supported
+  - id: heltec-v3
+    status: supported
+  - id: heltec-v2
+    status: supported
+  - id: heltec-e213
+    status: supported
+  - id: heltec-e290
+    status: supported
+  - id: heltec-t190
+    status: supported
+  - id: heltec-wt3
+    status: supported
+  - id: heltec-wsl3
+    status: supported
+  - id: heltec-paper
+    status: supported
+  - id: lilygo-t3-s3-sx126x
+    status: supported
+  - id: lilygo-t3-s3-sx127x
+    status: supported
+  - id: lilygo-tbeam-1w
+    status: supported
+  - id: lilygo-t-beam-sx1262
+    status: supported
+  - id: lilygo-t-beam-1-2-sx1276
+    status: supported
+  - id: lilygo-t-deck
+    status: supported
+  - id: lilygo-tlora-1-6
+    status: supported
+  - id: lilygo-tlora-c6
+    status: supported
+  - id: station-g2
+    status: supported
+  - id: thinknode-m2
+    status: supported
+  - id: thinknode-m5
+    status: supported
+  - id: rak-3112
+    status: supported
+  - id: xiao-esp32s3
+    status: supported
+  - id: xiao-esp32c6
+    status: supported
+  - id: m5stack-unit-c6l
+    status: supported
+  - id: ebyte-eora-s3
+    status: supported
+  - id: generic-ebyte-e22
+    status: supported
+  - id: meshadventurer
+    status: supported
+  - id: nibble-screen-connect
+    status: supported

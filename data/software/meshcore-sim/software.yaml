@@ -1,0 +1,71 @@
+# Source: https://github.com/matthewdgreen/meshcore_sim (verified 2026-07-03)
+name: meshcore_sim
+kind: utility
+status: active
+maturity: experimental
+description: >-
+  Discrete-event simulator for MeshCore mesh networks. Each simulated node runs
+  the real MeshCore routing and cryptography code as a standalone subprocess;
+  a Python orchestrator wires them together over simulated radio links with
+  configurable loss, latency, SNR, RSSR, and adversarial behaviour. Includes
+  topology visualiser and supports privacy-protocol experiments.
+
+maintainers:
+  - name: matthewdgreen
+    url: https://github.com/matthewdgreen
+
+repository: https://github.com/matthewdgreen/meshcore_sim
+
+languages:
+  - python
+  - cpp
+
+platforms:
+  - linux
+  - macos
+
+interfaces:
+  - cli
+
+connections:
+  - ipc
+
+node_roles:
+  - companion
+  - repeater
+
+capabilities:
+  - simulation
+  - packet-analysis
+
+install:
+  - type: source
+    url: https://github.com/matthewdgreen/meshcore_sim
+
+popularity:
+  githubStars: 10
+  githubForks: 2
+  githubWatchers: 0
+  githubOpenIssues: 4
+  githubContributors: 1
+  lastChecked: 2026-07-03
+
+verification:
+  sourceAvailable: true
+  releasesAvailable: false
+  signedReleases: false
+  ciBuilds: false
+  hasDocumentation: true
+  lastChecked: 2026-07-03
+  notes:
+    - "Runs real MeshCore C++ routing and crypto code as subprocesses."
+    - "Configurable radio simulation with loss, latency, SNR, RSSI, and adversarial nodes."
+    - "Includes topology visualiser and privacy-protocol experiments."
+    - "No license file found; license terms unclear."
+
+tags:
+  - simulator
+  - testing
+  - discrete-event
+
+last_reviewed: 2026-07-03

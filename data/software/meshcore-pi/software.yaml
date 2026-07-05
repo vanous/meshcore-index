@@ -1,0 +1,80 @@
+# Source: https://github.com/brianwiddas/meshcore-pi (verified 2026-07-03)
+# Source: https://github.com/brianwiddas/meshcore-pi/blob/main/LICENSE
+name: meshcore-pi
+kind: library
+status: active
+maturity: experimental
+description: >-
+  Python implementation of the MeshCore protocol intended for Raspberry Pi and
+  other Linux devices. Supports SX1262 interfaces via SPI (Waveshare LoRa HAT,
+  HT-RA62) and ESP-NOW communication via WiFi monitor mode. Can act as
+  companion, room server, or repeater simultaneously, and bridge between LoRa
+  and ESP-NOW meshes with multiple interfaces.
+
+maintainers:
+  - name: brianwiddas
+    url: https://github.com/brianwiddas
+
+repository: https://github.com/brianwiddas/meshcore-pi
+license: MIT
+
+languages:
+  - python
+
+platforms:
+  - linux
+  - raspberry-pi
+
+interfaces:
+  - api
+  - cli
+
+connections:
+  - spi
+  - serial
+  - tcp
+
+node_roles:
+  - companion
+  - repeater
+  - room-server
+
+capabilities:
+  - messaging
+  - contacts
+  - channels
+  - monitoring
+  - packet-analysis
+
+install:
+  - type: source
+    url: https://github.com/brianwiddas/meshcore-pi
+
+popularity:
+  githubStars: 37
+  githubForks: 5
+  githubWatchers: 4
+  githubOpenIssues: 3
+  githubContributors: 1
+  lastChecked: 2026-07-03
+
+verification:
+  sourceAvailable: true
+  releasesAvailable: false
+  signedReleases: false
+  ciBuilds: false
+  hasDocumentation: true
+  lastChecked: 2026-07-03
+  notes:
+    - "Supports SX1262 via SPI and ESP-NOW via WiFi monitor mode."
+    - "Can bridge between LoRa and ESP-NOW meshes with multiple interfaces."
+    - "Requires Python 3.11 minimum (3.12 preferred)."
+
+tags:
+  - sdk
+  - protocol
+  - raspberry-pi
+  - esp-now
+  - sx1262
+
+last_reviewed: 2026-07-03

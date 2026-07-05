@@ -1,0 +1,79 @@
+# Source: https://github.com/ajvpot/meshexplorer (verified 2026-07-03)
+# Source: https://map.w0z.is
+name: MeshExplorer
+kind: monitoring
+status: active
+maturity: beta
+description: >-
+  Real-time map, chat client, and packet-analysis tool for MeshCore mesh
+  networks. Ships as a complete Docker stack: Next.js web UI with map, chat,
+  stats and packet analysis; Go MQTT-to-ClickHouse ingest pipeline; optional
+  Discord relay bot; and pre-provisioned Grafana dashboards with read-only
+  ClickHouse datasource.
+
+maintainers:
+  - name: ajvpot
+    url: https://github.com/ajvpot
+
+repository: https://github.com/ajvpot/meshexplorer
+website: https://map.w0z.is
+
+languages:
+  - typescript
+  - go
+
+platforms:
+  - linux
+  - docker
+
+interfaces:
+  - web
+
+connections:
+  - mqtt
+  - http
+
+node_roles:
+  - observer
+
+capabilities:
+  - messaging
+  - monitoring
+  - telemetry
+  - packet-analysis
+  - mapping
+
+install:
+  - type: docker-compose
+    url: https://github.com/ajvpot/meshexplorer
+  - type: source
+    url: https://github.com/ajvpot/meshexplorer
+
+popularity:
+  githubStars: 40
+  githubForks: 9
+  githubWatchers: 1
+  githubOpenIssues: 14
+  githubContributors: 4
+  lastChecked: 2026-07-03
+
+verification:
+  sourceAvailable: true
+  releasesAvailable: false
+  signedReleases: false
+  ciBuilds: false
+  hasDocumentation: true
+  lastChecked: 2026-07-03
+  notes:
+    - "Full Docker stack: Next.js UI + Go ingest + ClickHouse + Grafana dashboards."
+    - "Optional Discord relay bot for MeshCore channel messages."
+    - "No license file found; license terms unclear."
+
+tags:
+  - dashboard
+  - clickhouse
+  - grafana
+  - docker
+  - mapping
+
+last_reviewed: 2026-07-03

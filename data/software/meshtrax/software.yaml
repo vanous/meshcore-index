@@ -1,0 +1,74 @@
+# Source: https://github.com/venamartin/meshtrax (verified 2026-07-03)
+# Source: fork of https://github.com/zjs81/meshcore-open
+name: Meshtrax
+kind: client
+status: active
+maturity: beta
+description: >-
+  Open-source Flutter client for MeshCore LoRa mesh networking devices.
+  Forked from MeshCore Open.
+
+maintainers:
+  - name: venamartin
+    url: https://github.com/venamartin
+
+repository: https://github.com/venamartin/meshtrax
+license: MIT
+
+languages:
+  - dart
+
+latest_version: v1.5.0
+released: 2026-07-01
+
+platforms:
+  - android
+  - ios
+
+interfaces:
+  - mobile
+
+connections:
+  - ble
+
+node_roles:
+  - companion
+
+capabilities:
+  - messaging
+  - contacts
+  - channels
+  - node-configuration
+  - monitoring
+  - mapping
+
+install:
+  - type: github-release
+    url: https://github.com/venamartin/meshtrax/releases
+  - type: source
+    url: https://github.com/venamartin/meshtrax
+
+popularity:
+  githubStars: 4
+  githubForks: 0
+  githubWatchers: 1
+  githubOpenIssues: 1
+  githubContributors: 1
+  lastChecked: 2026-07-03
+
+verification:
+  sourceAvailable: true
+  releasesAvailable: true
+  signedReleases: false
+  ciBuilds: false
+  hasDocumentation: false
+  lastChecked: 2026-07-03
+  notes:
+    - README is minimal; forked from MeshCore Open.
+
+tags:
+  - flutter
+  - mobile
+  - meshcore-open
+
+last_reviewed: 2026-07-03

@@ -2,13 +2,16 @@ import { error } from '@sveltejs/kit';
 import { base } from '$app/paths';
 import { firmwares, getFirmware, getDevice } from '$lib/data.js';
 import { localizeRecord } from '$lib/catalog-overlay.js';
+import { maybeRedirect, redirectEntries } from '$lib/redirects.js';
 
-// Tell the static adapter which firmware pages to prerender.
+// Tell the static adapter which firmware pages to prerender (live records plus
+// retired slugs, which prerender as redirects to the current page).
 export function entries() {
-  return firmwares.map((fw) => ({ id: fw.id }));
+  return [...firmwares.map((fw) => ({ id: fw.id })), ...redirectEntries('firmwares')];
 }
 
 export async function load({ params, fetch }) {
+  maybeRedirect('firmwares', params.id);
   const meta = getFirmware(params.id);
   if (!meta) throw error(404, `Unknown firmware: ${params.id}`);
 

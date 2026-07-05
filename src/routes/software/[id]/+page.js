@@ -2,13 +2,16 @@ import { error } from '@sveltejs/kit';
 import { base } from '$app/paths';
 import { software, getSoftware } from '$lib/data.js';
 import { localizeRecord } from '$lib/catalog-overlay.js';
+import { maybeRedirect, redirectEntries } from '$lib/redirects.js';
 
-// Tell the static adapter which software pages to prerender.
+// Tell the static adapter which software pages to prerender (live records plus
+// retired slugs, which prerender as redirects to the current page).
 export function entries() {
-  return software.map((s) => ({ id: s.id }));
+  return [...software.map((s) => ({ id: s.id })), ...redirectEntries('software')];
 }
 
 export async function load({ params, fetch }) {
+  maybeRedirect('software', params.id);
   const meta = getSoftware(params.id);
   if (!meta) throw error(404, `Unknown software: ${params.id}`);
 

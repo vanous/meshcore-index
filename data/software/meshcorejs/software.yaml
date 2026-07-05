@@ -1,0 +1,80 @@
+# Source: https://github.com/meshcore-dev/meshcore.js (verified 2026-07-03)
+name: MeshCore.js
+kind: library
+status: active
+maturity: stable
+description: >-
+  Official JavaScript library for interacting with MeshCore devices running
+  Companion Radio firmware. Connects over BLE and USB Serial in the browser,
+  and over TCP/WiFi and USB Serial in Node.js. Provides packet construction,
+  decryption, and connection management for building web and Node.js MeshCore
+  clients.
+
+maintainers:
+  - name: meshcore-dev
+    url: https://github.com/meshcore-dev
+
+repository: https://github.com/meshcore-dev/meshcore.js
+license: MIT
+
+languages:
+  - javascript
+
+platforms:
+  - web
+  - linux
+  - macos
+  - windows
+
+interfaces:
+  - api
+
+connections:
+  - ble
+  - serial
+  - usb
+  - tcp
+
+node_roles:
+  - companion
+
+capabilities:
+  - messaging
+  - contacts
+  - channels
+  - key-management
+
+install:
+  - type: npm
+    package: "@liamcottle/meshcore.js"
+    url: https://www.npmjs.com/package/@liamcottle/meshcore.js
+  - type: source
+    url: https://github.com/meshcore-dev/meshcore.js
+
+popularity:
+  githubStars: 41
+  githubForks: 30
+  githubWatchers: 0
+  githubOpenIssues: 0
+  githubContributors: 5
+  lastChecked: 2026-07-03
+
+verification:
+  sourceAvailable: true
+  releasesAvailable: false
+  signedReleases: false
+  ciBuilds: false
+  hasDocumentation: true
+  lastChecked: 2026-07-03
+  notes:
+    - "Official JavaScript library from meshcore-dev."
+    - "Supports BLE and Web Serial in browser; TCP and serial in Node.js."
+    - "Published on npm as @liamcottle/meshcore.js."
+
+tags:
+  - sdk
+  - javascript
+  - official
+  - ble
+
+last_reviewed: 2026-07-03

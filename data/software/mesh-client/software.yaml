@@ -1,0 +1,106 @@
+# Source: https://github.com/Colorado-Mesh/mesh-client (verified 2026-07-03)
+# Source: https://colorado-mesh.github.io/mesh-client/
+name: mesh-client
+kind: client
+status: active
+maturity: stable
+description: >-
+  Cross-platform Electron desktop client for Meshtastic, MeshCore and Reticulum
+  (LXMF) on macOS, Linux and Windows. Supports BLE, USB serial, Wi-Fi/TCP and
+  MQTT; keeps local SQLite history, routing diagnostics, 16-language UI, TAK CoT
+  gateway, PKI remote admin, mapping, telemetry and automated CI releases.
+
+maintainers:
+  - name: Colorado Mesh
+    url: https://github.com/Colorado-Mesh
+
+repository: https://github.com/Colorado-Mesh/mesh-client
+website: https://colorado-mesh.github.io/mesh-client/
+license: MIT
+
+languages:
+  - typescript
+
+latest_version: v5.20.4
+released: 2026-06-28
+
+screenshots:
+  - file: nodes.png
+    caption: Node list with signal bars and health scores
+  - file: map.png
+    caption: Interactive map with position trails and layers
+  - file: diagnostics.png
+    caption: Routing diagnostics and mesh health panel
+  - file: chat.png
+    caption: Channel chat with delivery and transport badges
+
+platforms:
+  - linux
+  - macos
+  - windows
+
+interfaces:
+  - gui
+
+connections:
+  - ble
+  - serial
+  - usb
+  - tcp
+  - mqtt
+
+node_roles:
+  - companion
+  - repeater
+  - room-server
+
+capabilities:
+  - messaging
+  - contacts
+  - channels
+  - node-configuration
+  - remote-administration
+  - monitoring
+  - telemetry
+  - packet-analysis
+  - mapping
+  - firmware-update
+  - automation
+  - notifications
+  - bridging
+  - key-management
+
+install:
+  - type: github-release
+    url: https://github.com/Colorado-Mesh/mesh-client/releases
+  - type: source
+    url: https://github.com/Colorado-Mesh/mesh-client
+
+popularity:
+  githubStars: 60
+  githubForks: 7
+  githubWatchers: 1
+  githubOpenIssues: 11
+  githubContributors: 1
+  lastChecked: 2026-07-03
+
+verification:
+  sourceAvailable: true
+  releasesAvailable: true
+  signedReleases: false
+  ciBuilds: true
+  hasDocumentation: true
+  lastChecked: 2026-07-03
+  notes:
+    - README lists screenshots in docs/images/; no local screenshots downloaded yet.
+    - Multi-protocol client; supports Meshtastic, MeshCore and Reticulum via an AGPL Rust sidecar.
+
+tags:
+  - electron
+  - desktop
+  - cross-platform
+  - multi-protocol
+  - meshtastic
+  - reticulum
+
+last_reviewed: 2026-07-03

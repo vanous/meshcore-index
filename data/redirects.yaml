@@ -1,0 +1,31 @@
+# Old-slug → current-slug redirects for renamed catalogue records.
+#
+# A record's URL slug is its directory name under data/<collection>/<slug>/.
+# When a project is renamed and you rename its directory, the old URL
+# (e.g. /firmware/old-name) stops working. Add an entry here so the old URL is
+# prerendered as a 301 redirect to the record's current page.
+#
+# Format — one map per collection, `<old-slug>: <current-slug>`:
+#
+#   firmwares:
+#     old-name: new-name          # /firmware/old-name  → /firmware/new-name
+#   devices:
+#     old-board: new-board        # /device/old-board   → /device/new-board
+#
+# Rules (enforced by `npm test`):
+#   • the target (<current-slug>) must be an existing record in that collection
+#   • the old slug must NOT collide with an existing record's slug
+#   • no self-redirects
+#
+# Chains are not allowed: always point old slugs straight at the live record.
+# If a record is renamed twice, list both old slugs → the current slug.
+
+firmwares: {}
+devices: {}
+networks: {}
+software:
+  # pyMC → openHop rebrand (2026-07): repos/names became openhop_core &
+  # openhop_repeater; pymc-console keeps its slug (still named "pyMC Console").
+  pymc-core: openhop-core
+  pymc-repeater: openhop-repeater
+vendors: {}

@@ -1,0 +1,77 @@
+# Source: https://github.com/jmead/Meshcore-Repeater-MQTT-Gateway (verified 2026-07-03)
+name: MeshCore MQTT Gateway
+kind: gateway
+status: active
+maturity: beta
+description: >-
+  Gateway firmware that bridges MeshCore LoRa mesh networks with MQTT brokers,
+  enabling bidirectional message flow between LoRa devices and MQTT-based
+  applications. Runs as a full MeshCore repeater with WiFi connectivity,
+  serial configuration menu, persistent NVS storage, real-time statistics,
+  remote MQTT commands, NTP clock sync, and TLS support. Targets ESP32 +
+  LilyGo LoRa32 V2.1 hardware.
+
+maintainers:
+  - name: jmead
+    url: https://github.com/jmead
+
+repository: https://github.com/jmead/Meshcore-Repeater-MQTT-Gateway
+license: MIT
+
+languages:
+  - cpp
+
+latest_version: v1.0.5
+released: 2025-10-10
+
+platforms:
+  - esp32
+
+interfaces:
+  - cli
+
+connections:
+  - mqtt
+  - serial
+  - tcp
+
+node_roles:
+  - repeater
+
+capabilities:
+  - messaging
+  - bridging
+  - monitoring
+  - telemetry
+
+install:
+  - type: source
+    url: https://github.com/jmead/Meshcore-Repeater-MQTT-Gateway
+
+popularity:
+  githubStars: 53
+  githubForks: 9
+  githubWatchers: 10
+  githubOpenIssues: 5
+  githubContributors: 30
+  lastChecked: 2026-07-03
+
+verification:
+  sourceAvailable: true
+  releasesAvailable: true
+  signedReleases: false
+  ciBuilds: false
+  hasDocumentation: true
+  lastChecked: 2026-07-03
+  notes:
+    - "ESP32 firmware combining MeshCore repeater with MQTT bridging."
+    - "Targets LilyGo LoRa32 V2.1; serial menu for configuration."
+    - "Supports raw hex and decoded message publishing modes."
+
+tags:
+  - mqtt
+  - gateway
+  - esp32
+  - repeater
+
+last_reviewed: 2026-07-03

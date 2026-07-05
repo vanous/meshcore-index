@@ -1,0 +1,77 @@
+# Source: https://github.com/carsten-walther/MeshCore-BBS (verified 2026-07-03)
+name: MeshCore BBS
+kind: bot
+status: active
+maturity: alpha
+description: >-
+  Store-and-forward bulletin board system that runs on a MeshCore companion
+  radio over a LoRa mesh. Users interact entirely via direct messages using a
+  simple !command protocol — no special app support required. The BBS attaches
+  to a MeshCore device running Companion firmware via USB serial, TCP or BLE,
+  stores messages in a local SQLite database and delivers them on demand.
+
+maintainers:
+  - name: carsten-walther
+    url: https://github.com/carsten-walther
+
+repository: https://github.com/carsten-walther/MeshCore-BBS
+
+languages:
+  - python
+
+platforms:
+  - linux
+  - docker
+
+interfaces:
+  - cli
+
+connections:
+  - ble
+  - serial
+  - usb
+  - tcp
+
+node_roles:
+  - companion
+
+capabilities:
+  - messaging
+  - channels
+  - automation
+  - notifications
+
+install:
+  - type: docker-compose
+    url: https://github.com/carsten-walther/MeshCore-BBS
+  - type: source
+    url: https://github.com/carsten-walther/MeshCore-BBS
+
+popularity:
+  githubStars: 0
+  githubForks: 0
+  githubWatchers: 0
+  githubOpenIssues: 0
+  githubContributors: 1
+  lastChecked: 2026-07-03
+
+verification:
+  sourceAvailable: true
+  releasesAvailable: false
+  signedReleases: false
+  ciBuilds: false
+  hasDocumentation: true
+  lastChecked: 2026-07-03
+  notes:
+    - "Store-and-forward BBS over MeshCore DMs using !command protocol."
+    - "Supports rooms, private messages, inbox, weather and ping commands."
+    - "Configurable via YAML; includes Docker and systemd deployment options."
+    - "Uses the official meshcore Python library (meshcore==2.3.7)."
+    - "No license file found; license terms unclear."
+
+tags:
+  - bbs
+  - store-and-forward
+  - bot
+
+last_reviewed: 2026-07-03

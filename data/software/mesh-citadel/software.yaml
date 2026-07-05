@@ -1,0 +1,73 @@
+# Source: https://github.com/taedryn/mesh-citadel (verified 2026-07-03)
+name: Mesh-Citadel BBS
+kind: bot
+status: active
+maturity: alpha
+description: >-
+  MeshCore-connected BBS inspired by Citadel BBSes from the 1980s. Lightweight
+  system designed to run on a solar-powered Raspberry Pi Zero with a low-power
+  nRF52-based LoRa node running USB companion firmware. Supports user
+  registration, login, room navigation, message reading and posting, private
+  mail, and a permission system. Communicates over MeshCore via py-meshcore.
+
+maintainers:
+  - name: taedryn
+    url: https://github.com/taedryn
+
+repository: https://github.com/taedryn/mesh-citadel
+# Source: https://github.com/taedryn/mesh-citadel/blob/main/LICENSE
+license: Forklift-Certified-0.69.420
+license_type: source-available
+
+languages:
+  - python
+
+platforms:
+  - linux
+  - raspberry-pi
+
+interfaces:
+  - cli
+
+connections:
+  - serial
+  - usb
+
+node_roles:
+  - companion
+
+capabilities:
+  - messaging
+  - channels
+  - contacts
+
+install:
+  - type: source
+    url: https://github.com/taedryn/mesh-citadel
+
+popularity:
+  githubStars: 45
+  githubForks: 4
+  githubWatchers: 5
+  githubOpenIssues: 2
+  githubContributors: 2
+  lastChecked: 2026-07-03
+
+verification:
+  sourceAvailable: true
+  releasesAvailable: false
+  signedReleases: false
+  ciBuilds: false
+  hasDocumentation: true
+  lastChecked: 2026-07-03
+  notes:
+    - "Alpha software; designed for solar-powered Raspberry Pi Zero + nRF52 LoRa node."
+    - "Inspired by 1980s Citadel BBS; uses py-meshcore for MeshCore communication."
+    - "Forklift Certified License — not OSI open-source; source-available only."
+
+tags:
+  - bbs
+  - citadel
+  - raspberry-pi
+
+last_reviewed: 2026-07-03

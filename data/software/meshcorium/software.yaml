@@ -1,0 +1,77 @@
+# Source: https://github.com/PEG4TRON/MeshCorium (verified 2026-07-03)
+name: MeshCorium
+kind: client
+status: active
+maturity: beta
+description: >-
+  Self-hosted MeshCore client with a hybrid contact system and a local web
+  interface for working with a MeshCore node through companion firmware.
+  Includes systemd service integration, auto-update via GitHub releases, and
+  Russian and English documentation.
+
+maintainers:
+  - name: PEG4TRON
+    url: https://github.com/PEG4TRON
+
+repository: https://github.com/PEG4TRON/MeshCorium
+license: MIT
+
+languages:
+  - python
+
+latest_version: "0.9.0"
+released: 2026-06-30
+
+screenshots:
+  - file: screenshot.png
+    caption: MeshCorium web interface
+
+platforms:
+  - linux
+
+interfaces:
+  - web
+
+connections:
+  - serial
+  - tcp
+  - ble
+
+node_roles:
+  - companion
+
+capabilities:
+  - messaging
+  - contacts
+  - channels
+  - node-configuration
+
+install:
+  - type: source
+    url: https://github.com/PEG4TRON/MeshCorium
+
+popularity:
+  githubStars: 11
+  githubForks: 1
+  githubWatchers: 0
+  githubOpenIssues: 47
+  githubContributors: 1
+  lastChecked: 2026-07-03
+
+verification:
+  sourceAvailable: true
+  releasesAvailable: true
+  signedReleases: false
+  ciBuilds: false
+  hasDocumentation: true
+  lastChecked: 2026-07-03
+  notes:
+    - "Self-hosted web client with hybrid contact system."
+    - "Includes systemd service and auto-update via GitHub releases."
+    - "Available in Russian and English."
+
+tags:
+  - self-hosted
+  - web
+
+last_reviewed: 2026-07-03

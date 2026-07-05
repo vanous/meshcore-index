@@ -3,7 +3,7 @@ kind: monitoring
 status: active
 maturity: beta
 description: >-
-  Web dashboard for [[software:pymc-repeater|pyMC Repeater]] with live packet inspection, topology and
+  Web dashboard for [[software:pymc-repeater|openHop Repeater]] with live packet inspection, topology and
   path analysis, RF statistics, terrain mapping, link-quality radar, system
   monitoring and an interactive repeater terminal.
 
@@ -21,10 +21,12 @@ screenshots:
 maintainers:
   - name: Treehouse-00
     url: https://github.com/Treehouse-00
-  - name: pyMC-dev
-    url: https://github.com/pyMC-dev
+  # Source: repo transferred from dmduran12 to Treehouse-00
+  - name: openHop
+    url: https://github.com/openhop-dev
 
-repository: https://github.com/dmduran12/pymc_console-dist
+# Source: repo transferred from dmduran12/pymc_console-dist to Treehouse-00/pymc_console-dist
+repository: https://github.com/Treehouse-00/pymc_console-dist
 documentation: https://docs.pymc.dev/
 license: MIT
 
@@ -58,22 +60,22 @@ capabilities:
 install:
   - type: github-release
     package: pymc-ui-latest.tar.gz
-    url: https://github.com/dmduran12/pymc_console-dist/releases
+    url: https://github.com/Treehouse-00/pymc_console-dist/releases
   - type: manual
-    url: https://github.com/dmduran12/pymc_console-dist#install-the-console
+    url: https://github.com/Treehouse-00/pymc_console-dist#install-the-console
     command: sudo bash manage.sh install
   - type: source
-    url: https://github.com/dmduran12/pymc_console-dist
+    url: https://github.com/Treehouse-00/pymc_console-dist
 
 popularity:
-  githubStars: 53
-  githubForks: 7
-  githubWatchers: 2
-  githubOpenIssues: 13
+  githubStars: 54
+  githubForks: 8
+  githubWatchers: 3
+  githubOpenIssues: 16
   githubContributors: 3
   releaseDownloads: 2609
   latestReleaseDownloads: 535
-  lastChecked: 2026-06-23
+  lastChecked: 2026-07-03
 
 verification:
   sourceAvailable: true
@@ -81,10 +83,11 @@ verification:
   signedReleases: false
   ciBuilds: true
   hasDocumentation: true
-  lastChecked: 2026-06-23
+  lastChecked: 2026-07-03
   notes:
-    - Requires an existing pyMC Repeater installation and replaces only its web dashboard assets.
-    - Repeater service lifecycle and radio configuration remain owned by pyMC Repeater.
+    - "Requires an existing openHop Repeater installation and replaces only its web dashboard assets."
+    - "Repeater service lifecycle and radio configuration remain owned by openHop Repeater."
+    - "Repo transferred from dmduran12 to Treehouse-00; still named pyMC Console."
 
 tags:
   - repeater
@@ -93,4 +96,4 @@ tags:
   - raspberry-pi
   - dashboard
 
-last_reviewed: 2026-06-23
+last_reviewed: 2026-07-03

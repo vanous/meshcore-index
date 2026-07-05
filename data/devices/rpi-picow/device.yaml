@@ -2,6 +2,11 @@
 # Source: https://www.raspberrypi.com/documentation/microcontrollers/pico-series.html
 # Source: https://pip.raspberrypi.com/documents/RP-008307-DS-pico-datasheet.pdf
 name: RPI Pico 2040 + WaveShare SX1262
+aliases:
+  # Source: meshcore-dev/MeshCore variants/rpi_picow/platformio.ini
+  - Raspberry Pi PicoW
+  # Source: meshcore-dev/flasher.meshcore.io config.json
+  - RPI PicoW
 vendorId: raspberry
 kind: kit
 category: development-board

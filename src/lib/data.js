@@ -10,6 +10,7 @@ import { COLLECTIONS } from '$lib/collections.js';
 import { TOOLS } from '$lib/tools.js';
 import { m } from '$lib/paraglide/messages.js';
 import { localizeRecord, firmwareDeviceNote } from '$lib/catalog-overlay.js';
+import { redirectTarget } from '$lib/redirects.js';
 
 export {
   localizeRecord,
@@ -368,8 +369,17 @@ const WIKILINK_RESOLVERS = {
 export function resolveWikilink(target, label) {
   const colon = target.indexOf(':');
   const type = colon === -1 ? '' : target.slice(0, colon).toLowerCase();
-  const id = colon === -1 ? target : target.slice(colon + 1).trim();
-  const entity = WIKILINK_RESOLVERS[type]?.(id);
+  let id = colon === -1 ? target : target.slice(colon + 1).trim();
+  let entity = WIKILINK_RESOLVERS[type]?.(id);
+  if (!entity) {
+    // Follow a catalogue redirect so wikilinks to a renamed record (old slug)
+    // still resolve to its current page instead of showing as missing.
+    const to = redirectTarget(type, id);
+    if (to) {
+      id = to;
+      entity = WIKILINK_RESOLVERS[type]?.(id);
+    }
+  }
   if (!entity) return { missing: true, type, id, text: label || id || target };
   return { missing: false, type, id, text: label || entity.name || id };
 }

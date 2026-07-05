@@ -10,6 +10,10 @@ image: ikoka_stick.svg
 flasherListed: true
 aliases:
   - Ikoka Stick Meshtastic Device
+  # Source: meshcore-dev/MeshCore variants/ikoka_stick_nrf/platformio.ini
+  - Ikoka Stick nRF
+  # Source: meshcore-dev/MeshCore variants/ikoka_stick_nrf/platformio.ini
+  - Ikoka Stick (nRF52840)
 product_url: https://github.com/ndoo/ikoka-stick-meshtastic-device
 price:
   # Source: mesh101 price range for comparable Ikoka devices ($30-45)

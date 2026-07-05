@@ -1,0 +1,69 @@
+# Source: https://github.com/bryantkelley/MeshRes (verified 2026-07-03)
+name: MeshRes
+kind: integration
+status: active
+maturity: experimental
+description: >-
+  Streams MeshCore messages into Resonite, a social VR platform. Uses
+  meshcore.js to connect to a MeshCore node and forwards messages over
+  WebSocket to a Resonite instance.
+
+maintainers:
+  - name: bryantkelley
+    url: https://github.com/bryantkelley
+
+repository: https://github.com/bryantkelley/MeshRes
+license: MIT
+
+languages:
+  - typescript
+
+platforms:
+  - linux
+  - macos
+  - windows
+
+interfaces:
+  - headless
+
+connections:
+  - tcp
+  - websocket
+
+node_roles:
+  - companion
+
+capabilities:
+  - messaging
+  - bridging
+
+install:
+  - type: source
+    url: https://github.com/bryantkelley/MeshRes
+
+popularity:
+  githubStars: 1
+  githubForks: 0
+  githubWatchers: 0
+  githubOpenIssues: 0
+  githubContributors: 1
+  lastChecked: 2026-07-03
+
+verification:
+  sourceAvailable: true
+  releasesAvailable: false
+  signedReleases: false
+  ciBuilds: false
+  hasDocumentation: false
+  lastChecked: 2026-07-03
+  notes:
+    - Minimal project; single index.ts file using meshcore.js and ws.
+    - Bridges MeshCore messages into the Resonite social VR platform.
+
+tags:
+  - resonite
+  - vr
+  - bridge
+  - experimental
+
+last_reviewed: 2026-07-03

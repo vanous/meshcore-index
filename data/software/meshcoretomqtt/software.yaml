@@ -1,0 +1,80 @@
+# Source: https://github.com/Cisien/meshcoretomqtt (verified 2026-07-03)
+name: meshcoretomqtt
+kind: gateway
+status: active
+maturity: stable
+description: >-
+  Python script that sends MeshCore debug and packet capture data to MQTT for
+  analysis. Requires a MeshCore repeater connected to a Raspberry Pi, server
+  or similar Linux device. Designed for multi-repeater setups logging to a
+  shared MQTT broker for mesh packet troubleshooting. Includes one-line
+  installer, systemd service, macOS launchd daemon, and NixOS module support.
+
+maintainers:
+  - name: Cisien
+    url: https://github.com/Cisien
+
+repository: https://github.com/Cisien/meshcoretomqtt
+license: MIT
+
+languages:
+  - python
+
+# Source: https://github.com/Cisien/meshcoretomqtt/blob/main/pyproject.toml
+latest_version: "1.3.0.0-preview"
+
+platforms:
+  - linux
+  - macos
+  - nixos
+
+interfaces:
+  - headless
+
+connections:
+  - serial
+  - mqtt
+
+node_roles:
+  - repeater
+
+capabilities:
+  - monitoring
+  - telemetry
+  - packet-analysis
+
+install:
+  - type: bare-metal
+    url: https://github.com/Cisien/meshcoretomqtt
+    command: curl -fsSL https://raw.githubusercontent.com/Cisien/meshcoretomqtt/main/install.sh | sudo bash
+  - type: source
+    url: https://github.com/Cisien/meshcoretomqtt
+  - type: nixos
+    url: https://github.com/Cisien/meshcoretomqtt
+
+popularity:
+  githubStars: 92
+  githubForks: 40
+  githubWatchers: 4
+  githubOpenIssues: 5
+  githubContributors: 18
+  lastChecked: 2026-07-03
+
+verification:
+  sourceAvailable: true
+  releasesAvailable: false
+  signedReleases: false
+  ciBuilds: false
+  hasDocumentation: true
+  lastChecked: 2026-07-03
+  notes:
+    - "Parses MeshCore packet log variants from main, including repeater and dispatcher/serial logs."
+    - "One-line installer creates dedicated system user with systemd/launchd service."
+    - "NixOS module available via flake input."
+
+tags:
+  - mqtt
+  - packet-capture
+  - monitoring
+
+last_reviewed: 2026-07-03

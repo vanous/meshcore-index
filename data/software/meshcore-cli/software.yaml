@@ -1,0 +1,91 @@
+# Source: https://github.com/meshcore-dev/meshcore-cli (verified 2026-07-03)
+# Source: https://pypi.org/project/meshcore-cli/
+name: meshcore-cli
+kind: client
+status: active
+maturity: stable
+description: >-
+  Official command-line interface to MeshCore companion radio nodes. Connects
+  over BLE, TCP or serial and provides interactive chat, contact management,
+  channel messaging, node configuration, telemetry, region management and
+  serial repeater mode. Installable via pip/pipx as meshcore-cli (alias meshcli).
+
+maintainers:
+  - name: meshcore-dev
+    url: https://github.com/meshcore-dev
+
+repository: https://github.com/meshcore-dev/meshcore-cli
+license: MIT
+
+languages:
+  - python
+
+latest_version: v1.5.0
+released: 2026-03-10
+
+platforms:
+  - linux
+  - macos
+  - windows
+  - nixos
+
+interfaces:
+  - cli
+
+connections:
+  - ble
+  - serial
+  - tcp
+
+node_roles:
+  - companion
+  - repeater
+  - room-server
+
+capabilities:
+  - messaging
+  - contacts
+  - channels
+  - node-configuration
+  - monitoring
+  - telemetry
+  - firmware-update
+
+install:
+  - type: pypi
+    package: meshcore-cli
+    url: https://pypi.org/project/meshcore-cli/
+    command: pipx install meshcore-cli
+  - type: nixos
+    url: https://github.com/meshcore-dev/meshcore-cli
+    command: nix run github:meshcore-dev/meshcore-cli#meshcore-cli
+  - type: source
+    url: https://github.com/meshcore-dev/meshcore-cli
+
+popularity:
+  githubStars: 166
+  githubForks: 51
+  githubWatchers: 9
+  githubOpenIssues: 9
+  githubContributors: 10
+  lastChecked: 2026-07-03
+
+verification:
+  sourceAvailable: true
+  releasesAvailable: true
+  signedReleases: false
+  ciBuilds: false
+  hasDocumentation: true
+  lastChecked: 2026-07-03
+  notes:
+    - Official MeshCore CLI tool from meshcore-dev.
+    - Interactive and scripted command modes; serial repeater mode with -r flag.
+    - Depends on the meshcore_py (fdlamotte/meshcore_py) Python package.
+    - Available on PyPI as meshcore-cli; also provides meshcli alias.
+
+tags:
+  - cli
+  - official
+  - python
+
+last_reviewed: 2026-07-03

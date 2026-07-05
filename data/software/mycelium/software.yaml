@@ -1,0 +1,72 @@
+# Source: https://github.com/WattleFoxxo/Mycelium (verified 2026-07-03)
+# Source: https://wattlefoxxo.github.io/Mycelium/
+name: Mycelium
+kind: client
+status: active
+maturity: alpha
+description: >-
+  Open-source MeshCore client for messaging on mesh networks. Supports radio
+  connection settings, direct messaging, map view, and traceroute. Under active
+  development with planned features including channel messaging, GPS forwarding,
+  file sharing, Codec2 voice messages, and userscripts.
+
+maintainers:
+  - name: WattleFoxxo
+    url: https://github.com/WattleFoxxo
+
+repository: https://github.com/WattleFoxxo/Mycelium
+website: https://wattlefoxxo.github.io/Mycelium/
+license: MIT
+
+languages:
+  - javascript
+
+platforms:
+  - web
+
+interfaces:
+  - web
+
+connections:
+  - ble
+  - serial
+  - usb
+
+node_roles:
+  - companion
+
+capabilities:
+  - messaging
+  - contacts
+  - mapping
+
+install:
+  - type: source
+    url: https://github.com/WattleFoxxo/Mycelium
+  - type: web
+    url: https://wattlefoxxo.github.io/Mycelium/
+
+popularity:
+  githubStars: 23
+  githubForks: 2
+  githubWatchers: 3
+  githubOpenIssues: 0
+  githubContributors: 4
+  lastChecked: 2026-07-03
+
+verification:
+  sourceAvailable: true
+  releasesAvailable: false
+  signedReleases: false
+  ciBuilds: false
+  hasDocumentation: true
+  lastChecked: 2026-07-03
+  notes:
+    - "Early alpha; many features still in development (channels, GPS, file sharing)."
+    - "Built with JavaScript; runs in browser with BLE/Serial connection."
+
+tags:
+  - web
+  - alpha
+
+last_reviewed: 2026-07-03

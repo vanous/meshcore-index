@@ -1,0 +1,76 @@
+# Source: https://github.com/persistentcache/Lora-Wideband-Decoder (verified 2026-07-03)
+name: Lora Wideband Decoder
+kind: monitoring
+status: active
+maturity: beta
+description: >-
+  Self-hosted wideband intercept receiver for LoRa traffic. Captures IQ from any
+  SoapySDR-compatible SDR or bladeRF, demodulates and decodes Meshtastic, LoRaWAN
+  and MeshCore across SF7–SF12 at 62.5, 125, 250 and 500 kHz bandwidths.
+  Surfaces decoded packets, node identities and a live spectrum waterfall in a
+  local Flask web UI. Runs at 28 Msps wideband on a multi-core host.
+
+maintainers:
+  - name: persistentcache
+    url: https://github.com/persistentcache
+
+repository: https://github.com/persistentcache/Lora-Wideband-Decoder
+license: PolyForm-Noncommercial-1.0.0
+# Source: https://github.com/persistentcache/Lora-Wideband-Decoder/blob/main/LICENSE
+license_type: source-available
+
+languages:
+  - python
+
+latest_version: v2.0.0
+
+platforms:
+  - linux
+
+interfaces:
+  - web
+
+connections:
+  - http
+
+node_roles:
+  - observer
+
+capabilities:
+  - monitoring
+  - packet-analysis
+  - telemetry
+
+install:
+  - type: source
+    url: https://github.com/persistentcache/Lora-Wideband-Decoder
+
+popularity:
+  githubStars: 57
+  githubForks: 6
+  githubWatchers: 0
+  githubOpenIssues: 0
+  githubContributors: 1
+  lastChecked: 2026-07-03
+
+verification:
+  sourceAvailable: true
+  releasesAvailable: false
+  signedReleases: false
+  ciBuilds: false
+  hasDocumentation: true
+  lastChecked: 2026-07-03
+  notes:
+    - No GitHub releases; tagged v2.0.0.
+    - Supports bladeRF, USRP B210/B205mini, HackRF, RTL-SDR, Airspy, LimeSDR, PlutoSDR.
+    - Decodes Meshtastic, LoRaWAN and MeshCore protocols.
+    - PolyForm Noncommercial license; source-available but not open-source.
+
+tags:
+  - sdr
+  - intercept
+  - spectrum
+  - lora
+  - self-hosted
+
+last_reviewed: 2026-07-03

@@ -92,6 +92,7 @@ const softwareSchema = loadSchema('software');
 const changelogSchema = loadSchema('changelog');
 const compatibilitySchema = loadSchema('compatibility');
 const globalsSchema = loadSchema('globals');
+const redirectsSchema = loadSchema('redirects');
 
 const vendors = readCollection('vendors', 'vendor.yaml');
 const devices = readCollection('devices', 'device.yaml');
@@ -338,6 +339,50 @@ for (const c of compatibility) {
   }
   if (firmwareIds.has(c.firmwareId) && !firmwareDeviceIds.get(c.firmwareId)?.has(c.deviceId)) {
     err(c.where, `device "${c.deviceId}" is not listed in firmware "${c.firmwareId}" devices`);
+  }
+}
+
+// data/redirects.yaml — old-slug → current-slug for renamed records. Each old
+// slug is prerendered as a 301 to the record's current page, so the target must
+// be a live record and the old slug must not shadow one.
+const redirectsPath = join(root, 'data', 'redirects.yaml');
+if (existsSync(redirectsPath)) {
+  let redirectsData;
+  try {
+    redirectsData = load(readFileSync(redirectsPath, 'utf8'));
+  } catch (e) {
+    err('redirects', `YAML parse error: ${e.message}`);
+  }
+  if (redirectsData != null && !redirectsSchema(redirectsData)) {
+    for (const e of redirectsSchema.errors) {
+      err('redirects', `${e.instancePath || '/'} ${e.message}`);
+    }
+  }
+  const idSets = {
+    firmwares: firmwareIds,
+    devices: deviceIds,
+    vendors: vendorIds,
+    networks: networkIds,
+    software: new Set(software.map((s) => s.id))
+  };
+  for (const [collection, map] of Object.entries(redirectsData ?? {})) {
+    const ids = idSets[collection];
+    if (!ids) {
+      err('redirects', `unknown collection "${collection}"`);
+      continue;
+    }
+    if (!isPlainObject(map)) continue;
+    for (const [from, to] of Object.entries(map)) {
+      if (from === to) {
+        err('redirects', `${collection}: "${from}" redirects to itself`);
+      }
+      if (ids.has(from)) {
+        err('redirects', `${collection}: old slug "${from}" collides with an existing data/${collection}/ record — remove the redirect`);
+      }
+      if (!ids.has(to)) {
+        err('redirects', `${collection}: target "${to}" has no data/${collection}/ entry`);
+      }
+    }
   }
 }
 

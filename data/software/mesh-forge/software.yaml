@@ -1,0 +1,68 @@
+# Source: https://github.com/MeshEnvy/mesh-forge (verified 2026-07-03)
+# Source: https://meshforge.org
+name: MeshForge
+kind: utility
+status: active
+maturity: beta
+description: >-
+  Cloud-based firmware builder and web flasher for LoRa mesh devices. Compiles
+  PlatformIO projects in the cloud and flashes them directly from the browser —
+  no local toolchain needed. Supports any GitHub project URL by swapping
+  github.com for meshforge.org. Includes community extensions, shareable build
+  profiles, and build caching for faster repeated compilations.
+
+maintainers:
+  - name: MeshEnvy
+    url: https://github.com/MeshEnvy
+
+repository: https://github.com/MeshEnvy/mesh-forge
+website: https://meshforge.org
+license: MIT
+
+languages:
+  - typescript
+
+platforms:
+  - web
+
+interfaces:
+  - web
+
+connections:
+  - usb
+
+capabilities:
+  - flashing
+  - firmware-update
+
+install:
+  - type: web
+    url: https://meshforge.org
+
+popularity:
+  githubStars: 13
+  githubForks: 2
+  githubWatchers: 3
+  githubOpenIssues: 3
+  githubContributors: 1
+  lastChecked: 2026-07-03
+
+verification:
+  sourceAvailable: true
+  releasesAvailable: false
+  signedReleases: false
+  ciBuilds: false
+  hasDocumentation: true
+  lastChecked: 2026-07-03
+  notes:
+    - "Cloud-compiles any PlatformIO project from a GitHub URL."
+    - "Web-flashes firmware directly to devices; no local toolchain needed."
+    - "Supports Meshtastic, MeshCore, and other PlatformIO-based projects."
+    - "Build caching reuses compiled artifacts when tag and target match."
+
+tags:
+  - cloud-build
+  - flashing
+  - platformio
+
+last_reviewed: 2026-07-03

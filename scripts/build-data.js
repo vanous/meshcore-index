@@ -82,11 +82,21 @@ function readDir(root, kind, file, dirDate) {
     if (!d.isDirectory()) continue;
     const path = join(base, d.name, file);
     if (!existsSync(path)) continue;
-    const authored = load(readFileSync(path, 'utf8')) ?? {};
+    let authored;
+    try {
+      authored = load(readFileSync(path, 'utf8')) ?? {};
+    } catch (e) {
+      throw new Error(`Failed to parse ${join('data', kind, d.name, file)}: ${e.message}`);
+    }
     const overlayPath = join(base, d.name, 'data.json');
-    const overlay = existsSync(overlayPath)
-      ? stripOverlayMeta(JSON.parse(readFileSync(overlayPath, 'utf8')))
-      : {};
+    let overlay = {};
+    if (existsSync(overlayPath)) {
+      try {
+        overlay = stripOverlayMeta(JSON.parse(readFileSync(overlayPath, 'utf8')));
+      } catch (e) {
+        throw new Error(`Failed to parse ${join('data', kind, d.name, 'data.json')}: ${e.message}`);
+      }
+    }
     out.push({
       id: d.name,
       ...deepMerge(authored, overlay),
@@ -135,6 +145,27 @@ function attachChangelog(root, kind, record, renderMarkdown) {
     changelogSource: cl.source ?? null,
     changelogUpdatedAt: cl.updatedAt ?? null
   };
+}
+
+// Old-slug → current-slug redirects for renamed records (data/redirects.yaml).
+// Tiny, so it ships inside data.json: the collection `[id]` routes read it to
+// prerender each retired slug as a 301 to the record's current page. Referential
+// integrity (target exists, no collision, no self-redirect) is enforced by
+// scripts/validate.js — here we just load and normalize the shape.
+function readRedirects(root) {
+  const path = join(root, 'data', 'redirects.yaml');
+  if (!existsSync(path)) return {};
+  const raw = load(readFileSync(path, 'utf8')) ?? {};
+  const out = {};
+  for (const [collection, map] of Object.entries(raw)) {
+    if (!isPlainObject(map)) continue;
+    const clean = {};
+    for (const [from, to] of Object.entries(map)) {
+      if (typeof to === 'string' && to) clean[from] = to;
+    }
+    if (Object.keys(clean).length) out[collection] = clean;
+  }
+  return out;
 }
 
 // Read every JSON Schema under schema/*.yaml into one importable bundle for the
@@ -704,7 +735,8 @@ export async function buildData(root = defaultRoot) {
     contributors,
     repoGithubStars,
     globals,
-    taxonomy
+    taxonomy,
+    redirects: readRedirects(root)
   };
 
   const json = JSON.stringify(dataset, null, 2) + '\n';

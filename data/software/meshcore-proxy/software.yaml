@@ -1,0 +1,82 @@
+# Source: https://github.com/rgregg/meshcore-proxy (verified 2026-07-03)
+# Source: https://pypi.org/project/meshcore-proxy/
+# Source: license = MIT per pyproject.toml
+name: MeshCore Proxy
+kind: utility
+status: active
+maturity: stable
+description: >-
+  TCP proxy that enables remote access to a locally-connected MeshCore
+  companion radio. Connects to a MeshCore radio via USB serial or Bluetooth LE
+  and exposes it over TCP, allowing remote clients like meshcore-cli, Home
+  Assistant, and MeshCore apps to interact with the radio as if directly
+  connected.
+
+maintainers:
+  - name: rgregg
+    url: https://github.com/rgregg
+
+repository: https://github.com/rgregg/meshcore-proxy
+# Source: license = MIT per pyproject.toml and PyPI classification
+license: MIT
+
+languages:
+  - python
+
+latest_version: v0.4.0
+released: 2026-01-17
+
+platforms:
+  - linux
+  - macos
+  - windows
+
+interfaces:
+  - cli
+
+connections:
+  - serial
+  - usb
+  - ble
+  - tcp
+
+node_roles:
+  - companion
+
+capabilities:
+  - proxying
+
+install:
+  - type: pypi
+    package: meshcore-proxy
+    url: https://pypi.org/project/meshcore-proxy/
+    command: pipx install meshcore-proxy
+  - type: source
+    url: https://github.com/rgregg/meshcore-proxy
+
+popularity:
+  githubStars: 36
+  githubForks: 9
+  githubWatchers: 2
+  githubOpenIssues: 9
+  githubContributors: 3
+  lastChecked: 2026-07-03
+
+verification:
+  sourceAvailable: true
+  releasesAvailable: true
+  signedReleases: false
+  ciBuilds: false
+  hasDocumentation: true
+  lastChecked: 2026-07-03
+  notes:
+    - "Exposes USB/BLE companion radios over TCP for remote access."
+    - "Compatible with meshcore-cli, Home Assistant integration, and MeshCore apps."
+    - "Available on PyPI as meshcore-proxy."
+
+tags:
+  - proxy
+  - tcp
+  - remote-access
+
+last_reviewed: 2026-07-03

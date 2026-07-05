@@ -1,0 +1,84 @@
+# Source: https://github.com/ekollof/meshtui (verified 2026-07-03)
+# Source: https://ekollof.github.io/meshtui/
+name: MeshTUI
+kind: client
+status: active
+maturity: beta
+description: >-
+  Comprehensive terminal user interface client for MeshCore devices. Built with
+  Textual, provides real-time chat with contacts and channels, message delivery
+  tracking with ACK and retry logic, device management, contact management,
+  channel creation with auto-hash, remote node administration, persistent
+  message history, and BLE/TCP/serial connections. Includes experimental TCP
+  proxy mode for exposing serial/BLE devices over TCP.
+
+maintainers:
+  - name: ekollof
+    url: https://github.com/ekollof
+
+repository: https://github.com/ekollof/meshtui
+website: https://ekollof.github.io/meshtui/
+license: MIT
+
+languages:
+  - python
+
+# Source: https://github.com/ekollof/meshtui/blob/main/pyproject.toml
+latest_version: "0.2.9"
+
+platforms:
+  - linux
+  - macos
+  - windows
+
+interfaces:
+  - tui
+
+connections:
+  - ble
+  - serial
+  - tcp
+
+node_roles:
+  - companion
+  - repeater
+  - room-server
+
+capabilities:
+  - messaging
+  - contacts
+  - channels
+  - node-configuration
+  - monitoring
+  - firmware-update
+
+install:
+  - type: source
+    url: https://github.com/ekollof/meshtui
+
+popularity:
+  githubStars: 36
+  githubForks: 1
+  githubWatchers: 1
+  githubOpenIssues: 12
+  githubContributors: 1
+  lastChecked: 2026-07-03
+
+verification:
+  sourceAvailable: true
+  releasesAvailable: false
+  signedReleases: false
+  ciBuilds: false
+  hasDocumentation: true
+  lastChecked: 2026-07-03
+  notes:
+    - "Built with Textual framework; keyboard-driven terminal interface."
+    - "Includes message delivery tracking with flood routing fallback."
+    - "Experimental TCP proxy mode for remote serial/BLE access."
+
+tags:
+  - tui
+  - terminal
+  - textual
+
+last_reviewed: 2026-07-03
