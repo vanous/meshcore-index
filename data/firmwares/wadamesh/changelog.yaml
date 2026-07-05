@@ -1,6 +1,6 @@
 source: github
 repo: ALLFATHER-BV/wadamesh
-updatedAt: '2026-07-05T19:21:48.713Z'
+updatedAt: '2026-07-05T21:04:22.652Z'
 releases:
   - version: beta_31
     name: wadamesh beta_31
@@ -8,38 +8,95 @@ releases:
     url: https://github.com/ALLFATHER-BV/wadamesh/releases/tag/beta_31
     prerelease: false
     notes: >-
-      Test build on top of beta_30. This one gives the chats tab a face.
+      **This is the new stable release.** It replaces beta_27 and bundles everything from beta_28
+      through beta_31 — room-server reliability, the real burn-in fix, a redesigned chats tab,
+      big-mesh performance work and a live Spectrum analyzer.
 
 
-      Flash from the web flasher at **https://wadamesh.com** (Standalone install → Version →
-      beta_31), or grab a `-merged.bin` below.
+      Flash from the web flasher at **https://wadamesh.com**, update from the Launcher, or use the
+      on-device updater (Settings → About). Devices on the beta/test channel are already on this
+      exact build.
 
 
-      ## New — the chats tab, redesigned
+      ## Rooms and reliability
 
-      Each conversation now shows a **round avatar in that chat's signature colour** (the same
-      colour its bubbles use) with the **first two letters of the name**, the **last message
-      previewed** under the name, the time top-right and the unread count below it — the layout you
-      know from every phone messenger. **Compact chat mode keeps the dense single-line rows**
-      instead, so both styles are available and the toggle switches the whole tab.
+      - **Room servers no longer go one-way "frozen"** (#89). The device keeps its room session
+      alive with background keep-alives, logs back in automatically when the session drops, adds a
+      **"Log in again"** entry to the room chat's menu, and warns when a room only granted read-only
+      access. Thanks **EricMW61**.
 
+      - **Room logins can no longer be silently locked out by the device clock.** The device
+      remembers the newest timestamp it has used across reboots so it can never fall behind itself,
+      a Join with no reply shows a clear error after 20 s (including what the device thinks the time
+      is), and it **warns when the device clock and the room server's clock disagree**.
 
-      ## New — custom channel icons
-
-      Open a channel's settings (long-press or the gear) and tap **"Chat icon"** to pick any emoji
-      as that channel's avatar. Long-press the same entry to go back to the automatic letters. The
-      choice is remembered per channel.
-
-
-      ## Fixed
-
-      - Long chat names no longer wrap onto the message preview underneath.
+      - The on-device "Install update" hides on mixed/older partition layouts where an update could
+      brick mid-flash, and the update check now waits for Wi-Fi to actually have an address and
+      retries within a minute instead of showing "couldn't reach the update server" for six hours.
 
 
-      ---
+      ## Screen and burn-in
 
-      This is a **test/beta** build (prerelease); stable stays **beta_27**. On-device, enable
-      **Settings → About → "Get test builds (beta)"** to follow the test channel over Wi-Fi.
+      - **The screen now truly switches off in standby** — before, only the backlight went dark
+      while the panel kept displaying the last image, which is exactly what burns in the LCD. The
+      panel itself sleeps (wake is instant), a lit lock screen always dims, a screen woken by a
+      message re-darkens after 10 s, and the lock clock drifts to avoid ghosting. Thanks
+      **wyvern.red** and **richrd** (#86, #55).
+
+
+      ## Chats
+
+      - **The chats tab has a new look**: a round avatar in each chat's signature colour (the same
+      colour its bubbles use) with the first two letters of the name, the **last message previewed**
+      under the name, time top-right and the unread count below it.
+
+      - **Channels can have a custom icon**: channel settings → "Chat icon" picks any emoji as its
+      avatar (long-press resets). Remembered per channel.
+
+      - **Compact chat mode** (opt-in, chat settings): one dense line per message instead of
+      bubbles, with alternating background tones — 2–3× more history on screen; the chats list
+      switches to dense single-line rows to match.
+
+      - **Much deeper history on SD cards**: up to **5000 messages** (was 500) with **date
+      separators** (Today / Yesterday / day names). *Downgrade note: builds older than beta_29 can't
+      read the larger history file — downgrading starts with an empty history.*
+
+      - **Clearer delivery states**: ↑ sent, ✓✓ confirmed, and failed messages say "tap to resend" —
+      one tap resends.
+
+      - **Messages sent from the phone app now appear on the device too**, including channel
+      messages (DMs already did).
+
+      - **"Repeats heard" works again over Bluetooth** (#94) — the firmware passes repeats of your
+      own messages through to BLE without reintroducing the old congestion. Thanks **daryldakine**.
+
+      - Deleting a chat or channel now sticks (deleted messages could survive in storage and
+      resurrect the thread), and the chat/channel settings sheet fits on one screen.
+
+
+      ## Performance on busy meshes
+
+      - **The periodic multi-second freezes are gone** (#82). Saving ~570 contacts took up to 3
+      seconds on the UI thread every couple of minutes; it now writes the same data in a few large
+      chunks in a fraction of the time. The Contacts tab also stops rebuilding itself every 60
+      seconds just to refresh the "heard 2h ago" labels, and advert bursts can't queue rebuilds back
+      to back. Thanks **guinnessbear** for the report and **Yazutsu** for the measurements that
+      pinned it down.
+
+
+      ## Spectrum analyzer
+
+      - The waterfall gets a new line ~4× per second instead of once per sweep, the trace advances
+      across the band as it sweeps, a full sweep is ~20% faster, and the **Y-axis scales itself to
+      the l
+
+      …
+  - version: beta_32
+    name: wadamesh beta_32
+    datetime: '2026-07-05T20:59:58Z'
+    url: https://github.com/ALLFATHER-BV/wadamesh/releases/tag/beta_32
+    prerelease: true
+    notes: "Test-channel build. Fixes the freeze some beta_31 users reported when Wi-Fi is on.\r\n\r\nInstall it with the on-device updater with \"Beta updates\" enabled in Settings > About, via Launcher, or flash a bin below (the `-merged` bin at 0x0 for a fresh install, the plain bin for Launcher/OTA).\r\n\r\n### Fixed\r\n\r\n- **Periodic 1-2 second freezes with Wi-Fi on.** When a phone app or web client was connected over Wi-Fi and that connection went stale (phone asleep, out of range), every received mesh packet made the device block on the dead connection before the UI could continue, which showed up as a freeze every ~10 seconds on busy meshes. The device now only writes to a connection when it can accept data immediately, and a connection that stays unresponsive for 10 seconds straight is dropped so the client can reconnect cleanly. Real messages are unaffected (they re-sync on reconnect).\r\n- **Chat-history saves could briefly hitch the UI on busy meshes.** The history file now writes in a few large chunks instead of thousands of tiny ones (the same treatment the contact list got in beta_30), and background saves are spaced further apart while messages stream in.\r\n\r\n### New\r\n\r\n- **Stall diagnostics in About.** Settings > About now lists recent main-loop stalls (anything over 0.2 seconds, newest first), so freeze reports can be confirmed or ruled out at a glance. If you still see freezes on this build, a photo of that list tells us exactly where the time went.\r\n\r\nBoards: LilyGo T-Deck, Heltec V4 TFT."
   - version: beta_30
     name: wadamesh beta_30
     datetime: '2026-07-05T11:10:38Z'
@@ -989,81 +1046,3 @@ releases:
       | LilyGo T-Deck | `wadamesh-tdeck-merged.bin` | `wadamesh-tdeck.bin` |
 
       | Heltec V4 TFT | `wadamesh-heltec-v4-tft-merged.bin` | `wadamesh-heltec-v4-tft.bin` |
-  - version: beta_11
-    name: wadamesh beta_11
-    datetime: '2026-06-22T17:17:51Z'
-    url: https://github.com/ALLFATHER-BV/wadamesh/releases/tag/beta_11
-    prerelease: false
-    notes: >-
-      ## wadamesh beta_11
-
-
-      **Flash it:** [flasher.wadamesh.com](https://flasher.wadamesh.com) (Chrome/Edge, USB) · or
-      pull it on-device via **Settings → About → Check for updates** · or side-load through the
-      **Launcher** store.
-
-
-      The headline this round is **full keyboard navigation** — and every key is hotkey-bindable.
-      This is the foundation for upcoming keyboard-first devices like the **Tanmatsu T-Pager** that
-      have no touchscreen, and it already gives every **T-Deck** a fast, reliable way to drive
-      wadamesh entirely from the keyboard.
-
-
-      ---
-
-
-      ### ⌨️ Keyboard navigation (new — on by default)
-
-      - Drive the whole UI without the touchscreen: the **WASDZ** cluster moves the on-screen
-      selection in the *actual direction* you press (W up, A left, Z down, D right), **S** selects,
-      **Q** goes back.
-
-      - Each bottom tab has its own hotkey — **E** Messages, **R** Contacts, **T** Home, **U** Map,
-      **I** Settings — shown as a small letter on the tab icon. The Home hotkey mirrors tapping
-      Home: press again to flip between Commander and the app drawer.
-
-      - New **scroll up / down** keys (default **F / C**).
-
-      - **Everything is remappable** — directions, select, back, the per-tab hotkeys, and the scroll
-      keys — under **Settings → Keyboard**. Toggle the whole feature off there too (the choice
-      persists).
-
-      - Cleaner focus: the selected item shows as reverse-video (a bright outline for switches)
-      instead of a coloured border, and the highlight only appears while you're actually navigating
-      with the keys.
-
-
-      ### 🛡️ Stability
-
-      - Fixed a reboot that could occur when **receiving a message**, especially during
-      advert/message floods — a use-after-free while a list rebuilt mid-scroll (**#27**).
-
-      - After a crash, the device now **detects it on the next boot** and offers to save the crash
-      report so you can send it in — no more digging through Settings.
-
-
-      ### 🗺️ Map
-
-      - Map options can now switch the zoom control between the **slider** and a **+/- button
-      pair**, like older builds (**#26**).
-
-      - **Route replay** now opens on a wide overview so you can see where the hops start and the
-      whole path at a glance — and you can **pan and zoom freely while it plays**.
-
-
-      ### 🏠 Home
-
-      - New **"App drawer as home"** option (in the app drawer's cog) makes the launcher your home
-      screen instead of the Commander view.
-
-
-      ### 🔓 Open source
-
-      - The in-progress **Tanmatsu (ESP32-P4)** port source is now part of the public tree.
-
-
-      ---
-
-
-      **Boards:** LilyGo T-Deck · Heltec V4 TFT. Use `*-merged.bin` for a fresh full-flash at `0x0`;
-      the plain `.bin` is the app-only OTA/Launcher image.
