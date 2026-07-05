@@ -2,9 +2,12 @@
 # (https://api.meshcore.nz/api/v1/config) and tracked for drift by
 # .github/workflows/app-presets.yml. The radio values mirror upstream —
 # change them there, not here; `app_preset` is the upstream foreign key.
-name: 'New Zealand'
+name: 'New Zealand (Deprecated)'
 scope: general
 status: active
+# Source: GitHub issue #6 (halo779) — the last NZ region using this broad preset
+# migrated to narrow; the preset is no longer in active community use.
+deprecated: true
 description: 'Official MeshCore app radio preset — 917.375MHz / SF11 / BW250 / CR5.'
 area: area.geojson
 coverage:

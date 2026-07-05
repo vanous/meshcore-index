@@ -61,14 +61,12 @@ community:
   facebook: https://www.facebook.com/groups/meshcorenz
 
 maps:
-  - name: CoreScope live map
-    url: http://mapper.mesh.baird.io/#/live
   - name: NZ MeshMapper
     url: http://nz.meshmapper.net
 
 analyzers:
-  - name: mapper.mesh.baird.io
-    url: http://mapper.mesh.baird.io
+  - name: meshcore.baird.io
+    url: https://meshcore.baird.io/
 
 resources:
   getting_started: https://meshed.kiwi/resources/
