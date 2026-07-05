@@ -1,7 +1,13 @@
 source: github
 repo: venamartin/meshtrax
-updatedAt: '2026-07-05T17:14:48.032Z'
+updatedAt: '2026-07-05T19:22:12.019Z'
 releases:
+  - version: v1.5.2
+    name: Release v1.5.2
+    datetime: '2026-07-05T18:55:49Z'
+    url: https://github.com/venamartin/meshtrax/releases/tag/v1.5.2
+    prerelease: false
+    notes: "## What's Changed\r\n* Enhancement/bluetooth UI and sync by @venamartin in https://github.com/venamartin/meshtrax/pull/17\r\n\r\n# Bluetooth & Connection Reliability\r\n* **Improved Android Connections**: Fix random connection failures (specifically the \"133\" error on Android).\r\n* **Detailed Sync Progress**: Added better tracking for when the app is downloading your contacts, channels, and queued messages from the hardware. \r\n* **Firmware Version Tracking**: The app now reads and remembers the exact firmware version string of your connected hardware.\r\n\r\n# Messaging Enhancements\r\n* **New Message Status Icons**: Upgraded the small icons next to your sent messages. Successfully delivered messages now show a green double-checkmark. Additionally, failed channel messages will now show a amber checkmark.\r\n* **Channel Message Retries**: Added behind-the-scenes support to track how many times a channel message has attempted to retry sending. We also added new translation keys to support a setting for \"Max Channel Message Retries\" in the UI.\r\n\r\n# Design & Layout\r\n* **Polished Connection Screens**: The buttons on the Scanner, USB, and TCP connection screens have been centered and raised slightly off the bottom edge for a cleaner, more balanced look.\r\n\r\n# Bug Fixes\r\n* **Fixed \"Phantom\" Favorites**: Resolved an issue where newly discovered contacts on the mesh would sometimes incorrectly show up with a \"Favorite\" star. Now, a contact will only be marked as a favorite if you explicitly save and favorite it on your companion device.\r\n\r\n\r\n**Full Changelog**: https://github.com/venamartin/meshtrax/compare/v1.5.0...v1.5.2"
   - version: v1.5.0
     name: Release v1.5.0
     datetime: '2026-07-01T19:59:09Z'

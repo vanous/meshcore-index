@@ -1,7 +1,45 @@
 source: github
 repo: ALLFATHER-BV/wadamesh
-updatedAt: '2026-07-05T17:14:28.959Z'
+updatedAt: '2026-07-05T19:21:48.713Z'
 releases:
+  - version: beta_31
+    name: wadamesh beta_31
+    datetime: '2026-07-05T19:09:28Z'
+    url: https://github.com/ALLFATHER-BV/wadamesh/releases/tag/beta_31
+    prerelease: false
+    notes: >-
+      Test build on top of beta_30. This one gives the chats tab a face.
+
+
+      Flash from the web flasher at **https://wadamesh.com** (Standalone install → Version →
+      beta_31), or grab a `-merged.bin` below.
+
+
+      ## New — the chats tab, redesigned
+
+      Each conversation now shows a **round avatar in that chat's signature colour** (the same
+      colour its bubbles use) with the **first two letters of the name**, the **last message
+      previewed** under the name, the time top-right and the unread count below it — the layout you
+      know from every phone messenger. **Compact chat mode keeps the dense single-line rows**
+      instead, so both styles are available and the toggle switches the whole tab.
+
+
+      ## New — custom channel icons
+
+      Open a channel's settings (long-press or the gear) and tap **"Chat icon"** to pick any emoji
+      as that channel's avatar. Long-press the same entry to go back to the automatic letters. The
+      choice is remembered per channel.
+
+
+      ## Fixed
+
+      - Long chat names no longer wrap onto the message preview underneath.
+
+
+      ---
+
+      This is a **test/beta** build (prerelease); stable stays **beta_27**. On-device, enable
+      **Settings → About → "Get test builds (beta)"** to follow the test channel over Wi-Fi.
   - version: beta_30
     name: wadamesh beta_30
     datetime: '2026-07-05T11:10:38Z'
@@ -1029,53 +1067,3 @@ releases:
 
       **Boards:** LilyGo T-Deck · Heltec V4 TFT. Use `*-merged.bin` for a fresh full-flash at `0x0`;
       the plain `.bin` is the app-only OTA/Launcher image.
-  - version: beta_10
-    name: wadamesh beta_10
-    datetime: '2026-06-21T22:08:55Z'
-    url: https://github.com/ALLFATHER-BV/wadamesh/releases/tag/beta_10
-    prerelease: false
-    notes: >-
-      **wadamesh beta_10** — flash from **https://flasher.wadamesh.com**, or update on-device
-      (Settings → About).
-
-
-      ## What's new
-
-
-      ### T-Deck input
-
-      - **Trackball mode** — switch the T-Deck trackball between a **mouse cursor** (the default)
-      and **D-pad navigation** (roll to move the selection, click to choose), under **Settings →
-      Keyboard**. Handy if you prefer button-style navigation.
-
-
-      ### Map — #20
-
-      - **microSD tiles now fill in as you explore.** With *Use microSD for tiles* on, the device
-      also downloads any missing tiles over Wi-Fi and saves them straight onto the SD card, so your
-      offline library **grows** instead of showing blank areas past its edge. Thanks @1nerdherder
-      ([#20](https://github.com/ALLFATHER-BV/wadamesh/issues/20)).
-
-
-      ### Power — by @Vybo (#19)
-
-      - **Experimental battery saver (idle power-save).** Throttles the CPU when the device is
-      parked — screen off, on battery, no app connected and the mesh quiet — to trim idle power use,
-      **without ever missing a received packet**. Off by default; enable under **Settings → System →
-      Battery**. ([#19](https://github.com/ALLFATHER-BV/wadamesh/pull/19))
-
-
-      ### Settings
-
-      - **New "Battery" section** under Settings → System — opens the battery & power-history screen
-      (the same one you get by tapping the battery icon up top), and is where the battery saver now
-      lives (it moved out of the Lock settings).
-
-
-      ---
-
-      🙏 Thanks to **Dan Vybiral (@Vybo)** for the idle power-save feature (#19) and
-      **@1nerdherder** for the microSD-tiles report (#20).
-
-
-      **Boards:** LilyGo T-Deck · Heltec V4 TFT.
