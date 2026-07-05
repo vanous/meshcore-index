@@ -10,8 +10,6 @@ description: >-
   CoreScope monitoring, prefix planning and community support.
 scope: national
 status: active
-part_of:
-  - new-zealand
 visibility: public
 area: area.geojson
 
