@@ -1,7 +1,108 @@
 source: github
 repo: ALLFATHER-BV/wadamesh
-updatedAt: '2026-07-05T23:03:47.400Z'
+updatedAt: '2026-07-06T13:49:17.992Z'
 releases:
+  - version: beta_35
+    name: wadamesh beta_35
+    datetime: '2026-07-06T11:38:08Z'
+    url: https://github.com/ALLFATHER-BV/wadamesh/releases/tag/beta_35
+    prerelease: true
+    notes: >-
+      Test-channel build focused on the Heltec V4, though every fix applies to both boards.
+
+
+      ### Fixed
+
+
+      - **V4: multi-second freezes after receiving messages, including the screen refusing to wake
+      from dark mode.** Saving chat history to the internal flash could stall the device up to 6
+      seconds (the V4 has no SD card, and internal flash pauses for housekeeping). That save now
+      runs on a background task, so the screen and touch stay responsive no matter what storage is
+      doing.
+
+      - **Reboot when turning Bluetooth on with Wi-Fi running.** With memory tight, starting
+      Bluetooth used to crash the device mid-init. The switch now checks free memory first and
+      refuses with a clear message instead. The same protection covers the other direction: turning
+      Wi-Fi on with Bluetooth active used to claim "Wi-Fi on" while the radio silently never
+      started.
+
+      - **Settings vanishing for one boot after an unlucky reboot.** Settings writes are now
+      crash-safe (staged write, then swap), the loader self-heals from the staged copy if a reboot
+      lands mid-save, and a genuinely failed save now reports "Couldn't save the name to storage"
+      instead of pretending it worked.
+
+
+      ### Improved
+
+
+      - **About 30 KB of internal RAM freed** by moving buffers to external PSRAM and dropping
+      unused USB components from the build. Internal RAM is what Wi-Fi and Bluetooth both feed on,
+      so this is the headroom that makes running both together comfortable again, especially on the
+      V4.
+
+
+      Install with "Beta updates" enabled in Settings > About, via Launcher, or flash a bin below
+      (merged bin at 0x0 for a fresh install, plain bin for Launcher/OTA). Boards: LilyGo T-Deck,
+      Heltec V4 TFT.
+  - version: beta_34
+    name: wadamesh beta_34
+    datetime: '2026-07-06T09:18:43Z'
+    url: https://github.com/ALLFATHER-BV/wadamesh/releases/tag/beta_34
+    prerelease: true
+    notes: >-
+      Test-channel build. This one is significant: it changes how the device collects packets from
+      the LoRa radio, and the new path is ON by default so the test channel can prove it before it
+      goes anywhere near stable.
+
+
+      ### The missed-messages fix, explained
+
+
+      The radio chip holds only one received packet at a time. Until now the firmware collected that
+      packet when the main loop got around to it, and that is the same loop that draws the entire
+      touch interface. If the screen kept the loop busy while two packets arrived back to back, the
+      first packet was silently overwritten. No error, no log entry, just a message your device
+      heard but never showed you. That is the "my device missed a message another device right next
+      to it heard" report, and it explains why it affected this firmware but not stock MeshCore,
+      which has no screen to draw.
+
+
+      From this build a small dedicated background task collects every packet within about a
+      millisecond of it arriving, no matter what the interface is doing. Scrolling the map,
+      rebuilding a big chat, saving contacts: none of it can cost you a packet anymore.
+
+
+      ### Why default ON, and why there is still a toggle
+
+
+      The receive path is the heart of the device, so this is exactly the kind of change that needs
+      real-world hours across different meshes before it can be called done, and it only gets those
+      hours if testers actually run it. That is why it ships enabled on the test channel. The safety
+      hatch: if you see anything odd with receiving, sending, or the Spectrum analyzer, switch off
+      "Buffered receive (experimental)" in Settings > Radio & Mesh. It applies instantly, no reboot,
+      and puts you back on the old path. Please report what you saw either way, that is what this
+      channel is for.
+
+
+      You can also watch it work: Settings > About now shows LoRa receive counters. "late-lost"
+      counts packets the radio heard but the firmware failed to collect in time. With buffered
+      receive on it should stay at zero. Turn the toggle off on a busy mesh and you may watch it
+      creep up, which is the old bug happening live.
+
+
+      ### Also fixed
+
+
+      - Messages sent by wadamesh no longer carry stray bytes that stock MeshCore devices and some
+      companion apps showed as garbage characters after the text (issue #13).
+
+      - A GPS module reporting a bogus date can no longer drag the device clock back to the year
+      1902.
+
+
+      Install with "Beta updates" enabled in Settings > About, via Launcher, or flash a bin below
+      (the merged bin at 0x0 for a fresh install, the plain bin for Launcher/OTA). Boards: LilyGo
+      T-Deck, Heltec V4 TFT.
   - version: beta_33
     name: wadamesh beta_33
     datetime: '2026-07-05T21:38:17Z'
@@ -935,122 +1036,3 @@ releases:
 
       ▶️ **Flash in the browser:** https://flasher.wadamesh.com — or install via the Launcher /
       on-device update. 🙏
-  - version: beta_14
-    name: wadamesh beta_14
-    datetime: '2026-06-23T22:44:21Z'
-    url: https://github.com/ALLFATHER-BV/wadamesh/releases/tag/beta_14
-    prerelease: false
-    notes: >-
-      **wadamesh beta_14 — hotfix** 🩹
-
-
-      Fixes a beta_13 regression: with **keyboard navigation turned off** (Settings → Keyboard), the
-      physical keyboard stopped typing into text fields entirely on the **T-Deck** and **Tanmatsu**.
-      Typing now works again with keyboard-nav off; with it on, behaviour is unchanged. (The Heltec
-      V4 was never affected — it has no keyboard navigation.)
-
-
-      **Everything from [beta_13](https://github.com/ALLFATHER-BV/wadamesh/releases/tag/beta_13) is
-      included** — the community features from **@Yazutsu**, **@tun0**, **@Vybo** and
-      **@samuelcoustet** (room-post author names, the Direct 0-hop filter, beer emoji / status-bar
-      unread tap / new-contact toast toggle / Czech accents, trackball edge-scroll, and the
-      companion/TCP/OTA fixes) plus the keyboard-nav, special-characters picker and 12-hour-clock
-      work. See the [beta_13 notes](https://github.com/ALLFATHER-BV/wadamesh/releases/tag/beta_13)
-      for the full list and credits. 🙏
-
-
-      ▶️ **Flash in the browser:** https://flasher.wadamesh.com — or install via the Launcher /
-      on-device update.
-  - version: beta_13
-    name: wadamesh beta_13
-    datetime: '2026-06-23T22:03:59Z'
-    url: https://github.com/ALLFATHER-BV/wadamesh/releases/tag/beta_13
-    prerelease: false
-    notes: >-
-      **wadamesh beta_13 — community drop** 🎉
-
-
-      A big community release: most of the headline features came straight from contributor pull
-      requests, alongside the keyboard, typing and quality-of-life fixes promised after beta_12.
-      Huge thanks to everyone sending PRs, opening issues and reporting bugs — **@Yazutsu**,
-      **@tun0**, **@Vybo** and **@samuelcoustet** all have their work in this build. 🙏
-
-
-      ▶️ **Flash in the browser:** https://flasher.wadamesh.com — or install via the Launcher /
-      on-device update.
-
-
-      ## From contributors
-
-
-      ### Room-server posts show the author — by @Yazutsu (#40, closes #32)
-
-      Room-server messages now show the actual poster's name on each bubble instead of the room's
-      own name.
-
-
-      ### Direct (0-hop) filter — by @tun0 (#39)
-
-      A new "Direct (0-hop)" filter for the contact list and the map: show only the nodes you're
-      hearing directly, with no repeater hops in between.
-
-
-      ### Trackball edge-scroll — by @tun0 (#38)
-
-      Optional "edge scroll" — push the trackball cursor past a screen edge to scroll the list
-      underneath it (off by default, under Settings → Keyboard).
-
-
-      ### Emoji, unread tap, contact toast, Czech accents — by @Vybo (#22)
-
-      Beer emoji baked in colour, tap the status-bar unread badge to jump to your Chats, a new
-      "notify on new contact" toggle, and Czech accents in the accent pop-up.
-
-
-      ### Companion / transport fixes — by @samuelcoustet (#29)
-
-      TCP now restarts immediately after off → on, the OTA action is hidden when there's no update
-      slot to use, and a TCP-toggle alert race is fixed. _(Cherry-picked from #29; the rest of that
-      PR — the EU keyboards and the Expansion-Kit UI — will follow as focused PRs.)_
-
-
-      ## Typing & keyboard navigation (T-Deck + Tanmatsu)
-
-      - Open a chat or channel and the cursor is ready — type straight away. Every other field waits
-      for Enter before it captures the keyboard, so the letter-navigation keys keep working.
-
-      - Enter (or Esc / back) on an empty message box drops the cursor and re-selects the field, so
-      you can navigate away with the buttons again.
-
-      - The menu-bar letter shortcuts no longer jump you to another page while you're typing.
-
-      - New **"Show menu-bar letters"** setting under Settings → Keyboard (off by default).
-
-      - The accent pop-up no longer grabs the keyboard when it appears.
-
-
-      ## Composer & clock
-
-      - New dedicated **"Special characters"** picker for symbols that aren't on the keyboard (`% $
-      @ # & =`, currency, maths, accents) — separate from the emoji picker.
-
-      - **Long-press** one of your sent messages to **Resend** it.
-
-      - The **12-hour clock** setting now applies everywhere — top bar, chat bubbles and lock screen
-      — not just the chat list.
-
-
-      ## Fixes
-
-      - **Heltec V4:** removed the after-crash report prompt — that board has no SD card or
-      reachable storage to save the report to, so it was a dead end. (The T-Deck still offers it.)
-
-      - When both Wi-Fi and GPS are off, the clock now sets itself from the timestamps on messages
-      received over the mesh.
-
-
-      ---
-
-
-      Full notes in [`release-notes/beta_13.txt`](release-notes/beta_13.txt). Thanks again to all
-      contributors and bug reporters — keep it coming! 🚀
