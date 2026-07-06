@@ -1,7 +1,128 @@
 source: github
 repo: Yeraze/meshmonitor
-updatedAt: '2026-07-04T03:23:47.422Z'
+updatedAt: '2026-07-06T23:11:48.761Z'
 releases:
+  - version: v4.12.5
+    name: v4.12.5
+    datetime: '2026-07-06T21:37:24Z'
+    url: https://github.com/Yeraze/meshmonitor/releases/tag/v4.12.5
+    prerelease: false
+    notes: >-
+      # MeshMonitor v4.12.5
+
+
+      This release completes the **MeshCore Virtual Node** command surface: a companion app
+      (`meshcore-flutter`) connected to a MeshMonitor Virtual Node can now do nearly everything it
+      could against a physically-attached node. Building on 4.12.4's config forwarding, the app can
+      now send self-adverts, log in to remote nodes, trace paths, and request LPP telemetry — each
+      relayed to the real node with the correct `Sent`→async-push handshake and correlated the way
+      the app expects — and the node's raw RX feed is bridged to apps as a `LogRxData` push so
+      channel-finder and packet-inspection tools work through the VN. All of this was validated
+      end-to-end against live hardware. On the LoRa side, the modem-preset picker now filters
+      presets that would be illegal for the selected region and warns when picking a licensed
+      amateur-radio region, with RegionCode values 33–37 added. A batch of MeshCore fixes lands too:
+      `clock sync` now sets the repeater to the real current time, repeater SNR is scaled correctly
+      (quarter-dB /4), a saved static position no longer clobbers live GNSS fixes, and initial
+      auto-connect retries with backoff. Rounding it out: per-node free-text notes, conversation
+      content search, an automation MeshCore scope condition, a guard against a bad saved regex
+      bricking automations, plus dependency and translation updates.
+
+
+      ## Features
+
+      - **MeshCore Virtual Node — app can send adverts, log in, trace paths, and request telemetry**
+      (#3904): `SendSelfAdvert` (#3959); `SendLogin`→`LoginSuccess`, `SendTracePath`→`TraceData`,
+      `SendTelemetryReq`→`TelemetryResponse` (#3961). Hardware-validated.
+
+      - **MeshCore Virtual Node — raw RX feed bridged to apps** as a `LogRxData`(0x88) push (#3964,
+      closes #3963).
+
+      - **LoRa region legality** — filter modem presets by region legality (#3936) and warn on
+      licensed amateur-radio regions (#3930) (#3924).
+
+      - **Nodes — per-node free-text notes field** (#3932, closes #3921).
+
+      - **Messages — search conversations by content**, extended to MeshCore DMs (#3931, #3935,
+      closes #3922).
+
+      - **MeshCore packet-log export — decode unencrypted packet data** (#3939, closes #3937).
+
+      - **Automation — MeshCore scope condition + self-origin guard** (#3920, closes #3914).
+
+
+      ## Bug Fixes
+
+      - **MeshCore: `clock sync` now sets the repeater to the real current time** (#3957, closes
+      #3954).
+
+      - **MeshCore: repeater SNR was reported 4× too high** — now scaled by /4 (#3956, closes
+      #3955).
+
+      - **MeshCore: static contact position no longer clobbers live GNSS telemetry fixes** (#3909).
+
+      - **MeshCore: initial auto-connect now retries with backoff** (#3919).
+
+      - **Automation: a stored bad `filterNameRegex` can no longer brick automations** (#3938,
+      closes #3934).
+
+      - **Automation: send/request actions can now reach MeshCore sources** (#3917, closes #3915).
+
+      - **Config: add RegionCode values 33–37 + fix ITU2_2M label** (#3928, closes #3927).
+
+      - **Map: show direct-heard SNR in the node hover tooltip** (#3929, closes #3925).
+
+      - **Dashboard map: collapse toggle for the Features panel** (#3913, closes #3912).
+
+      - **Hardware: rename hwModel 128 to `MESH_TRACKER_X1`** (#3958, closes #3952).
+
+      - **PirateWeatherADV example script: "read operation timed out" under Timed Events** —
+      timeouts bumped, 30s kill-timeout docs corrected (#3942).
+
+
+      ## Dependencies
+
+      - Bumped the production-dependencies group (8 updates) plus `@types/node`, `globals`,
+      `@typescript-eslint/parser`, `puppeteer`, and `tsx` (#3945, #3946, #3948, #3949, #3950,
+      #3951).
+
+
+      ## Translations
+
+      - Updated from Hosted Weblate (#3601). Thanks to the translators. 🌍
+
+
+      ## Issues Resolved
+
+      #3904, #3963, #3954, #3955, #3952, #3934, #3927, #3924, #3925, #3922, #3921, #3937, #3915,
+      #3914, #3912
+
+
+      **Full Changelog:** https://github.com/Yeraze/meshmonitor/compare/v4.12.4...v4.12.5
+
+
+      ## 🚀 MeshMonitor v4.12.5
+
+
+      ### 📦 Installation
+
+
+      **Docker (recommended):**
+
+      ```bash
+
+      docker run -d \
+        --name meshmonitor \
+        -p 8080:3001 \
+        -v meshmonitor-data:/data \
+        ghcr.io/Yeraze/meshmonitor:4.12.5
+      ```
+
+
+      ### 🧪 Testing
+
+      ✅ All tests pa
+
+      …
   - version: v4.12.4
     name: v4.12.4
     datetime: '2026-07-03T23:57:55Z'
@@ -1706,77 +1827,3 @@ releases:
       ### 📋 Changes
 
       See commit history for detailed changes.
-  - version: v4.10.0
-    name: v4.10.0
-    datetime: '2026-06-11T01:41:29Z'
-    url: https://github.com/Yeraze/meshmonitor/releases/tag/v4.10.0
-    prerelease: false
-    notes: >-
-      # MeshMonitor v4.10.0
-
-
-      This release is about **seeing more of the mesh you don't physically touch**. The headline
-      feature, **Auto Remote LocalStats** (#3398), is a new per-source automation that periodically
-      requests `local_stats` telemetry — noise floor, channel/air utilization, uptime, and packet
-      counts — from *remote* nodes, so you can graph the health of infrastructure you don't own;
-      requests go out as channel unicasts (so `REPEATER`/`CLIENT` nodes answer too) with a polite
-      round-robin scheduler. **Map Analysis** got four upgrades (#3399): a marker **search box**,
-      **marker spiderfy** so overlapping nodes fan out and become individually selectable,
-      **inbound/outbound traceroute** separation with directional SNR arrows, and **weak-link
-      filtering** with a per-node summary. **GeoJSON overlays** (#3407) can now be flagged public
-      and rendered on the anonymous, embed, and dashboard maps, and **desktop builds** now bundle
-      **Apprise** as a frozen sidecar (#3405) for full local notification support with no system
-      Python. The new firmware **noise-floor** LocalStats field (#3396) is captured and charted. On
-      the fix side: the Security tab no longer leaks dead-nodes/key-mismatch rows across sources,
-      the Radio Statistics legend stops clipping counts, and custom-analytics CSP domains reach the
-      header.
-
-
-      ## Features
-
-
-      - **Auto Remote LocalStats — periodic `local_stats` requests to remote nodes** (#3398, #3403)
-      — per-source automation (modeled on Auto Traceroute) that polls remote nodes for noise floor,
-      channel/air utilization, uptime, and packet counts. Targets are the union of node-list / role
-      / favorite / name-regex filters; requests are channel unicasts sized to the target's distance,
-      with jitter, a schedule window, an airtime gate, and a per-target rate limit. Passive-mode
-      aware; replies persist through the existing telemetry pipeline.
-
-      - **Map Analysis: node search, marker spiderfy, directional + weak-link traceroutes** (#3399,
-      #3404) — a search box that filters markers and traceroute endpoints by name/node-id/nodeNum;
-      overlapping markers fan out so each node is selectable; traceroutes split into inbound (RX) /
-      outbound (TX) legs with direction colours and SNR arrows; persisted min-occurrence/min-SNR
-      filters plus a per-node link summary.
-
-      - **GeoJSON overlays on public, anonymous, embed, and dashboard maps** (#3407, #3408) —
-      per-layer opt-in **Public** flag (default off); flagged layers render on every public surface
-      while private layers stay private (anonymous data 404s).
-
-      - **Desktop: Apprise bundled as a frozen sidecar** (#3405) — Apprise (with all plugins) is
-      frozen into a self-contained executable shipped alongside the desktop app and started on a
-      loopback-only port, giving desktop full local Apprise support with no system Python. (Intel
-      macOS falls back to a remote Apprise API; arm64 macOS / Windows / Linux ship the sidecar.)
-
-      - **Noise Floor in LocalStats telemetry** (#3396, #3397) — the `noiseFloor` (dBm) field from
-      Meshtastic firmware 2.7.25 is captured and graphed alongside the other LocalStats metrics, on
-      Device Info and every local-stats chart. Protobufs submodule bumped v2.7.23 → v2.7.25
-      (additive).
-
-
-      ## Bug Fixes
-
-
-      - **Security tab leaked dead nodes and key-mismatch events across sources** (#3406) — `GET
-      /api/security/dead-nodes` and `/api/security/key-mismatches` ignored `sourceId` and returned
-      rows from every source; both are now scoped to the requested source. The same change wires the
-      (previously unreachable) Auto Remote LocalStats section into the Automation sub-nav.
-
-      - **Radio Statistics legend clipped counts; Packet Distribution lacked a total** (#3400,
-      #3401, #3402) — the legend no longer clips the raw count mid-value (truncation now only in
-      stacked mode), and the Packet Distribution panel shows a prominent grand total.
-
-      - **Custom analytics "CSP Allowed Domains" were silently dropped** (#3409, #3410) — the
-      `custom` analytics provider was caught by the same early-return as `none`, so configured
-      origins never reached the `C
-
-      …
