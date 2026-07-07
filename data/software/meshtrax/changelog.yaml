@@ -1,7 +1,13 @@
 source: github
 repo: venamartin/meshtrax
-updatedAt: '2026-07-07T21:27:30.733Z'
+updatedAt: '2026-07-07T23:04:55.187Z'
 releases:
+  - version: v1.5.5
+    name: Release v1.5.5
+    datetime: '2026-07-07T22:38:18Z'
+    url: https://github.com/venamartin/meshtrax/releases/tag/v1.5.5
+    prerelease: false
+    notes: "## What's Changed\r\n* Removed translation feature to minimize app size. by @venamartin in https://github.com/venamartin/meshtrax/pull/22\r\n* Link for hashtag channels to create or jump to\r\n* Font color change on links\r\n* Simple markdown support for bold, italic, and code blocks.\r\n* Minor bug fixes\r\n\r\n\r\n**Full Changelog**: https://github.com/venamartin/meshtrax/compare/v1.5.4...v1.5.5"
   - version: v1.5.2
     name: Release v1.5.2
     datetime: '2026-07-05T18:55:49Z'
