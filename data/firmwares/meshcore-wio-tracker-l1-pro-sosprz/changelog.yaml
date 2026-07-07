@@ -1,7 +1,15 @@
 source: github
 repo: sosprz/Meshcore-Wio-Tracker-L1-Pro
-updatedAt: '2026-07-05T13:45:17.631Z'
+updatedAt: '2026-07-07T21:27:07.826Z'
 releases:
+  - version: v1.16.90
+    name: v1.16.90
+    datetime: '2026-07-07T20:42:20Z'
+    url: https://github.com/sosprz/Meshcore-Wio-Tracker-L1-Pro/releases/tag/v1.16.90
+    prerelease: false
+    notes: >-
+      - **eInk display flip setting** - `System -> Screen -> Rotation` now toggles supported
+      displays between the build default orientation and a 180-degree flip for upside-down installs.
   - version: v1.16.89
     name: v1.16.89
     datetime: '2026-07-05T11:37:05Z'
@@ -133,12 +141,3 @@ releases:
       - **Mobile favorites toggle fix** - Favorites can now be added/removed from the mobile app
       again. External contact updates still keep overwrite protection by default, but explicit app
       favorite changes are now accepted.
-  - version: v1.13.0.67
-    name: v1.13.0.67
-    datetime: '2026-03-04T06:16:47Z'
-    url: https://github.com/sosprz/Meshcore-Wio-Tracker-L1-Pro/releases/tag/v1.13.0.67
-    prerelease: false
-    notes: >-
-      - **Channel unread total consistency fix** - Hidden/removed channels no longer inflate visible
-      unread totals. Home `Channels` unread and the shared unread aggregate now count only currently
-      active visible channels, matching the channel list.
