@@ -1,12 +1,78 @@
 source: github
 repo: ALLFATHER-BV/wadamesh
-updatedAt: '2026-07-06T13:49:17.992Z'
+updatedAt: '2026-07-07T11:10:39.389Z'
 releases:
+  - version: beta_36
+    name: wadamesh beta_36
+    datetime: '2026-07-07T09:21:51Z'
+    url: https://github.com/ALLFATHER-BV/wadamesh/releases/tag/beta_36
+    prerelease: true
+    notes: >-
+      Test-channel build. Install with the web flasher at https://flasher.wadamesh.com (pick the
+      beta channel), via the Launcher, or on-device with the "Get test builds (beta)" toggle in
+      Settings > About.
+
+
+      ## Community fixes and requests
+
+
+      This beta ships a contributed fix and three community requests. Thank you all.
+
+
+      ### Store data on SD really works now, by @scratchdiver (#123)
+
+
+      The "Store data on SD" toggle was silently ignored at boot on Launcher installs: the setting
+      was saved to a file the boot code never read, so devices kept using slow internal flash no
+      matter what the switch said. @scratchdiver tracked it down and fixed the boot path. A
+      follow-up commit on top makes the toggle work in both directions on those installs. If you run
+      wadamesh under the Launcher on a busy mesh, flip the toggle once: contacts and settings now
+      genuinely move to the SD card, which removes a whole class of slow internal-flash writes.
+
+
+      ### Symbol passwords everywhere (#122, reported by @smhawkes)
+
+
+      Long-press any settings field, including the Wi-Fi password, for the Cut / Copy / Paste / All
+      / Sym menu. Sym opens a special-character picker with everything the on-screen keyboard does
+      not have. Double-tap selects a word.
+
+
+      ### Lock-screen unread count (#93, requested by @Buko84)
+
+
+      The lock screen shows an envelope with the number of unread messages under the clock. It
+      disappears when there is nothing unread, and it will not burn into the panel (it drifts along
+      with the clock).
+
+
+      ### Australia (Mid) preset (#121, requested by @zindello)
+
+
+      915.075 MHz, 125 kHz, SF9, CR5, in the region list for both the settings page and the
+      first-run wizard.
+
+
+      ## Also new
+
+
+      - The Wi-Fi network screens (join, hidden network, saved-network details) are full-screen
+      settings pages now instead of cramped popups: title in the top bar, tap the bar to go back,
+      proper scrolling with the keyboard open.
+
+      - For Launcher installs: "Save update bin to SD" on the About page downloads the latest
+      firmware of your selected channel into a BINS folder on the SD card, named with version and
+      channel, ready to flash from the Launcher. The test-builds toggle is now visible on Launcher
+      installs too.
+
+      - Groundwork for a new supported device, the Elecrow ThinkNode M9, is in the tree (bring-up by
+      ded of SalishMesh, remote-tested on a preproduction unit). Not part of this release's
+      binaries.
   - version: beta_35
     name: wadamesh beta_35
     datetime: '2026-07-06T11:38:08Z'
     url: https://github.com/ALLFATHER-BV/wadamesh/releases/tag/beta_35
-    prerelease: true
+    prerelease: false
     notes: >-
       Test-channel build focused on the Heltec V4, though every fix applies to both boards.
 
@@ -44,6 +110,17 @@ releases:
       Install with "Beta updates" enabled in Settings > About, via Launcher, or flash a bin below
       (merged bin at 0x0 for a fresh install, plain bin for Launcher/OTA). Boards: LilyGo T-Deck,
       Heltec V4 TFT.
+
+
+
+      ---
+
+
+      **Promoted to stable on 2026-07-06.** If you are updating from beta_33 (the previous stable),
+      this release also includes everything from beta_34, most importantly buffered receive: packets
+      are now collected by a dedicated background task instead of the UI loop, fixing the "my device
+      missed a message a device next to it heard" problem. A safety switch lives in Settings > Radio
+      & Mesh ("Buffered receive").
   - version: beta_34
     name: wadamesh beta_34
     datetime: '2026-07-06T09:18:43Z'
@@ -983,56 +1060,3 @@ releases:
 
       Everything from beta_15 is included. Thanks to @samuelcoustet and @tun0 for the contributions
       this round.
-  - version: beta_15
-    name: wadamesh beta_15
-    datetime: '2026-06-24T09:02:52Z'
-    url: https://github.com/ALLFATHER-BV/wadamesh/releases/tag/beta_15
-    prerelease: false
-    notes: >-
-      **wadamesh beta_15** ✨
-
-
-      Two new touches, a couple of satisfying fixes, and one sensible default change.
-
-
-      ### ✨ New
-
-      - **Amber power-save battery** — idle power-saving now tints the status-bar battery **amber**,
-      just like iPhone's Low Power Mode, instead of showing a separate moon icon. (T-Deck)
-
-      - **@-mention picker** — type **`@`** in the message box to pick a contact from a list and
-      drop their name in. Thanks **@robinshizuyo-dev** (#42).
-
-
-      ### 🩹 Fixed
-
-      - **Lists stay put** — closing a settings item, menu or chat no longer snaps the list back to
-      the top; it stays where you left it. Thanks **@ZorkaTheDog** (#45).
-
-      - **App-sent messages appear on the device** — a DM sent from the MeshCore companion app now
-      also shows in the right conversation on-screen. Thanks **@HonzaDandy** (#46).
-
-      - **Typing reliability** (T-Deck / Tanmatsu) — tapping a text field, even one that's already
-      highlighted, starts typing right away, and the accent pop-up no longer interrupts typing
-      outside of chats.
-
-      - **Cursor cue** — the text cursor only appears when a field is actually ready for input, so
-      it's a dependable "you can type now" hint.
-
-      - **Smoother map panning** — tile rendering no longer trips the watchdog and reboots during
-      heavy scrolling.
-
-
-      ### ⚙️ Changed
-
-      - **Keyboard navigation is now OFF by default.** Prefer driving the UI with the trackball /
-      arrow keys? Turn it back on in **Settings → Keyboard** (your choice sticks until you change
-      it). The **Tanmatsu** keeps it on, since it has no touchscreen.
-
-
-      **Everything from [beta_14](https://github.com/ALLFATHER-BV/wadamesh/releases/tag/beta_14) is
-      included.**
-
-
-      ▶️ **Flash in the browser:** https://flasher.wadamesh.com — or install via the Launcher /
-      on-device update. 🙏
