@@ -1,7 +1,65 @@
 source: github
 repo: ALLFATHER-BV/wadamesh
-updatedAt: '2026-07-07T11:10:39.389Z'
+updatedAt: '2026-07-08T21:10:35.771Z'
 releases:
+  - version: beta_37
+    name: wadamesh beta_37
+    datetime: '2026-07-08T20:13:21Z'
+    url: https://github.com/ALLFATHER-BV/wadamesh/releases/tag/beta_37
+    prerelease: true
+    notes: >-
+      Test-channel build. Flash it from [flasher.wadamesh.com](https://flasher.wadamesh.com) (enable
+      test builds), or grab the bins below. On-device: About page, with the test-builds toggle on.
+
+
+      This drop ships two community contributions by @Yazutsu and one by @scratchdiver. Thanks to
+      both, and to @jochentj for the detailed report that drove the Tanmatsu accent work.
+
+
+      ## New
+
+
+      ### Tanmatsu: ALT accents and language switching (#129, reported by @jochentj)
+
+      - Hold ALT and press a letter to open the accent picker. Keep ALT held and press the letter
+      again to cycle through the options; release ALT to insert the highlighted one. Same idea as
+      long-press on the touch boards, fully keyboard driven.
+
+      - Double-tap the space bar to switch between your enabled keyboard languages, matching the
+      T-Deck.
+
+      - Accented letters now render at full size at the Large and Huge UI scales instead of
+      noticeably smaller. All boards moved to compressed UI fonts to make room for this.
+
+
+      ### GPS quick reply, by @Yazutsu (#125)
+
+      Your GPS position is the first row in the quick-reply picker, so you can send your current
+      coordinates with one tap.
+
+
+      ### Keyboard language in the chat bar
+
+      While in a chat or channel, the top bar shows the active keyboard language next to the clock
+      (only when more than one layout is enabled).
+
+
+      ## Fixed
+
+
+      - Keyboard-backlight "Off" preset now actually switches the backlight off and keeps it off, by
+      @Yazutsu (#88).
+
+      - Chat history saves to SD are atomic, with a fallback save path when the background worker is
+      not armed, so a badly timed reboot can no longer truncate message history, by @scratchdiver
+      (#135).
+
+      - T-Deck: a touch controller wedged into a stuck "phantom finger" state (input dead, screen
+      never timing out) is now detected and cleared by the driver within seconds. Previously only a
+      full power cycle recovered it.
+
+      - T-Deck: touch init at boot retries for a few seconds instead of giving up after one attempt,
+      which could cost the session both touch and keyboard.
   - version: beta_36
     name: wadamesh beta_36
     datetime: '2026-07-07T09:21:51Z'
@@ -993,70 +1051,3 @@ releases:
 
 
       _Everything from beta_16 (and the Tanmatsu's beta_17) is included._
-  - version: beta_16
-    name: wadamesh beta_16
-    datetime: '2026-06-24T13:45:58Z'
-    url: https://github.com/ALLFATHER-BV/wadamesh/releases/tag/beta_16
-    prerelease: false
-    notes: >-
-      **wadamesh beta_16** — Heltec V4 Expansion Kit support, European keyboards, and Wi-Fi updates
-      (with rollback) are back.
-
-
-      Flash or update at **https://flasher.wadamesh.com**, or grab it on-device under **Settings →
-      About** if you're on a normally-flashed board.
-
-
-      ---
-
-
-      ## New
-
-
-      ### Heltec V4 Expansion Kit · thanks @samuelcoustet (#29)
-
-      If you've got the sensor expansion board on a Heltec V4, there's finally a proper home for it:
-      a dedicated **Sensors** tab (temperature, humidity, pressure, GPS and battery, each with a
-      small history chart), an environment readout on the Home screen, and an on-device **mesh
-      console** for poking at the radio directly. None of it shows up on a bare V4 — it only appears
-      when a sensor board is actually detected, so nothing changes for everyone else.
-
-
-      Worth being honest about this one: it was a real grind to land. It came in as a big pull
-      request built against an old beta, so getting it in cleanly meant re-doing most of it by hand
-      against current code and carefully gating every piece so it can't bloat or destabilise the
-      T-Deck and Tanmatsu builds. The original work is @samuelcoustet's — thank you.
-
-
-      ### European keyboards · thanks @samuelcoustet (#29)
-
-      French, Dutch, German, Spanish and Italian layouts, both on-screen and on the T-Deck's
-      physical keyboard. Choose one of those as your interface language and the matching layout is
-      selected automatically.
-
-
-      ### Wi-Fi updates are back — and you can roll back
-
-      On a normally-flashed device (not installed through the Launcher), firmware updates over Wi-Fi
-      return: **Settings → About**, no cable needed. New this round: **Install a previous version**
-      — pick one of the last few betas and reinstall it over Wi-Fi, with an "are you sure?" first
-      since it's a downgrade.
-
-
-      ## Fixed · thanks @tun0
-
-      - Closing a dialog no longer lets a scroll carry through to the page behind it (#50).
-
-      - The contact action sheet no longer overflows the screen in landscape (#49).
-
-      - The per-channel region field now shows your default region as the hint, instead of a generic
-      placeholder (#48).
-
-      - The status-bar clock no longer overlaps the node name on the V4.
-
-
-      ---
-
-
-      Everything from beta_15 is included. Thanks to @samuelcoustet and @tun0 for the contributions
-      this round.
