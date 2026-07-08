@@ -1,7 +1,58 @@
 source: github
 repo: Treehouse-00/pymc_console-dist
-updatedAt: '2026-07-05T17:14:50.668Z'
+updatedAt: '2026-07-08T02:54:10.951Z'
 releases:
+  - version: v0.9.334
+    name: Release v0.9.334
+    datetime: '2026-07-08T02:01:15Z'
+    url: https://github.com/Treehouse-00/pymc_console-dist/releases/tag/v0.9.334
+    prerelease: false
+    notes: |-
+      Automated release from pymc_console.
+
+      ## Installation
+      ```bash
+      sudo ./manage.sh install
+      ```
+
+      ## Upgrade
+      ```bash
+      sudo ./manage.sh upgrade
+      ```
+  - version: v0.9.333
+    name: Release v0.9.333
+    datetime: '2026-07-08T01:13:16Z'
+    url: https://github.com/Treehouse-00/pymc_console-dist/releases/tag/v0.9.333
+    prerelease: false
+    notes: |-
+      Automated release from pymc_console.
+
+      ## Installation
+      ```bash
+      sudo ./manage.sh install
+      ```
+
+      ## Upgrade
+      ```bash
+      sudo ./manage.sh upgrade
+      ```
+  - version: v0.9.332
+    name: Release v0.9.332
+    datetime: '2026-07-08T01:10:51Z'
+    url: https://github.com/Treehouse-00/pymc_console-dist/releases/tag/v0.9.332
+    prerelease: false
+    notes: |-
+      Automated release from pymc_console.
+
+      ## Installation
+      ```bash
+      sudo ./manage.sh install
+      ```
+
+      ## Upgrade
+      ```bash
+      sudo ./manage.sh upgrade
+      ```
   - version: v0.9.329
     name: Release v0.9.329
     datetime: '2026-05-07T18:49:28Z'
@@ -278,57 +329,6 @@ releases:
     name: Release v0.9.312
     datetime: '2026-03-15T17:09:20Z'
     url: https://github.com/Treehouse-00/pymc_console-dist/releases/tag/v0.9.312
-    prerelease: false
-    notes: |-
-      Automated release from pymc_console.
-
-      ## Installation
-      ```bash
-      sudo ./manage.sh install
-      ```
-
-      ## Upgrade
-      ```bash
-      sudo ./manage.sh upgrade
-      ```
-  - version: v0.9.311
-    name: Release v0.9.311
-    datetime: '2026-03-15T08:53:15Z'
-    url: https://github.com/Treehouse-00/pymc_console-dist/releases/tag/v0.9.311
-    prerelease: false
-    notes: |-
-      Automated release from pymc_console.
-
-      ## Installation
-      ```bash
-      sudo ./manage.sh install
-      ```
-
-      ## Upgrade
-      ```bash
-      sudo ./manage.sh upgrade
-      ```
-  - version: v0.9.310
-    name: Release v0.9.310
-    datetime: '2026-03-15T08:40:17Z'
-    url: https://github.com/Treehouse-00/pymc_console-dist/releases/tag/v0.9.310
-    prerelease: false
-    notes: |-
-      Automated release from pymc_console.
-
-      ## Installation
-      ```bash
-      sudo ./manage.sh install
-      ```
-
-      ## Upgrade
-      ```bash
-      sudo ./manage.sh upgrade
-      ```
-  - version: v0.9.309
-    name: Release v0.9.309
-    datetime: '2026-03-15T07:25:42Z'
-    url: https://github.com/Treehouse-00/pymc_console-dist/releases/tag/v0.9.309
     prerelease: false
     notes: |-
       Automated release from pymc_console.
