@@ -1,7 +1,41 @@
 source: github
 repo: Treehouse-00/pymc_console-dist
-updatedAt: '2026-07-08T02:54:10.951Z'
+updatedAt: '2026-07-08T06:31:04.206Z'
 releases:
+  - version: v0.9.336
+    name: Release v0.9.336
+    datetime: '2026-07-08T04:46:56Z'
+    url: https://github.com/Treehouse-00/pymc_console-dist/releases/tag/v0.9.336
+    prerelease: false
+    notes: |-
+      Automated release from pymc_console.
+
+      ## Installation
+      ```bash
+      sudo ./manage.sh install
+      ```
+
+      ## Upgrade
+      ```bash
+      sudo ./manage.sh upgrade
+      ```
+  - version: v0.9.335
+    name: Release v0.9.335
+    datetime: '2026-07-08T03:20:55Z'
+    url: https://github.com/Treehouse-00/pymc_console-dist/releases/tag/v0.9.335
+    prerelease: false
+    notes: |-
+      Automated release from pymc_console.
+
+      ## Installation
+      ```bash
+      sudo ./manage.sh install
+      ```
+
+      ## Upgrade
+      ```bash
+      sudo ./manage.sh upgrade
+      ```
   - version: v0.9.334
     name: Release v0.9.334
     datetime: '2026-07-08T02:01:15Z'
@@ -295,40 +329,6 @@ releases:
     name: Release v0.9.314
     datetime: '2026-03-16T06:19:49Z'
     url: https://github.com/Treehouse-00/pymc_console-dist/releases/tag/v0.9.314
-    prerelease: false
-    notes: |-
-      Automated release from pymc_console.
-
-      ## Installation
-      ```bash
-      sudo ./manage.sh install
-      ```
-
-      ## Upgrade
-      ```bash
-      sudo ./manage.sh upgrade
-      ```
-  - version: v0.9.313
-    name: Release v0.9.313
-    datetime: '2026-03-15T18:43:32Z'
-    url: https://github.com/Treehouse-00/pymc_console-dist/releases/tag/v0.9.313
-    prerelease: false
-    notes: |-
-      Automated release from pymc_console.
-
-      ## Installation
-      ```bash
-      sudo ./manage.sh install
-      ```
-
-      ## Upgrade
-      ```bash
-      sudo ./manage.sh upgrade
-      ```
-  - version: v0.9.312
-    name: Release v0.9.312
-    datetime: '2026-03-15T17:09:20Z'
-    url: https://github.com/Treehouse-00/pymc_console-dist/releases/tag/v0.9.312
     prerelease: false
     notes: |-
       Automated release from pymc_console.
