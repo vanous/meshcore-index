@@ -1,7 +1,77 @@
 source: github
 repo: ALLFATHER-BV/wadamesh
-updatedAt: '2026-07-08T21:10:35.771Z'
+updatedAt: '2026-07-09T15:15:33.585Z'
 releases:
+  - version: beta_38
+    name: wadamesh beta_38
+    datetime: '2026-07-09T11:22:29Z'
+    url: https://github.com/ALLFATHER-BV/wadamesh/releases/tag/beta_38
+    prerelease: true
+    notes: >-
+      Test-channel build. Flash it from [flasher.wadamesh.com](https://flasher.wadamesh.com) (enable
+      test builds) or grab the bins below; on-device via About with the test-builds toggle on.
+
+
+      Big community drop: the headline chat rework is by @scratchdiver, the ThinkNode M9 reaches
+      hardware-complete thanks to @446564, and the RAK WisMesh Tap V2 port lands from
+      @Ethan-chen1234-zy. Thanks also to Leon P for the report that pinned down the reboot message
+      loss.
+
+
+      ## Full-history chat scrolling, by @scratchdiver (#130)
+
+
+      Chats now scroll through the ENTIRE stored history, up to 5000 messages on SD-card devices,
+      smoothly in both bubble and compact mode, instead of only the newest rows. Several LVGL crash
+      fixes came along for the ride. On top of it:
+
+
+      - Long-press any message for a new Delete option; the message menu lays out two buttons per
+      row so it always fits on one screen.
+
+      - Chat and channel settings gain "Delete history" (confirmation, keeps the channel or
+      contact).
+
+      - The jump buttons are now slim arrows at the right edge: fully visible while scrolling,
+      fading to half opacity a second after you stop.
+
+
+      ## ThinkNode M9 hardware-complete, by @446564 (#138)
+
+
+      GPS, microSD, buzzer, backlight control, lock screen, long-press context menus and a
+      d-pad-driven setup wizard. Two of the fixes (nested-page focus scrolling and the lock-screen
+      paint order) improve every keyboard-nav board.
+
+
+      ## RAK WisMesh Tap V2, by @Ethan-chen1234-zy (#136)
+
+
+      New board support in the source tree with a 30+ fps LovyanGFX display driver. Prebuilt images
+      follow once web-flasher integration lands.
+
+
+      ## Fixed
+
+
+      - Messages no longer vanish when rebooting the device from the phone app (reported by Leon P):
+      the history writer batches saves up to 30 seconds apart and the app's reboot command skipped
+      the final save that the on-device power menu performs. It saves first now.
+
+      - T-Deck: enabling "Store data on SD" migrates your existing profile, settings and identity to
+      the card FIRST. Upgrading to beta_36/37 with the toggle already on could adopt an empty card
+      and boot as a brand-new node while the real profile sat orphaned on internal flash.
+
+      - T-Deck: already hit by that? Set -> General -> "Copy internal data to SD" restores the
+      profile from internal flash (confirmation, then automatic reboot). Until then, toggling "Store
+      data on SD" OFF and rebooting brings the old profile back.
+
+      - Tanmatsu: profile name, settings and node identity now persist reliably across reboots
+      (moved to the SD card; the internal flash metadata layer on this board is unreliable).
+      Existing data is rescued automatically on first boot.
+
+      - Tanmatsu: the app builds size-optimized now, roughly 300 KB smaller, with real headroom
+      under the launcher's app-size limit.
   - version: beta_37
     name: wadamesh beta_37
     datetime: '2026-07-08T20:13:21Z'
@@ -995,59 +1065,3 @@ releases:
       side-load)
 
       - `*-merged.bin` — full image (flash @ `0x0` + erase, e.g. the web flasher)
-  - version: beta_18
-    name: wadamesh beta_18
-    datetime: '2026-06-26T17:55:17Z'
-    url: https://github.com/ALLFATHER-BV/wadamesh/releases/tag/beta_18
-    prerelease: false
-    notes: >-
-      # wadamesh beta_18
-
-
-      A unified release across all three boards — **LilyGo T-Deck**, **Heltec V4 TFT**, and the
-      **Tanmatsu** (ESP32-P4).
-
-
-      Flash it the easy way at **<https://flasher.wadamesh.com>**, or grab a bin below. On a
-      normally-flashed device you can also update straight from **Settings → About**.
-
-
-      ## ✨ New
-
-      - **Topographic maps** — turn on *Map → Options → Topographic map* for terrain-relief tiles;
-      OpenStreetMap stays the default. Thanks to **@samuelcoustet** for the proxy work (#52).
-
-      - **More emoji** in the picker: ⚽ 🏈 🗿 🏳️‍⚧️.
-
-      - **Contacts sorting** gained ascending/descending and a new **Nearest first** distance sort;
-      the **Discovered** list gets the same sort options.
-
-      - The **Chats header** is tidied up — add / mark-read / share grouped on the left, with a
-      proper QR icon for sharing your contact.
-
-
-      ## 🐛 Fixed
-
-      - The **USB/PC companion connection** no longer drops or throws *"bad state"* errors — also
-      fixes repeater admin mode disconnecting and member-room login (#25, #54, #23).
-
-      - **Map edge/corner tiles** now fill in as you pan instead of needing a manual reload (#20).
-
-      - **~41 KB of memory reclaimed** (moved a large buffer to PSRAM) — fixes the **Heltec V4
-      rebooting** when loading map tiles, and frees headroom on every board.
-
-      - The map's **Show link lines** toggle now survives a reboot. Thanks to **@Yazutsu** (#61).
-
-      - **Settings** category names fit on one line (no more mid-word splits); keyboard-nav toggling
-      no longer jumps the list to the top (#45).
-
-      - **Heltec V4**: node name no longer covers the clock (#47a). **T-Deck**: keyboard backlight
-      no longer stuck on after flashing (#33).
-
-      - More reliable crash reporting and fewer stray reboots while saving settings.
-
-      - **Tanmatsu**: LoRa radio changes (frequency, etc.) now take effect immediately without a
-      reboot, and the app's settings drive the radio.
-
-
-      _Everything from beta_16 (and the Tanmatsu's beta_17) is included._
