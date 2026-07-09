@@ -1,7 +1,13 @@
 source: github
 repo: mintylinux/Meshcore-Wardrive-Android
-updatedAt: '2026-06-23T20:24:22.067Z'
+updatedAt: '2026-07-09T21:37:34.430Z'
 releases:
+  - version: 1.0.41
+    name: Meshcore-Wardrive-Android-1.0.41
+    datetime: '2026-07-09T21:10:44Z'
+    url: https://github.com/mintylinux/Meshcore-Wardrive-Android/releases/tag/1.0.41
+    prerelease: false
+    notes: "# Changelog\r\n\r\n## v1.0.41 - 2026-07-09\r\n\r\n### Added\r\n- **#22 Community Coverage Download**: Download coverage data from your configured web map for offline viewing. Go to Settings → Data Management → \"Download Community Coverage\" to fetch, then toggle \"Community Coverage\" in map layers to show a blue-tinted overlay of all community wardrive data.\r\n\r\n### Fixed\r\n- **#27 Permissions/ping failure on fresh install**: Fresh installs of v1.0.40 created the samples table without the `device_id` column, causing all sample inserts to fail silently. Coverage squares and pings appeared to not work. Fixed `_onCreate` schema and added defensive error handling around device tracking.\r\n- **#24 Static GPS Blue Dot**: GPS blue dot was only updating every 5 seconds (on the timer-driven `_loadSamples` cycle). Now updates in real-time via `setState()` on every GPS position update.\r\n- **#23 Coverage boxes reverting to red**: Cells with confirmed coverage (at least one successful ping) will no longer drop below yellow, even if subsequent drives through the area fail. Only cells with zero successful pings show as red.\r\n\r\n### Technical\r\n- `_onCreate` now includes `device_id` column and `devices` table for fresh installs\r\n- Device tracking `upsertDevice()` call wrapped in try/catch to prevent cascade failures\r\n- Position stream listener now triggers `setState()` for immediate blue dot movement\r\n- Coverage color logic floors at 30% success rate when `received > 0`"
   - version: 1.0.40
     name: Meshcore-Wardrive-Android-1.0.40
     datetime: '2026-06-09T00:04:03Z'
@@ -116,9 +122,3 @@ releases:
     url: https://github.com/mintylinux/Meshcore-Wardrive-Android/releases/tag/1.0.24
     prerelease: false
     notes: "# Changelog\r\n\r\n## v1.0.24 - 2026-01-26\r\n\r\n### Added\r\n- **Bluetooth Disconnection Detection**: App now detects when Bluetooth connection to LoRa device is lost\r\n  - Automatically fails any pending pings with \"Bluetooth connection lost\" error\r\n  - Updates UI within 5 seconds to show disconnected state\r\n  - Manual ping button becomes unavailable when disconnected\r\n  - Prevents confusing \"ping failed\" messages when connection is lost mid-ping\r\n\r\n### Fixed\r\n- Manual ping now shows clear error message when Bluetooth disconnects unexpectedly\r\n- Pending pings are properly cleaned up when connection is lost\r\n- Connection status UI accurately reflects current Bluetooth state"
-  - version: 1.0.23
-    name: Meshcore-Wardrive-Android-1.0.23
-    datetime: '2026-01-26T21:14:18Z'
-    url: https://github.com/mintylinux/Meshcore-Wardrive-Android/releases/tag/1.0.23
-    prerelease: false
-    notes: "# Changelog\r\n\r\n## v1.0.23 - 2026-01-26\r\n\r\n### Added\r\n- **App Version Tracking**: Coverage data uploaded to the web map now includes app version information\r\n  - Web map displays which app version was used to collect each coverage area\r\n  - Visible in coverage square popups as \"App Version: 1.0.XX\"\r\n  - Helps track data quality and identify issues with specific versions\r\n  - App versions before this release will show as UNKNOWN\r\n  \r\n### Technical\r\n- Centralized version constant in `lib/constants/app_version.dart`\r\n  - Single source of truth for version number across app and uploads\r\n  - Automatically included in all sample uploads"
