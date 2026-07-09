@@ -1,7 +1,27 @@
 source: github
 repo: andymux/meshos-releases
-updatedAt: '2026-07-09T15:15:57.242Z'
+updatedAt: '2026-07-09T17:59:17.727Z'
 releases:
+  - version: fw-v1.5.3
+    name: MeshOS firmware v1.5.3
+    datetime: '2026-07-09T16:07:28Z'
+    url: https://github.com/andymux/meshos-releases/releases/tag/fw-v1.5.3
+    prerelease: false
+    notes: >-
+      MeshOS 1.5.3 - New onboarding experience, MeshOS look out of the box, online update checker in
+      the firmware updater, cleaner Display settings
+
+
+      Device firmware for LilyGo T-Deck and ThinkNode M9.
+
+      Install via SD card (firmware.bin) or the in-firmware updater.
+
+
+      SHA-256:
+
+      - TDeck: f2a671200a71e2ab0ce5111c52ca34aed9a248ff0e6519822d120672df954a17
+
+      - M9: 7ddcde8cf94076ec6f81a5bc6c9e7f5b522d70d9a9a9fb3f4776fcbef2917ea6
   - version: fw-v1.5.1
     name: MeshOS firmware v1.5.1
     datetime: '2026-07-09T12:46:27Z'
