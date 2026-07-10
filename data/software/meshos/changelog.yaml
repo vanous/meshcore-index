@@ -1,7 +1,31 @@
 source: github
 repo: andymux/meshos-releases
-updatedAt: '2026-07-09T17:59:17.727Z'
+updatedAt: '2026-07-10T17:50:07.569Z'
 releases:
+  - version: fw-v1.5.4
+    name: MeshOS firmware v1.5.4
+    datetime: '2026-07-10T17:42:59Z'
+    url: https://github.com/andymux/meshos-releases/releases/tag/fw-v1.5.4
+    prerelease: false
+    notes: >-
+      Map overhaul: full-screen tiles, translucent header, on-screen zoom and locate buttons, avatar
+      node markers (tap for details), add heard nodes to contacts, compass position arrow. New chat
+      input box with inline buttons and live cursor. Scrolling emoji picker. Chat scroll bar with
+      jump-to-newest. Heard list: avatar rows, pub-key column, search and Map button. Fixes: compass
+      calibration self-heals, font alignment, trackball coverage everywhere, CoreBrowser loading can
+      be cancelled.
+
+
+      Device firmware for LilyGo T-Deck and ThinkNode M9.
+
+      Install via SD card (firmware.bin) or the in-firmware updater.
+
+
+      SHA-256:
+
+      - TDeck: e34e8b4aeb2670be84c8038e1f730536bb63315e0f19794f696b0c1a32762d15
+
+      - M9: 8e8b276e8ed1ffb4ea3000bf8294562c68273180ca3479984b9ec482c15bf717
   - version: fw-v1.5.3
     name: MeshOS firmware v1.5.3
     datetime: '2026-07-09T16:07:28Z'
