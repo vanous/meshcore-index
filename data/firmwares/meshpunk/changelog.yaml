@@ -1,7 +1,13 @@
 source: github
 repo: PhilMo6/meshpunk
-updatedAt: '2026-07-04T06:49:11.431Z'
+updatedAt: '2026-07-10T03:34:19.494Z'
 releases:
+  - version: v0.2.4
+    name: v0.2.4 alpha
+    datetime: '2026-07-09T23:35:03Z'
+    url: https://github.com/PhilMo6/meshpunk/releases/tag/v0.2.4
+    prerelease: false
+    notes: "PC-XT DOS emulator: boots real DOS from .img disks in /dos on SD, or mounts a folder of games as the C: drive\r\nMP3 music player: plays from /Music on SD, tag-based library, playlists, keeps playing in the background\r\nDoom now has music, and the sound effect static is finally fixed\r\nFull emoji support: type emojis with the alt key layer, downloadable extended set\r\nRooms and repeaters: log in, sync missed messages, admin console\r\nFile manager for internal flash and SD (Tools > Files)\r\nUSB host audio: route all sound to a USB-C audio dongle (needs external y adaptor with power)"
   - version: v0.2.3
     name: v0.2.3 alpha
     datetime: '2026-07-04T04:19:16Z'
